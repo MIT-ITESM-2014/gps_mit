@@ -17,9 +17,6 @@ $this->menu=array(
 
 <h1>Tokens</h1>
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d11791.88623394304!2d-71.103187!3d42.3644454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sus!4v1402706097467" width="600" height="450" frameborder="0" style="border:0"></iframe>
-
-
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
@@ -99,3 +96,5 @@ $gMap->enableMarkerClusterer(new EGMapMarkerClusterer());
 $gMap->renderMap();*/
 
 ?>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d11791.88623394304!2d-71.103187!3d42.3644454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sus!4v1402706097467" width="600" height="450" frameborder="0" style="border:0"></iframe>
