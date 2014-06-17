@@ -5,16 +5,15 @@
  *
  * The followings are the available columns in table 'token':
  * @property integer $id
- * @property string $identity
+ * @property integer $identity_id
  * @property string $token
  * @property string $secret
  * @property string $expires_at
- * @property integer $user_id
  * @property string $created_at
  * @property string $updated_at
  *
  * The followings are the available model relations:
- * @property Identity $user
+ * @property Identity $identity
  */
 class Token extends CActiveRecord
 {
@@ -34,11 +33,11 @@ class Token extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, identity, token, secret, expires_at, user_id, created_at, updated_at', 'required'),
-			array('id, user_id', 'numerical', 'integerOnly'=>true),
+			array('id, identity_id, token, secret, expires_at, created_at, updated_at', 'required'),
+			array('id, identity_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, identity, token, secret, expires_at, user_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, identity_id, token, secret, expires_at, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +49,7 @@ class Token extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'Identity', 'user_id'),
+			'identity' => array(self::BELONGS_TO, 'Identity', 'identity_id'),
 		);
 	}
 
@@ -61,11 +60,10 @@ class Token extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'identity' => 'Identity',
+			'identity_id' => 'Identity',
 			'token' => 'Token',
 			'secret' => 'Secret',
 			'expires_at' => 'Expires At',
-			'user_id' => 'User',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -90,11 +88,10 @@ class Token extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('identity',$this->identity,true);
+		$criteria->compare('identity_id',$this->identity_id);
 		$criteria->compare('token',$this->token,true);
 		$criteria->compare('secret',$this->secret,true);
 		$criteria->compare('expires_at',$this->expires_at,true);
-		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 

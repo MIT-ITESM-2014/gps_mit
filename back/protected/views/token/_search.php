@@ -17,8 +17,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'identity'); ?>
-		<?php echo $form->textField($model,'identity'); ?>
+		<?php echo $form->label($model,'identity_id'); ?>
+		<?php echo $form->textField($model,'identity_id'); ?>
 	</div>
 
 	<div class="row">
@@ -34,11 +34,6 @@
 	<div class="row">
 		<?php echo $form->label($model,'expires_at'); ?>
 		<?php echo $form->textField($model,'expires_at'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'user_id'); ?>
-		<?php echo $form->textField($model,'user_id'); ?>
 	</div>
 
 	<div class="row">
