@@ -32,7 +32,7 @@ class SampleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'upload'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -62,6 +62,13 @@ class SampleController extends Controller
 	 */
 	public function actionCreate()
 	{
+	  //Add script for uploading files
+	  $baseUrl = Yii::app()->baseUrl;
+	  $cs = Yii::app()->getClientScript();
+	  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload.full.min.js', CClientScript::POS_HEAD);
+	  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
+	  
+	  
 		$model=new Sample;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -78,7 +85,25 @@ class SampleController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
+	public function actionUpload()
+	{
+	  if (empty($_FILES) || $_FILES["file"]["error"]) {
+    }
+    else
+    {
+      //$fileName = $_FILES["file"]["name"];
+      $fileName = date('YmdHis').strval(rand()%10);
+      move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
+      $uploaded_file_model = new UploadedFile;
+      $uploaded_file_model->created_at = date('Y-m-d H:i:s.u');
+      $uploaded_file_model->identity_id =  Yii::app()->user->getId();
+      $uploaded_file_model->filename = $fileName;
+      $uploaded_file_model->save();
+      
+		}
+  }
+  
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -86,6 +111,7 @@ class SampleController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+	
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -122,6 +148,7 @@ class SampleController extends Controller
 	 */
 	public function actionIndex()
 	{
+	
 		$dataProvider=new CActiveDataProvider('Sample');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

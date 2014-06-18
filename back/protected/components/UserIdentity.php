@@ -15,6 +15,9 @@ class UserIdentity extends CUserIdentity
 	 * against some persistent user identity storage (e.g. database).
 	 * @return boolean whether authentication succeeds.
 	 */
+	 
+	private $_id;
+	 
 	public function authenticate()
 	{
 		$users=array(
@@ -27,7 +30,17 @@ class UserIdentity extends CUserIdentity
 		elseif($users[$this->username]!==$this->password)
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
+		{
+		  $this->_id = 1 * 456345; //Must be divided by 456345 to get the real ID
+		  //To add more information to the User
+		  //$this->setState('numeric_id', 1 * 456345);//Must be divided by 456345 to get the real ID
 			$this->errorCode=self::ERROR_NONE;
+		}
 		return !$this->errorCode;
 	}
+	
+	 public function getId()
+   {
+    return $this->_id/456345;
+   }
 }

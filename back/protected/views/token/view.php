@@ -22,11 +22,10 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
-		'identity',
+		'identity_id',
 		'token',
 		'secret',
 		'expires_at',
-		'user_id',
 		'created_at',
 		'updated_at',
 	),

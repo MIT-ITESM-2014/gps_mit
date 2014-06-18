@@ -26,9 +26,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'identity'); ?>
-		<?php echo $form->textField($model,'identity'); ?>
-		<?php echo $form->error($model,'identity'); ?>
+		<?php echo $form->labelEx($model,'identity_id'); ?>
+		<?php echo $form->textField($model,'identity_id'); ?>
+		<?php echo $form->error($model,'identity_id'); ?>
 	</div>
 
 	<div class="row">
@@ -47,12 +47,6 @@
 		<?php echo $form->labelEx($model,'expires_at'); ?>
 		<?php echo $form->textField($model,'expires_at'); ?>
 		<?php echo $form->error($model,'expires_at'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_id'); ?>
-		<?php echo $form->textField($model,'user_id'); ?>
-		<?php echo $form->error($model,'user_id'); ?>
 	</div>
 
 	<div class="row">
