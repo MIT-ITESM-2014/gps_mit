@@ -32,7 +32,7 @@ class SampleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'upload'),
+				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -66,27 +66,32 @@ class SampleController extends Controller
 	  $baseUrl = Yii::app()->baseUrl;
 	  $cs = Yii::app()->getClientScript();
 	  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload.full.min.js', CClientScript::POS_HEAD);
-	  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
-	  
-	  
-		$model=new Sample;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Sample']))
+    $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
+		
+		$uploaded_files = Identity::model()->find('id='.Yii::app()->user->getId())->pendingUpload();
+		//If it is at the second step
+		//print_r($uploaded_files[0]);
+		if( isset($uploaded_files[0]) )
 		{
-			$model->attributes=$_POST['Sample'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+		  if($uploaded_files[0]->step ==1)
+		  {
+		    $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init_second.js', CClientScript::POS_END);
+		    $uploaded_file = $uploaded_files[0];
+		    $this->render('create',array(
+			    'step'=>$uploaded_file->step,
+		    ));
+		  }
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		else //if it is in the first step
+		{
+		  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init_first.js', CClientScript::POS_END);
+		  $this->render('create',array(
+			  'step'=>0,
+		  ));
+		}
 	}
 	
-	public function actionUpload()
+	public function actionUploadOne()
 	{
 	  if (empty($_FILES) || $_FILES["file"]["error"]) {
     }
@@ -98,10 +103,109 @@ class SampleController extends Controller
       $uploaded_file_model = new UploadedFile;
       $uploaded_file_model->created_at = date('Y-m-d H:i:s.u');
       $uploaded_file_model->identity_id =  Yii::app()->user->getId();
-      $uploaded_file_model->filename = $fileName;
+      $uploaded_file_model->truck_file = $fileName;
+      $uploaded_file_model->step = 1;
       $uploaded_file_model->save();
       
+      //Parse CSV file
+      $handler = fopen("../files/".$fileName,'r');
+      
+      $trucks = array();
+      fgetcsv($handler, 0, ',');//Ignore headers
+      //Requires first column to be the id present in the second file
+      //Second column must be the name to identify the truck
+      while($pointer = fgetcsv($handler, 0, ','))
+      {
+        $truck_id = $pointer[0];
+        $truck_name = $pointer[1];
+        if(!array_key_exists($truck_id, $trucks))
+        {
+          $trucks[$truck_id] = $truck_name;
+        }
+      }
+      
+      //Saving each of the trucks from the truck_file
+      foreach($trucks as $key => $value)
+      {
+        $new_truck = new Truck;
+        $new_truck->identifier = $key;
+        $new_truck->name = $value;
+        $new_truck->uploaded_file_id = $uploaded_file_model->id;
+        $new_truck->validate();
+        $new_truck->created_at = date('Y-m-d H:i:s.u');
+        $new_truck->updated_at =  date('Y-m-d H:i:s.u');
+        $new_truck->save();
+      }
+  
+      
+		  fclose($handler);
+
 		}
+  }
+  
+  public function actionUploadTwo()
+	{
+	  if (empty($_FILES) || $_FILES["file"]["error"]) {
+    }
+    else
+    {
+      print_r("va a entrar al segudno archivo");
+      //$fileName = $_FILES["file"]["name"];
+      $fileName = date('YmdHis').strval(rand()%10);
+      move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
+      $condition_string = 'identity_id=' . Yii::app()->user->getId();
+      $uploaded_file_model = UploadedFile::model()->find($condition_string);//
+      //Activate after updating database
+      //$uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
+      $uploaded_file_model->filename = $fileName;
+      $uploaded_file_model->step = 2;
+      $uploaded_file_model->save();
+      
+      //Parse CSV file
+      $handler = fopen("../files/".$fileName,'r');
+      
+      //Get all trucks that belong to the current uploaded file model
+      $condition_string2 = 'uploaded_file_id='.$uploaded_file_model->id;
+      $trucks = Truck::model()->findAll($condition_string2);
+      
+      $trucks_array = array();
+      foreach($trucks as $tr)
+      {
+        $identifier = $tr->identifier;
+        $trucks_array[$identifier] = $tr->id;
+      }
+      
+      $samples = array();
+      fgetcsv($handler, 0, ',');//Ignore headers
+      //Requires columns in the next order truck_name, latitude, longitude, and timestamp
+      while($pointer = fgetcsv($handler, 0, ','))
+      {
+        $new_sample = new Sample;
+        //TODO: Validate the truck exists
+        $new_sample->truck_id = $trucks_array[$pointer[0]];
+        $new_sample->latitude = $pointer[1];
+        $new_sample->longitude = $pointer[2];
+        //TODO: Add speed
+        $new_sample->datetime = $pointer[3];
+        $new_sample->created_at = date('Y-m-d H:i:s.u');
+        //TODO: Remove updated_at when not null is activated
+        $new_sample->updated_at = date('Y-m-d H:i:s.u');
+        //TODO:Define behaviour when unable to save
+        $new_sample->save();
+      }
+      
+		  fclose($handler);
+		}
+  }
+  
+  public function actionCreatePartial()
+  {
+    
+    
+    $data = array(
+      'step'=>2
+    );
+    $this->renderPartial('_ajaxContent', $data, false, true);
   }
   
 	/**
