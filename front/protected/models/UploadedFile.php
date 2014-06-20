@@ -1,28 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "token".
+ * This is the model class for table "uploaded_file".
  *
- * The followings are the available columns in table 'token':
- * @property integer $id
+ * The followings are the available columns in table 'uploaded_file':
+ * @property string $id
+ * @property string $truck_file
+ * @property string $filename
  * @property integer $identity_id
- * @property string $token
- * @property string $secret
- * @property string $expires_at
+ * @property double $step
  * @property string $created_at
- * @property string $updated_at
  *
  * The followings are the available model relations:
+ * @property Truck[] $trucks
  * @property Identity $identity
  */
-class Token extends CActiveRecord
+class UploadedFile extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'token';
+		return 'uploaded_file';
 	}
 
 	/**
@@ -33,11 +33,13 @@ class Token extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, identity_id, token, secret, expires_at, created_at, updated_at', 'required'),
-			array('id, identity_id', 'numerical', 'integerOnly'=>true),
+			array('truck_file, identity_id, step, created_at', 'required'),
+			array('identity_id', 'numerical', 'integerOnly'=>true),
+			array('step', 'numerical'),
+			array('truck_file, filename', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, identity_id, token, secret, expires_at, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, truck_file, filename, identity_id, step, created_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +51,7 @@ class Token extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'trucks' => array(self::HAS_MANY, 'Truck', 'uploaded_file_id'),
 			'identity' => array(self::BELONGS_TO, 'Identity', 'identity_id'),
 		);
 	}
@@ -60,12 +63,11 @@ class Token extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'truck_file' => 'Truck File',
+			'filename' => 'Filename',
 			'identity_id' => 'Identity',
-			'token' => 'Token',
-			'secret' => 'Secret',
-			'expires_at' => 'Expires At',
+			'step' => 'Step',
 			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
 		);
 	}
 
@@ -87,24 +89,32 @@ class Token extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('truck_file',$this->truck_file,true);
+		$criteria->compare('filename',$this->filename,true);
 		$criteria->compare('identity_id',$this->identity_id);
-		$criteria->compare('token',$this->token,true);
-		$criteria->compare('secret',$this->secret,true);
-		$criteria->compare('expires_at',$this->expires_at,true);
+		$criteria->compare('step',$this->step);
 		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function scopes()
+	{
+	  return array(
+	    'pending'=>array(
+	      'condition'=>'step=1',
+	    ),
+	  );
 	}
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Token the static model class
+	 * @return UploadedFile the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -6,11 +6,14 @@
  * The followings are the available columns in table 'truck':
  * @property string $id
  * @property string $identifier
+ * @property string $name
+ * @property string $uploaded_file_id
  * @property string $created_at
  * @property string $updated_at
  *
  * The followings are the available model relations:
  * @property Sample[] $samples
+ * @property UploadedFile $uploadedFile
  */
 class Truck extends CActiveRecord
 {
@@ -30,10 +33,10 @@ class Truck extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('identifier, created_at, updated_at', 'required'),
+			array('identifier, name, uploaded_file_id, created_at, updated_at', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, identifier, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, identifier, name, uploaded_file_id, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,6 +49,7 @@ class Truck extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'truck_id'),
+			'uploadedFile' => array(self::BELONGS_TO, 'UploadedFile', 'uploaded_file_id'),
 		);
 	}
 
@@ -57,6 +61,8 @@ class Truck extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'identifier' => 'Identifier',
+			'name' => 'Name',
+			'uploaded_file_id' => 'Uploaded File',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -82,6 +88,8 @@ class Truck extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('identifier',$this->identifier,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('uploaded_file_id',$this->uploaded_file_id,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 

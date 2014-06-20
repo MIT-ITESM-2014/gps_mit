@@ -52,7 +52,8 @@ class Identity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tokens' => array(self::HAS_MANY, 'Token', 'user_id'),
+			'tokens' => array(self::HAS_MANY, 'Token', 'identity_id'),
+			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'identity_id'),
 		);
 	}
 
@@ -104,6 +105,21 @@ class Identity extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function pendingUpload()
+  {
+    $uploaded_files = $this->uploaded_files(array('condition'=>'step=1'));
+    return $uploaded_files;
+    
+    /*
+    return array(
+        'with'=> array("uploaded_files" => array(
+          'condition'=> "uploaded_file.step = 1",
+        ),
+      )
+    );
+    */
+  }
 
 	/**
 	 * Returns the static model of the specified AR class.
