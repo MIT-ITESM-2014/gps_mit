@@ -2,7 +2,7 @@
 /* @var $this IdentityController */
 /* @var $dataProvider CActiveDataProvider */
 
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/maps/g_map_test.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/maps/google_maps_style_test.js');
 
 $this->breadcrumbs=array(
 	'Identities',

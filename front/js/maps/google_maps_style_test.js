@@ -14,54 +14,97 @@ function initialize() {
 
   //set styles so map is visually different from common google maps
   map.set('styles', [
-
-      {
-        featureType: 'road.local',
-        elementType: 'geometry',
-        stylers: [
-          {color: '#96A9C1'},
-          { visibility: 'simplified'},
-          { weight: 0.9 }
+    {
+        "featureType": "water",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#acbcc9"
+            }
         ]
-      },
-      {
-        featureType: 'road.highway',
-        elementType: 'geometry',
-        stylers: [
-          {color: '#F7DC9E'},
-          { visibility: 'simplified'},
-          { weight: 5.5 }
+    },
+    {
+        "featureType": "landscape",
+        "stylers": [
+            {
+                "color": "#f2e5d4"
+            }
         ]
-      },
-      {
-        featureType: 'road',
-        elementType: 'labels',
-        stylers: [
-          { visibility: 'on' },
-          { saturation: 600 }
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c5c6c6"
+            }
         ]
-      },  
-      {
-        featureType: 'landscape',
-        elementType: 'geometry',
-        stylers: [
-          { hue: '#ffff00' },
-          { gamma: 0.5 },
-          { saturation: 82 },
-          { lightness: 96 }
-          ]
-      },
-      {
-        featureType: 'poi.government',
-         elementType: 'geometry',
-          stylers: [
-            { visibility: 'on' },
-            { hue: '#9AB896' },
-            { lightness: -15 },
-            { saturation: 99 }
-          ]
-      }
-    ]);
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e4d7c6"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#fbfaf7"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c5dac6"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": 33
+            }
+        ]
+    },
+    {
+        "featureType": "road"
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {},
+    {
+        "featureType": "road",
+        "stylers": [
+            {
+                "lightness": 20
+            }
+        ]
+    }
+]);
 
 
 //exampĺe for adding personalized icons to a map
@@ -90,7 +133,7 @@ function initialize() {
   legend.appendChild(div);
 
   //display the directions in the google map
-  directionsDisplay.setMap(map);
+  //directionsDisplay.setMap(map);
 
   calcRoute(directionsService, directionsDisplay);
 
@@ -821,7 +864,7 @@ function initialize() {
   });
 
   //ruta mala
-  routeOne.setMap(map);
+  //routeOne.setMap(map);
 
 var routeTwo = new google.maps.Polyline({
     path: routeTwoCoordinates,
@@ -832,10 +875,10 @@ var routeTwo = new google.maps.Polyline({
   });
   
   //ruta buena
-  routeTwo.setMap(map);
+  //routeTwo.setMap(map);
 
   var trafficLayer = new google.maps.TrafficLayer();
-  trafficLayer.setMap(map);
+  //trafficLayer.setMap(map);
 }
 
 //ruta mala
