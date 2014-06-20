@@ -14,10 +14,15 @@ $this->menu=array(
 ?>
 
 <h1>Create Sample</h1>
-<div id="data" name="data">
 
-  <?php
-    $this->renderPartial('_ajaxContent',array('step'=>$step));
-  ?>
+<ul id="filelist"></ul>
+<br />
+ 
+<div id="container">
+    <a id="browse" href="javascript:;">[Browse...]</a>
+    <a id="start-upload" href="javascript:;">[Start Upload]</a>
 </div>
+ 
+<br />
+<pre id="console"></pre>
 

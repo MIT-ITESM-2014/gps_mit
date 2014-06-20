@@ -5,11 +5,14 @@
  *
  * The followings are the available columns in table 'uploaded_file':
  * @property string $id
+ * @property string $truck_file
  * @property string $filename
  * @property integer $identity_id
+ * @property double $step
  * @property string $created_at
  *
  * The followings are the available model relations:
+ * @property Truck[] $trucks
  * @property Identity $identity
  */
 class UploadedFile extends CActiveRecord
@@ -30,12 +33,13 @@ class UploadedFile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('filename, identity_id, created_at', 'required'),
+			array('truck_file, identity_id, step, created_at', 'required'),
 			array('identity_id', 'numerical', 'integerOnly'=>true),
-			array('filename', 'length', 'max'=>20),
+			array('step', 'numerical'),
+			array('truck_file, filename', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, filename, identity_id, created_at', 'safe', 'on'=>'search'),
+			array('id, truck_file, filename, identity_id, step, created_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +51,7 @@ class UploadedFile extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'trucks' => array(self::HAS_MANY, 'Truck', 'uploaded_file_id'),
 			'identity' => array(self::BELONGS_TO, 'Identity', 'identity_id'),
 		);
 	}
@@ -58,8 +63,10 @@ class UploadedFile extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'truck_file' => 'Truck File',
 			'filename' => 'Filename',
 			'identity_id' => 'Identity',
+			'step' => 'Step',
 			'created_at' => 'Created At',
 		);
 	}
@@ -83,13 +90,24 @@ class UploadedFile extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('truck_file',$this->truck_file,true);
 		$criteria->compare('filename',$this->filename,true);
 		$criteria->compare('identity_id',$this->identity_id);
+		$criteria->compare('step',$this->step);
 		$criteria->compare('created_at',$this->created_at,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function scopes()
+	{
+	  return array(
+	    'pending'=>array(
+	      'condition'=>'step=1',
+	    ),
+	  );
 	}
 
 	/**
