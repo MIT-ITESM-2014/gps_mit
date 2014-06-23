@@ -122,9 +122,123 @@ class TokenController extends Controller
 	 */
 	public function actionIndex()
 	{
+    //$rows = user::model()->findAllByAttributes($user, $criteria);
+	  $trucks = Truck::model()->findAll();
+	  $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+	  $truck_id = $trucks[0]->id;
+    $criteria->addCondition('truck_id = '.$truck_id);
+    $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-07');
+	  $samples = Sample::model()->findAll($criteria);
+    
+	  $script = "function initialize() {
+        var mapOptions = {
+        zoom: 12,
+        center: new google.maps.LatLng(".$samples[0]->latitude.",".$samples[0]->longitude.")
+      };
+
+      var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      //personalize map style
+      map.set('styles', [
+        {
+          featureType: 'road.local',
+          elementType: 'geometry',
+          stylers: [
+            {color: '#96A9C1'},
+            { visibility: 'simplified'},
+            { weight: 0.9 }
+          ]
+        },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [
+          {color: '#F7DC9E'},
+          { visibility: 'simplified'},
+          { weight: 5.5 }
+        ]
+      },
+      {
+        featureType: 'road',
+        elementType: 'labels',
+        stylers: [
+          { visibility: 'on' },
+          { saturation: 600 }
+        ]
+      },  
+      {
+        featureType: 'landscape',
+        elementType: 'geometry',
+        stylers: [
+          { hue: '#ffff00' },
+          { gamma: 0.5 },
+          { saturation: 82 },
+          { lightness: 96 }
+          ]
+      },
+      {
+        featureType: 'poi.government',
+         elementType: 'geometry',
+          stylers: [
+            { visibility: 'on' },
+            { hue: '#9AB896' },
+            { lightness: -15 },
+            { saturation: 99 }
+          ]
+        }
+      ]);
+      
+      //Add icon
+      //var iconBase = 'http://www.miamidade.gov/transit/mobile/images/';
+      //var myLatLng = new google.maps.LatLng(-33.44586, -70.76714 )
+      //var marker = new google.maps.Marker({
+        //position: myLatLng,
+        //map: map,
+        //icon: iconBase + 'icon-Bus-Stop.png'
+      //});
+      map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(
+      document.getElementById('map-legend'));
+
+      //LEGEND
+      //var legend = document.getElementById('map-legend');
+
+      //GEOJSON
+      //map.data.loadGeoJson('http://localhost/gps_mit/front/js/maps/geojson_test.json');
+      
+      //Load a polyline by hand
+      var routeCoordinates = [";
+      foreach($samples as $sample)
+      {
+        $temp_string = " new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
+        $script = $script.$temp_string;
+      }  
+      $script = $script."];
+
+      var route = new google.maps.Polyline({
+        path: routeCoordinates,
+        geodesic: true,
+        strokeColor: '#C030FF',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+    
+      route.setMap(map);
+      
+      var trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer.setMap(map);
+    }
+
+    function loadScript() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'callback=initialize';
+      document.body.appendChild(script);
+    }
+    window.onload = loadScript;";
+	
 		$dataProvider=new CActiveDataProvider('Token');
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			//'dataProvider'=>$dataProvider,
+			'script'=>$script,
 		));
 	}
 

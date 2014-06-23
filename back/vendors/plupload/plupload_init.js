@@ -24,7 +24,7 @@ var uploader = new plupload.Uploader({
   url: 'index.php?r=sample/uploadOne',
   filters : {
   max_file_count: maxfiles,
-    max_file_size : '30mb',
+    max_file_size : '100mb',
     mime_types: [
       {title : "CSV", extensions : "csv"}
     ]
