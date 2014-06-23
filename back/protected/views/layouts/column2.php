@@ -2,7 +2,9 @@
 <?php $this->beginContent('//layouts/main'); ?>
 <div class="span-19">
 	<div id="content">
-		<?php echo $content; ?>
+		<div id="contents-field">
+			<?php echo $content; ?>
+		</div>
 	</div><!-- content -->
 </div>
 <div class="span-5 last">
