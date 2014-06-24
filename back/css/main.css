@@ -64,13 +64,18 @@ ul.symbolList {
 	padding: 0;
 }
 
+#page-contents
+{
+	width: 1200px;
+	height: 900px;
+}
+
 #content
 {
 	font-family: 'Ubuntu Medium', Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	text-align: left;
 	padding-bottom: 2px;
-	width: 100%;
 }
 
 h1#content
@@ -83,13 +88,12 @@ h1#content
 	padding: 20px;
 	line-height: 110%;
 	padding-bottom: 25px;
-	padding-top: 1px;
 	margin-bottom: 0;
 	background-color: #006060;
-	width: 100%;
 	padding-top: 20px;
 	height: 30px;
 	color: #1b1b1b;
+
 }
 
 #sidebar
@@ -132,51 +136,67 @@ h1#content
 	background-color: #003c4b;
 	width: 262px;
 	height: 708px;
+	display: inline-block;
 	float: left;
 }
 
 #mainmenu-container
 {
 
-	width: 100%;
-	height: 100%;
+	width: 262px;
+	height: 708px;
 	padding-left: 0px;
+	display: inline-block;
+	float: left;
 }
 
 html > body #mainmenu {
 	height: auto;
-	min-height: 709px;
+	min-height: 708px;
 }
 
 #mainmenu ul
 {
 	margin:0px;
+	display: block;
+
 }
 
 #mainmenu ul li
 {
-	display: block;
-	padding-left: 80px;
-	padding-bottom: 10px;
-	padding-top: 10px;
-
+	margin-top:10px;	
+	text-decoration: none;
 }
 
 #mainmenu ul li a
 {
+	display: block;
 	color:#ffffff;
-	background-color:transparent;
 	font-size:16px;
 	font-weight:bold;
 	text-decoration:none;
-	width: 100%;
+	padding-left: 80px;
+	padding-top: 15px;
+	width: 262px;
+	height: 49px;
 }
 
-#mainmenu ul li a:hover, #mainmenu ul li.active
+#mainmenu ul li.active
 {
 	color: #FFFFFF;
 	background-color:#00a894;
 	text-decoration:none;
+	width: 262px;
+	height: 49px;
+}
+
+#mainmenu ul li a:hover
+{
+	color: #FFFFFF;
+	background-color:#00a894;
+	text-decoration:none;
+	width: 182px;
+	height: 49px;
 }
 
 #menu-elements
@@ -264,9 +284,6 @@ div.search-form
 
 .portlet
 {
-
-	position: relative;
-	left: 550px;
 }
 
 .portlet-decoration
