@@ -175,3 +175,30 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 {
 	visibility: hidden;
 }
+
+.button-style
+{
+	text-decoration: none;
+	font-weight: bolder;
+	margin-left: 18px;
+	padding-top: 50px;
+}
+
+
+.button-style:hover
+{
+	text-decoration: none;
+	color: black;
+	margin-left: 18px;
+	padding-top: 50px;
+}
+
+#button-box
+{
+
+	background-color: #00a894;
+	width: 100px;
+	height: 29px;
+	bottom: 1000px;
+	left: 600px;
+}

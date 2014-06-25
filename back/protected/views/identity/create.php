@@ -13,6 +13,8 @@ $this->menu=array(
 );*/
 ?>
 
-<h1>Create Identity</h1>
+<div id="">
+	<h1>Create Identity</h1>
+</div>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
