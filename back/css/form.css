@@ -37,6 +37,7 @@
 div.form
 {
 	padding-top: 25px;
+	margin-left: 320px;
 }
 
 div.form input,
@@ -56,13 +57,13 @@ div.form fieldset
 
 div.form label
 {
-	display: block;
+	display: inline;
 	font-family: 'Ubuntu Light', Arial, Helvetica, sans-serif;
 	font-size: 16px;
 	text-align: left;
 	color: #1b1b1b;
-	line-height: 125%;
-	padding-bottom: 2px;
+	line-height: 40px;
+	padding-bottom: 5px;
 	padding-top: 10px;
 	margin-bottom: 0;
 }
@@ -126,10 +127,10 @@ div.form div.success label
 div.form .errorSummary
 {
 	border: 2px solid #C00;
-	padding: 7px 7px 12px 7px;
+	padding: 9px 9px 12px 9px;
 	margin: 0 0 20px 0;
 	background: #FEE;
-	font-size: 0.9em;
+	font-size: 15px;
 }
 
 div.form .errorMessage
@@ -168,4 +169,9 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 {
 	clear: left;
 	padding-left: 110px;
+}
+
+.hide-button
+{
+	visibility: hidden;
 }

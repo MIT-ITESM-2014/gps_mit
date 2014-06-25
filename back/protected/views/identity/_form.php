@@ -60,10 +60,10 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'CREATE' : 'Save', array('class'=>'hide-button')); ?>
 	</div>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note"> <span class="required">* Required fields.</span></p>
 
 <?php $this->endWidget(); ?>
 

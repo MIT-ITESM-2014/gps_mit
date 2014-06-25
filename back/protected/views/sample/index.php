@@ -2,14 +2,14 @@
 /* @var $this SampleController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+/*$this->breadcrumbs=array(
 	'Samples',
 );
 
 $this->menu=array(
 	array('label'=>'Create Sample', 'url'=>array('create')),
 	array('label'=>'Manage Sample', 'url'=>array('admin')),
-);
+);*/
 ?>
 
 <h1>Samples</h1>

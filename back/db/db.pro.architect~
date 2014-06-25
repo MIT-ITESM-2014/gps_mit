@@ -4,8 +4,8 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="gpstracks" />
    <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/gpstracks" />
    <property key="UID" value="gpstracks" />
    <property key="PWD" value="dh28HszAn89sRg9iwsxy" />
@@ -183,33 +183,36 @@
     <column id="COL48" populated="true" UUID="753e6482-c4f0-428e-b9dd-ff3ac30194fd" autoIncrement="false" autoIncrementSequenceName="uploaded_file_created_at_seq" defaultValue="" name="created_at" nullable="0" physicalName="created_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
+    <column id="COL49" populated="true" UUID="2e519d04-9054-4a1c-9a47-7f16d9b24565" autoIncrement="false" autoIncrementSequenceName="uploaded_file_updated_at_seq" defaultValue="" name="updated_at" nullable="0" physicalName="updated_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
     </folder>
     <folder id="FOLTAB423" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
     <folder id="FOLTAB422" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB424" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX49" populated="true" UUID="5bc13f20-75ab-423c-a164-125f3ae356e4" clustered="false" name="uploaded_file_pk" physicalName="uploaded_file_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC50" populated="true" UUID="603a994b-e1a2-4a9e-ba08-8d10cb9dcf10" ascendingOrDescending="UNSPECIFIED" column-ref="COL43" name="id" physicalName="id" />
+    <index id="IDX50" populated="true" UUID="5bc13f20-75ab-423c-a164-125f3ae356e4" clustered="false" name="uploaded_file_pk" physicalName="uploaded_file_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC51" populated="true" UUID="603a994b-e1a2-4a9e-ba08-8d10cb9dcf10" ascendingOrDescending="UNSPECIFIED" column-ref="COL43" name="id" physicalName="id" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL51" populated="true" UUID="3c3b2620-5763-4815-8005-0f7c217ec021" deferrability="7" deleteRule="3" fk-table-ref="TAB10" fkCardinality="7" identifying="false" name="truck_sample_fk" physicalName="truck_sample_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP52" populated="true" UUID="7868d3a1-361a-4c75-8ad1-2c477972fd37" fk-column-ref="COL12" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
+   <relationship id="REL52" populated="true" UUID="3c3b2620-5763-4815-8005-0f7c217ec021" deferrability="7" deleteRule="3" fk-table-ref="TAB10" fkCardinality="7" identifying="false" name="truck_sample_fk" physicalName="truck_sample_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP53" populated="true" UUID="7868d3a1-361a-4c75-8ad1-2c477972fd37" fk-column-ref="COL12" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
    </relationship>
-   <relationship id="REL53" populated="true" UUID="125b9f49-e08e-4e04-8f70-56ba78ea50ef" deferrability="7" deleteRule="3" fk-table-ref="TAB32" fkCardinality="7" identifying="false" name="identity_tokens_fk" physicalName="identity_tokens_fk" pk-table-ref="TAB21" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP54" populated="true" UUID="4e560282-3232-4f0b-8e94-1b53eabbda0b" fk-column-ref="COL34" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL22" />
+   <relationship id="REL54" populated="true" UUID="125b9f49-e08e-4e04-8f70-56ba78ea50ef" deferrability="7" deleteRule="3" fk-table-ref="TAB32" fkCardinality="7" identifying="false" name="identity_tokens_fk" physicalName="identity_tokens_fk" pk-table-ref="TAB21" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP55" populated="true" UUID="4e560282-3232-4f0b-8e94-1b53eabbda0b" fk-column-ref="COL34" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL22" />
    </relationship>
-   <relationship id="REL55" populated="true" UUID="7ac1e07f-356c-4c49-980b-5b8decd0fa7c" deferrability="7" deleteRule="3" fk-table-ref="TAB42" fkCardinality="7" identifying="false" name="identity_uploaded_file_fk" physicalName="identity_uploaded_file_fk" pk-table-ref="TAB21" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP56" populated="true" UUID="cfc77644-250d-48a5-b62f-379a2eec919a" fk-column-ref="COL46" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL22" />
+   <relationship id="REL56" populated="true" UUID="7ac1e07f-356c-4c49-980b-5b8decd0fa7c" deferrability="7" deleteRule="3" fk-table-ref="TAB42" fkCardinality="7" identifying="false" name="identity_uploaded_file_fk" physicalName="identity_uploaded_file_fk" pk-table-ref="TAB21" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP57" populated="true" UUID="cfc77644-250d-48a5-b62f-379a2eec919a" fk-column-ref="COL46" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL22" />
    </relationship>
-   <relationship id="REL57" populated="true" UUID="dfa12101-e416-49d6-8401-e8b39c232562" deferrability="7" deleteRule="3" fk-table-ref="TAB1" fkCardinality="7" identifying="false" name="uploaded_file_truck_fk" physicalName="uploaded_file_truck_fk" pk-table-ref="TAB42" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP58" populated="true" UUID="dda1ccec-ef88-4426-a8e9-c6ab20682213" fk-column-ref="COL5" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL43" />
+   <relationship id="REL58" populated="true" UUID="dfa12101-e416-49d6-8401-e8b39c232562" deferrability="7" deleteRule="3" fk-table-ref="TAB1" fkCardinality="7" identifying="false" name="uploaded_file_truck_fk" physicalName="uploaded_file_truck_fk" pk-table-ref="TAB42" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP59" populated="true" UUID="dda1ccec-ef88-4426-a8e9-c6ab20682213" fk-column-ref="COL5" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL43" />
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
@@ -218,10 +221,10 @@
   <table-pane table-ref="TAB21" x="425" y="396" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB32" x="718" y="413" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB42" x="68" y="415" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-link relationship-ref="REL51" pkConnection="0.6170212765957447" fkConnection="0.43243243243243246" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL53" pkConnection="0.6503496503496503" fkConnection="0.3356643356643357" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL55" pkConnection="0.4745762711864407" fkConnection="0.5319148936170213" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL57" pkConnection="0.6277777777777778" fkConnection="0.3468208092485549" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL52" pkConnection="0.6170212765957447" fkConnection="0.43243243243243246" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL54" pkConnection="0.6503496503496503" fkConnection="0.3356643356643357" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL56" pkConnection="0.4745762711864407" fkConnection="0.5319148936170213" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL58" pkConnection="0.6277777777777778" fkConnection="0.3468208092485549" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">
