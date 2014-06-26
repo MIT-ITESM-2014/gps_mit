@@ -143,19 +143,152 @@ class SampleController extends Controller
 		}
   }
   
+  
+  function calculateDistance($lon1, $lat1, $lon2, $lat2)
+  {
+    //Parameters
+    $km_per_deg_la = 111.3237;
+    $km_per_deg_lo = 111.1350;
+    $pi = 3.14159;
+    
+    if( ( abs($lat1) > 90 ) || ( abs($lat2) >90 ) || ( abs($long1) > 360 ) || ( abs($long2) >360 ) )
+      {
+        //TODO Throw exception for invalid coordinates
+      } 
+      
+      if( $lon1 < 0 )
+      {
+        $lon1 = $lon1 + 360;
+      }
+      
+      if( $lon2 < 0 )
+      {
+        $lon2 = $lon2 + 360;
+      }
+      
+      $km_la = $km_per_deg_la * ($lat1-$lat2);
+      
+      if( abs($lon1-$lon2) > 180)
+      {
+        $dif_lo = abs($lon1-$lon2)-180;
+      }
+      else
+      {
+        $dif_lo = abs($lon1-$lon2);
+      }
+      
+      $km_lo = $km_per_deg_lo * $dif_lo * cos(($lat1+$lat2)*$pi/360);
+      $dist = sqrt(pow($km_la,2) + pow($km_lo,2));
+      
+      return $dist;
+  }
+  
+  function findStopsAndRoutes()
+  {
+    //TODO Add the right filters here
+    $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+    $criteria->addCondition('truck_id = '.695);
+    $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-08');
+    $samples = Sample::model()->findAll($criteria);
+    
+    $distance_treshold_for_stop= 0.01; //TODO define treshold
+    $time_treshold_for_stop= 14400;//Time in seconds
+    
+    //TODO Validate that there are more than two coordinates
+    $previous_sample = $samples[0];
+    $route_count = 1;
+    $stop_start;
+    $stop_end;
+    $stop_type = 0;
+    
+    for($i = 1; $i < count($samples); $i++)//Iterate through all the samples
+    {
+      $stop_type = 0;
+      $lon1 = $previous_sample->longitude;
+      $lat1 = $previous_sample->latitude;
+      $lon2 = $samples[$i]->longitude;
+      $lat2 = $samplew[$i]->latitude;
+      
+      $distance = calculateDistance($lon1, $lat1, $lon2, $lat2);
+      
+      //$previous_sample->route_id = $route_count;
+      //$previous_sample->save();
+      
+      $previous_sample_date = new DateTime($previous_sample->datetime);
+      $sample_i_date = new DateTime($samples[$i]->datetime);
+      
+      $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+      
+      if($distance<$distance_treshold_for_stop )//If it is staying in "the same" place
+      {
+        //A stop begins
+        $stop_start = $i;
+        $stop_type = -1;
+        while($distance<$distance_treshold_for_stop)//While it stays in "the same" place
+        {
+          //A stop begins
+          //Move one step forward
+          $i++;
+          $sample_i_date = new DateTime($samples[$i]->datetime);
+          $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+      
+          //Recalculate distance for new position
+          $lon2 = $samples[$i]->longitude;
+          $lat2 = $samples[$i]->latitude;
+          $distance = calculateDistance($lon1, $lat1, $lon2, $lat2);
+          
+          if($date_diff_timestamp > $time_treshold_for_stop)//It has enough time to be a full Stop
+          {
+            $stop_type = -2;
+            //A stop becomes long stop
+            while($distance<$distance_treshold_for_stop)//Continue forward until it moves
+            {
+              //Move one step forward
+              $i++;
+              
+              //Recalculate distance for new position
+              $lon2 = $samples[$i]->longitude;
+              $lat2 = $samples[$i]->latitude;
+              $distance = calculateDistance($lon1, $lat1, $lon2, $lat2);
+            }
+            //$i has got the first movement
+            //Register change of route
+            //Save the end and start of last route
+            $route_count++;
+            $sample[$i-1]->route_number = $route_count//The begining of the new route
+          } 
+        }
+        $stop_end = $i-1;
+        for($j = $stop_start; $j < $stop_end; $j++)
+        {
+          $sample[$j]->route_number=$stop_type; 
+          $sample[$j]->update();
+        }
+        if($stop_type == -2)//If it was long stop
+        {
+          $route_count++;
+          $sample[$i-1]->route_number = $route_count;
+          $sample[$i-1]->update();
+        }
+      }
+      
+      //Save parts of the route
+      $sample[$i]->route_number = $route_count;
+      $sample[$i]->update();
+    }
+  }
+  
   public function actionUploadTwo()
 	{
 	  if (empty($_FILES) || $_FILES["file"]["error"]) {
     }
     else
     {
-      print_r("va a entrar al segudno archivo");
-      //$fileName = $_FILES["file"]["name"];
       $fileName = date('YmdHis').strval(rand()%10);
       move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
       $condition_string = 'identity_id=' . Yii::app()->user->getId();
       $uploaded_file_model = UploadedFile::model()->find($condition_string);//
-      //Activate after updating database
+      //TODO Activate after updating database
       //$uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
       $uploaded_file_model->filename = $fileName;
       $uploaded_file_model->step = 2;
@@ -195,6 +328,8 @@ class SampleController extends Controller
       }
       
 		  fclose($handler);
+		  
+		  
 		}
   }
   

@@ -1,11 +1,12 @@
-<?php
-/* @var $this SiteController */
 
-$this->pageTitle=Yii::app()->name;
+<?php 
+$this->renderPartial('_map', array(
+  'script'=>$script, 
+  'trucks'=>$trucks, 
+  'model'=>$model,
+  'min_date'=>$min_date,
+  'max_date'=>$max_date,
+  'inactive_days_string'=>$inactive_days_string,
+ )); 
 ?>
-
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
-
-<h2> Test for Google maps made with JQuery and Javascript </h2>
-
 

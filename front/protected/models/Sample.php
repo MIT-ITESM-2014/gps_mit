@@ -18,6 +18,11 @@
  */
 class Sample extends CActiveRecord
 {
+  public $start_date;
+  public $end_date;
+  public $min_date;
+  public $max_date;
+  public $active_day;
 	/**
 	 * @return string the associated database table name
 	 */

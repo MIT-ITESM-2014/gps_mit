@@ -9,11 +9,10 @@ foreach ($trucks as $t)
 
 ?>
 
-<div id="map-canvas" style="height: 600px; width: 800px;">
+<div id="map-canvas" >
 </div>
 
 <div id="map-legend">
-LALALA
 <?php
 //echo $form->textField($model,'user_end_date'); 
   $this->widget('zii.widgets.jui.CJuiDatePicker', array(
