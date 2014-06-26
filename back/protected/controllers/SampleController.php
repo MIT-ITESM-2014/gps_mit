@@ -152,42 +152,42 @@ class SampleController extends Controller
     $pi = 3.14159;
     
     if( ( abs($lat1) > 90 ) || ( abs($lat2) >90 ) || ( abs($long1) > 360 ) || ( abs($long2) >360 ) )
-      {
-        //TODO Throw exception for invalid coordinates
-      } 
+    {
+      //TODO Throw exception for invalid coordinates
+    } 
       
-      if( $lon1 < 0 )
-      {
-        $lon1 = $lon1 + 360;
-      }
-      
-      if( $lon2 < 0 )
-      {
-        $lon2 = $lon2 + 360;
-      }
-      
-      $km_la = $km_per_deg_la * ($lat1-$lat2);
-      
-      if( abs($lon1-$lon2) > 180)
-      {
-        $dif_lo = abs($lon1-$lon2)-180;
-      }
-      else
-      {
-        $dif_lo = abs($lon1-$lon2);
-      }
-      
-      $km_lo = $km_per_deg_lo * $dif_lo * cos(($lat1+$lat2)*$pi/360);
-      $dist = sqrt(pow($km_la,2) + pow($km_lo,2));
-      
-      return $dist;
+    if( $lon1 < 0 )
+    {
+      $lon1 = $lon1 + 360;
+    }
+    
+    if( $lon2 < 0 )
+    {
+      $lon2 = $lon2 + 360;
+    }
+    
+    $km_la = $km_per_deg_la * ($lat1-$lat2);
+    
+    if( abs($lon1-$lon2) > 180)
+    {
+      $dif_lo = abs($lon1-$lon2)-180;
+    }
+    else
+    {
+      $dif_lo = abs($lon1-$lon2);
+    }
+    
+    $km_lo = $km_per_deg_lo * $dif_lo * cos(($lat1+$lat2)*$pi/360);
+    $dist = sqrt(pow($km_la,2) + pow($km_lo,2));
+    
+    return $dist;
   }
   
   function findStopsAndRoutes()
   {
     //TODO Add the right filters here
     $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-    $criteria->addCondition('truck_id = '.695);
+    $criteria->addCondition('truck_id = '.'695');
     $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-08');
     $samples = Sample::model()->findAll($criteria);
     
@@ -255,7 +255,7 @@ class SampleController extends Controller
             //Register change of route
             //Save the end and start of last route
             $route_count++;
-            $sample[$i-1]->route_number = $route_count//The begining of the new route
+            $sample[$i-1]->route_number = $route_count;//The begining of the new route
           } 
         }
         $stop_end = $i-1;
