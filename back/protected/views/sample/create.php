@@ -13,7 +13,10 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create Sample</h1>
+<div class="headers">
+	<h1>Create Sample</h1>
+</div>
+
 <div id="data" name="data">
 
   <?php

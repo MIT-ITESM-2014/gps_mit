@@ -34,11 +34,12 @@
 		<div id="mainmenu-container">
 			<div id="mainmenu">
 				<?php $this->widget('zii.widgets.CMenu',array(
+					'encodeLabel'=>false,
 					'items'=>array(
 						//array('label'=>'Home', 'url'=>array('/site/index')),
-						array('label'=>'Sample', 'url'=>array('/sample/index')),
+						array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/index')),
 						array('label'=>'Identity', 'url'=>array('/identity/index')),
-						array('label'=>'Token', 'url'=>array('/token/index')),
+						//array('label'=>'Token', 'url'=>array('/token/index')),
 						array('label'=>'Truck', 'url'=>array('/truck/index')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)

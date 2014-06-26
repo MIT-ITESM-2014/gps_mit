@@ -13,6 +13,8 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create Token</h1>
+<div class="headers">
+	<h1>Create Token</h1>
+</div>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -16,7 +16,9 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Token #<?php echo $model->id; ?></h1>
+<div class="headers">
+	<h1>View Token #<?php echo $model->id; ?></h1>
+</div>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

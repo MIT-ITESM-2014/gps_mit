@@ -16,6 +16,8 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Identity <?php echo $model->id; ?></h1>
+<div class="headers">
+	<h1>Update Identity <?php echo $model->id; ?></h1>
+</div>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

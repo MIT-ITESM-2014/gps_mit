@@ -61,9 +61,6 @@
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'CREATE' : 'Save', array('class'=>'hide-button')); ?>
-		<div id="button-box">
-			<?php echo CHtml::linkButton($model->isNewRecord ? 'CREATE' : 'Save', array('class'=>'button-style'))?>
-		</div>
 	</div>
 
 	<p class="note"> <span class="required">* Required fields.</span></p>
