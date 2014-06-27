@@ -37,10 +37,11 @@
 					'encodeLabel'=>false,
 					'items'=>array(
 						//array('label'=>'Home', 'url'=>array('/site/index')),
+						array('label'=>'<div id="upload-image"> </div> Upload', 'url'=>array('/sample/index')),
 						array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/index')),
-						array('label'=>'Identity', 'url'=>array('/identity/index')),
+						array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/index')),
 						//array('label'=>'Token', 'url'=>array('/token/index')),
-						array('label'=>'Truck', 'url'=>array('/truck/index')),
+						array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/index')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 					), 'id' => 'menu-elements' 
