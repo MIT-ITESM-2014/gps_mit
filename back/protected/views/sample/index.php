@@ -15,7 +15,7 @@ $this->menu=array(
 <div class="headers">
 	<h1>Samples</h1>
 </div>
-
+<?php echo CHtml::link('Link Function de detección de rutas y puntos',array('sample/findStopsAndRoutes')); ?>
 <div id="list-contents">
 	<?php $this->widget('zii.widgets.CListView', array(
 		'dataProvider'=>$dataProvider,

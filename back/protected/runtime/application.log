@@ -1199,3 +1199,91 @@ Stack trace:
 REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/uploadTwo
 in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (187)
 in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/26 11:45:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "samples/findStopsAndRoutes".' in /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('samples/findSto...')
+#1 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=samples/findStopsAndRoutes
+HTTP_REFERER=http://localhost/MIT/gps_mit/back/index.php?r=sample/index
+---
+2014/06/26 11:45:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "samples/findStopsAndRoutes".' in /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('samples/findSto...')
+#1 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=samples/findStopsAndRoutes
+HTTP_REFERER=http://localhost/MIT/gps_mit/back/index.php?r=sample/index
+---
+2014/06/26 11:45:55 [error] [php] Undefined variable: samplew (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:210)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (210)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/26 11:46:48 [error] [php] Undefined variable: long1 (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:154)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (154)
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (212)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/26 11:48:49 [error] [exception.CException] exception 'CException' with message 'Property "Sample.route_number" is not defined.' in /var/www/MIT/gps_mit/back/yii/framework/base/CComponent.php:173
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(161): CComponent->__set('route_number', 1)
+#1 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(276): CActiveRecord->__set('route_number', 1)
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/06/26 11:52:37 [error] [php] Undefined offset: 172 (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:232)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (232)
+in /var/www/MIT/gps_mit/back/index.php (13)

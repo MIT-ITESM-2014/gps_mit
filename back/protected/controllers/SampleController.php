@@ -32,7 +32,7 @@ class SampleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial'),
+				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial','findStopsAndRoutes'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -151,7 +151,7 @@ class SampleController extends Controller
     $km_per_deg_lo = 111.1350;
     $pi = 3.14159;
     
-    if( ( abs($lat1) > 90 ) || ( abs($lat2) >90 ) || ( abs($long1) > 360 ) || ( abs($long2) >360 ) )
+    if( ( abs($lat1) > 90 ) || ( abs($lat2) >90 ) || ( abs($lon1) > 360 ) || ( abs($lon2) >360 ) )
     {
       //TODO Throw exception for invalid coordinates
     } 
@@ -183,15 +183,16 @@ class SampleController extends Controller
     return $dist;
   }
   
-  function findStopsAndRoutes()
+  function actionFindStopsAndRoutes()
   {
+  
     //TODO Add the right filters here
     $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
     $criteria->addCondition('truck_id = '.'695');
-    $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-08');
+    $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
     $samples = Sample::model()->findAll($criteria);
     
-    $distance_treshold_for_stop= 0.01; //TODO define treshold
+    $distance_treshold_for_stop= 0.1; //TODO define treshold
     $time_treshold_for_stop= 14400;//Time in seconds
     
     //TODO Validate that there are more than two coordinates
@@ -200,17 +201,20 @@ class SampleController extends Controller
     $stop_start;
     $stop_end;
     $stop_type = 0;
-    
-    for($i = 1; $i < count($samples); $i++)//Iterate through all the samples
+    print_r(count($samples));
+    $samples_size = count($samples);
+    print_r($previous_sample->datetime);
+    for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
     {
+      print_r("<br>");
+      print_r($samples[$i]->datetime);
       $stop_type = 0;
       $lon1 = $previous_sample->longitude;
       $lat1 = $previous_sample->latitude;
       $lon2 = $samples[$i]->longitude;
-      $lat2 = $samplew[$i]->latitude;
+      $lat2 = $samples[$i]->latitude;
       
-      $distance = calculateDistance($lon1, $lat1, $lon2, $lat2);
-      
+      $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
       //$previous_sample->route_id = $route_count;
       //$previous_sample->save();
       
@@ -218,64 +222,76 @@ class SampleController extends Controller
       $sample_i_date = new DateTime($samples[$i]->datetime);
       
       $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-      
       if($distance<$distance_treshold_for_stop )//If it is staying in "the same" place
       {
+        print_r("I1");
         //A stop begins
         $stop_start = $i;
         $stop_type = -1;
-        while($distance<$distance_treshold_for_stop)//While it stays in "the same" place
+        
+        //Possible problem
+          
+        while( ($distance<$distance_treshold_for_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
         {
+          print_r("W1");
           //A stop begins
           //Move one step forward
           $i++;
+          print_r("<br>");
+          print_r($samples[$i]->datetime);
           $sample_i_date = new DateTime($samples[$i]->datetime);
           $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-      
+          
           //Recalculate distance for new position
           $lon2 = $samples[$i]->longitude;
           $lat2 = $samples[$i]->latitude;
-          $distance = calculateDistance($lon1, $lat1, $lon2, $lat2);
+          $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
           
           if($date_diff_timestamp > $time_treshold_for_stop)//It has enough time to be a full Stop
           {
+            print_r("I2");
+            print_r("<br>");
+          print_r("Es un full stop".$date_diff_timestamp ." ". $time_treshold_for_stop);
+          print_r("<br>");
             $stop_type = -2;
             //A stop becomes long stop
-            while($distance<$distance_treshold_for_stop)//Continue forward until it moves
+            while(( $distance<$distance_treshold_for_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
             {
+              print_r("W2");
               //Move one step forward
               $i++;
-              
+              print_r("<br>");
+      print_r($samples[$i]->datetime);
               //Recalculate distance for new position
               $lon2 = $samples[$i]->longitude;
               $lat2 = $samples[$i]->latitude;
-              $distance = calculateDistance($lon1, $lat1, $lon2, $lat2);
+              $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
             }
-            //$i has got the first movement
-            //Register change of route
-            //Save the end and start of last route
-            $route_count++;
-            $sample[$i-1]->route_number = $route_count;//The begining of the new route
+            
           } 
         }
         $stop_end = $i-1;
-        for($j = $stop_start; $j < $stop_end; $j++)
+        for($j = $stop_start; $j <= $stop_end; $j++)
         {
-          $sample[$j]->route_number=$stop_type; 
-          $sample[$j]->update();
+          print_r("u");
+          $samples[$j]->route_number=$stop_type; 
+          $samples[$j]->update();
         }
         if($stop_type == -2)//If it was long stop
         {
           $route_count++;
-          $sample[$i-1]->route_number = $route_count;
-          $sample[$i-1]->update();
+          $samples[$i-1]->route_number = $route_count;
+          $samples[$i-1]->update();
         }
       }
       
       //Save parts of the route
-      $sample[$i]->route_number = $route_count;
-      $sample[$i]->update();
+      $samples[$i]->route_number = $route_count;
+      $samples[$i]->update();
+      
+      $previous_sample  =$samples[$i];
     }
+    
   }
   
   public function actionUploadTwo()
