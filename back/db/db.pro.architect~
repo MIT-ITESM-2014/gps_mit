@@ -54,7 +54,7 @@
   <table id="TAB10" populated="true" UUID="5dd1bb29-17cf-4a59-88ae-ba2e339ac6fa" name="sample" objectType="TABLE" physicalName="sample" >
    <remarks></remarks>
    <folder id="FOLTAB101" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL11" populated="true" UUID="d2ee2844-36a8-4bc7-b5a3-fb5d0430fa7d" autoIncrement="false" autoIncrementSequenceName="sample_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="4" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
+    <column id="COL11" populated="true" UUID="d2ee2844-36a8-4bc7-b5a3-fb5d0430fa7d" autoIncrement="true" autoIncrementSequenceName="sample_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="4" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
      <remarks></remarks>
     </column>
     <column id="COL12" populated="true" UUID="54225acf-1bd3-4f70-bd0c-33b3f1fa49d7" autoIncrement="false" autoIncrementSequenceName="sample_truck_id_seq" defaultValue="" name="truck_id" nullable="0" physicalName="truck_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
@@ -318,7 +318,7 @@
   <table-pane table-ref="TAB33" x="582" y="475" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB43" x="68" y="415" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB53" x="868" y="133" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB62" x="875" y="383" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB62" x="996" y="310" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB71" x="666" y="264" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-link relationship-ref="REL76" pkConnection="0.6170212765957447" fkConnection="0.43243243243243246" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
   <table-link relationship-ref="REL78" pkConnection="0.6503496503496503" fkConnection="0.3356643356643357" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>

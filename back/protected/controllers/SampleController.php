@@ -104,6 +104,7 @@ class SampleController extends Controller
       move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
       $uploaded_file_model = new UploadedFile;
       $uploaded_file_model->created_at = date('Y-m-d H:i:s.u');
+      $uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
       $uploaded_file_model->identity_id =  Yii::app()->user->getId();
       $uploaded_file_model->truck_file = $fileName;
       $uploaded_file_model->step = 1;
@@ -187,111 +188,106 @@ class SampleController extends Controller
   
   function actionFindStopsAndRoutes()
   {
-  
-    //TODO Add the right filters here
-    $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-    $criteria->addCondition('truck_id = '.'695');
-    $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
-    $samples = Sample::model()->findAll($criteria);
     
-    $distance_treshold_for_stop= 0.1; //TODO define treshold
-    $time_treshold_for_stop= 14400;//Time in seconds
-    
-    //TODO Validate that there are more than two coordinates
-    $previous_sample = $samples[0];
-    $route_count = 1;
-    $stop_start;
-    $stop_end;
-    $stop_type = 0;
-    print_r(count($samples));
-    $samples_size = count($samples);
-    print_r($previous_sample->datetime);
-    for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
-    {
-      print_r("<br>");
-      print_r($samples[$i]->datetime);
-      $stop_type = 0;
-      $lon1 = $previous_sample->longitude;
-      $lat1 = $previous_sample->latitude;
-      $lon2 = $samples[$i]->longitude;
-      $lat2 = $samples[$i]->latitude;
+    $trucks = Truck::model()->findAll();
+    foreach($trucks as $truck)
+    {    
+      //TODO Add the right filters here
+      $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+      $criteria->addCondition('truck_id = '.$truck->id);
+      //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
+      $samples = Sample::model()->findAll($criteria);
       
-      $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-      //$previous_sample->route_id = $route_count;
-      //$previous_sample->save();
+      $distance_treshold_for_stop= 0.1; //TODO define treshold
+      $time_treshold_for_stop= 14400;//Time in seconds
       
-      $previous_sample_date = new DateTime($previous_sample->datetime);
-      $sample_i_date = new DateTime($samples[$i]->datetime);
       
-      $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-      if($distance<$distance_treshold_for_stop )//If it is staying in "the same" place
+      $samples_size = count($samples);
+      
+      if($samples_size > 0)
       {
-        print_r("I1");
-        //A stop begins
-        $stop_start = $i;
-        $stop_type = -1;
+        //TODO Validate that there are more than two coordinates
+        $previous_sample = $samples[0];
+        $route_count = 1;
+        $stop_start;
+        $stop_end;
+        $stop_type = 0;
         
-        //Possible problem
-          
-        while( ($distance<$distance_treshold_for_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
+        
+        for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
         {
-          print_r("W1");
-          //A stop begins
-          //Move one step forward
-          $i++;
-          print_r("<br>");
-          print_r($samples[$i]->datetime);
-          $sample_i_date = new DateTime($samples[$i]->datetime);
-          $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-          
-          //Recalculate distance for new position
+          $stop_type = 0;
+          $lon1 = $previous_sample->longitude;
+          $lat1 = $previous_sample->latitude;
           $lon2 = $samples[$i]->longitude;
           $lat2 = $samples[$i]->latitude;
-          $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
           
-          if($date_diff_timestamp > $time_treshold_for_stop)//It has enough time to be a full Stop
+          $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+          //$previous_sample->route_id = $route_count;
+          //$previous_sample->save();
+          
+          $previous_sample_date = new DateTime($previous_sample->datetime);
+          $sample_i_date = new DateTime($samples[$i]->datetime);
+          
+          $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+          if($distance<$distance_treshold_for_stop )//If it is staying in "the same" place
           {
-            print_r("I2");
-            print_r("<br>");
-          print_r("Es un full stop".$date_diff_timestamp ." ". $time_treshold_for_stop);
-          print_r("<br>");
-            $stop_type = -2;
-            //A stop becomes long stop
-            while(( $distance<$distance_treshold_for_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
+            //A stop begins
+            $stop_start = $i;
+            $stop_type = -1;
+            
+            //Possible problem
+              
+            while( ($distance<$distance_treshold_for_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
             {
-              print_r("W2");
+              //A stop begins
               //Move one step forward
               $i++;
-              print_r("<br>");
-      print_r($samples[$i]->datetime);
+              $sample_i_date = new DateTime($samples[$i]->datetime);
+              $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+              
               //Recalculate distance for new position
               $lon2 = $samples[$i]->longitude;
               $lat2 = $samples[$i]->latitude;
               $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+              
+              if($date_diff_timestamp > $time_treshold_for_stop)//It has enough time to be a full Stop
+              {
+                $stop_type = -2;
+                //A stop becomes long stop
+                while(( $distance<$distance_treshold_for_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
+                {
+                  //Move one step forward
+                  $i++;
+                  //Recalculate distance for new position
+                  $lon2 = $samples[$i]->longitude;
+                  $lat2 = $samples[$i]->latitude;
+                  $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                }
+                
+              } 
             }
-            
-          } 
-        }
-        $stop_end = $i-1;
-        for($j = $stop_start; $j <= $stop_end; $j++)
-        {
-          print_r("u");
-          $samples[$j]->route_number=$stop_type; 
-          $samples[$j]->update();
-        }
-        if($stop_type == -2)//If it was long stop
-        {
-          $route_count++;
-          $samples[$i-1]->route_number = $route_count;
-          $samples[$i-1]->update();
+            $stop_end = $i-1;
+            for($j = $stop_start; $j <= $stop_end; $j++)
+            {
+              $samples[$j]->route_id=$stop_type; 
+              $samples[$j]->update();
+            }
+            if($stop_type == -2)//If it was long stop
+            {
+              $route_count++;
+              $samples[$i-1]->route_id = $route_count;
+              $samples[$i-1]->update();
+            }
+          }
+          
+          //Save parts of the route
+          $samples[$i]->route_id = $route_count;
+          $samples[$i]->update();
+          
+          $previous_sample  =$samples[$i];
         }
       }
-      
-      //Save parts of the route
-      $samples[$i]->route_number = $route_count;
-      $samples[$i]->update();
-      
-      $previous_sample  =$samples[$i];
     }
     
   }
@@ -306,8 +302,8 @@ class SampleController extends Controller
       move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
       $condition_string = 'identity_id=' . Yii::app()->user->getId();
       $uploaded_file_model = UploadedFile::model()->find($condition_string);//
-      //TODO Activate after updating database
-      //$uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
+      
+      $uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
       $uploaded_file_model->filename = $fileName;
       $uploaded_file_model->step = 2;
       $uploaded_file_model->save();
@@ -329,6 +325,7 @@ class SampleController extends Controller
       $samples = array();
       fgetcsv($handler, 0, ',');//Ignore headers
       //Requires columns in the next order truck_name, latitude, longitude, and timestamp
+      $new_sample;
       while($pointer = fgetcsv($handler, 0, ','))
       {
         $new_sample = new Sample;
@@ -341,10 +338,11 @@ class SampleController extends Controller
         $new_sample->created_at = date('Y-m-d H:i:s.u');
         //TODO: Remove updated_at when not null is activated
         $new_sample->updated_at = date('Y-m-d H:i:s.u');
+        $new_sample->route_id = -3;
         //TODO:Define behaviour when unable to save
         $new_sample->save();
+        
       }
-      
 		  fclose($handler);
 		  
 		  
