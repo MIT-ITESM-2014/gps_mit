@@ -69,8 +69,10 @@ class SampleController extends Controller
     $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
 		
 		$uploaded_files = Identity::model()->find('id='.Yii::app()->user->getId())->pendingUpload();
+		
 		//If it is at the second step
 		//print_r($uploaded_files[0]);
+		
 		if( isset($uploaded_files[0]) )
 		{
 		  if($uploaded_files[0]->step ==1)

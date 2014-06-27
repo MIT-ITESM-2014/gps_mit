@@ -37,11 +37,11 @@
 					'encodeLabel'=>false,
 					'items'=>array(
 						//array('label'=>'Home', 'url'=>array('/site/index')),
-						array('label'=>'<div id="upload-image"> </div> Upload', 'url'=>array('/sample/index')),
-						array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/index')),
-						array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/index')),
+						array('label'=>'<div id="upload-image"> </div> Upload', 'url'=>array('/sample/create')),
+						array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/admin')),
+						array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/admin')),
 						//array('label'=>'Token', 'url'=>array('/token/index')),
-						array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/index')),
+						array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/admin')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 					), 'id' => 'menu-elements' 
