@@ -177,7 +177,7 @@ html > body #mainmenu {
 	text-decoration:none;
 	padding-left: 80px;
 	padding-top: 15px;
-	width: 262px;
+	width: 162px;
 	height: 49px;
 }
 
@@ -473,9 +473,8 @@ div.search-form
 .admin-list
 {
 
-	width: 850px;
+	width: 918px;
 	height: 1200px;
-	padding: 20px;
 	display: inline;
 	float: left;
 
