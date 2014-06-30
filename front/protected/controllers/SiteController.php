@@ -120,53 +120,73 @@ class SiteController extends Controller
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       //personalize map style
       map.set('styles', [
-        {
-          featureType: 'road.local',
-          elementType: 'geometry',
-          stylers: [
-            {color: '#96A9C1'},
-            { visibility: 'simplified'},
-            { weight: 0.9 }
-          ]
-        },
-      {
+    {
+        featureType: 'water',
+        stylers: [
+            { visibility: 'on' },
+            { color: '#acbcc9' }
+        ]
+    },
+    {
+        featureType: 'landscape',
+        stylers: [
+            { color: '#f2e5d4' }
+        ]
+    },
+    {
         featureType: 'road.highway',
         elementType: 'geometry',
         stylers: [
-          {color: '#F7DC9E'},
-          { visibility: 'simplified'},
-          { weight: 5.5 }
+            { color: '#c5c6c6' }
         ]
-      },
-      {
-        featureType: 'road',
-        elementType: 'labels',
-        stylers: [
-          { visibility: 'on' },
-          { saturation: 600 }
-        ]
-      },  
-      {
-        featureType: 'landscape',
+    },
+    {
+        featureType: 'road.arterial',
         elementType: 'geometry',
         stylers: [
-          { hue: '#ffff00' },
-          { gamma: 0.5 },
-          { saturation: 82 },
-          { lightness: 96 }
-          ]
-      },
-      {
-        featureType: 'poi.government',
-         elementType: 'geometry',
-          stylers: [
+            { color: '#e4d7c6' }
+        ]
+    },
+    {
+        featureType: 'road.local',
+        elementType: 'geometry',
+        stylers: [
+            { color: '#fbfaf7'}
+        ]
+    },
+    {
+        featureType: 'poi.park',
+        elementType: 'geometry',
+        stylers: [
+            { color: '#c5dac6' }
+        ]
+    },
+    {
+        featureType: 'administrative',
+        stylers: [
             { visibility: 'on' },
-            { hue: '#9AB896' },
-            { lightness: -15 },
-            { saturation: 99 }
-          ]
-        }
-      ]);
+            { lightness: 33 }
+        ]
+    },
+    {
+        featureType: 'road'
+    },
+    {
+        featureType: 'poi.park',
+        elementType: 'labels',
+        stylers: [
+            { visibility: 'on' },
+            { lightness: 20 }
+        ]
+    },
+    {},
+    {
+        featureType: 'road',
+        stylers: [
+            { lightness: 20 }
+        ]
+    }
+]);
       
       document.getElementById(\"button_update_map\").onclick = function() {
         button_update_map_action(); 
@@ -222,7 +242,7 @@ class SiteController extends Controller
       route = new google.maps.Polyline({
         path: routeCoordinates2,
         geodesic: true,
-        strokeColor: '#C030FF',
+        strokeColor: '#AAAAA',
         strokeOpacity: 1.0,
         strokeWeight: 2
       });

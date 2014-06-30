@@ -46,6 +46,7 @@ $('.search-form form').submit(function(){
 			//'updated_at',
 			array(
 				'class'=>'CButtonColumn',
+				'template' => '',
 			),
 		),
 	)); ?>

@@ -21,10 +21,12 @@
 <body>
 
 <div class="" id="page">
-	
-	<div id="top_bar"><!--Top Bar-->
-	  Compass
-	</div>
+
+	<div id="header">
+		<div id="logo">
+			<a href="index.php" ><div id="logo-image"> </div></a>
+		</div>
+	</div><!-- header -->
 	
 	<?php echo $content; ?>
 	

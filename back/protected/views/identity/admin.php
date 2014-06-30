@@ -52,6 +52,11 @@ $('.search-form form').submit(function(){
 			*/
 			array(
 				'class'=>'CButtonColumn',
+				'template'=>'{update}{delete}',
+				'updateButtonImageUrl' => "",//Yii::app()->baseUrl . '/public/images/icons/' . 'Edit.png',
+				'updateButtonOptions' => array('class' => 'update-button'),
+				'deleteButtonImageUrl' => Yii::app()->baseUrl . '/public/images/icons/' . 'DeleteColor.png',
+				'deleteButtonOptions' => array('class' => 'delete-button')
 			),
 		),
 	)); ?>
