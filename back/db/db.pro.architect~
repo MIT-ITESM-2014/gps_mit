@@ -72,7 +72,7 @@
     <column id="COL16" populated="true" UUID="6c16d1fb-aca9-45f2-a5d2-e210f1b23826" autoIncrement="false" autoIncrementSequenceName="sample_datetime_seq" defaultValue="" name="datetime" nullable="0" physicalName="datetime" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
-    <column id="COL17" populated="true" UUID="0598b566-b6e2-40cc-a447-16d2672737d1" autoIncrement="false" autoIncrementSequenceName="sample_route_id_seq" defaultValue="" name="route_id" nullable="0" physicalName="route_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
+    <column id="COL17" populated="true" UUID="6cabd2dd-f1a6-47b3-9c15-91444ae6a51d" autoIncrement="false" autoIncrementSequenceName="sample_route_id_seq" defaultValue="" name="route_id" nullable="0" physicalName="route_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL18" populated="true" UUID="1b4a56ed-8ff4-4d0b-a916-a7dde4e02fee" autoIncrement="false" autoIncrementSequenceName="sample_created_at_seq" defaultValue="" name="created_at" nullable="0" physicalName="created_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
@@ -303,9 +303,6 @@
    <relationship id="REL86" populated="true" UUID="f1df6c60-7bd6-492d-8316-a973e3f9b844" deferrability="7" deleteRule="3" fk-table-ref="TAB62" fkCardinality="7" identifying="false" name="route_short_stop_fk" physicalName="route_short_stop_fk" pk-table-ref="TAB71" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP87" populated="true" UUID="dd672225-83a0-46c2-bbf0-d097434316cf" fk-column-ref="COL64" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL72" />
    </relationship>
-   <relationship id="REL88" populated="true" UUID="97df74e0-04d0-4990-bc5a-65694e89515c" deferrability="7" deleteRule="3" fk-table-ref="TAB10" fkCardinality="7" identifying="false" name="route_sample_fk" physicalName="route_sample_fk" pk-table-ref="TAB71" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP89" populated="true" UUID="9ac52d9c-cfc7-4378-b3fd-b8193b65da90" fk-column-ref="COL17" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL72" />
-   </relationship>
   </relationships>
  </target-database>
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
@@ -326,7 +323,6 @@
   <table-link relationship-ref="REL82" pkConnection="0.6277777777777778" fkConnection="0.3468208092485549" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
   <table-link relationship-ref="REL84" pkConnection="0.6666666666666666" fkConnection="0.34782608695652173" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
   <table-link relationship-ref="REL86" pkConnection="0.7101449275362319" fkConnection="0.3047619047619048" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL88" pkConnection="0.14492753623188406" fkConnection="0.7589743589743589" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">

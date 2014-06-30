@@ -31,7 +31,9 @@ class SiteController extends Controller
 		// using the default layout 'protected/views/layouts/main.php'
 		//$this->render('index');
 		
+		//TODO:Define default Truck and default day
 		//$rows = user::model()->findAllByAttributes($user, $criteria);
+	  
 	  $trucks = Truck::model()->findAll();
 	  $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
 	  $truck_id = $trucks[0]->id;
@@ -40,9 +42,9 @@ class SiteController extends Controller
 	  $samples = Sample::model()->findAll($criteria);
 	  
 	  $criteria2 = new CDbCriteria(array('order'=>'datetime ASC'));
-	  $truck_id2 = $trucks[6]->id;
+	  $truck_id2 = $trucks[0]->id;
     $criteria2->addCondition('truck_id = '.$truck_id2);
-    $criteria2->addBetweenCondition('datetime', '2013-09-27', '2013-09-28');
+    //$criteria2->addBetweenCondition('datetime', '2013-09-27', '2013-09-28');
 	  $samples2 = Sample::model()->findAll($criteria2);
     
     //Get the min_date
@@ -101,6 +103,7 @@ class SiteController extends Controller
       $inactive_days_string = $inactive_days_string . "'" . $id ."',"; 
     }
     
+    //DEfine center
 	  $script = "
 	    var temporal_script = null;
 	    var route;
@@ -113,7 +116,7 @@ class SiteController extends Controller
         zoom: 12,
         center: new google.maps.LatLng(".$samples2[0]->latitude.",".$samples2[0]->longitude.")
       };
-
+      
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       //personalize map style
       map.set('styles', [

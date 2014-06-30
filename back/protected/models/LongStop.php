@@ -32,11 +32,11 @@ class LongStop extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, route_id, latitude, longitude, created_at, updated_at', 'required'),
+			array('id, latitude, longitude, created_at, updated_at', 'required'),
 			array('latitude, longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, route_id, latitude, longitude, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, latitude, longitude, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +48,7 @@ class LongStop extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'route' => array(self::BELONGS_TO, 'Route', 'route_id'),
+		
 		);
 	}
 
@@ -59,7 +59,6 @@ class LongStop extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'route_id' => 'Route',
 			'latitude' => 'Latitude',
 			'longitude' => 'Longitude',
 			'created_at' => 'Created At',
@@ -86,7 +85,6 @@ class LongStop extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('route_id',$this->route_id,true);
 		$criteria->compare('latitude',$this->latitude);
 		$criteria->compare('longitude',$this->longitude);
 		$criteria->compare('created_at',$this->created_at,true);

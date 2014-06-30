@@ -188,7 +188,11 @@ class SampleController extends Controller
   
   function actionFindStopsAndRoutes()
   {
+  
+    print_r($this->calculateDistance('-70.7442', '-33.408', '-70.74421',  '-33.408' ));
+  
     
+    /*
     $trucks = Truck::model()->findAll();
     foreach($trucks as $truck)
     {    
@@ -209,13 +213,20 @@ class SampleController extends Controller
         //TODO Validate that there are more than two coordinates
         $previous_sample = $samples[0];
         $route_count = 1;
+        $current_route = new Route;
+        $current_route->name = $route_count;
+        $current_route->save();
+        $samples[0]->route_id=$current_route->id;//Set the first coordinate to the first route
+        $samples[0]->save();
         $stop_start;
         $stop_end;
         $stop_type = 0;
         
-        
         for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
         {
+          print_r("<br>----------");
+          print_r($samples[$i]->truck_id." ".$samples[$i]->datetime." ".$samples[$i]->latitude.", ".$samples[$i]->longitude);
+          print_r("<br>");
           $stop_type = 0;
           $lon1 = $previous_sample->longitude;
           $lat1 = $previous_sample->latitude;
@@ -225,6 +236,7 @@ class SampleController extends Controller
           $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
           //$previous_sample->route_id = $route_count;
           //$previous_sample->save();
+          print_r($distance."<br>");
           
           $previous_sample_date = new DateTime($previous_sample->datetime);
           $sample_i_date = new DateTime($samples[$i]->datetime);
@@ -243,6 +255,9 @@ class SampleController extends Controller
               //A stop begins
               //Move one step forward
               $i++;
+              print_r("<br>----------");
+              print_r($samples[$i]->truck_id." ".$samples[$i]->datetime." ".$samples[$i]->latitude.", ".$samples[$i]->longitude);
+              print_r("<br>");
               $sample_i_date = new DateTime($samples[$i]->datetime);
               $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
               
@@ -250,6 +265,7 @@ class SampleController extends Controller
               $lon2 = $samples[$i]->longitude;
               $lat2 = $samples[$i]->latitude;
               $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+              print_r($distance."<br>");
               
               if($date_diff_timestamp > $time_treshold_for_stop)//It has enough time to be a full Stop
               {
@@ -259,37 +275,62 @@ class SampleController extends Controller
                 {
                   //Move one step forward
                   $i++;
+                  print_r("<br>----------");
+                  print_r($samples[$i]->truck_id." ".$samples[$i]->datetime." ".$samples[$i]->latitude.", ".$samples[$i]->longitude);
+                  print_r("<br>");
                   //Recalculate distance for new position
                   $lon2 = $samples[$i]->longitude;
                   $lat2 = $samples[$i]->latitude;
                   $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                  print_r($distance."<br>");
                 }
+                print_r("<br>Salí con la distancia: ". $distance . " y el i: ".$i);
                 
               } 
             }
             $stop_end = $i-1;
             for($j = $stop_start; $j <= $stop_end; $j++)
             {
-              $samples[$j]->route_id=$stop_type; 
+              $samples[$j]->route_id=$current_route->id; 
               $samples[$j]->update();
             }
+            $new_stop;
+            switch ($stop_type) {
+              case -1://Short stop
+                $new_stop = new ShortStop;
+                $new_stop->route_id = $current_route->id;
+                break;
+              case -2://Long stop
+                $new_stop = new LongStop;
+                break;
+            }
+            $new_stop->latitude = $samples[$stop_start]->latitude;
+            $new_stop->longitude = $samples[$stop_start]->longitude;
+            $new_stop->created_at = date('Y-m-d H:i:s.u');
+            $new_stop->updated_at = date('Y-m-d H:i:s.u');
+            $new_stop->save();
+            
+            $new_stop->save();
             if($stop_type == -2)//If it was long stop
             {
               $route_count++;
-              $samples[$i-1]->route_id = $route_count;
+              $current_route = new Route;
+              $current_route->name = $route_count;
+              $current_route->save();
+              $samples[$i-1]->route_id = $current_route->id;
               $samples[$i-1]->update();
             }
           }
           
           //Save parts of the route
-          $samples[$i]->route_id = $route_count;
+          $samples[$i]->route_id = $current_route->id;
           $samples[$i]->update();
           
           $previous_sample  =$samples[$i];
         }
       }
     }
-    
+    */
   }
   
   public function actionUploadTwo()

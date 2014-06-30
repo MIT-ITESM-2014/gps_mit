@@ -683,3 +683,80 @@ Stack trace:
 REQUEST_URI=/MIT/gps_mit/front/index.php?r=token/index
 in /var/www/MIT/gps_mit/front/protected/controllers/TokenController.php (251)
 in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:40:40 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:114)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (114)
+in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:46:23 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:117)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (117)
+in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:46:30 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:117)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (117)
+in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:46:30 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:117)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (117)
+in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:46:30 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:117)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (117)
+in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:46:31 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:117)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (117)
+in /var/www/MIT/gps_mit/front/index.php (13)
+2014/06/30 09:46:31 [error] [php] Undefined offset: 0 (/var/www/MIT/gps_mit/front/protected/controllers/SiteController.php:117)
+Stack trace:
+#0 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /var/www/MIT/gps_mit/front/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /var/www/MIT/gps_mit/front/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /var/www/MIT/gps_mit/front/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /var/www/MIT/gps_mit/front/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/front/
+in /var/www/MIT/gps_mit/front/protected/controllers/SiteController.php (117)
+in /var/www/MIT/gps_mit/front/index.php (13)
