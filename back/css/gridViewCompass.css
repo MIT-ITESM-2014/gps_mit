@@ -1,0 +1,226 @@
+.gridStyle
+{
+	background-color: #efefef;
+	width: 940px;
+	height: 100px;
+}
+
+.filters
+{
+	background-color: #00a894;
+	height: 50px;
+
+}
+
+.summary
+{
+	display: hidden;
+}
+
+.filters input
+{
+	background-color: #003c4b;
+	color: #00a894;
+}
+
+.sort-link
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+tr
+{
+	background-color: #efefef;
+	height: 30px;
+}
+
+.pager
+{
+	margin-left: 150px;
+}
+
+.pager ul li
+{
+	list-style-type: none;
+	display: inline-block;
+	padding: 10px;
+	background: #00a894;
+}
+
+.pager ul li a
+{
+	text-decoration: none;
+	color: #003c4b;
+}
+
+li.page.selected
+{
+	background-color: #003c4b;
+}
+
+li.page.selected a
+{
+	color: #00a894;
+	font-weight: bold;
+	font-size: 17px;
+}
+
+.pager ul li:hover 
+{
+	background-color: #003c4b;
+}
+
+.pager ul li:hover a 
+{
+	color: #00a894;
+}
+
+li.first:hover
+{
+	background-color: #003c4b;
+}
+
+li.first:hover a
+{
+	color: #00a894;
+}
+
+li.previous:hover
+{
+	background-color: #003c4b;
+}
+
+li.previous:hover a
+{
+	color: #00a894;
+}
+
+li.last:hover
+{
+	background-color: #003c4b;
+}
+
+li.last:hover a
+{
+	color: #00a894;
+}
+
+li.next:hover
+{
+	background-color: #003c4b;
+}
+
+
+li.next:hover a
+{
+	color: #00a894;
+}
+
+.first.hidden
+{
+	display: none;
+}
+
+.previous.hidden
+{
+	display: none;
+}
+
+.next.hidden
+{
+	display: none;
+}
+
+.last.hidden
+{
+	display: none;
+}
+
+#truck-grid_c0
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#truck-grid_c1
+{
+	background-color: #003c4b;
+	height: 50px;
+
+}
+
+#identity-grid_c0
+{
+	background-color: #003c4b;
+	height: 50px;
+
+}
+
+#identity-grid_c1
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#identity-grid_c2
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#identity-grid_c3
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#identity-grid_c4
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#identity-grid_c5
+{
+	background-color: #003c4b;
+	height: 50px;
+
+}
+
+#sample-grid_c0
+{
+	background-color: #003c4b;
+	height: 50px;
+
+}
+
+#sample-grid_c1
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#sample-grid_c2
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#sample-grid_c3
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#sample-grid_c4
+{
+	background-color: #003c4b;
+	height: 50px;
+}
+
+#sample-grid_c5
+{
+	background-color: #003c4b;
+	height: 50px;
+}
