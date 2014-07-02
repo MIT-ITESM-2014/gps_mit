@@ -13,42 +13,64 @@ foreach ($trucks as $t)
 </div>
 
 <div id="map-legend">
-<?php
-//echo $form->textField($model,'user_end_date'); 
-  $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-          'model'=>$model,
-          'attribute'=>'start_date',
-          'options'   => array(
-                  'changeYear' => true,
-                  'dateFormat' => 'mm/dd/yy',
-                  //'timeFormat' => '',//'hh:mm tt' default
-                  'beforeShowDay'=>'js:editDays',
-                  'minDate'=>$min_date,
-                  'maxDate'=>$max_date,
-          ),
-  ));
-                
-Yii::app()->clientScript->registerScript('editDays', "
-  function editDays(date) {
-    var disabledDates = [".$inactive_days_string."];
-    for (var i = 0; i < disabledDates.length; i++) {
-      if (new Date(disabledDates[i]).toString() == date.toString()) {
-        return [false,''];
+  
+  <div id="maps-icon">
+  </div>
+
+  <div id="graphs-icon">
+  </div>
+
+  <div id="day-title">
+    <div id="choose-day-icon"> </div>
+    <p id="day-legend"> Choose day </p>
+  </div>
+
+  <div id="date-picker-container">
+    <?php
+    //echo $form->textField($model,'user_end_date'); 
+      $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+              'model'=>$model,
+              'attribute'=>'start_date',
+              'options'   => array(
+                      'changeYear' => true,
+                      'dateFormat' => 'mm/dd/yy',
+                      //'timeFormat' => '',//'hh:mm tt' default
+                      'beforeShowDay'=>'js:editDays',
+                      'minDate'=>$min_date,
+                      'maxDate'=>$max_date,
+              ),
+      ));
+                    
+    Yii::app()->clientScript->registerScript('editDays', "
+      function editDays(date) {
+        var disabledDates = [".$inactive_days_string."];
+        for (var i = 0; i < disabledDates.length; i++) {
+          if (new Date(disabledDates[i]).toString() == date.toString()) {
+            return [false,''];
+          }
+        }
+        return [true,''];
       }
-    }
-    return [true,''];
-  }
-");
-?>
+    ");
+    ?>
+  </div>
 
-<select id="truck_selector" name="truck_selector">
-</select>
+  <div id="truck-title">
+    <div id="choose-truck-icon"> </div>
+    <p id="truck-legend"> Choose truck</p>
+  </div>
 
-<div id="button_update_map" name="button_update_map">
-Actualizar
+  <div id="truck-selector-container">
+    <select id="truck_selector" name="truck_selector">
+    </select>
+  </div>
+
+  <div id="button_update_map" name="button_update_map" class="update-button-map">
+    <p id ="update-map-text"> Update </p>
+  </div>
+
 </div>
 
-</div>
 <?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_HEAD); ?>
 
 

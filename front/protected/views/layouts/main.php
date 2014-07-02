@@ -26,8 +26,36 @@
 		<div id="logo">
 			<a href="index.php" ><div id="logo-image"> </div></a>
 		</div>
+		<div id="icons-bar">
+			<div id="routes-section"></div>
+			<div id="trucks-section"> </div>
+			<div id="stats-section"> </div>	
+		</div>	
 	</div><!-- header -->
-	
+
+	<div class="clear"></div>
+
+	<div id="routes-selection"> 
+		<div id="selector-truck">
+			<div id="truck-icon"> </div>
+			<select id="select-truck" name="select-truck"> 
+				<option> Hola </option>
+				<option> Bola </option>
+			</select>
+		</div>
+		<div id="selector-day">
+			<div id="day-icon"> </div>
+			<input id="date-route" name="date"/>
+		</div>
+		<div id="selector-route">
+			<div id="route-icon"> </div>
+			<select id="select-route" name="select-route"> 
+				<option> Hola </option>
+				<option> Bola </option>
+			</select>
+		</div>
+	</div>
+
 	<?php echo $content; ?>
 	
 

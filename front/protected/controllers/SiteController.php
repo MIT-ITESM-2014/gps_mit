@@ -88,7 +88,6 @@ class SiteController extends Controller
       while( $diff > 2  )//More than one day distance
       { 
         $old_date->modify('+1 day');
-        print_r("--".$old_date->format('m/d/Y')."--");
         $inactive_days[] = $old_date->format('m/d/Y');
         $diff = (int)($old_date->diff($new_day)->format('%R%a'));
       }
@@ -130,28 +129,29 @@ class SiteController extends Controller
     {
         featureType: 'landscape',
         stylers: [
-            { color: '#f2e5d4' }
+            { color: '#FBF7F1' }
         ]
     },
     {
         featureType: 'road.highway',
         elementType: 'geometry',
         stylers: [
-            { color: '#c5c6c6' }
+            { color: '#B2AFA7' }
         ]
     },
     {
         featureType: 'road.arterial',
         elementType: 'geometry',
         stylers: [
-            { color: '#e4d7c6' }
+            { color: '#D4D4D4' }
         ]
     },
     {
         featureType: 'road.local',
         elementType: 'geometry',
         stylers: [
-            { color: '#fbfaf7'}
+            { color: '#D4D4D4'},
+            { weight: 0.5 }
         ]
     },
     {
@@ -168,23 +168,27 @@ class SiteController extends Controller
             { lightness: 33 }
         ]
     },
-    {
-        featureType: 'road'
-    },
-    {
-        featureType: 'poi.park',
+     {
+        featureType: 'poi',
         elementType: 'labels',
         stylers: [
-            { visibility: 'on' },
-            { lightness: 20 }
+            { visibility: 'off' },
+            { lightness: 0 }
         ]
     },
-    {},
     {
-        featureType: 'road',
+        featureType: 'road,highway',
         stylers: [
             { lightness: 20 }
         ]
+    },
+      {
+        featureType: 'road',
+        elementType: 'labels',
+        stylers: [
+            { lightness: -10 },
+            { saturation: -100 },
+          ]
     }
 ]);
       
@@ -238,11 +242,12 @@ class SiteController extends Controller
       }
       $script = $script."];
       
+      var random_color = generate_random_color();
 
       route = new google.maps.Polyline({
         path: routeCoordinates2,
         geodesic: true,
-        strokeColor: '#AAAAA',
+        strokeColor: random_color,//'#AAAAA',
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
@@ -250,7 +255,7 @@ class SiteController extends Controller
       route.setMap(map);
       
       var trafficLayer = new google.maps.TrafficLayer();
-      trafficLayer.setMap(map);
+      //trafficLayer.setMap(map);
     }
 
     function loadScript() {
@@ -310,8 +315,14 @@ class SiteController extends Controller
       script.src = \"index.php?r=token/getRoute&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"start_date\").value;
       temporal_script = document.body.appendChild(script);
     }
+
+    function generate_random_color()
+    {
+      return '#'+Math.floor(Math.random()*16777215).toString(16);
+    }
     
     window.onload = loadScript;";
+
 		$dataProvider=new CActiveDataProvider('Token');
 		$this->render('index',array(
 			//'dataProvider'=>$dataProvider,

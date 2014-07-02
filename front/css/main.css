@@ -4,6 +4,8 @@ body
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
+	width: 100%;
+	height:100%;
 }
 
 #page
@@ -13,15 +15,16 @@ body
 	background: white;
 	border: 0px;
 	width: 100%;
+	height:100%;
 }
 
 #header
 {
 	top: 0px;
 	left: 0px;
-	background-color: #1b1b1b;
+	background-color: #003c4b;
 	width: 100%;
-	height: 58px;
+	height: 70px;
 }
 
 #logo
@@ -29,6 +32,7 @@ body
 	padding: 10px 20px 0px;
 	font-size: 200%;
 	color:#FFFFFF;
+	float: left;
 }
 
 #logo-image
@@ -41,13 +45,269 @@ body
 
 #logo-image:hover
 {
-	
 	background-position: 0px 38px;
+}
+
+#icons-bar
+{
+	width: 510px;
+	height: 70px;
+	float: right;
+}
+
+#routes-section
+{
+	width: 170px;
+	height: 70px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/RoutemapButton.png");
+	float: left;
+}
+
+#routes-section:hover
+{
+	background-position: 0px 70px;
+	background-color: #49ceae;
+}
+
+#trucks-section
+{
+	width: 120px;
+	height: 70px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/TurcksButton.png");
+	float: left;
+}
+
+#trucks-section:hover
+{
+	background-position: 0px 70px;
+	background-color: #49ceae;
+}
+
+#stats-section
+{
+	width: 120px;
+	height: 70px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/StatsButton.png");
+	float: left;
+}
+
+#stats-section:hover
+{
+	background-position: 0px 70px;
+	background-color: #49ceae;
+}
+
+#routes-selection
+{
+	width: 100%;
+	height: 40px;
+	background-color: #49ceae;
+}
+
+#selector-truck
+{
+	width: 120px;
+	float: left;
+	margin-top: 5px;
+	margin-left: 45px;
+	background-color: #003c4b;
+}
+
+#truck-icon
+{
+	width: 33px;
+	height: 20px;
+	margin-left: 10px;
+	background-image: url("../public/images/ChooseTruck.png");
+	background-repeat: no-repeat;
+	float: left;
+}
+
+#select-truck
+{
+	background-color: #003c4b;
+	color: #FFFFFF;
+	font-size: 14px;
+	float: right;
+	border-color: #003c4b;
+}
+
+#selector-day
+{
+	width: 120px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 5px;
+	background-color: #003c4b;
+}
+
+#day-icon
+{
+	width: 24px;
+	height: 24px;
+	background-image: url("../public/images/ChooseDay.png");
+	background-repeat: no-repeat;
+	float: left;
+}
+
+#date-route
+{
+	width: 80px;
+	float: right;
+}
+
+#selector-route
+{
+	width: 120px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 5px;
+	background-color: #003c4b;
+}
+
+#route-icon
+{
+	width: 24px;
+	height: 24px;
+	background-image: url("../public/images/ChooseRoute.png");
+	background-repeat: no-repeat;
+	float: left;
+}
+
+#select-route
+{
+	background-color: #003c4b;
+	color: #FFFFFF;
+	font-size: 14px;
+	float: right;
+	border-color: #003c4b;
 }
 
 #content
 {
     padding: 0px;
+    width:100%;
+    height:100%;
+    position:absolute;
+}
+
+#maps-icon
+{
+	width: 140px;
+	height: 80px;
+	background-color: #003c4b;
+	background-position: 140px 0px;
+	background-image: url("../public/images/TruckRoutes.png");
+	float: left;
+}
+
+#maps-icon:hover
+{
+	background-color: #49ceae;
+	background-position: 0px 0px;
+}
+
+#graphs-icon
+{
+	width: 140px;
+	height: 80px;
+	background-color: #003c4b;
+	background-position: 0px 0px;
+	background-image: url("../public/images/Graphs.png");
+	float: left;
+}
+
+#graphs-icon:hover
+{
+	background-position: 140px 0px;
+	background-color: #49ceae;
+}
+
+#day-title
+{
+	background-color: #00a894;
+	width: 280px;
+	height: 30px;
+	display: inline-block;
+}
+
+#day-legend
+{
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#choose-day-icon
+{
+	width: 18px;
+	height: 20px;
+	background-image: url("../public/images/Calendar.png");
+	float: left;
+	margin-left: 25px;
+	margin-right: 30px;
+}
+
+#date-picker-container
+{
+	margin-left: 50px;
+	height: 140px;
+}
+
+#truck-title
+{
+	width: 280px;
+	height: 30px;
+	background-color: #00a894;
+	display: inline-block;
+}
+
+#choose-truck-icon
+{
+	width: 33px;
+	height: 20px;
+	background-image: url("../public/images/ChooseTruckIcon.png");
+	float: left;
+	margin-left: 25px;
+	margin-right: 30px;
+}
+
+#truck-legend
+{
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#truck-selector-container
+{
+	margin-left: 90px;
+}
+
+.update-button-map
+{
+	width: 140px;
+	height: 40px;
+	background-color: #003c4b;
+	color: #FFFFFF;
+	margin-top: 50px;
+	margin-left: 60px;
+}
+
+.update-button-map:hover
+{
+	background-color: #00a894; 
+}
+
+#update-map-text
+{
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px;
+	margin-left: 30px;
 }
 
 #sidebar
@@ -106,15 +366,15 @@ body
 #map-legend
 {
   background-color: #ffffff;
-  width:220px;
-  height:379px;
+  width:280px;
+  height: 400px;
   margin-right:20px;
 }
 
 #map-canvas
 {
   width:100%;
-  height:900px;
+  height:100%;
 }
 
 #top_bar
