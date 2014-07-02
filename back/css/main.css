@@ -376,7 +376,6 @@ div.search-form
 	height: 55px;
 	margin-left: 20px;
 	float: left;
-	display: inline;
 }
 
 #button-box
@@ -492,4 +491,34 @@ div.search-form
 	display: inline;
 	float: left;
 
+}
+
+#button-box
+{
+	width: 100px;
+	height: 29px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/CreateButton.png");
+	float: right;
+}
+
+#button-box:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
+}
+
+#button-box-admin
+{
+	width: 100px;
+	height: 29px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/CreateButton.png");
+	float: right;
+}
+
+#button-box-admin:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
 }

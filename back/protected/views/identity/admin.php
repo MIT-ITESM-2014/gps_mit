@@ -27,6 +27,7 @@ $('.search-form form').submit(function(){
 ?>
 
 <div class="headers">
+	<div id="button-box-admin" onclick="window.location.replace('index.php?r=identity/create')"> </div>
 	<h1>Manage Identities</h1>
 </div>
 

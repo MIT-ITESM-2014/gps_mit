@@ -11,13 +11,17 @@ $this->menu=array(
 	array('label'=>'List Identity', 'url'=>array('index')),
 	array('label'=>'Manage Identity', 'url'=>array('admin')),
 );*/
+
+Yii::app()->clientScript->registerScript('submitForm', "
+$('#button-box').click( function(){
+	$('.form').submit( function(){
+		alert('Test')});
+	});");
 ?>
 
 <div id="create-header">
+	<div id="button-box" onclick="'submitForm();'"> </div>
 	<h1>Create Identity</h1>
-	<div id="button-box"> 
-	   <?php //echo CHtml::linkButton($model->isNewRecord ? 'CREATE' : 'Save', array('class'=>'button-style'))?>
-	</div>
 </div>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
