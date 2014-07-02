@@ -126,7 +126,7 @@ body
 	float: left;
 }
 
-#select-truck
+#truck_selector
 {
 	background-color: #003c4b;
 	color: #FFFFFF;
@@ -293,8 +293,8 @@ body
 	height: 40px;
 	background-color: #003c4b;
 	color: #FFFFFF;
-	margin-top: 50px;
-	margin-left: 60px;
+	margin-top: 0px;
+	margin-left: 600px;
 }
 
 .update-button-map:hover

@@ -36,24 +36,28 @@
 	<div class="clear"></div>
 
 	<div id="routes-selection"> 
+		
 		<div id="selector-truck">
 			<div id="truck-icon"> </div>
-			<select id="select-truck" name="select-truck"> 
-				<option> Hola </option>
-				<option> Bola </option>
-			</select>
+			<div id="truck-selector-container">
+        <select id="truck_selector" name="truck_selector">
+        </select>
+      </div>
 		</div>
 		<div id="selector-day">
 			<div id="day-icon"> </div>
-			<input id="date-route" name="date"/>
+			<div id="date-route" name="date-route">
+			</div>
 		</div>
 		<div id="selector-route">
 			<div id="route-icon"> </div>
 			<select id="select-route" name="select-route"> 
-				<option> Hola </option>
-				<option> Bola </option>
 			</select>
 		</div>
+		
+		<div id="button_update_map" name="button_update_map" class="update-button-map">
+      <p id ="update-map-text"> Update </p>
+    </div>
 	</div>
 
 	<?php echo $content; ?>

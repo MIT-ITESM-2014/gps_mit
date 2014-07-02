@@ -1,3 +1,4 @@
+
 <?php
 
 class SiteController extends Controller
@@ -36,13 +37,14 @@ class SiteController extends Controller
 	  
 	  $trucks = Truck::model()->findAll();
 	  $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-	  $truck_id = $trucks[0]->id;
-    $criteria->addCondition('truck_id = '.$truck_id);
-    $criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-07');
+	  $criteria->with = array('truck');
+	  //$truck_id = $trucks[0]->id;
+    //$criteria->addCondition('truck_id = '.$truck_id);
+    //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-07');
 	  $samples = Sample::model()->findAll($criteria);
 	  
 	  $criteria2 = new CDbCriteria(array('order'=>'datetime ASC'));
-	  $truck_id2 = $trucks[0]->id;
+	  $truck_id2 = $samples[0]->truck->id;
     $criteria2->addCondition('truck_id = '.$truck_id2);
     //$criteria2->addBetweenCondition('datetime', '2013-09-27', '2013-09-28');
 	  $samples2 = Sample::model()->findAll($criteria2);
@@ -88,6 +90,7 @@ class SiteController extends Controller
       while( $diff > 2  )//More than one day distance
       { 
         $old_date->modify('+1 day');
+        print_r("--".$old_date->format('m/d/Y')."--");
         $inactive_days[] = $old_date->format('m/d/Y');
         $diff = (int)($old_date->diff($new_day)->format('%R%a'));
       }
@@ -242,12 +245,11 @@ class SiteController extends Controller
       }
       $script = $script."];
       
-      var random_color = generate_random_color();
 
       route = new google.maps.Polyline({
         path: routeCoordinates2,
         geodesic: true,
-        strokeColor: random_color,//'#AAAAA',
+        strokeColor: '#AAAAA',
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
@@ -266,6 +268,31 @@ class SiteController extends Controller
       document.body.appendChild(script);
     }
     
+    function update_stats()
+    {
+      $.ajax({ 
+          type: \"GET\",
+          dataType: \"json\",
+          url: \"index.php?r=token/getRouteStats&route_id=\"+document.getElementById(\"select-route\").value,
+          success: function(data){
+            var parsed_data = $.parseJSON(data);
+            $('#distance_data_container').empty();
+            $('#distance_data_container').append(parsed_data['route_stats']['distance']);
+            $('#time_data_container').empty();
+            $('#time_data_container').append(parsed_data['route_stats']['time']);
+            $('#average_speed_data_container').empty();
+            $('#average_speed_data_container').append(parsed_data['route_stats']['average_speed']);
+            $('#short_stops_count_data_container').empty();
+            $('#short_stops_count_data_container').append(parsed_data['route_stats']['short_stops_count']);
+            
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.statusText);
+            alert(thrownError);
+          }   
+      });
+    }
+    
     //Remove polyline
     function button_update_map_action()
     {
@@ -276,8 +303,9 @@ class SiteController extends Controller
       
       var script = document.createElement(\"script\");
       script.type = \"text/javascript\";
-      script.src = \"index.php?r=token/getRoute&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"Sample_start_date\").value;
+      script.src = \"index.php?r=token/getRoute&route_id=\"+document.getElementById(\"select-route\").value;
       temporal_script = document.body.appendChild(script);
+      update_stats();
     }
     
     //Add polyline
@@ -299,30 +327,9 @@ class SiteController extends Controller
     }
     
     //Get new route generated at th emoment
-    function button_five_action()
-    {
-      if(temporal_script !== null)
-      {
-        alert(temporal_script);
-        temporal_script.remove();
-      }
-      
-      
-      document.getElementById(\"truck_selector\").value;
-      document.getElementById(\"start_date\").value
-      var script = document.createElement(\"script\");
-      script.type = \"text/javascript\";
-      script.src = \"index.php?r=token/getRoute&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"start_date\").value;
-      temporal_script = document.body.appendChild(script);
-    }
-
-    function generate_random_color()
-    {
-      return '#'+Math.floor(Math.random()*16777215).toString(16);
-    }
+    
     
     window.onload = loadScript;";
-
 		$dataProvider=new CActiveDataProvider('Token');
 		$this->render('index',array(
 			//'dataProvider'=>$dataProvider,

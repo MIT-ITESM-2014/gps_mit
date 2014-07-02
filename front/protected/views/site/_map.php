@@ -14,16 +14,6 @@ foreach ($trucks as $t)
 
 <div id="map-legend">
   
-  <div id="maps-icon">
-  </div>
-
-  <div id="graphs-icon">
-  </div>
-
-  <div id="day-title">
-    <div id="choose-day-icon"> </div>
-    <p id="day-legend"> Choose day </p>
-  </div>
 
   <div id="date-picker-container">
     <?php
@@ -42,6 +32,12 @@ foreach ($trucks as $t)
       ));
                     
     Yii::app()->clientScript->registerScript('editDays', "
+      var date_picker = $('#Sample_start_date').detach();
+      date_picker.appendTo('#selector-day');
+    ");
+    
+    Yii::app()->clientScript->registerScript('moveDatePicker', "
+      
       function editDays(date) {
         var disabledDates = [".$inactive_days_string."];
         for (var i = 0; i < disabledDates.length; i++) {
@@ -52,22 +48,68 @@ foreach ($trucks as $t)
         return [true,''];
       }
     ");
+    
+    Yii::app()->clientScript->registerScript('routeDropdown', "
+      
+      $('#Sample_start_date').change(function(){
+        
+        $.ajax({ 
+          type: \"GET\",
+          dataType: \"json\",
+          url: \"index.php?r=token/getRouteList&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"Sample_start_date\").value,
+          success: function(data){        
+            $('#select-route').find('option').remove();
+            var parsed_data = $.parseJSON(data);
+            $.each(parsed_data['routes'], function( index, value ) {
+              $('#select-route').append('<option value=\"'+value['value']+'\">'+value['name']+'</option>');
+            });
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.statusText);
+            alert(thrownError);
+          }   
+      });
+});
+      
+    ");
+    
     ?>
   </div>
 
-  <div id="truck-title">
-    <div id="choose-truck-icon"> </div>
-    <p id="truck-legend"> Choose truck</p>
+  
+  <div id="distance_container">
+    <div id="distance_label">
+    Distance:
+    </div>
+    <div id="distance_data_container">
+    </div>
   </div>
+  <div id="time_container">
+    <div id="time_label">
+    Time:
+    </div>
+    <div id="time_data_container">
+    </div>
+  </div>
+  <div id="average_speed_container">
+    <div id="average_speed_label">
+    Average speed:
+    </div>
+    <div id="average_speed_data_container">
+    </div>
+  </div>
+  <div id="short_stops_count_container">
+    <div id="short_stops_count_labe">
+    Short stops count:
+    </div>
+    <div id="short_stops_count_data_container">
+    </div>
+  </div>
+  
 
-  <div id="truck-selector-container">
-    <select id="truck_selector" name="truck_selector">
-    </select>
-  </div>
+  
 
-  <div id="button_update_map" name="button_update_map" class="update-button-map">
-    <p id ="update-map-text"> Update </p>
-  </div>
+  
 
 </div>
 

@@ -28,7 +28,7 @@ class TokenController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'getRoute'),
+				'actions'=>array('index','view', 'getRoute', 'getRouteList', 'getRouteStats'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -117,6 +117,7 @@ class TokenController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
+  /*
   public function actionGetRoute()
   {
     //header('Content-type: application/json');
@@ -146,6 +147,87 @@ class TokenController extends Controller
     
     Yii::app()->end();
 
+  }*/
+  
+  public function actionGetRouteList()
+  {
+    header('Content-type: application/json');
+    $truck_id = $_GET["truck_id"];
+    $date=$_GET["start_date"];
+    str_replace ( "/" , "-" , $date );
+    
+    $criteria = new CDbCriteria();
+    $criteria->condition = "truck_id=".$truck_id;
+    $criteria->addBetweenCondition('datetime', $date." 00:00:00.0", $date." 23:59:59.999");
+    $criteria->distinct = true;
+    $criteria->select = array(
+      't.route_id',
+    );
+    $route_ids = Sample::model()->findAll($criteria);
+    $routes = array();
+    foreach($route_ids as $route_id)
+    {
+      $routes[] = Route::model()->findByPk($route_id->route_id);
+    }
+    $json_data = '{"routes":[';
+    $comma_counter = 0;
+    foreach($routes as $route)
+    {
+      if($comma_counter != 0)
+        $json_data = $json_data . ",";
+      $json_data = $json_data . '{"name":"'.$route->name.'", "value":"'.$route->id.'"}';
+      $comma_counter++;
+    }
+    $json_data = $json_data . ']}';
+    echo CJSON::encode($json_data);
+    /*echo CJSON::encode('{"employees":[
+    {"firstName":"John", "lastName":"Doe"},
+    {"firstName":"Anna", "lastName":"Smith"},
+    {"firstName":"Peter", "lastName":"Jones"}
+]}');*/
+    //echo $_GET['_'] . ' (' . $json . ');';
+    Yii::app()->end(); 
+  }
+  
+  /*Second function with new parameters*/
+  public function actionGetRoute()
+  {
+    //header('Content-type: application/json');
+	  //$trucks = Truck::model()->findAll();
+	  $route_id = $_GET['route_id'];
+	  $criteria = new CDbCriteria();
+    $criteria->addCondition('t.id = '.$route_id);
+    $criteria->with = array('samples');
+    $routes = Route::model()->findAll($criteria);
+    $samples = $routes[0]->samples;
+    $script = "";
+    $script = $script . "
+    routeCoordinates = [";
+    foreach($samples as $sample)
+    {
+      $script = $script." new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
+    }  
+    $script = $script."];
+    route.setPath(routeCoordinates);
+    ";
+    echo $script;
+    Yii::app()->end();
+  }
+  
+  public function actionGetRouteStats()
+  {
+    
+    header('Content-type: application/json');
+    $route_id = $_GET["route_id"];
+    
+    $criteria = new CDbCriteria();
+    $criteria->condition = "t.id=".$route_id;
+    $routes = Route::model()->findAll($criteria);
+    $route = $routes[0];
+    
+    $json_data = '{"route_stats":{ "distance" : "'.$route->distance.'", "average_speed" : "'.$route->average_speed.'", "short_stops_count" : "'.$route->short_stops_count.'", "time" : "'.$route->time.'"}}';
+    echo CJSON::encode($json_data);
+    Yii::app()->end(); 
   }
 
 	/**
@@ -360,20 +442,6 @@ class TokenController extends Controller
       document.body.appendChild(script);
     }
     
-    //Remove polyline
-    function button_update_map_action()
-    {
-      if(temporal_script !== null)
-      {
-        temporal_script.remove();
-      }
-      
-      var script = document.createElement(\"script\");
-      script.type = \"text/javascript\";
-      script.src = \"index.php?r=token/getRoute&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"Sample_start_date\").value;
-      temporal_script = document.body.appendChild(script);
-    }
-    
     //Add polyline
     function button_two_action()
     {
@@ -392,23 +460,7 @@ class TokenController extends Controller
       route.setPath(routeCoordinates2);
     }
     
-    //Get new route generated at th emoment
-    function button_five_action()
-    {
-      if(temporal_script !== null)
-      {
-        alert(temporal_script);
-        temporal_script.remove();
-      }
-      
-      
-      document.getElementById(\"truck_selector\").value;
-      document.getElementById(\"start_date\").value
-      var script = document.createElement(\"script\");
-      script.type = \"text/javascript\";
-      script.src = \"index.php?r=token/getRoute&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"start_date\").value;
-      temporal_script = document.body.appendChild(script);
-    }
+    
     
     window.onload = loadScript;";
 		$dataProvider=new CActiveDataProvider('Token');
