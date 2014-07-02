@@ -29,10 +29,58 @@
 	text-decoration: none;
 }
 
+.sort-link:hover
+{
+	color: #00a894;
+}
+
+.button-column
+{
+	width: 32px;
+	height: 16px;
+}
+
 tr
 {
 	background-color: #efefef;
 	height: 30px;
+}
+
+.update-button img
+{
+	display:none;
+}
+.update-button 
+{
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background-position: 0px 0px;
+	background-image: url(../public/images/icons/Edit.png);
+}
+
+.update-button:hover 
+{
+	background-position: 0px -16px;
+}
+
+.delete-button img
+{
+	display:none;
+}
+
+.delete-button 
+{
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background-position: 0px 0px;
+	background-image: url(../public/images/icons/DeleteColor.png);
+}
+
+.delete-button:hover
+{
+	background-position: 0px -16px;
 }
 
 .pager
@@ -110,7 +158,6 @@ li.next:hover
 {
 	background-color: #003c4b;
 }
-
 
 li.next:hover a
 {
