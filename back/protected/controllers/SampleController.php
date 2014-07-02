@@ -32,7 +32,7 @@ class SampleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial','findStopsAndRoutes'),
+				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial','findStopsAndRoutes', 'generateRouteMetrics'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -186,13 +186,142 @@ class SampleController extends Controller
     return $dist;
   }
   
+  function calculateSpeedAndTime($firstSample, $secondSample)
+  {
+    $firstDate = new DateTime($firstSample->datetime);
+    $secondDate = new DateTime($secondSample->datetime);
+    $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
+    $secondSample->interval = $time_diff;
+    //Speed is km/hr
+    $aux = $secondSample->interval/3600.0;
+    print_r("<br>");
+    print_r($aux);
+    print_r("<br>");
+    if($aux > 0)
+      $secondSample->speed = $secondSample->distance / $aux;
+    else
+      $secondSample->speed = 0;
+    $secondSample->save();
+  }
+  
+  function saveDistance($sample, $distance)
+  {
+    $sample->distance = $distance;
+    $sample->save();
+  }
+  
+  function calculateDistanceSpeedAndTime($firstSample, $secondSample)
+  {
+    $lon1 = $firstSample->longitude;
+    $lat1 = $firstSample->latitude;
+    $lon2 = $secondSample->longitude;
+    $lat2 = $secondSample->latitude;
+    //Distance of just one step
+    $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+    $secondSample->distance = $distance;  
+    //Time interval
+    $firstDate = new DateTime($firstSample->datetime);
+    $secondDate = new DateTime($secondSample->datetime);
+    $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
+    $secondSample->interval = $time_diff;
+    //Speed is km/hr
+    $aux = $secondSample->interval/3600.0;
+        
+    $secondSample->interval = $secondSample->datetime - $firstSample->datetime;
+    //Speed is km/hr
+    $aux = $secondSample->interval/3600.0;
+    print_r("<br>");
+    print_r($secondSample->interval." *** ".$secondSample->datetime." *** ".$firstSample->datetime);
+    print_r("<br>");
+    if($aux > 0)
+      $secondSample->speed = $secondSample->distance/$aux;
+    else
+      $secondSample->speed = 0;
+    $secondSample->save();
+  }
+  
+  function generateRouteDistance($route)
+  {
+    $total_distance = 0.0;
+    foreach($route->samples as $sample)
+    {
+      $total_distance = $total_distance + $sample->distance;
+    }
+    $route->distance = $total_distance;
+    $route->save();
+  }
+  
+  function generateRouteAverageSpeed($route)
+  {
+    $speed_count = 0.0;
+    $samples_count = 0;
+    foreach($route->samples as $sample)
+    {
+      $speed_count = $speed_count + ($sample->speed*$sample->distance);
+      $samples_count++;
+    }
+    $average_speed = $speed_count/$route->distance;
+    $route->average_speed = $average_speed;
+    $route->save();
+  }
+  
+  function generateRouteStopsCount($route)
+  {
+    $short_stops_count = count($route->shortStops);
+    $route->short_stops_count = $short_stops_count;
+    $route->save();
+  }
+  
+  //TODO change to long_stop beginning and end time
+  //TODO fix bug of null when only two samples as part of the route.
+  function generateRouteTotalTime($route)
+  {
+    $samples_count = count($route->samples);
+    if($samples_count > 2)
+    {
+      $firstDate = new DateTime($route->samples[0]->datetime);
+      $secondDate = new DateTime($route->samples[$samples_count - 1]->datetime);
+      $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
+      $route->time = $time_diff;
+      $route->save();
+    }
+  }
+  
+  function actionGenerateRouteMetrics()
+  {
+    $limit = 1;
+    $offset = 0;
+    $limit_string = strval($limit);
+    $offset_string = strval($offset);
+    $criteria = new CDbCriteria();
+    $criteria->with = array('samples','shortStops','beginning_stop','end_stop');
+    $criteria->limit = $limit_string;
+    $criteria->offset = $offset_string;
+    $criteria->order = "t.id ASC";
+    $routes = Route::model()->findAll($criteria);
+    while(count($routes) > 0)
+    {
+      foreach($routes as $route)
+      {
+        
+        $this->generateRouteDistance($route);
+        $this->generateRouteAverageSpeed($route);
+        $this->generateRouteStopsCount($route);
+        $this->generateRouteTotalTime($route);
+      }
+      $limit++;
+      $offset++;
+      $limit_string = strval($limit);
+      $offset_string = strval($offset);
+      $criteria->limit = $limit_string;
+      $criteria->offset = $offset_string;
+      $routes = Route::model()->findAll($criteria);
+    }
+    
+  }
+  
   function actionFindStopsAndRoutes()
   {
-  
-    print_r($this->calculateDistance('-70.7442', '-33.408', '-70.74421',  '-33.408' ));
-  
-    
-    /*
     $trucks = Truck::model()->findAll();
     foreach($trucks as $truck)
     {    
@@ -206,15 +335,23 @@ class SampleController extends Controller
       $time_treshold_for_stop= 14400;//Time in seconds
       
       
+      
       $samples_size = count($samples);
       
-      if($samples_size > 0)
+      if($samples_size > 1)
       {
-        //TODO Validate that there are more than two coordinates
+        $new_stop = new LongStop;
+        $new_stop->latitude = 0.0;
+        $new_stop->longitude = 0.0;
+        $new_stop->created_at = date('Y-m-d H:i:s.u');
+        $new_stop->updated_at = date('Y-m-d H:i:s.u');
+        $new_stop->save();
+        
         $previous_sample = $samples[0];
         $route_count = 1;
         $current_route = new Route;
         $current_route->name = $route_count;
+        $current_route->beginning_stop_id = $new_stop->id;
         $current_route->save();
         $samples[0]->route_id=$current_route->id;//Set the first coordinate to the first route
         $samples[0]->save();
@@ -224,19 +361,19 @@ class SampleController extends Controller
         
         for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
         {
-          print_r("<br>----------");
-          print_r($samples[$i]->truck_id." ".$samples[$i]->datetime." ".$samples[$i]->latitude.", ".$samples[$i]->longitude);
-          print_r("<br>");
+          $this->calculateDistanceSpeedAndTime($samples[$i-1],$samples[$i]);
           $stop_type = 0;
           $lon1 = $previous_sample->longitude;
           $lat1 = $previous_sample->latitude;
           $lon2 = $samples[$i]->longitude;
           $lat2 = $samples[$i]->latitude;
           
+          //Distance of just one step
           $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+          $this->saveDistance($samples[$i], $distance);
+          $this->calculateSpeedAndTime($samples[$i-1],$samples[$i]);
           //$previous_sample->route_id = $route_count;
           //$previous_sample->save();
-          print_r($distance."<br>");
           
           $previous_sample_date = new DateTime($previous_sample->datetime);
           $sample_i_date = new DateTime($samples[$i]->datetime);
@@ -255,9 +392,7 @@ class SampleController extends Controller
               //A stop begins
               //Move one step forward
               $i++;
-              print_r("<br>----------");
-              print_r($samples[$i]->truck_id." ".$samples[$i]->datetime." ".$samples[$i]->latitude.", ".$samples[$i]->longitude);
-              print_r("<br>");
+              $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
               $sample_i_date = new DateTime($samples[$i]->datetime);
               $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
               
@@ -265,7 +400,6 @@ class SampleController extends Controller
               $lon2 = $samples[$i]->longitude;
               $lat2 = $samples[$i]->latitude;
               $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-              print_r($distance."<br>");
               
               if($date_diff_timestamp > $time_treshold_for_stop)//It has enough time to be a full Stop
               {
@@ -275,17 +409,12 @@ class SampleController extends Controller
                 {
                   //Move one step forward
                   $i++;
-                  print_r("<br>----------");
-                  print_r($samples[$i]->truck_id." ".$samples[$i]->datetime." ".$samples[$i]->latitude.", ".$samples[$i]->longitude);
-                  print_r("<br>");
+                  $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
                   //Recalculate distance for new position
                   $lon2 = $samples[$i]->longitude;
                   $lat2 = $samples[$i]->latitude;
                   $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-                  print_r($distance."<br>");
                 }
-                print_r("<br>Salí con la distancia: ". $distance . " y el i: ".$i);
-                
               } 
             }
             $stop_end = $i-1;
@@ -294,7 +423,7 @@ class SampleController extends Controller
               $samples[$j]->route_id=$current_route->id; 
               $samples[$j]->update();
             }
-            $new_stop;
+            
             switch ($stop_type) {
               case -1://Short stop
                 $new_stop = new ShortStop;
@@ -309,13 +438,18 @@ class SampleController extends Controller
             $new_stop->created_at = date('Y-m-d H:i:s.u');
             $new_stop->updated_at = date('Y-m-d H:i:s.u');
             $new_stop->save();
+            $new_stop->validate();
+            
             
             $new_stop->save();
             if($stop_type == -2)//If it was long stop
             {
               $route_count++;
+              $current_route->end_stop_id = $new_stop->id;
+              $current_route->save();
               $current_route = new Route;
               $current_route->name = $route_count;
+              $current_route->beginning_stop_id = $new_stop->id;
               $current_route->save();
               $samples[$i-1]->route_id = $current_route->id;
               $samples[$i-1]->update();
@@ -328,9 +462,16 @@ class SampleController extends Controller
           
           $previous_sample  =$samples[$i];
         }
+        $new_stop = new LongStop;
+        $new_stop->latitude = 0.0;
+        $new_stop->longitude = 0.0;
+        $new_stop->created_at = date('Y-m-d H:i:s.u');
+        $new_stop->updated_at = date('Y-m-d H:i:s.u');
+        $new_stop->save();
+        $current_route->end_stop_id = $new_stop->id;
+        $current_route->save();
       }
     }
-    */
   }
   
   public function actionUploadTwo()

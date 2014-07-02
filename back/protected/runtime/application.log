@@ -1630,3 +1630,416 @@ Stack trace:
 #15 {main}
 REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
 ---
+2014/06/30 16:23:29 [error] [exception.CException] exception 'CException' with message 'Property "Sample.speed" is not defined.' in /var/www/MIT/gps_mit/back/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('speed')
+#1 /var/www/MIT/gps_mit/back/yii/framework/validators/CNumberValidator.php(78): CActiveRecord->__get('speed')
+#2 /var/www/MIT/gps_mit/back/yii/framework/validators/CValidator.php(213): CNumberValidator->validateAttribute(Object(Sample), 'speed')
+#3 /var/www/MIT/gps_mit/back/yii/framework/base/CModel.php(159): CValidator->validate(Object(Sample), NULL)
+#4 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(805): CModel->validate(NULL)
+#5 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(381): CActiveRecord->save()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionUploadTwo()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#14 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('uploadTwo')
+#16 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/uploadTw...')
+#17 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#18 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/uploadTwo
+HTTP_REFERER=http://localhost/MIT/gps_mit/back/index.php?r=sample/create
+---
+2014/06/30 16:26:24 [error] [exception.CException] exception 'CException' with message 'Property "Sample.speed" is not defined.' in /var/www/MIT/gps_mit/back/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('speed')
+#1 /var/www/MIT/gps_mit/back/yii/framework/validators/CNumberValidator.php(78): CActiveRecord->__get('speed')
+#2 /var/www/MIT/gps_mit/back/yii/framework/validators/CValidator.php(213): CNumberValidator->validateAttribute(Object(Sample), 'speed')
+#3 /var/www/MIT/gps_mit/back/yii/framework/base/CModel.php(159): CValidator->validate(Object(Sample), NULL)
+#4 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(805): CModel->validate(NULL)
+#5 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(381): CActiveRecord->save()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionUploadTwo()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#14 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('uploadTwo')
+#16 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/uploadTw...')
+#17 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#18 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/uploadTwo
+HTTP_REFERER=http://localhost/MIT/gps_mit/back/index.php?r=sample/create
+---
+2014/06/30 16:28:22 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "expected_route_id" violates not-null constraint. The SQL statement executed was: INSERT INTO "sample" ("truck_id", "latitude", "longitude", "datetime", "created_at", "updated_at", "route_id") VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6).
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (381)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/30 16:28:22 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "expected_route_id" violates not-null constraint. The SQL statement executed was: INSERT INTO "sample" ("truck_id", "latitude", "longitude", "datetime", "created_at", "updated_at", "route_id") VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6)' in /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(381): CActiveRecord->save()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionUploadTwo()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('uploadTwo')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/uploadTw...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/uploadTwo
+HTTP_REFERER=http://localhost/MIT/gps_mit/back/index.php?r=sample/create
+---
+2014/06/30 16:31:43 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "route_id" violates not-null constraint. The SQL statement executed was: UPDATE "sample" SET "id"=:yp0, "truck_id"=:yp1, "latitude"=:yp2, "longitude"=:yp3, "datetime"=:yp4, "route_id"=:yp5, "expected_route_id"=:yp6, "created_at"=:yp7, "updated_at"=:yp8 WHERE "sample"."id"='2'.
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (290)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/30 16:31:43 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "route_id" violates not-null constraint. The SQL statement executed was: UPDATE "sample" SET "id"=:yp0, "truck_id"=:yp1, "latitude"=:yp2, "longitude"=:yp3, "datetime"=:yp4, "route_id"=:yp5, "expected_route_id"=:yp6, "created_at"=:yp7, "updated_at"=:yp8 WHERE "sample"."id"='2'' in /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1748): CDbCommand->execute()
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1124): CActiveRecord->updateByPk(2, Array)
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(290): CActiveRecord->update()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/06/30 16:53:21 [error] [php] Undefined variable: new (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:295)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (295)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/30 16:54:21 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "id" violates not-null constraint. The SQL statement executed was: INSERT INTO "route" ("name", "created_at", "updated_at") VALUES (:yp0, :yp1, :yp2).
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (213)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/30 16:54:21 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "id" violates not-null constraint. The SQL statement executed was: INSERT INTO "route" ("name", "created_at", "updated_at") VALUES (:yp0, :yp1, :yp2)' in /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(213): CActiveRecord->save()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/06/30 16:55:45 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "beginning_stop_id" violates not-null constraint. The SQL statement executed was: INSERT INTO "route" ("name", "created_at", "updated_at") VALUES (:yp0, :yp1, :yp2).
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (213)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/06/30 16:55:45 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "beginning_stop_id" violates not-null constraint. The SQL statement executed was: INSERT INTO "route" ("name", "created_at", "updated_at") VALUES (:yp0, :yp1, :yp2)' in /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(213): CActiveRecord->save()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/07/01 09:47:24 [error] [exception.CException] exception 'CException' with message 'Property "Sample.distance" is not defined.' in /var/www/MIT/gps_mit/back/yii/framework/base/CComponent.php:173
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(161): CComponent->__set('distance', 0.0014491128080895)
+#1 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(211): CActiveRecord->__set('distance', 0.0014491128080895)
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(250): SampleController->calculateDistanceSpeedAndTime(Object(Sample), Object(Sample))
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/07/01 10:07:08 [error] [exception.CException] exception 'CException' with message 'Property "Sample.timestamp" is not defined.' in /var/www/MIT/gps_mit/back/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('timestamp')
+#1 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(212): CActiveRecord->__get('timestamp')
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(250): SampleController->calculateDistanceSpeedAndTime(Object(Sample), Object(Sample))
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/07/01 10:07:45 [error] [php] Division by zero (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:214)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (214)
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (250)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/07/01 10:12:52 [error] [php] Division by zero (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:193)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (193)
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (264)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/07/01 12:34:42 [error] [php] Object of class DateTime could not be converted to int (/var/www/MIT/gps_mit/back/protected/controllers/SampleController.php:225)
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): SampleController->runAction()
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): SampleController->filterAccessControl()
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): SampleController->runActionWithFilters()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): SampleController->run()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/MIT/gps_mit/back/index.php(13): CWebApplication->run()
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (225)
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (275)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/07/01 21:30:11 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "short_stops_count" violates not-null constraint. The SQL statement executed was: INSERT INTO "route" ("name", "created_at", "updated_at") VALUES (:yp0, :yp1, :yp2).
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (326)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/07/01 21:30:11 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "short_stops_count" violates not-null constraint. The SQL statement executed was: INSERT INTO "route" ("name", "created_at", "updated_at") VALUES (:yp0, :yp1, :yp2)' in /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(326): CActiveRecord->save()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#14 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---
+2014/07/01 21:34:38 [error] [exception.CDbException] exception 'CDbException' with message 'The relation "beginning_stop" in active record class "Route" is specified with an invalid foreign key "beginning_stop_id". There is no such column in the table "long_stop".' in /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php:1096
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(1067): CJoinElement->joinOneMany(Object(CJoinElement), Array, Object(CJoinElement), Object(CJoinElement))
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(1295): CJoinElement->getJoinCondition()
+#2 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(790): CJoinQuery->join(Object(CJoinElement))
+#3 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(435): CJoinElement->buildQuery(Object(CJoinQuery))
+#4 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(68): CJoinElement->find(Object(CDbCriteria))
+#5 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1356): CActiveFinder->query(Object(CDbCriteria), true)
+#6 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#7 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(293): CActiveRecord->findAll(Object(CDbCriteria))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionGenerateRouteMetrics()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#16 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('generateRouteMe...')
+#18 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/generate...')
+#19 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/generateRouteMetrics
+---
+2014/07/01 21:47:52 [error] [exception.CDbException] exception 'CDbException' with message 'The relation "beginning_stop" in active record class "Route" is specified with an invalid foreign key "beginning_stop_id". There is no such column in the table "long_stop".' in /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php:1096
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(1067): CJoinElement->joinOneMany(Object(CJoinElement), Array, Object(CJoinElement), Object(CJoinElement))
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(1295): CJoinElement->getJoinCondition()
+#2 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(790): CJoinQuery->join(Object(CJoinElement))
+#3 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(435): CJoinElement->buildQuery(Object(CJoinQuery))
+#4 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(68): CJoinElement->find(Object(CDbCriteria))
+#5 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1356): CActiveFinder->query(Object(CDbCriteria), true)
+#6 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#7 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(293): CActiveRecord->findAll(Object(CDbCriteria))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionGenerateRouteMetrics()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#16 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('generateRouteMe...')
+#18 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/generate...')
+#19 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/generateRouteMetrics
+---
+2014/07/01 21:53:47 [error] [exception.CDbException] exception 'CDbException' with message 'The relation "beginning_stop" in active record class "Route" is specified with an invalid foreign key "beginning_stop_id". There is no such column in the table "long_stop".' in /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php:1096
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(1067): CJoinElement->joinOneMany(Object(CJoinElement), Array, Object(CJoinElement), Object(CJoinElement))
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(1295): CJoinElement->getJoinCondition()
+#2 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(790): CJoinQuery->join(Object(CJoinElement))
+#3 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(435): CJoinElement->buildQuery(Object(CJoinQuery))
+#4 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(68): CJoinElement->find(Object(CDbCriteria))
+#5 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1356): CActiveFinder->query(Object(CDbCriteria), true)
+#6 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#7 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(293): CActiveRecord->findAll(Object(CDbCriteria))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionGenerateRouteMetrics()
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#16 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('generateRouteMe...')
+#18 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/generate...')
+#19 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/generateRouteMetrics
+---
+2014/07/01 22:33:01 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42702]: Ambiguous column: 7 ERROR:  column reference "id" is ambiguous
+LINE 1: ... ON ("t"."end_stop_id"="end_stop"."id")  ORDER BY id ASC LIM...
+                                                             ^. The SQL statement executed was: SELECT "t"."id" AS "t0_c0", "t"."name" AS "t0_c1", "t"."beginning_stop_id" AS "t0_c2", "t"."end_stop_id" AS "t0_c3", "t"."expected_route_id" AS "t0_c4", "t"."distance" AS "t0_c5", "t"."average_speed" AS "t0_c6", "t"."short_stops_count" AS "t0_c7", "t"."time" AS "t0_c8", "t"."created_at" AS "t0_c9", "t"."updated_at" AS "t0_c10", "beginning_stop"."id" AS "t3_c0", "beginning_stop"."latitude" AS "t3_c1", "beginning_stop"."longitude" AS "t3_c2", "beginning_stop"."created_at" AS "t3_c3", "beginning_stop"."updated_at" AS "t3_c4", "end_stop"."id" AS "t4_c0", "end_stop"."latitude" AS "t4_c1", "end_stop"."longitude" AS "t4_c2", "end_stop"."created_at" AS "t4_c3", "end_stop"."updated_at" AS "t4_c4" FROM "route" "t"  LEFT OUTER JOIN "long_stop" "beginning_stop" ON ("t"."beginning_stop_id"="beginning_stop"."id")  LEFT OUTER JOIN "long_stop" "end_stop" ON ("t"."end_stop_id"="end_stop"."id")  ORDER BY id ASC LIMIT 1.
+in /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php (300)
+in /var/www/MIT/gps_mit/back/index.php (13)
+2014/07/01 22:33:01 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42702]: Ambiguous column: 7 ERROR:  column reference "id" is ambiguous
+LINE 1: ... ON ("t"."end_stop_id"="end_stop"."id")  ORDER BY id ASC LIM...
+                                                             ^. The SQL statement executed was: SELECT "t"."id" AS "t0_c0", "t"."name" AS "t0_c1", "t"."beginning_stop_id" AS "t0_c2", "t"."end_stop_id" AS "t0_c3", "t"."expected_route_id" AS "t0_c4", "t"."distance" AS "t0_c5", "t"."average_speed" AS "t0_c6", "t"."short_stops_count" AS "t0_c7", "t"."time" AS "t0_c8", "t"."created_at" AS "t0_c9", "t"."updated_at" AS "t0_c10", "beginning_stop"."id" AS "t3_c0", "beginning_stop"."latitude" AS "t3_c1", "beginning_stop"."longitude" AS "t3_c2", "beginning_stop"."created_at" AS "t3_c3", "beginning_stop"."updated_at" AS "t3_c4", "end_stop"."id" AS "t4_c0", "end_stop"."latitude" AS "t4_c1", "end_stop"."longitude" AS "t4_c2", "end_stop"."created_at" AS "t4_c3", "end_stop"."updated_at" AS "t4_c4" FROM "route" "t"  LEFT OUTER JOIN "long_stop" "beginning_stop" ON ("t"."beginning_stop_id"="beginning_stop"."id")  LEFT OUTER JOIN "long_stop" "end_stop" ON ("t"."end_stop_id"="end_stop"."id")  ORDER BY id ASC LIMIT 1' in /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(803): CDbCommand->queryAll()
+#2 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(437): CJoinElement->runQuery(Object(CJoinQuery))
+#3 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveFinder.php(68): CJoinElement->find(Object(CDbCriteria))
+#4 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1356): CActiveFinder->query(Object(CDbCriteria), true)
+#5 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#6 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(300): CActiveRecord->findAll(Object(CDbCriteria))
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionGenerateRouteMetrics()
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#13 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#14 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#15 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#16 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('generateRouteMe...')
+#17 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/generate...')
+#18 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#20 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/generateRouteMetrics
+---
+2014/07/01 22:37:33 [error] [exception.CException] exception 'CException' with message 'Property "Sample.end_stop_id" is not defined.' in /var/www/MIT/gps_mit/back/yii/framework/base/CComponent.php:173
+Stack trace:
+#0 /var/www/MIT/gps_mit/back/yii/framework/db/ar/CActiveRecord.php(161): CComponent->__set('end_stop_id', '15')
+#1 /var/www/MIT/gps_mit/back/protected/controllers/SampleController.php(470): CActiveRecord->__set('end_stop_id', '15')
+#2 /var/www/MIT/gps_mit/back/yii/framework/web/actions/CInlineAction.php(49): SampleController->actionFindStopsAndRoutes()
+#3 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/MIT/gps_mit/back/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/MIT/gps_mit/back/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(282): CController->run('findStopsAndRou...')
+#12 /var/www/MIT/gps_mit/back/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('sample/findStop...')
+#13 /var/www/MIT/gps_mit/back/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/MIT/gps_mit/back/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/MIT/gps_mit/back/index.php?r=sample/findStopsAndRoutes
+---

@@ -8,7 +8,6 @@
  * @property string $truck_id
  * @property double $latitude
  * @property double $longitude
- * @property double $speed
  * @property string $datetime
  * @property string $created_at
  * @property string $updated_at
@@ -35,10 +34,10 @@ class Sample extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'required'),
-			array('latitude, longitude, speed', 'numerical'),
+			array('latitude, longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_id, latitude, longitude, speed, datetime, route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +63,6 @@ class Sample extends CActiveRecord
 			'truck_id' => 'Truck',
 			'latitude' => 'Latitude',
 			'longitude' => 'Longitude',
-			'speed' => 'Speed',
 			'datetime' => 'Datetime',
 			'route_id' => 'Route',
 			'created_at' => 'Created At',
@@ -94,7 +92,6 @@ class Sample extends CActiveRecord
 		$criteria->compare('truck_id',$this->truck_id,true);
 		$criteria->compare('latitude',$this->latitude);
 		$criteria->compare('longitude',$this->longitude);
-		$criteria->compare('speed',$this->speed);
 		$criteria->compare('datetime',$this->datetime,true);
 		$criteria->compare('route_id',$this->route_id,true);
 		$criteria->compare('created_at',$this->created_at,true);

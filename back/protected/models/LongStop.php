@@ -32,7 +32,7 @@ class LongStop extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, latitude, longitude, created_at, updated_at', 'required'),
+			array('latitude, longitude, created_at, updated_at', 'required'),
 			array('latitude, longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -104,5 +104,36 @@ class LongStop extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+		protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
 	}
 }

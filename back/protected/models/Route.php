@@ -33,7 +33,7 @@ class Route extends CActiveRecord
 			array('name', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, name, beginning_stop_id, end_stop_id, expected_route_id, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,9 +45,11 @@ class Route extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'samples' => array(self::HAS_MANY, 'Sample', 'route_id'),
+			'samples' => array(self::HAS_MANY, 'Sample', 'route_id','order'=>'datetime ASC'),
 			'shortStops' => array(self::HAS_MANY, 'ShortStop', 'route_id'),
 			'longStops' => array(self::HAS_MANY, 'LongStop', 'route_id'),
+			'beginning_stop' => array(self::BELONGS_TO, 'LongStop', 'beginning_stop_id'),
+			'end_stop' => array(self::BELONGS_TO,'LongStop', 'end_stop_id'),
 		);
 	}
 
@@ -82,7 +84,11 @@ class Route extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
-
+		$criteria->compare('beginning_stop_id',$this->beginning_stop_id,true);
+		$criteria->compare('end_stop_id',$this->end_stop_id,true);
+		$criteria->compare('expected_route_id',$this->expected_route_id,true);
+		$criteria->compare('created_at',$this->created_at,true);
+		$criteria->compare('updated_at',$this->updated_at,true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -97,5 +103,36 @@ class Route extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
 	}
 }
