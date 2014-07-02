@@ -1,33 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "sample".
+ * This is the model class for table "short_stop".
  *
- * The followings are the available columns in table 'sample':
+ * The followings are the available columns in table 'short_stop':
  * @property string $id
- * @property string $truck_id
- * @property double $latitude
+ * @property string $route_id
+ * @property string $latitude
  * @property double $longitude
- * @property string $datetime
  * @property string $created_at
  * @property string $updated_at
  *
  * The followings are the available model relations:
- * @property Truck $truck
+ * @property Route $route
  */
-class Sample extends CActiveRecord
+class ShortStop extends CActiveRecord
 {
-  public $start_date;
-  public $end_date;
-  public $min_date;
-  public $max_date;
-  public $active_day;
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'sample';
+		return 'short_stop';
 	}
 
 	/**
@@ -38,11 +32,11 @@ class Sample extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'required'),
-			array('latitude, longitude', 'numerical'),
+			array('route_id, latitude, longitude, created_at, updated_at', 'required'),
+			array('longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, route_id, latitude, longitude, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +48,7 @@ class Sample extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
+			'route' => array(self::BELONGS_TO, 'Route', 'route_id'),
 		);
 	}
 
@@ -65,11 +59,9 @@ class Sample extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'truck_id' => 'Truck',
+			'route_id' => 'Route',
 			'latitude' => 'Latitude',
 			'longitude' => 'Longitude',
-			'datetime' => 'Datetime',
-			'route_id' => 'Route',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -94,11 +86,9 @@ class Sample extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('truck_id',$this->truck_id,true);
-		$criteria->compare('latitude',$this->latitude);
-		$criteria->compare('longitude',$this->longitude);
-		$criteria->compare('datetime',$this->datetime,true);
 		$criteria->compare('route_id',$this->route_id,true);
+		$criteria->compare('latitude',$this->latitude,true);
+		$criteria->compare('longitude',$this->longitude);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 
@@ -111,10 +101,44 @@ class Sample extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Sample the static model class
+	 * @return ShortStop the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	
+		protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
 	}
 }

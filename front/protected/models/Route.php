@@ -1,33 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "sample".
+ * This is the model class for table "route".
  *
- * The followings are the available columns in table 'sample':
+ * The followings are the available columns in table 'route':
  * @property string $id
- * @property string $truck_id
- * @property double $latitude
- * @property double $longitude
- * @property string $datetime
- * @property string $created_at
- * @property string $updated_at
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property Truck $truck
+ * @property Sample[] $samples
+ * @property ShortStop[] $shortStops
+ * @property LongStop[] $longStops
  */
-class Sample extends CActiveRecord
+class Route extends CActiveRecord
 {
-  public $start_date;
-  public $end_date;
-  public $min_date;
-  public $max_date;
-  public $active_day;
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'sample';
+		return 'route';
 	}
 
 	/**
@@ -38,11 +30,10 @@ class Sample extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'required'),
-			array('latitude, longitude', 'numerical'),
+			array('name', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, beginning_stop_id, end_stop_id, expected_route_id, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +45,11 @@ class Sample extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
+			'samples' => array(self::HAS_MANY, 'Sample', 'route_id','order'=>'datetime ASC'),
+			'shortStops' => array(self::HAS_MANY, 'ShortStop', 'route_id'),
+			'longStops' => array(self::HAS_MANY, 'LongStop', 'route_id'),
+			'beginning_stop' => array(self::BELONGS_TO, 'LongStop', 'beginning_stop_id'),
+			'end_stop' => array(self::BELONGS_TO,'LongStop', 'end_stop_id'),
 		);
 	}
 
@@ -65,13 +60,7 @@ class Sample extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'truck_id' => 'Truck',
-			'latitude' => 'Latitude',
-			'longitude' => 'Longitude',
-			'datetime' => 'Datetime',
-			'route_id' => 'Route',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'name' => 'Name',
 		);
 	}
 
@@ -94,14 +83,12 @@ class Sample extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('truck_id',$this->truck_id,true);
-		$criteria->compare('latitude',$this->latitude);
-		$criteria->compare('longitude',$this->longitude);
-		$criteria->compare('datetime',$this->datetime,true);
-		$criteria->compare('route_id',$this->route_id,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('beginning_stop_id',$this->beginning_stop_id,true);
+		$criteria->compare('end_stop_id',$this->end_stop_id,true);
+		$criteria->compare('expected_route_id',$this->expected_route_id,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -111,10 +98,41 @@ class Sample extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Sample the static model class
+	 * @return Route the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
 	}
 }
