@@ -110,6 +110,7 @@ body
 #selector-truck
 {
 	width: 120px;
+	height: 30px;
 	float: left;
 	margin-top: 5px;
 	margin-left: 45px;
@@ -137,7 +138,8 @@ body
 
 #selector-day
 {
-	width: 120px;
+	width: 275px;
+	height: 30px;
 	float: left;
 	margin-left: 10px;
 	margin-top: 5px;
@@ -155,13 +157,15 @@ body
 
 #date-route
 {
-	width: 80px;
+	width: 120px;
+	max-width: 120px;
 	float: right;
 }
 
 #selector-route
 {
 	width: 120px;
+	height: 30px;
 	float: left;
 	margin-left: 10px;
 	margin-top: 5px;
@@ -184,6 +188,7 @@ body
 	font-size: 14px;
 	float: right;
 	border-color: #003c4b;
+	width: 70px;
 }
 
 #content
@@ -531,4 +536,219 @@ div.search-form
 .operations li a:hover
 {
 	background: #80CFFF;
+}
+
+#route-information-container
+{
+	width: 280px;
+	height: 100px;
+	background-color: #003c4b;
+}
+
+#route-information-truck-name
+{
+	color: #00a894;
+	font-size: 30px;
+	text-align: center;
+}
+
+#route-information-route-id
+{
+	color: #FFFFFF;
+	font-size: 18px;
+	text-align: center;
+}
+
+#route-information-date
+{
+	color: #FFFFFF;
+	font-size: 18px;
+	text-align: center;
+}
+
+#distance_container
+{
+	width: 280px;
+	height: 60px;
+	background-color: #efefef;
+}
+
+#distance_icon
+{
+	width: 72px;
+	height: 60px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/Distance.png");
+	float: left;
+}
+
+#distance_label
+{
+	color: #003d4c;
+	font-size: 20px;
+	font-weight: lighter;
+}
+
+#distance_data_container
+{
+	font-size: 24px;
+	color: #003d4c;
+	font-weight: lighter;
+	float: left;
+}
+
+#distance_data_units
+{
+	font-size: 24px;
+	color: #003d4c;
+	font-weight: lighter;
+	float: left;
+}
+
+#time_container
+{
+	width: 280px;
+	height: 60px;
+	background-color: #e5e5e5;
+}
+
+#time_icon
+{
+	width: 72px;
+	height: 60px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/Duration.png");
+	float: left;
+}
+
+#time_label
+{
+	color: #003d4c;
+	font-size: 20px;
+	font-weight: lighter;
+}
+
+#time_data_container_days
+{
+	color: #003d4c;
+	font-size: 24px;
+	font-weight: lighter;
+	float: left;
+}
+
+#time_data_container_hours
+{
+	color: #003d4c;
+	font-size: 24px;
+	font-weight: lighter;
+	float: left;
+}
+
+#time_data_container_minutes
+{
+	color: #003d4c;
+	font-size: 24px;
+	font-weight: lighter;
+	float: left;
+}
+
+#time_data_units
+{
+	font-size: 24px;
+	color: #003d4c;
+	font-weight: lighter;
+	float: left;
+}
+
+#average_speed_container
+{
+	width: 280px;
+	height: 60px;
+	background-color: #efefef;
+}
+
+#average_speed_icon
+{
+	width: 72px;
+	height: 60px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/Speed.png");
+	float: left;
+}
+
+#average_speed_label
+{
+	color: #003d4c;
+	font-size: 20px;
+	font-weight: lighter;
+}
+
+#average_speed_data_container
+{
+	color: #003d4c;
+	font-size: 24px;
+	font-weight: lighter;
+	float: left;
+}
+
+#average_speed_data_units
+{
+	font-size: 24px;
+	color: #003d4c;
+	font-weight: lighter;
+	float: left;
+}
+
+#short_stops_count_container
+{
+	width: 280px;
+	height: 60px;
+	background-color: #e5e5e5;
+}
+
+#short_stops_count_icon
+{
+	width: 72px;
+	height: 60px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/Stops.png");
+	float: left;
+}
+
+#short_stops_count_label
+{
+	color: #003d4c;
+	font-size: 20px;
+	font-weight: lighter;
+}
+
+#short_stops_count_data_container
+{
+	color: #003d4c;
+	font-size: 24px;
+	font-weight: lighter;
+	float: left;
+}
+
+#more_statistics_container
+{
+	width: 280px;
+	height: 60px;
+	background-color: #efefef;
+}
+
+#more_statistics_button
+{
+	width: 182px;
+	height: 38px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/MorestatisticsButton.png");
+	float: left;
+	margin-left: 45px;
+	margin-top: 10px;
+}
+
+#more_statistics_button:hover
+{
+	background-position: 0px 38px;
 }

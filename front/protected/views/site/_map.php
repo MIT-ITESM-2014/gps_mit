@@ -15,7 +15,6 @@ foreach ($trucks as $t)
 <div id="map-legend">
   
 
-  <div id="date-picker-container">
     <?php
     //echo $form->textField($model,'user_end_date'); 
       $this->widget('zii.widgets.jui.CJuiDatePicker', array(
@@ -74,42 +73,58 @@ foreach ($trucks as $t)
     ");
     
     ?>
-  </div>
 
+  <div id="route-information-container">
+    <div id="route-information-truck-name">
+    </div>
+    <div id="route-information-route-id">
+    </div>
+    <div id="route-information-date">
+    </div>
+  </div>
   
   <div id="distance_container">
+    <div id="distance_icon"></div>
     <div id="distance_label">
-    Distance:
+      Distance
     </div>
-    <div id="distance_data_container">
-    </div>
+    <div id="distance_data_container"></div>
+    <div id="distance_data_units">  &nbsp;km </div>
   </div>
+
   <div id="time_container">
+    <div id="time_icon"> </div>
     <div id="time_label">
-    Time:
+    Time
     </div>
-    <div id="time_data_container">
-    </div>
+    <div id="time_data_container_days"></div>
+    <div id="time_data_units">  &nbsp;d&nbsp; </div>
+    <div id="time_data_container_hours"></div>
+    <div id="time_data_units">  &nbsp;h&nbsp; </div>
+    <div id="time_data_container_minutes"></div>
+    <div id="time_data_units">  &nbsp;min </div>
   </div>
+
   <div id="average_speed_container">
+    <div id="average_speed_icon"></div>
     <div id="average_speed_label">
-    Average speed:
+    Average speed
     </div>
-    <div id="average_speed_data_container">
-    </div>
+    <div id="average_speed_data_container"></div>
+    <div id="average_speed_data_units">  &nbsp;km/h </div>
   </div>
+
   <div id="short_stops_count_container">
-    <div id="short_stops_count_labe">
-    Short stops count:
+    <div id="short_stops_count_icon"></div>
+    <div id="short_stops_count_label">
+    Short stops count
     </div>
-    <div id="short_stops_count_data_container">
-    </div>
+    <div id="short_stops_count_data_container"></div>
   </div>
-  
 
-  
-
-  
+  <div id="more_statistics_container">
+    <div id="more_statistics_button"> </div>
+  </div>
 
 </div>
 

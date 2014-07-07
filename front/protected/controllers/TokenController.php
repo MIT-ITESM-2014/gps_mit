@@ -169,23 +169,26 @@ class TokenController extends Controller
     {
       $routes[] = Route::model()->findByPk($route_id->route_id);
     }
-    $json_data = '{"routes":[';
-    $comma_counter = 0;
-    foreach($routes as $route)
+    if(count($routes)>0)
     {
-      if($comma_counter != 0)
-        $json_data = $json_data . ",";
-      $json_data = $json_data . '{"name":"'.$route->name.'", "value":"'.$route->id.'"}';
-      $comma_counter++;
+      if($routes[0] != null)
+      {
+        $json_data = '{"routes":[';
+        $comma_counter = 0;
+        
+        foreach($routes as $route)
+        {
+          if($comma_counter != 0)
+            $json_data = $json_data . ",";
+
+          $json_data = $json_data . '{"name":"'.$route->name.'", "value":"'.$route->id.'"}';
+          $comma_counter++;
+        }
+
+        $json_data = $json_data . ']}';
+        echo CJSON::encode($json_data);
+      }
     }
-    $json_data = $json_data . ']}';
-    echo CJSON::encode($json_data);
-    /*echo CJSON::encode('{"employees":[
-    {"firstName":"John", "lastName":"Doe"},
-    {"firstName":"Anna", "lastName":"Smith"},
-    {"firstName":"Peter", "lastName":"Jones"}
-]}');*/
-    //echo $_GET['_'] . ' (' . $json . ');';
     Yii::app()->end(); 
   }
   
@@ -224,8 +227,36 @@ class TokenController extends Controller
     $criteria->condition = "t.id=".$route_id;
     $routes = Route::model()->findAll($criteria);
     $route = $routes[0];
-    
-    $json_data = '{"route_stats":{ "distance" : "'.$route->distance.'", "average_speed" : "'.$route->average_speed.'", "short_stops_count" : "'.$route->short_stops_count.'", "time" : "'.$route->time.'"}}';
+
+    $criteria2 = new CDbCriteria();
+    $criteria2->condition = "t.route_id=".$route_id;
+    $samples = Sample::model()->findAll($criteria2);
+    $sample = $samples[0];
+
+    $truck = Truck::model()->findByPk($sample->truck_id);
+
+    //changes in time covered by route
+    $secondsInAMinute = 60;
+    $secondsInAnHour = 60 * $secondsInAMinute;
+    $secondsInADay = 24 * $secondsInAnHour;
+
+    $time_days = floor($route->time / $secondsInADay);
+
+    $hourSeconds = $route->time % $secondsInADay;
+    $time_hours = floor($hourSeconds / $secondsInAnHour);
+
+    $minuteSeconds = $hourSeconds % $secondsInAnHour;
+    $time_minutes = floor($minuteSeconds / $secondsInAMinute);
+
+    $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+    $time_seconds = ceil($remainingSeconds);
+
+    //date parser
+    $source = $sample->datetime;
+    $date = new DateTime($source);
+    //modifying json
+    //added fields (general_information)
+    $json_data = '{"general_information": {"truck_id": "'.$truck->identifier.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$route->distance.'", "average_speed" : "'.$route->average_speed.'", "short_stops_count" : "'.$route->short_stops_count.'", "time_days": "'.$time_days.'","time_hours" : "'.$time_hours.'", "time_minutes": "'.$time_minutes.'"}}';
     echo CJSON::encode($json_data);
     Yii::app()->end(); 
   }

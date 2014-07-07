@@ -90,7 +90,7 @@ class SiteController extends Controller
       while( $diff > 2  )//More than one day distance
       { 
         $old_date->modify('+1 day');
-        print_r("--".$old_date->format('m/d/Y')."--");
+        //print_r("--".$old_date->format('m/d/Y')."--");
         $inactive_days[] = $old_date->format('m/d/Y');
         $diff = (int)($old_date->diff($new_day)->format('%R%a'));
       }
@@ -276,10 +276,20 @@ class SiteController extends Controller
           url: \"index.php?r=token/getRouteStats&route_id=\"+document.getElementById(\"select-route\").value,
           success: function(data){
             var parsed_data = $.parseJSON(data);
+            $('#route-information-truck-name').empty();
+            $('#route-information-truck-name').append(parsed_data['general_information']['truck_id']);
+            $('#route-information-route-id').empty();
+            $('#route-information-route-id').append(parsed_data['general_information']['route_id']);
+            $('#route-information-date').empty();
+            $('#route-information-date').append(parsed_data['general_information']['date']);
             $('#distance_data_container').empty();
             $('#distance_data_container').append(parsed_data['route_stats']['distance']);
-            $('#time_data_container').empty();
-            $('#time_data_container').append(parsed_data['route_stats']['time']);
+            $('#time_data_container_days').empty();
+            $('#time_data_container_days').append(parsed_data['route_stats']['time_days']);
+            $('#time_data_container_hours').empty();
+            $('#time_data_container_hours').append(parsed_data['route_stats']['time_hours']);
+            $('#time_data_container_minutes').empty();           
+            $('#time_data_container_minutes').append(parsed_data['route_stats']['time_minutes']);            
             $('#average_speed_data_container').empty();
             $('#average_speed_data_container').append(parsed_data['route_stats']['average_speed']);
             $('#short_stops_count_data_container').empty();
