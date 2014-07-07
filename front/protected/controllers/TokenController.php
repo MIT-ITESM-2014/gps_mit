@@ -450,11 +450,12 @@ class TokenController extends Controller
       }
       $script = $script."];
       
+      var color = generateRandomColor();
 
       route = new google.maps.Polyline({
         path: routeCoordinates2,
         geodesic: true,
-        strokeColor: '#C030FF',
+        strokeColor: color,//'#C030FF',
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
@@ -490,8 +491,11 @@ class TokenController extends Controller
     {
       route.setPath(routeCoordinates2);
     }
-    
-    
+
+    function generateRandomColor(){
+
+      return '#'+Math.floor(Math.random()*16777215).toString(16);
+    }
     
     window.onload = loadScript;";
 		$dataProvider=new CActiveDataProvider('Token');

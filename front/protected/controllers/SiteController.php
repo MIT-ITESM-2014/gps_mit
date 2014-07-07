@@ -246,10 +246,12 @@ class SiteController extends Controller
       $script = $script."];
       
 
+      var color = generateRandomColor();
+
       route = new google.maps.Polyline({
         path: routeCoordinates2,
         geodesic: true,
-        strokeColor: '#AAAAA',
+        strokeColor: color, //'#AAAAA',
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
@@ -266,6 +268,11 @@ class SiteController extends Controller
       script.type = 'text/javascript';
       script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'callback=initialize';
       document.body.appendChild(script);
+    }
+
+    function generateRandomColor(){
+
+      return '#'+Math.floor(Math.random()*16777215).toString(16);
     }
     
     function update_stats()
