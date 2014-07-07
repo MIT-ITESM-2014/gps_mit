@@ -27,7 +27,7 @@
 			<a href="index.php" ><div id="logo-image"> </div></a>
 		</div>
 		<div id="icons-bar">
-			<div id="routes-section"></div>
+			<a href="index.php"><div id="routes-section"></div></a>
 			<div id="trucks-section"> </div>
 			<div id="stats-section"> </div>	
 		</div>	
