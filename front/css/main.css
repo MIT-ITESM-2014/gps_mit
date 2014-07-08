@@ -109,7 +109,7 @@ body
 
 #selector-truck
 {
-	width: 120px;
+	width: 140px;
 	height: 30px;
 	float: left;
 	margin-top: 5px;
@@ -127,13 +127,16 @@ body
 	float: left;
 }
 
+
 #truck_selector
 {
-	background-color: #003c4b;
+	background: transparent;
 	color: #FFFFFF;
 	font-size: 14px;
-	float: right;
-	border-color: #003c4b;
+	float: left;
+	overflow: hidden;
+  width: 120px;
+  border: 1px solid #003c4b;
 }
 
 #selector-day
@@ -170,6 +173,7 @@ body
 	margin-left: 10px;
 	margin-top: 5px;
 	background-color: #003c4b;
+	overflow: hidden;
 }
 
 #route-icon
@@ -183,12 +187,12 @@ body
 
 #select-route
 {
-	background-color: #003c4b;
+	background: transparent;
 	color: #FFFFFF;
 	font-size: 14px;
-	float: right;
-	border-color: #003c4b;
-	width: 70px;
+	float: left;
+	width: 110px;
+	border: 1px solid #003c4b;
 }
 
 #content
@@ -215,47 +219,6 @@ body
 	background-position: 0px 0px;
 }
 
-#graphs-icon
-{
-	width: 140px;
-	height: 80px;
-	background-color: #003c4b;
-	background-position: 0px 0px;
-	background-image: url("../public/images/Graphs.png");
-	float: left;
-}
-
-#graphs-icon:hover
-{
-	background-position: 140px 0px;
-	background-color: #49ceae;
-}
-
-#day-title
-{
-	background-color: #00a894;
-	width: 280px;
-	height: 30px;
-	display: inline-block;
-}
-
-#day-legend
-{
-	color: #FFFFFF;
-	font-size: 14px;
-	font-weight: bold;
-}
-
-#choose-day-icon
-{
-	width: 18px;
-	height: 20px;
-	background-image: url("../public/images/Calendar.png");
-	float: left;
-	margin-left: 25px;
-	margin-right: 30px;
-}
-
 #date-picker-container
 {
 	margin-left: 50px;
@@ -280,16 +243,26 @@ body
 	margin-right: 30px;
 }
 
-#truck-legend
-{
-	color: #FFFFFF;
-	font-size: 14px;
-	font-weight: bold;
-}
-
 #truck-selector-container
 {
-	margin-left: 90px;
+	background-image: url("../public/images/ArrowDropdown.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+	float: left;
+	width: 95px;
+	height: 40px;
+	overflow: hidden;
+}
+
+#route-selector-container
+{
+	background-image: url("../public/images/ArrowDropdown.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+	float: left;
+	width: 95px;
+	height: 40px;
+	overflow: hidden;	
 }
 
 .update-button-map
@@ -299,12 +272,13 @@ body
 	background-color: #003c4b;
 	color: #FFFFFF;
 	margin-top: 0px;
-	margin-left: 600px;
+	margin-left: 620px;
 }
 
 .update-button-map:hover
 {
 	background-color: #00a894; 
+	cursor: pointer;
 }
 
 #update-map-text
@@ -433,11 +407,6 @@ div.flash-success a
 	color:#264409;
 }
 
-div.form .rememberMe label
-{
-	display: inline;
-}
-
 div.view
 {
 	padding: 10px;
@@ -461,11 +430,6 @@ div.search-form
 	padding: 10px;
 	margin: 10px 0;
 	background: #eee;
-}
-
-.portlet
-{
-
 }
 
 .portlet-decoration
@@ -550,6 +514,7 @@ div.search-form
 	color: #00a894;
 	font-size: 30px;
 	text-align: center;
+	font-weight: bold;
 }
 
 #route-information-route-id
@@ -746,6 +711,7 @@ div.search-form
 	float: left;
 	margin-left: 45px;
 	margin-top: 10px;
+	cursor: pointer;
 }
 
 #more_statistics_button:hover

@@ -42,6 +42,7 @@
 			<div id="truck-selector-container">
         <select id="truck_selector" name="truck_selector">
         </select>
+        <div id="truck-dropdown-arrow"></div>
       </div>
 		</div>
 		<div id="selector-day">
@@ -51,8 +52,10 @@
 		</div>
 		<div id="selector-route">
 			<div id="route-icon"> </div>
-			<select id="select-route" name="select-route"> 
-			</select>
+			<div id="route-selector-container">
+				<select id="select-route" name="select-route"> 
+				</select>
+			</div>
 		</div>
 		
 		<div id="button_update_map" name="button_update_map" class="update-button-map">

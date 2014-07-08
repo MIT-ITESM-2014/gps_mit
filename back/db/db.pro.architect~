@@ -104,7 +104,7 @@
   <table id="TAB25" populated="true" UUID="80623d72-e3f8-4dd6-b2cd-743f02658a8a" name="identity" objectType="TABLE" physicalName="identity" >
    <remarks></remarks>
    <folder id="FOLTAB251" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL26" populated="true" UUID="38c11d33-0eb5-46f6-baf6-2f39a0c0f13b" autoIncrement="false" autoIncrementSequenceName="identity_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL26" populated="true" UUID="38c11d33-0eb5-46f6-baf6-2f39a0c0f13b" autoIncrement="true" autoIncrementSequenceName="identity_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL27" populated="true" UUID="edc7c0eb-5a91-4d1c-8901-7e09511ef21c" autoIncrement="false" autoIncrementSequenceName="identity_name_seq" defaultValue="" name="name" nullable="0" physicalName="name" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -343,7 +343,7 @@
     <column id="COL93" populated="true" UUID="2cc0f5d9-db55-468b-bded-287441c1702f" autoIncrement="true" autoIncrementSequenceName="company_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL94" populated="true" UUID="dcda18b6-23d4-434f-ab10-a6f110e5c90b" autoIncrement="false" autoIncrementSequenceName="company_has_expected_routes_seq" defaultValue="" name="has_expected_routes" nullable="0" physicalName="has_expected_routes" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL94" populated="true" UUID="dcda18b6-23d4-434f-ab10-a6f110e5c90b" autoIncrement="false" autoIncrementSequenceName="company_has_expected_routes_seq" defaultValue="" name="has_expected_routes" nullable="1" physicalName="has_expected_routes" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL95" populated="true" UUID="fd6b2956-75c5-4e6a-82c5-780ad579e816" autoIncrement="false" autoIncrementSequenceName="company_distance_ratio_long_stop_seq" defaultValue="" name="distance_ratio_long_stop" nullable="1" physicalName="distance_ratio_long_stop" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
