@@ -32,15 +32,38 @@ class UserIdentity extends CUserIdentity
 		else
 		{
 		  $this->_id = 1 * 456345; //Must be divided by 456345 to get the real ID
+		  //$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
+		  //Yii::app()->user->login($this, $duration);
+		  //$user = Yii::app()->user->setId(1 * 456345);
 		  //To add more information to the User
-		  //$this->setState('numeric_id', 1 * 456345);//Must be divided by 456345 to get the real ID
+		  $this->setState('safe_id', 1 * 456345);//Must be divided by 456345 to get the real ID
+		  Yii::app()->user->setId("3");
+		  print_r(Yii::app()->user->getId());
 			$this->errorCode=self::ERROR_NONE;
+			
 		}
 		return !$this->errorCode;
 	}
 	
+	  /*This is the actual function that will return the id for the CWebUser
+	  */
 	 public function getId()
    {
-    return $this->_id/456345;
+    return 1;
+    //return $this->_id;
+   }
+   
+   
+   public function getIdentity()
+   {
+    return Identity::model()->find('id='.($this->_id/456345));
+   }
+   
+   public function getCompany()
+   {
+    $identity = $this->getIdentity();
+    $company_id = $identity->company_id;
+    $company = Company::model()->find('id='.$company_id);
+    return $company;
    }
 }

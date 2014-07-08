@@ -33,7 +33,7 @@ class Truck extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('identifier, name, uploaded_file_id, created_at, updated_at', 'required'),
+			array('name, created_at, updated_at', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, identifier, name, uploaded_file_id, created_at, updated_at', 'safe', 'on'=>'search'),
@@ -98,6 +98,38 @@ class Truck extends CActiveRecord
 		));
 	}
 
+  protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

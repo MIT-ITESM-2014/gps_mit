@@ -106,9 +106,9 @@ class Identity extends CActiveRecord
 		));
 	}
 	
-	public function pendingUpload()
+	public function pendingUploads()
   {
-    $uploaded_files = $this->uploaded_files(array('condition'=>'step=1'));
+    $uploaded_files = $this->uploaded_files(array('condition'=>'step < 2'));
     return $uploaded_files;
     
     /*
@@ -119,6 +119,16 @@ class Identity extends CActiveRecord
       )
     );
     */
+  }
+  
+  public function pendingUpload()
+  {
+    $uploaded_files = $this->uploaded_files(array('condition'=>'step < 2'));
+    if(count($uploaded_files)>0)
+      return $uploaded_files[0];
+    else
+      return null;
+    
   }
 
 	/**

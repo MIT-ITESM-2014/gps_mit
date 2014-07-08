@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'uploaded_file':
  * @property string $id
- * @property string $truck_file
  * @property string $filename
  * @property integer $identity_id
  * @property double $step
@@ -33,13 +32,13 @@ class UploadedFile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('truck_file, identity_id, step, created_at', 'required'),
+			array('identity_id, step, created_at', 'required'),
 			array('identity_id', 'numerical', 'integerOnly'=>true),
 			array('step', 'numerical'),
-			array('truck_file, filename', 'length', 'max'=>20),
+			array('filename', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_file, filename, identity_id, step, created_at', 'safe', 'on'=>'search'),
+			array('id, filename, identity_id, step, created_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,7 +62,6 @@ class UploadedFile extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'truck_file' => 'Truck File',
 			'filename' => 'Filename',
 			'identity_id' => 'Identity',
 			'step' => 'Step',
@@ -90,7 +88,6 @@ class UploadedFile extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('truck_file',$this->truck_file,true);
 		$criteria->compare('filename',$this->filename,true);
 		$criteria->compare('identity_id',$this->identity_id);
 		$criteria->compare('step',$this->step);
@@ -108,6 +105,37 @@ class UploadedFile extends CActiveRecord
 	      'condition'=>'step=1',
 	    ),
 	  );
+	}
+	
+	protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
 	}
 
 	/**

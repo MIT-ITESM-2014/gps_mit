@@ -1,28 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "sample".
+ * This is the model class for table "company".
  *
- * The followings are the available columns in table 'sample':
- * @property string $id
- * @property string $truck_id
- * @property double $latitude
- * @property double $longitude
- * @property string $datetime
+ * The followings are the available columns in table 'company':
+ * @property integer $id
+ * @property integer $has_expected_routes
+ * @property double $distance_ratio_long_stop
+ * @property double $time_ratio_long_stop
  * @property string $created_at
  * @property string $updated_at
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property Truck $truck
+ * @property Identity[] $identities
  */
-class Sample extends CActiveRecord
+class Company extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'sample';
+		return 'company';
 	}
 
 	/**
@@ -33,11 +33,13 @@ class Sample extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('latitude, longitude, datetime, route_id, created_at, updated_at, status_id', 'required'),
-			array('latitude, longitude, status_id', 'numerical'),
+			array('name', 'required'),
+			array('has_expected_routes', 'numerical', 'integerOnly'=>true),
+			array('distance_ratio_long_stop, time_ratio_long_stop', 'numerical', 'integerOnly'=>false),
+			array('created_at, updated_at, name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, has_expected_routes, distance_ratio_long_stop, time_ratio_long_stop, created_at, updated_at, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +51,7 @@ class Sample extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
+			'identities' => array(self::HAS_MANY, 'Identity', 'company_id'),
 		);
 	}
 
@@ -60,13 +62,12 @@ class Sample extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'truck_id' => 'Truck',
-			'latitude' => 'Latitude',
-			'longitude' => 'Longitude',
-			'datetime' => 'Datetime',
-			'route_id' => 'Route',
+			'has_expected_routes' => 'Has Expected Routes',
+			'distance_ratio_long_stop' => 'Distance Ratio Long Stop',
+			'time_ratio_long_stop' => 'Time Ratio Long Stop',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
+			'name' => 'Name',
 		);
 	}
 
@@ -88,15 +89,13 @@ class Sample extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('truck_id',$this->truck_id,true);
-		$criteria->compare('latitude',$this->latitude);
-		$criteria->compare('longitude',$this->longitude);
-		$criteria->compare('datetime',$this->datetime,true);
-		$criteria->compare('route_id',$this->route_id,true);
-		$criteria->compare('status_id',$this->route_id,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('has_expected_routes',$this->has_expected_routes);
+		$criteria->compare('distance_ratio_long_stop',$this->distance_ratio_long_stop);
+		$criteria->compare('time_ratio_long_stop',$this->time_ratio_long_stop);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,41 +106,10 @@ class Sample extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Sample the static model class
+	 * @return Company the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-	
-	protected function beforeSave()
-	{
-	  if(parent::beforeSave())
-	  {
-	    if($this->isNewRecord)
-	      $this->created_at = date('Y-m-d H:i:s.u');
-	    $this->updated_at = date('Y-m-d H:i:s.u');
-	  }
-	  return true;
-	}
-	
-	protected function beforeValidate()
-	{
-	  if(parent::beforeValidate())
-	  {
-	    if($this->isNewRecord)
-	      $this->created_at = date('Y-m-d H:i:s.u');
-	    $this->updated_at = date('Y-m-d H:i:s.u');
-	  }
-	  return true;
-	}
-	
-	protected function beforeUpdate()
-	{
-	  if(parent::beforeUpdate())
-	  {
-	    $this->updated_at = date('Y-m-d H:i:s.u');
-	  }
-	  return true;
 	}
 }

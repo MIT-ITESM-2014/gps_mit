@@ -1,9 +1,26 @@
 
-    <ul id="filelist"></ul>
-    <br />
-    <div id="container">
-      <a id="browse" href="javascript:;">[Browse...]</a>
-      <a id="start-upload" href="javascript:;">[Start Upload]</a>
-    </div>
-    <br />
-    <pre id="console"></pre>
+<?php
+  if($step == 0)
+  {
+?>
+    <script type="text/javascript">
+      alert("js");
+      actualizarPaso(<?=$step?>);
+    </script>
+<?php
+  }
+  elseif($step == 1)
+  {
+    if($script == 1)
+    {
+      echo "actualizarPaso(".$step.")";
+    }
+    else{
+  ?>
+      <script type="text/javascript">
+        actualizarPaso(<?=$step?>);
+      </script>
+<?php
+    } 
+  }
+?>

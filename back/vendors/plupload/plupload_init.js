@@ -1,7 +1,6 @@
 
 var maxfiles = 1;
 
-var step_number;
 
 function removeFile(up, file_id)
 {
@@ -80,29 +79,19 @@ var uploader = new plupload.Uploader({
             $('#'+files[index].id).remove();
             removeFile(up,files[index].id);
           }
-          $('#browse').fadeIn("slow");
-          $('#start-upload').hide("fast");
+          alert("voy a evaluar" + req.responseText);
+          eval(req.responseText);
+          //document.getElementById("ajax_content").innerHTML=req.responseText;
         }
       }
-
-      req.open("GET", "index.php?r=sample/createPartial", true);
+      req.open("GET", "index.php?r=sample/createPartial&step=2&script=1", true);
       req.send();
-      if(step_number == 0)
-      {
-        up.settings.url = 'index.php?r=sample/uploadTwo'
-        step_number = 1;
-      }
-      else if(step_number == 1)
-      {
-        up.settings.url = 'index.php?r=sample/uploadOne';
-        step_number = 0;
-      }
     }
   }
 });
  
  
- //$( document ).ready(init_uploader());
+ $( document ).ready(init_uploader());
  
  function init_uploader(){
 

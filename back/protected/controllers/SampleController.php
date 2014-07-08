@@ -32,7 +32,7 @@ class SampleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial','findStopsAndRoutes', 'generateRouteMetrics'),
+				'actions'=>array('create','update', 'uploadOne', 'uploadTwo', 'createPartial','findStopsAndRoutes', 'generateRouteMetrics', 'submitParameters', 'sendParameters', 'createPartialParameters'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -68,29 +68,25 @@ class SampleController extends Controller
 	  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload.full.min.js', CClientScript::POS_HEAD);
     $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
 		
-		$uploaded_files = Identity::model()->find('id='.Yii::app()->user->getId())->pendingUpload();
+		$pending_files = Identity::model()->find('id='.Yii::app()->user->getId())->pendingUploads();
 		
 		//If it is at the second step
 		//print_r($uploaded_files[0]);
+		//$cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init_first.js', CClientScript::POS_END);
+		$step = 0;
+		if(count($pending_files) > 0)
+		{
+		  $step = $pending_files[0]->step;
+		}
 		
-		if( isset($uploaded_files[0]) )
-		{
-		  if($uploaded_files[0]->step ==1)
-		  {
-		    $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init_second.js', CClientScript::POS_END);
-		    $uploaded_file = $uploaded_files[0];
-		    $this->render('create',array(
-			    'step'=>$uploaded_file->step,
-		    ));
-		  }
-		}
-		else //if it is in the first step
-		{
-		  $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init_first.js', CClientScript::POS_END);
-		  $this->render('create',array(
-			  'step'=>0,
-		  ));
-		}
+		$parameter_model = new ParameterForm;
+		$script = isset($_GET['script']);
+		
+		$this->render('create',array(
+	    'step'=>$step,
+	    'parameter_model'=>$parameter_model,
+	    'script'=>$script
+		));
 	}
 	
 	public function actionUploadOne()
@@ -99,50 +95,77 @@ class SampleController extends Controller
     }
     else
     {
-      //$fileName = $_FILES["file"]["name"];
       $fileName = date('YmdHis').strval(rand()%10);
       move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
+      
       $uploaded_file_model = new UploadedFile;
-      $uploaded_file_model->created_at = date('Y-m-d H:i:s.u');
-      $uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
-      $uploaded_file_model->identity_id =  Yii::app()->user->getId();
-      $uploaded_file_model->truck_file = $fileName;
-      $uploaded_file_model->step = 1;
+      $uploaded_file_model->identity_id = Yii::app()->user->getId();
+      $uploaded_file_model->filename = $fileName;
+      $uploaded_file_model->step = 0;
       $uploaded_file_model->save();
       
       //Parse CSV file
       $handler = fopen("../files/".$fileName,'r');
       
-      $trucks = array();
+      //Get all trucks that belong to the current uploaded file model
+      //TODO adjust to multiple uploaded files
+      $condition_string2 = 'uploaded_file_id='.$uploaded_file_model->id;
+      //$trucks = Truck::model()->findAll($condition_string2);
+      
+      $trucks_array = array();
+      $samples = array();
+      $new_sample;
+      
       fgetcsv($handler, 0, ',');//Ignore headers
-      //Requires first column to be the id present in the second file
-      //Second column must be the name to identify the truck
+      
+      //Read each row and create the corresponding sample
+      //Requires columns in the next order truck_name, latitude, longitude, and datetime
       while($pointer = fgetcsv($handler, 0, ','))
       {
-        $truck_id = $pointer[0];
-        $truck_name = $pointer[1];
-        if(!array_key_exists($truck_id, $trucks))
+        if(array_key_exists(3, $pointer))//Validates the row has enough columns
         {
-          $trucks[$truck_id] = $truck_name;
+          $new_sample = new Sample;
+          $new_sample->truck_name = $pointer[0];
+          $trucks_array[$pointer[0]] = 1;
+          $new_sample->latitude = $pointer[1];
+          $new_sample->longitude = $pointer[2];
+          $new_sample->datetime = $pointer[3];
+          $new_sample->status_id = -3;
+          //TODO:Define behaviour when unable to save
+          $new_sample->save();
+        }
+      }
+		  fclose($handler);
+		  
+		  //Create each of the trucks mentioned in the samples if any doesn't exist.
+		  foreach($trucks_array as $truck_name => $value)
+      {
+        $condition_string = "name = '" . $truck_name . "' ";
+        $registered_truck = Truck::model()->find($condition_string);
+        if(!count($registered_truck))
+        {
+          $new_truck = new Truck;
+          $new_truck->name = $truck_name;
+          $new_truck->save();
         }
       }
       
-      //Saving each of the trucks from the truck_file
-      foreach($trucks as $key => $value)
+      //Set all the truck_ids of the sample, even if they were already set.
+      $trucks = Truck::model()->findAll();
+      foreach($trucks as $truck)
       {
-        $new_truck = new Truck;
-        $new_truck->identifier = $key;
-        $new_truck->name = $value;
-        $new_truck->uploaded_file_id = $uploaded_file_model->id;
-        $new_truck->validate();
-        $new_truck->created_at = date('Y-m-d H:i:s.u');
-        $new_truck->updated_at =  date('Y-m-d H:i:s.u');
-        $new_truck->save();
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
+        $truck_samples = Sample::model()->findAll($criteria);
+        foreach($truck_samples as $truck_sample)
+        {
+          $truck_sample->truck_id = $truck->id;
+          $truck_sample->save();
+        }
       }
-  
       
-		  fclose($handler);
-
+      $uploaded_file_model->step = 1;
+      $uploaded_file_model->save();
 		}
   }
   
@@ -474,73 +497,89 @@ class SampleController extends Controller
     }
   }
   
-  public function actionUploadTwo()
-	{
-	  if (empty($_FILES) || $_FILES["file"]["error"]) {
-    }
-    else
-    {
-      $fileName = date('YmdHis').strval(rand()%10);
-      move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
-      $condition_string = 'identity_id=' . Yii::app()->user->getId();
-      $uploaded_file_model = UploadedFile::model()->find($condition_string);//
-      
-      $uploaded_file_model->updated_at = date('Y-m-d H:i:s.u');
-      $uploaded_file_model->filename = $fileName;
-      $uploaded_file_model->step = 2;
-      $uploaded_file_model->save();
-      
-      //Parse CSV file
-      $handler = fopen("../files/".$fileName,'r');
-      
-      //Get all trucks that belong to the current uploaded file model
-      $condition_string2 = 'uploaded_file_id='.$uploaded_file_model->id;
-      $trucks = Truck::model()->findAll($condition_string2);
-      
-      $trucks_array = array();
-      foreach($trucks as $tr)
-      {
-        $identifier = $tr->identifier;
-        $trucks_array[$identifier] = $tr->id;
-      }
-      
-      $samples = array();
-      fgetcsv($handler, 0, ',');//Ignore headers
-      //Requires columns in the next order truck_name, latitude, longitude, and timestamp
-      $new_sample;
-      while($pointer = fgetcsv($handler, 0, ','))
-      {
-        $new_sample = new Sample;
-        //TODO: Validate the truck exists
-        $new_sample->truck_id = $trucks_array[$pointer[0]];
-        $new_sample->latitude = $pointer[1];
-        $new_sample->longitude = $pointer[2];
-        //TODO: Add speed
-        $new_sample->datetime = $pointer[3];
-        $new_sample->created_at = date('Y-m-d H:i:s.u');
-        //TODO: Remove updated_at when not null is activated
-        $new_sample->updated_at = date('Y-m-d H:i:s.u');
-        $new_sample->route_id = -3;
-        //TODO:Define behaviour when unable to save
-        $new_sample->save();
-        
-      }
-		  fclose($handler);
-		  
-		  
+  public function actionCreatePartial()
+  {
+    $parameter_model = new ParameterForm;
+		//TODO ¿Whats going on with the step
+		
+		$script = isset($_GET['script']);
+		$data = array(
+      'step'=>1,
+      'parameter_model'=>$parameter_model,
+      'script'=>$script,
+    );
+    if($script)
+      echo $this->renderPartial('_ajaxContent', $data, true, true);
+    else 
+      $this->renderPartial('_ajaxContent', $data, true, true);
+  }
+  
+  /*
+  public function actionCreatePartialParameters()
+  {
+    $parameter_model = new ParameterForm;
+		//TODO ¿Whats going on with the step
+    $data = array(
+      'step'=>1,
+      'parameter_model'=>$parameter_model,
+    );
+    echo $this->renderPartial('_ajaxContent', $data, false, true);
+  }*/
+  
+  public function actionSubmitParameters()
+  {
+    $parameter_model = new ParameterForm;
+    
+    if(isset($_POST['ParameterForm']))
+		{
+			$parameter_model->attributes=$_POST['ParameterForm'];
+			if($parameter_model->validate())
+			{
+			  $parameter_model->updateCompanyParameters();
+			  //Declared concluded the step
+			  $pending_upload = Yii::app()->user->getIdentity()->pendingUpload();
+			  $pending_upload->step++;
+			  $pending_upload->save();
+			  //Identity::model()->find('id='.Yii::app()->user->getId())->pendingUpload()
+			  echo CJSON::encode(array(
+          'status'=>'success'
+        ));
+			}
+			else
+			{
+			  $error = CActiveForm::validate($parameter_model);
+        if($error!='[]')
+          echo $error;
+        Yii::app()->end();
+			}
 		}
   }
   
-  public function actionCreatePartial()
+  public function actionSendParameters()
   {
+    $parameter_model = new ParameterForm;
     
-    
-    $data = array(
-      'step'=>2
-    );
-    $this->renderPartial('_ajaxContent', $data, false, true);
+    if(isset($_POST['ParameterForm']))
+		{
+			$parameter_model->attributes=$_POST['ParameterForm'];
+			if($parameter_model->validate())
+			{
+			  echo CJSON::encode(array(
+          'status'=>'success'
+        ));
+				$this->refresh();
+			}
+			else
+			{
+			$error = CActiveForm::validate($parameter_model);
+                                if($error!='[]')
+                                    echo $error;
+                                Yii::app()->end();
+
+			}
+		}
+    print_r("im here");
   }
-  
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
