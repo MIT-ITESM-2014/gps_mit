@@ -117,13 +117,14 @@ class SampleController extends Controller
       $new_sample;
       
       fgetcsv($handler, 0, ',');//Ignore headers
-      
+      error_log("voy a leer");
       //Read each row and create the corresponding sample
       //Requires columns in the next order truck_name, latitude, longitude, and datetime
       while($pointer = fgetcsv($handler, 0, ','))
       {
         if(array_key_exists(3, $pointer))//Validates the row has enough columns
         {
+          
           $new_sample = new Sample;
           $new_sample->truck_name = $pointer[0];
           $trucks_array[$pointer[0]] = 1;
@@ -147,6 +148,7 @@ class SampleController extends Controller
           $new_truck = new Truck;
           $new_truck->name = $truck_name;
           $new_truck->save();
+          print_r($new_truck);
         }
       }
       
