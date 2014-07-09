@@ -36,7 +36,7 @@ class ShortStop extends CActiveRecord
 			array('longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, route_id, latitude, longitude, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, route_id, latitude, longitude, start_time, end_time, distance_to_next_stop, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 

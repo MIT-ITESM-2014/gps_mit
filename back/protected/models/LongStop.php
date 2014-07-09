@@ -36,7 +36,7 @@ class LongStop extends CActiveRecord
 			array('latitude, longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, latitude, longitude, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, latitude, longitude, start_time, end_time, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 

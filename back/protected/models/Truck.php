@@ -36,7 +36,7 @@ class Truck extends CActiveRecord
 			array('name, created_at, updated_at', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, identifier, name, uploaded_file_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, identifier, name, uploaded_file_id, average_stem_distance, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +49,13 @@ class Truck extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'truck_id'),
+			'routes' => array(self::HAS_MANY, 'Route', 'truck_id'),
 			'uploadedFile' => array(self::BELONGS_TO, 'UploadedFile', 'uploaded_file_id'),
+      'routesCount'=>array(self::STAT, 'Route', 'truck_id'),
+			'timeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(time)'),
+      'averageSpeedSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(average_speed)'),
+      'shortStopsCountSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(short_stops_count)'),
+      'distanceSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(distance)'),
 		);
 	}
 

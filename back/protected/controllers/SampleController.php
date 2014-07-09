@@ -71,13 +71,10 @@ class SampleController extends Controller
 		$pending_files = Identity::model()->find('id='.Yii::app()->user->getId())->pendingUploads();
 		
 		//If it is at the second step
-		//print_r($uploaded_files[0]);
-		//$cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init_first.js', CClientScript::POS_END);
-		$step = 0;
 		if(count($pending_files) > 0)
-		{
 		  $step = $pending_files[0]->step;
-		}
+		else
+		  $step = 0;
 		
 		$parameter_model = new ParameterForm;
 		$script = isset($_GET['script']);
@@ -89,6 +86,101 @@ class SampleController extends Controller
 		));
 	}
 	
+	function calculateAllMetrics()
+  {
+    $this->actionFindStopsAndRoutes();
+    $this->actionGenerateRouteMetrics();
+    $this->actionGenerateTruckMetrics();
+    $this->actionGenerateCompanyMetrics();
+  }
+  
+  function actionGenerateCompanyMetrics()
+  {
+    $company = Yii::app()->user->getCompany();
+    
+    //RouteCount
+    $route_count = 0;
+    foreach( $company->trucks as $truck )
+    {
+      $route_count = $route_count + $truck->routesCount;
+    }
+    $company->route_count = $route_count;
+  }
+  
+  function actionGenerateTruckMetrics()
+  {
+    $limit = 1;
+    $offset = 0;
+    $limit_string = strval($limit);
+    $offset_string = strval($offset);
+    $criteria = new CDbCriteria();
+    $criteria->with = array('routesCount', 'timeSum','averageSpeedSum', 'distanceSum', 'shortStopsCountSum');
+    $criteria->limit = $limit_string;
+    $criteria->offset = $offset_string;
+    $criteria->order = "t.id ASC";
+    $trucks = Truck::model()->findAll($criteria);
+    while(count($trucks) > 0)
+    {
+      foreach($trucks as $truck)
+      {
+        $route_count = $truck->routesCount;
+        $truck->route_count = $route_count;
+        $truck->total_distance = $truck->distanceSum;
+        $truck->average_duration = $truck->timeSum/$route_count;
+        $truck->average_speed = $truck->averageSpeedSum/$route_count;
+        $truck->average_stop_count_per_trip = $truck->shortStopsCountSum/$route_count;
+        $truck->average_distance_between_short_stops = $this->calculateAverageDistanceBetweenShortStops($truck);
+        $truck->average_stem_distance = $this->calculateAverageStemDistance($truck);
+        $truck->save();
+      }
+      $limit++;
+      $offset++;
+      $limit_string = strval($limit);
+      $offset_string = strval($offset);
+      $criteria->limit = $limit_string;
+      $criteria->offset = $offset_string;
+      $trucks = Truck::model()->findAll($criteria);
+    }
+  }
+  
+  
+  public function calculateAverageStemDistance($truck)
+  {
+    $distanceSum  = 0.0;
+    $count = 0;
+    
+    foreach($truck->routes as $route)
+    {
+      $distanceSum = $distanceSum + $route->first_stem_distance + $route->second_stem_distance;
+      $count++;
+    }
+    $average;
+    if($count > 0)
+      $average = $distanceSum / $count;
+    else
+      $average = 0;
+    return $average;
+  }
+  
+  public function calculateAverageDistanceBetweenShortStops($truck)
+  {
+    $distanceSum  = 0.0;
+    $count = 0;
+    
+    foreach($truck->routes as $route)
+    {
+      $distanceSum = $distanceSum + $route->distanceToNextShortStopSum;
+      $count = $count + $route->distanceToNextShortStopCount;
+    }
+    
+    $average;
+    if($count > 0)
+      $average = $distanceSum / $count;
+    else
+      $average = 0;
+    return $average;
+  }
+  
 	public function actionUploadOne()
 	{
 	  if (empty($_FILES) || $_FILES["file"]["error"]) {
@@ -148,7 +240,6 @@ class SampleController extends Controller
           $new_truck = new Truck;
           $new_truck->name = $truck_name;
           $new_truck->save();
-          print_r($new_truck);
         }
       }
       
@@ -170,6 +261,8 @@ class SampleController extends Controller
       $uploaded_file_model->save();
 		}
   }
+  
+  
   
   
   function calculateDistance($lon1, $lat1, $lon2, $lat2)
@@ -219,9 +312,6 @@ class SampleController extends Controller
     $secondSample->interval = $time_diff;
     //Speed is km/hr
     $aux = $secondSample->interval/3600.0;
-    print_r("<br>");
-    print_r($aux);
-    print_r("<br>");
     if($aux > 0)
       $secondSample->speed = $secondSample->distance / $aux;
     else
@@ -255,9 +345,6 @@ class SampleController extends Controller
     $secondSample->interval = $secondSample->datetime - $firstSample->datetime;
     //Speed is km/hr
     $aux = $secondSample->interval/3600.0;
-    print_r("<br>");
-    print_r($secondSample->interval." *** ".$secondSample->datetime." *** ".$firstSample->datetime);
-    print_r("<br>");
     if($aux > 0)
       $secondSample->speed = $secondSample->distance/$aux;
     else
@@ -285,11 +372,15 @@ class SampleController extends Controller
       $speed_count = $speed_count + ($sample->speed*$sample->distance);
       $samples_count++;
     }
-    $average_speed = $speed_count/$route->distance;
+    if($route->distance > 0)
+      $average_speed = $speed_count/$route->distance;
+    else
+      $average_speed = 0;
     $route->average_speed = $average_speed;
     $route->save();
   }
   
+  //TODO Change to relation
   function generateRouteStopsCount($route)
   {
     $short_stops_count = count($route->shortStops);
@@ -333,6 +424,8 @@ class SampleController extends Controller
         $this->generateRouteAverageSpeed($route);
         $this->generateRouteStopsCount($route);
         $this->generateRouteTotalTime($route);
+        $this->generateRouteShortStopsDistance($route);
+        $this->generateRouteStemTimeAndDistance($route);
       }
       $limit++;
       $offset++;
@@ -343,6 +436,69 @@ class SampleController extends Controller
       $routes = Route::model()->findAll($criteria);
     }
     
+  }
+  
+  function generateRouteStemTimeAndDistance($route)
+  {
+    $first_stem_distance = null;
+    $second_stem_distance = null;
+    $first_stem_time = null;
+    $second_stem_time = null;
+    
+    if(isset($route->firstShortStop[0]) && ($route->lastShortStop[0]))
+    {
+      $first_stem_start_time = $route->beginning_stop->end_time;
+      $first_stem_start_lat =  $route->beginning_stop->latitude;
+      $first_stem_start_lon = $route->beginning_stop->longitude;
+      $first_stem_end_time = $route->firstShortStop[0]->start_time;
+      $first_stem_end_lat = $route->firstShortStop[0]->latitude;
+      $first_stem_end_lon = $route->firstShortStop[0]->longitude;
+      
+      $second_stem_start_time = $route->lastShortStop[0]->end_time;
+      $second_stem_start_lat = $route->lastShortStop[0]->latitude;
+      $second_stem_start_lon = $route->lastShortStop[0]->longitude;
+      $second_stem_end_time = $route->end_stop->start_time;
+      $second_stem_end_lat = $route->end_stop->latitude;
+      $second_stem_end_lon = $route->end_stop->longitude;
+      
+      $first_stem_distance = $this->calculateDistance($first_stem_start_lon, $first_stem_start_lat, $first_stem_end_lon, $first_stem_end_lat);
+      $second_stem_distance = $this->calculateDistance($second_stem_start_lon, $second_stem_start_lat, $second_stem_end_lon, $second_stem_end_lat);
+      
+      $first_stem_start_date = new DateTime($first_stem_start_time);
+      $first_stem_end_date = new DateTime($first_stem_end_time);
+      $first_stem_time = $first_stem_end_date->getTimestamp() - $first_stem_start_date->getTimestamp();
+                
+      $second_stem_start_date = new DateTime($second_stem_start_time);
+      $second_stem_end_date = new DateTime($second_stem_end_time);
+      $second_stem_time = $second_stem_end_date->getTimestamp() - $second_stem_start_date->getTimestamp();
+    }
+    
+    $route->first_stem_distance = $first_stem_distance;
+    $route->second_stem_distance = $second_stem_distance;
+    $route->first_stem_time = $first_stem_time;
+    $route->second_stem_time = $second_stem_time;
+    $route->save();
+  }
+  
+  function generateRouteShortStopsDistance($route)
+  {
+    $i = 0;
+    $short_stops_count = count($route->shortStops);
+    if($short_stops_count > 2)
+    {
+      while( $i < ($short_stops_count-1) )
+      {
+        $short_stop = $route->shortStops[$i];
+        $next_stop = $route->shortStops[$i+1];
+        $lon1 = $short_stop->longitude;
+        $lat1 = $short_stop->latitude;
+        $lon2 = $next_stop->longitude;
+        $lat2 = $next_stop->latitude;
+        $distance_to_next_stop = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+        $short_stop->distance_to_next_stop = $distance_to_next_stop;
+        $i++;
+      }
+    }  
   }
   
   function actionFindStopsAndRoutes()
@@ -375,6 +531,7 @@ class SampleController extends Controller
         $previous_sample = $samples[0];
         $route_count = 1;
         $current_route = new Route;
+        $current_route->truck_id = $truck->id;
         $current_route->name = $route_count;
         $current_route->beginning_stop_id = $new_stop->id;
         $current_route->save();
@@ -460,8 +617,8 @@ class SampleController extends Controller
             }
             $new_stop->latitude = $samples[$stop_start]->latitude;
             $new_stop->longitude = $samples[$stop_start]->longitude;
-            $new_stop->created_at = date('Y-m-d H:i:s.u');
-            $new_stop->updated_at = date('Y-m-d H:i:s.u');
+            $new_stop->start_time = $samples[$stop_start]->datetime;
+            $new_stop->end_time = $samples[$stop_end]->datetime;
             $new_stop->save();
             $new_stop->validate();
             
@@ -473,6 +630,7 @@ class SampleController extends Controller
               $current_route->end_stop_id = $new_stop->id;
               $current_route->save();
               $current_route = new Route;
+              $current_route->truck_id = $truck->id;
               $current_route->name = $route_count;
               $current_route->beginning_stop_id = $new_stop->id;
               $current_route->save();
@@ -542,6 +700,9 @@ class SampleController extends Controller
 			  $pending_upload = Yii::app()->user->getIdentity()->pendingUpload();
 			  $pending_upload->step++;
 			  $pending_upload->save();
+			  
+			  $this->calculateAllMetrics();
+			  
 			  //Identity::model()->find('id='.Yii::app()->user->getId())->pendingUpload()
 			  echo CJSON::encode(array(
           'status'=>'success'
@@ -580,7 +741,6 @@ class SampleController extends Controller
 
 			}
 		}
-    print_r("im here");
   }
 	/**
 	 * Updates a particular model.

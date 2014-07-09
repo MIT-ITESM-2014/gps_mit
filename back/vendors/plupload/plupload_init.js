@@ -79,7 +79,6 @@ var uploader = new plupload.Uploader({
             $('#'+files[index].id).remove();
             removeFile(up,files[index].id);
           }
-          alert("voy a evaluar" + req.responseText);
           eval(req.responseText);
           //document.getElementById("ajax_content").innerHTML=req.responseText;
         }
