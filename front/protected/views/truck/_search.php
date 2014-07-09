@@ -17,11 +17,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'identifier'); ?>
-		<?php echo $form->textField($model,'identifier'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'created_at'); ?>
 		<?php echo $form->textField($model,'created_at'); ?>
 	</div>

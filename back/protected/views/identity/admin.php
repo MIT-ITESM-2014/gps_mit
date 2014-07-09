@@ -1,31 +1,3 @@
-<?php
-/* @var $this IdentityController */
-/* @var $model Identity */
-
-$this->breadcrumbs=array(
-	'Identities'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'List Identity', 'url'=>array('index')),
-	array('label'=>'Create Identity', 'url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#identity-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
-?>
-
 <div class="headers">
 	<div id="button-box-admin" onclick="window.location.replace('index.php?r=identity/create')"> </div>
 	<h1>Manage Identities</h1>

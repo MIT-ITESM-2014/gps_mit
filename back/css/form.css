@@ -36,8 +36,7 @@
 
 div.form
 {
-	padding-top: 25px;
-	margin-left: 320px;
+	width: auto;
 }
 
 div.form input,

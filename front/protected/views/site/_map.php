@@ -4,7 +4,7 @@
 $options = "";
 foreach ($trucks as $t)
 {
-  $options = $options . " newOption = $('<option value=\"".$t->id."\">".$t->identifier."</option>');  $('#truck_selector').append(newOption);";
+  $options = $options . " newOption = $('<option value=\"".$t->id."\">".$t->name."</option>');  $('#truck_selector').append(newOption);";
 }
 
 ?>

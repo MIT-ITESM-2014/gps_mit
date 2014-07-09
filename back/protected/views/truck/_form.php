@@ -18,12 +18,6 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'identifier'); ?>
-		<?php echo $form->textField($model,'identifier'); ?>
-		<?php echo $form->error($model,'identifier'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'created_at'); ?>
 		<?php echo $form->textField($model,'created_at'); ?>
 		<?php echo $form->error($model,'created_at'); ?>

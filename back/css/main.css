@@ -1,7 +1,8 @@
 body
 {
+	font-family: 'Ubuntu Medium', Arial, Helvetica, sans-serif;
 	background-color: #1b1b1b;
-	font-size: 62.5%;
+	font-size: 16px;
 	margin: 0;
 	padding: 0;
 	color: #555;
@@ -69,16 +70,18 @@ ul.symbolList {
 
 #page-contents
 {
-	width: 1200px;
-	height: 900px;
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
 #content
 {
-	font-family: 'Ubuntu Medium', Arial, Helvetica, sans-serif;
+	display: table;
 	font-size: 15px;
 	text-align: left;
 	padding-bottom: 2px;
+	width: 100%;
 }
 
 h1#contents-field
@@ -88,29 +91,15 @@ h1#contents-field
 
 #contents-field
 {
-	padding: 20px;
-	line-height: 110%;
-	padding-bottom: 25px;
-	margin-bottom: 0;
-	background-color: #006060;
-	padding-top: 20px;
-	height: 30px;
+	display: table;
+	width: 100%;
+	height: auto;
 	color: #1b1b1b;
-
 }
 
 #sidebar
 {
 	padding: 20px 20px 20px 0;
-}
-
-#footer
-{
-	padding: 10px;
-	margin: 20px 20px;
-	font-size: 0.8em;
-	text-align: center;
-	border-top: 1px solid #003c4b;
 }
 
 #logo
@@ -137,20 +126,14 @@ h1#contents-field
 #mainmenu
 {
 	background-color: #003c4b;
-	background-repeat: repeat;
-	width: 262px;
-	height: 708px;
-	display: inline-block;
-	float: left;
 }
 
 #mainmenu-container
 {
 
 	width: 262px;
-	height: 708px;
 	padding-left: 0px;
-	display: inline-block;
+	display: table;
 	float: left;
 }
 
@@ -178,7 +161,7 @@ html > body #mainmenu {
 	display: block;
 	color:#ffffff;
 	font-size:16px;
-	font-weight:bold;
+	font-weight:lighter;
 	text-decoration:none;
 	padding-left: 80px;
 	padding-top: 10px;
@@ -211,11 +194,6 @@ html > body #mainmenu {
 {
 	color: #FFFFFF;
 	background-color:#00a894;
-}
-
-#menu-elements
-{
-
 }
 
 #list-contents
@@ -296,10 +274,6 @@ div.search-form
 	background: #eee;
 }
 
-.portlet
-{
-}
-
 .portlet-decoration
 {
 	padding: 3px 8px;
@@ -372,9 +346,9 @@ div.search-form
 
 #create-header
 {
-	width: 890px;
-	height: 55px;
-	margin-left: 20px;
+	background-color: #006060;
+	width: 100%;
+	height: 70px;
 	float: left;
 }
 
@@ -397,11 +371,18 @@ div.search-form
 
 .headers
 {
-	width: 890px;
-	height: 55px;
-	margin-left: 20px;
+	display: inline-block;
+	background-color: #006060;
+	width: 100%;
+	height: 70px;
 	float: left;
-	}
+}
+
+.headers h1
+{
+	margin-left: 20px;
+	margin-top: 15px;
+}
 
 #sample-image
 {
@@ -485,12 +466,10 @@ div.search-form
 
 .admin-list
 {
-
 	width: 918px;
 	height: 1200px;
 	display: inline;
 	float: left;
-
 }
 
 #button-box
@@ -515,10 +494,262 @@ div.search-form
 	background-position: 0px 0px;
 	background-image: url("../public/images/CreateButton.png");
 	float: right;
+	margin-top: 15px;
+	margin-right: 330px;
 }
 
 #button-box-admin:hover
 {
 	background-position: 0px 30px;
 	cursor: pointer;
+}
+
+.upload-guidelines
+{
+	height: 100px;
+	width: 100%;
+}
+
+.upload-guidelines-file
+{
+	background-color: #00a894;
+	width: 430px;
+	height: 98px;
+	float: left;
+}
+
+.upload-guidelines-file-image
+{
+	background-image: url("../public/images/GPSInformation.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	width: 50%;
+	height: 98px;
+	margin-left: 120px;
+}
+
+.upload-guidelines-arrow
+{
+	background-image: url("../public/images/ArrowProcess1.png");
+	background-repeat: no-repeat;
+	height: 98px;
+	width: 40px;
+	float: left;
+}
+
+.upload-guidelines-params
+{
+	background-color: #49ceae;
+	width: 50%;
+	height: 98px;
+	float: left;
+}
+
+.upload-guidelines-params-image
+{
+	background-image: url("../public/images/Parameters.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	width: 178px;
+	height: 98px;
+	margin-left: 120px;
+}
+
+.upload-file-explanation
+{
+	margin-top: 90px;
+	margin-left: 30px;
+}
+
+.upload-file-explanation p
+{
+	font-weight: lighter;
+}
+
+.explanation-par-one
+{
+	line-height: 3px;
+}
+
+.explanation-par-two
+{
+	line-height: 3px;
+}
+
+.download-sample-file-button
+{
+	background-image: url("../public/images/DownloadSampleFileButton.png");
+	background-position: 0px 0px;
+	width: 221px;
+	height: 30px;
+	margin-left: 300px;
+}
+
+.download-sample-file-button:hover
+{
+	background-position: 0px 60px;
+	cursor: pointer;
+}
+
+.files-to-upload
+{
+	width: 338px;
+	height: 30px;
+	border: solid 1px #a5a5a5;
+	margin-left: 130px;
+	margin-top: 15px;
+	float: left;
+}
+
+.files-to-upload ul
+{
+	list-style-type: none;
+}
+
+.files-to-upload ul li
+{
+	background: transparent;
+	padding: 5px;
+}
+
+.delete-icon
+{
+	background-image: url("../public/images/CancelXButton.png");
+	background-position: 0px 0px;
+	width: 30px;
+	height: 30px;
+	float: right;
+	cursor: pointer;
+}
+
+.browse-files-button
+{
+	background-image: url("../public/images/BrowseButton.png");
+	background-position: 0px 0px;
+	width: 120px;
+	height: 30px;
+	margin-top: 15px;
+	margin-left:15px;
+	float: left;
+}
+
+.browse-files-button:hover
+{
+	background-position: 0px 30px;
+}
+
+.start-upload-button
+{
+	background-image: url("../public/images/UploadButton.png");
+	background-position: 0px 0px;
+	width: 120px;
+	height: 30px;
+	margin-top: 40px;
+	margin-left: -55px;
+}
+
+.start-upload-button:hover
+{
+	background-position: 0px 30px;
+}
+
+.upload-guidelines-two
+{
+	height: 100px;
+	width: 100%;
+}
+
+.upload-guidelines-file-two
+{
+	background-color: #49ceae;
+	width: 40%;
+	height: 98px;
+	float: left;
+}
+
+.upload-guidelines-file-image-two
+{
+	background-image: url("../public/images/GPSInformation.png");
+	background-position: 0px 98px;
+	width: 178px;
+	height: 98px;
+	margin-left: 120px;
+}
+
+.upload-guidelines-arrow-two
+{
+	background-image: url("../public/images/ArrowProcess2.png");
+	height: 98px;
+	width: 40px;
+	float: left;
+}
+
+.upload-guidelines-params-two
+{
+	background-color: #00a894;
+	width: 40%;
+	height: 98px;
+	float: left;
+}
+
+.upload-guidelines-params-image-two
+{
+	background-image: url("../public/images/Parameters.png");
+	background-position: 0px 98px;
+	width: 178px;
+	height: 98px;
+	margin-left: 120px;
+}
+
+.parameters-form
+{
+	margin-top: 90px;
+	margin-left: 40px;
+}
+
+#content #contents-field #file_upload_container #container
+{
+	width: 500px;
+	height: 200px;
+	display: inline;
+}
+
+#content #contents-field #file_upload_container
+{
+	height: 100%;
+	width: auto;
+}
+
+.row-parameter-single
+{
+	width: 100%;
+	float: left;
+	height: 30px;
+	margin-top: 20px;
+}
+
+.parameter-label
+{
+	width: 150px;
+	height: 30px;
+	float: left;
+	vertical-align: top;
+}
+
+.parameter-input input
+{
+	float: left;
+	width: 216px;
+	height: 30px;
+	border: 1px solid #a5a5a5;
+}
+
+.parameter-error
+{
+	color: #ff0000;
+}
+
+.buttons
+{
+
 }

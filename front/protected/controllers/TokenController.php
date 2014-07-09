@@ -256,7 +256,7 @@ class TokenController extends Controller
     $date = new DateTime($source);
     //modifying json
     //added fields (general_information)
-    $json_data = '{"general_information": {"truck_id": "'.$truck->identifier.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$route->distance.'", "average_speed" : "'.$route->average_speed.'", "short_stops_count" : "'.$route->short_stops_count.'", "time_days": "'.$time_days.'","time_hours" : "'.$time_hours.'", "time_minutes": "'.$time_minutes.'"}}';
+    $json_data = '{"general_information": {"truck_id": "'.$truck->name.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$route->distance.'", "average_speed" : "'.$route->average_speed.'", "short_stops_count" : "'.$route->short_stops_count.'", "time_days": "'.$time_days.'","time_hours" : "'.$time_hours.'", "time_minutes": "'.$time_minutes.'"}}';
     echo CJSON::encode($json_data);
     Yii::app()->end(); 
   }

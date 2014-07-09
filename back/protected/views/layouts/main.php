@@ -37,7 +37,7 @@
 					'encodeLabel'=>false,
 					'items'=>array(
 						//array('label'=>'Home', 'url'=>array('/site/index')),
-						array('label'=>'<div id="upload-image"> </div> Upload', 'url'=>array('/sample/create')),
+						array('label'=>'<div id="upload-image"> </div> Upload CSV', 'url'=>array('/sample/create')),
 						array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/admin')),
 						array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/admin')),
 						//array('label'=>'Token', 'url'=>array('/token/index')),
