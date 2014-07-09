@@ -40,7 +40,7 @@ var uploader = new plupload.Uploader({
       
       if(up.files.length <= maxfiles)
       {
-        $('#'+last_file.id).append('<div id="delete'+last_file.id+'">X</div>');
+        $('#'+last_file.id).append('<div id="delete'+last_file.id+'" class="delete-icon"></div>');
         $('#delete'+last_file.id).click(function(){
           removeFile(up,last_file.id);
         });
