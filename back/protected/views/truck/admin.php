@@ -41,7 +41,7 @@ $('.search-form form').submit(function(){
 		'htmlOptions' => array('class' => 'gridStyle'),
 		'columns'=>array(
 			//'id',
-			'identifier',
+			'name',
 			//'created_at',
 			//'updated_at',
 			array(

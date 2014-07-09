@@ -4,3 +4,5 @@ back/protected/runtime/*
 front/protected/runtime/*
 files/*
 back/protected/runtime/*
+front/protected/runtime/application.log
+back/protected/runtime/application.log
