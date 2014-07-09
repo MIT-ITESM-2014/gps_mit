@@ -364,7 +364,19 @@ class SiteController extends Controller
 	 */
 	public function actionTrucks()
 	{
-	  $this->render('trucks');
+	  $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery');
+	  $criteria = new CDbCriteria();
+	  $criteria->select = 'id, name';
+	  //TODO  Validate company in truck list
+	  //$criteria->addCondition("company_id = ".Yii::app()->user->getCompany()->id);
+    
+    $trucks = CHtml::listData(Truck::model()->findAll($criteria), 'id', 'name');
+ 
+	  $data = array(
+	    'trucks' => $trucks,
+	  );
+	  $this->render('trucks', $data);
 	}
 	
 	/**

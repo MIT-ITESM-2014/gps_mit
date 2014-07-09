@@ -1,5 +1,6 @@
 
 <?php 
+
 $this->renderPartial('_map', array(
   'script'=>$script, 
   'trucks'=>$trucks, 

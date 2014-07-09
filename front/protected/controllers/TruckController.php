@@ -28,7 +28,7 @@ class TruckController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'getTruckStats'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -45,6 +45,52 @@ class TruckController extends Controller
 		);
 	}
 
+
+  public function actionGetTruckStats()
+  {
+    header('Content-type: application/json');
+    $_GET['truck_id'];
+    $json_data = "soy nuaeva data".$_GET['truck_id'];
+    
+    if(isset($_GET['truck_id']))
+    {
+      if($_GET['truck_id'] > 0)
+      {
+        $truck_id = $_GET['truck_id'];
+        //TODO Validate session to access company trucks
+        $truck = Truck::model()->findByPk($truck_id);
+        if($truck != null)
+        {
+          echo CJSON::encode(array("truck"=>$truck));
+        }
+        else
+          echo CJSON::encode("");
+      }
+      else
+        echo CJSON::encode("");
+      
+    }
+    else
+      echo CJSON::encode("");
+    Yii::app()->end(); 
+    
+    /*
+    $json_data = '{"routes":[';
+        $comma_counter = 0;
+        
+        foreach($routes as $route)
+        {
+          if($comma_counter != 0)
+            $json_data = $json_data . ",";
+
+          $json_data = $json_data . '{"name":"'.$route->name.'", "value":"'.$route->id.'"}';
+          $comma_counter++;
+        }
+
+        $json_data = $json_data . ']}';
+    */
+    
+  }
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
