@@ -169,8 +169,11 @@ class SampleController extends Controller
     
     foreach($truck->routes as $route)
     {
-      $distanceSum = $distanceSum + $route->distanceToNextShortStopSum;
-      $count = $count + $route->distanceToNextShortStopCount;
+      if($route->distanceToNextShortStopSum != null)
+      {
+        $distanceSum = $distanceSum + $route->distanceToNextShortStopSum;
+        $count = $count + $route->distanceToNextShortStopCount;
+      }
     }
     
     $average;
@@ -496,6 +499,7 @@ class SampleController extends Controller
         $lat2 = $next_stop->latitude;
         $distance_to_next_stop = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
         $short_stop->distance_to_next_stop = $distance_to_next_stop;
+        $short_stop->save();
         $i++;
       }
     }  

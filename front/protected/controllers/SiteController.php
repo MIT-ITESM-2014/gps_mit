@@ -358,6 +358,22 @@ class SiteController extends Controller
 			'trucks'=>$trucks,
 		));
 	}
+	
+	/**
+	 * Render the Trucks section
+	 */
+	public function actionTrucks()
+	{
+	  $this->render('trucks');
+	}
+	
+	/**
+	 * Render the Stats section
+	 */
+	public function actionStats()
+	{
+	  $this->render('stats');
+	}
 
 	/**
 	 * This is the action to handle external exceptions.

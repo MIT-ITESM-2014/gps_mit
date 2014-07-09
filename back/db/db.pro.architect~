@@ -4,8 +4,8 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="gpstracks" />
    <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/gpstracks" />
    <property key="UID" value="gpstracks" />
    <property key="PWD" value="dh28HszAn89sRg9iwsxy" />
@@ -43,7 +43,7 @@
     <column id="COL8" populated="true" UUID="d0aead00-1567-4263-b7b3-5ed56cada4d2" autoIncrement="false" autoIncrementSequenceName="truck_average_speed_seq" defaultValue="" name="average_speed" nullable="1" physicalName="average_speed" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL9" populated="true" UUID="0aef8d30-fd9d-498f-b4fc-fb19240659eb" autoIncrement="false" autoIncrementSequenceName="truck_average_stop_count_per_trip_seq" defaultValue="" name="average_stop_count_per_trip" nullable="1" physicalName="average_stop_count_per_trip" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL9" populated="true" UUID="0aef8d30-fd9d-498f-b4fc-fb19240659eb" autoIncrement="false" autoIncrementSequenceName="truck_average_stop_count_per_trip_seq" defaultValue="" name="average_stop_count_per_trip" nullable="1" physicalName="average_stop_count_per_trip" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
     <column id="COL10" populated="true" UUID="215b9f15-9f09-43f7-8d49-f81485b82d0f" autoIncrement="false" autoIncrementSequenceName="truck_average_distance_between_short_stops_seq" defaultValue="" name="average_distance_between_short_stops" nullable="1" physicalName="average_distance_between_short_stops" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
@@ -494,7 +494,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.8408964152537148" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

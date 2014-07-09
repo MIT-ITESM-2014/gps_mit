@@ -28,8 +28,8 @@
 		</div>
 		<div id="icons-bar">
 			<a href="index.php"><div id="routes-section"></div></a>
-			<div id="trucks-section"> </div>
-			<div id="stats-section"> </div>	
+			<a href="<?php echo Yii::app()->createUrl('site/trucks', array())?>"><div id="trucks-section"> </div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section"> </div></a>
 		</div>	
 	</div><!-- header -->
 
