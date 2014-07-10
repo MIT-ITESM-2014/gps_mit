@@ -132,7 +132,8 @@ h1#contents-field
 {
 
 	width: 262px;
-	padding-left: 0px;
+	padding: 0px;
+	margin: 0px;
 	display: table;
 	float: left;
 }
@@ -144,16 +145,17 @@ html > body #mainmenu {
 
 #mainmenu ul
 {
-	margin:0px;
+	padding: 0px;
+	margin: 0px;
 	display: block;
-
 }
 
 #mainmenu ul li
 {
 	text-decoration: none;
-	padding-bottom: 10px;
-	padding-top: 10px;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
 }
 
 #mainmenu ul li a
@@ -163,11 +165,11 @@ html > body #mainmenu {
 	font-size:16px;
 	font-weight:lighter;
 	text-decoration:none;
-	padding-left: 80px;
-	padding-top: 10px;
+	padding: 20px 0px 0px 65px;
+	margin: 0px;
 	width: 182px;
-	height: 49px;
-	max-height: 49px;
+	height: 70px;
+	max-height: 70px;
 }
 
 #mainmenu ul li.active
@@ -176,29 +178,25 @@ html > body #mainmenu {
 	background-color:#00a894;
 	text-decoration:none;
 	width: 262px;
-	height: 49px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	max-height: 49px;
+	height: 70px;
+	margin: 0px;
+	max-height: 70px;
 }
 
 #mainmenu ul li:first-child.active
 {
 	color: #FFFFFF;
 	background-color:#00a894;
-	margin-top: 10px;
+	margin: 0px;
+	max-height: 70px;
 }
 
-
-#mainmenu ul li a:hover
+#mainmenu ul li:hover, #mainmenu ul li:focus
 {
 	color: #FFFFFF;
 	background-color:#00a894;
-}
-
-#list-contents
-{
-	padding-top: 25px;
+	margin: 0px;
+	padding: 0px;
 }
 
 div.flash-error, div.flash-notice, div.flash-success
@@ -391,17 +389,19 @@ div.search-form
 	width: 40px;
 	height: 30px;
 	float: left;
+	vertical-align: middle;
 }
 
-#mainmenu ul li a:hover #sample-image
+#mainmenu ul li:hover #sample-image
 {
 	background-position: 0px 30px;
-	
+	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #sample-image
 {
 	background-position: 0px 30px;
+	vertical-align: middle;	
 }
 
 #truck-image
@@ -411,12 +411,13 @@ div.search-form
 	width: 40px;
 	height: 30px;
 	float: left;
+	vertical-align: middle;
 }
 
-#mainmenu ul li a:hover #truck-image
+#mainmenu ul li:hover #truck-image
 {
 	background-position: 0px 30px;
-	
+	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #truck-image
@@ -431,17 +432,19 @@ div.search-form
 	width: 40px;
 	height: 30px;
 	float: left;
+	vertical-align: middle;	
 }
 
-#mainmenu ul li a:hover #identity-image
+#mainmenu ul li:hover #identity-image
 {
 	background-position: 0px 30px;
-	
+	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #identity-image
 {
 	background-position: 0px 30px;
+	vertical-align: middle;	
 }
 
 #upload-image
@@ -451,23 +454,25 @@ div.search-form
 	width: 40px;
 	height: 30px;
 	float: left;
+	vertical-align: middle;	
 }
 
-#mainmenu ul li a:hover #upload-image
+#mainmenu ul li:hover #upload-image
 {
 	background-position: 0px 30px;
-	
+	vertical-align: middle;
 }
 
 #mainmenu ul li.active #upload-image
 {
 	background-position: 0px 30px;
+	vertical-align: middle;	
 }
 
 .admin-list
 {
 	width: 918px;
-	height: 1200px;
+	height: autof;
 	display: inline;
 	float: left;
 }
