@@ -1,9 +1,9 @@
 body
 {
+	font-family: 'Ubuntu Medium', Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
 	color: #555;
-	font: normal 10pt Arial,Helvetica,sans-serif;
 	width: 100%;
 	height:100%;
 }
@@ -717,4 +717,89 @@ div.search-form
 #more_statistics_button:hover
 {
 	background-position: 0px 38px;
+}
+
+#truck-selection
+{
+	width: 100%;
+	height: 40px;
+	background-color: #49ceae;
+}
+
+#truck-selector-container-truck-section
+{
+	background-image: url("../public/images/ArrowDropdown.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+	float: left;
+	width: 125px;
+	height: 40px;
+	overflow: hidden;
+}
+
+#selector-truck-truck-section
+{
+	width: 170px;
+	height: 30px;
+	float: left;
+	margin-top: 5px;
+	margin-left: 45px;
+	background-color: #003c4b;
+}
+
+#trucks_truck_select
+{
+	background: transparent;
+	color: #FFFFFF;
+	font-size: 14px;
+	float: left;
+	overflow: hidden;
+  width: 145px;
+  border: 1px solid #003c4b;
+}
+
+#compare-trucks-button
+{
+	background-image: url("../public/images/CompareAllTrucksButtonBar.png");
+	background-position: 0px 0px;
+	float: right;
+	width: 220px;
+	height: 30px;
+	margin-right: 40px;
+	margin-top: 4px;
+}
+
+#compare-trucks-button:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
+}
+
+#trucks_truck_stats
+{
+	margin: 25px 55px 55px 75px;
+	height: auto;
+	width: 85%;
+	background-color: #efefef;
+}
+
+#truck-id-trucks-section
+{
+	background-color: #00a894;
+	width: 100%;
+	height: 80px;
+}
+
+.truck-id-text
+{
+	color: #FFFFFF;
+	padding-left: 30px;
+	padding-top: 5px;
+	font-size: 40px;
+}
+
+#truck-stats-left
+{
+	width: 50%;
+	height: auto;
 }

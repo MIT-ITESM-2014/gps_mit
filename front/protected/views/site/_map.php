@@ -1,3 +1,31 @@
+  <div id="truck-selection"> 
+    
+    <div id="selector-truck">
+      <div id="truck-icon"> </div>
+      <div id="truck-selector-container">
+        <select id="truck_selector" name="truck_selector">
+        </select>
+        <div id="truck-dropdown-arrow"></div>
+      </div>
+    </div>
+    <div id="selector-day">
+      <div id="day-icon"> </div>
+      <div id="date-route" name="date-route">
+      </div>
+    </div>
+    <div id="selector-route">
+      <div id="route-icon"> </div>
+      <div id="route-selector-container">
+        <select id="select-route" name="select-route"> 
+        </select>
+      </div>
+    </div>
+    
+    <div id="button_update_map" name="button_update_map" class="update-button-map">
+      <p id ="update-map-text"> Update </p>
+    </div>
+    
+  </div>
 
 <?php
 

@@ -35,7 +35,7 @@
 
 	<div class="clear"></div>
 
-	<div id="routes-selection"> 
+	<!--<div id="routes-selection"> 
 		
 		<div id="selector-truck">
 			<div id="truck-icon"> </div>
@@ -61,7 +61,8 @@
 		<div id="button_update_map" name="button_update_map" class="update-button-map">
       <p id ="update-map-text"> Update </p>
     </div>
-	</div>
+
+	</div>-->
 
 	<?php echo $content; ?>
 	
