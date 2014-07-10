@@ -32,6 +32,18 @@ return array(
 
 	// application components
 	'components'=>array(
+	  'clientScript'=>array(
+	    'packages'=>array(
+	      'highcharts'=>array(
+	        'baseUrl'=>'js/vendors/highcharts/',
+	        'js'=>array(
+	          'highcharts.js',
+	          'highcharts-3d.js',
+	          'modules/exporting.js',
+	        ),
+	      ),
+	    ),
+	  ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,

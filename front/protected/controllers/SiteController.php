@@ -366,6 +366,7 @@ class SiteController extends Controller
 	{
 	  $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery');
+    $cs->registerCoreScript('highcharts');
 	  $criteria = new CDbCriteria();
 	  $criteria->select = 'id, name';
 	  //TODO  Validate company in truck list

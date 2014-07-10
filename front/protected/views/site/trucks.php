@@ -58,6 +58,8 @@
     <div id="trucks_truck_stats_data_average_stem_distance" class="trucks_truck_stats_data">
     </div>
   </div>
+  
+  <div id="container" style="height: 400px"></div>
 
 </div>
 
