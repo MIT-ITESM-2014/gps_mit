@@ -385,6 +385,9 @@ class SiteController extends Controller
 	 */
 	public function actionStats()
 	{
+	  $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery');
+    $cs->registerCoreScript('highcharts');
 	  $this->render('stats');
 	}
 

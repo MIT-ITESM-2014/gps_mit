@@ -40,6 +40,7 @@ return array(
 	          'highcharts.js',
 	          'highcharts-3d.js',
 	          'modules/exporting.js',
+	          'modules/drilldown.js',
 	        ),
 	      ),
 	    ),
