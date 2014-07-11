@@ -56,6 +56,10 @@ foreach ($trucks as $t)
                       'minDate'=>$min_date,
                       'maxDate'=>$max_date,
               ),
+              'htmlOptions'=>array(
+                    'placeholder'=> 'Choose a date',
+                    'class'=>'datePicker', 
+        ),
       ));
                     
     Yii::app()->clientScript->registerScript('editDays', "
@@ -117,21 +121,19 @@ foreach ($trucks as $t)
       Distance
     </div>
     <div id="distance_data_container"></div>
-    <div id="distance_data_units">  &nbsp;km </div>
   </div>
+
+  <div class="clear"> </div>
 
   <div id="time_container">
     <div id="time_icon"> </div>
     <div id="time_label">
     Time
     </div>
-    <div id="time_data_container_days"></div>
-    <div id="time_data_units">  &nbsp;d&nbsp; </div>
-    <div id="time_data_container_hours"></div>
-    <div id="time_data_units">  &nbsp;h&nbsp; </div>
-    <div id="time_data_container_minutes"></div>
-    <div id="time_data_units">  &nbsp;min </div>
+    <div id="time_data_container"></div>
   </div>
+
+  <div class="clear"> </div>
 
   <div id="average_speed_container">
     <div id="average_speed_icon"></div>
@@ -139,8 +141,9 @@ foreach ($trucks as $t)
     Average speed
     </div>
     <div id="average_speed_data_container"></div>
-    <div id="average_speed_data_units">  &nbsp;km/h </div>
   </div>
+
+  <div class="clear"> </div>
 
   <div id="short_stops_count_container">
     <div id="short_stops_count_icon"></div>
@@ -149,6 +152,8 @@ foreach ($trucks as $t)
     </div>
     <div id="short_stops_count_data_container"></div>
   </div>
+
+  <div class="clear"> </div>
 
   <div id="more_statistics_container">
     <div id="more_statistics_button"> </div>
