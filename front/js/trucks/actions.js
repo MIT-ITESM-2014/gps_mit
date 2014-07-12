@@ -97,10 +97,7 @@ function updateTruckStats()
 $(function () {    
 
     Highcharts.setOptions({
-        colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
-    });
-
-    Highcharts.setOptions({
+        colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         lang: {
             drillUpText: '<--', 
         }
@@ -108,7 +105,6 @@ $(function () {
 
     // Create the chart
     $('#container').highcharts({
-
         chart: {
           backgroundColor: '#efefef',
           font: '"Ubuntu Medium", Arial, Helvetica, sans-serif',
@@ -117,9 +113,9 @@ $(function () {
           plotShadow: false
         },
         title: {
-            text: 'Stops Analysis',
-            align: 'center',
-            y: 25
+          text: 'Stops Analysis',
+          align: 'center',
+          y: 25
         },
         exporting: {
           buttons:{
@@ -132,83 +128,62 @@ $(function () {
           }
         },      
         credits: {
-                enabled: false  
-            },
+          enabled: false  
+        },
         plotOptions: {
-            pie: {
-                dataLabels: {
-                    enabled: true,
-                    distance: -50,
-                    style: {
-                        fontWeight: 'bold',
-                        color: 'white',
-                        textShadow: '0px 1px 2px black'
-                    }
-                },
-                startAngle: -90,
-                endAngle: 90,
-                center: ['50%', '75%']
-            }
-        },
-        xAxis: {
-            type: 'category',
-            
-
-        },
-        
-        yAxis: {
-                min: 0,
-                title: {
-                    text: 'Shops'
-                }
+          pie: {
+            dataLabels: {
+              enabled: true,
+              distance: -50,
+              style: {
+                fontWeight: 'bold',
+                color: 'white',
+                textShadow: '0px 1px 2px black'
+              }
             },
-
-        legend: {
-            enabled: true,
-            fontsize:'12px', 
-
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%']
+          }
         },
-
         plotOptions: {
-            series: {
-                borderWidth: 0,
-
-            }
+          series: {
+            borderWidth: 0,
+          }
         },
-
         series: [{
             type: 'pie',
             innerSize: '50%',
-            name:'Short stop, Long stop and traveling',
             colorByPoint: true,
             data: [{
-                name: 'Short stops',
-                y: 585,
-                drilldown: 'short_stops_time',
-            }, {
-                name: 'Long Stops',
-                y: 2578,
-                drilldown: false
-            }, {
-                name: 'Traveling',
-                y: 1381,
-                drilldown: false
+              name: 'Short stops',
+              y: 585,
+              drilldown: 'short_stops_time',
+            }, 
+            {
+              name: 'Long Stops',
+              y: 2578,
+              drilldown: false
+            }, 
+            {
+              name: 'Traveling',
+              y: 1381,
+              drilldown: false
             }],
 
-            tooltip: {headerFormat: ' ' ,
-                    pointFormat: '<span style="font-size:80px"</span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
-                    valueSuffix: ' hrs ' 
-                    }
+            tooltip: {
+              headerFormat: ' ' ,
+              pointFormat: '<span style="font-size:80px"</span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
+              valueSuffix: ' hrs ' 
+            }
         }],
 
         drilldown: {
           series: [{
-            chart:{
-              type: 'column',
-            },  
+            type: 'column', 
             plotOptions: {
               column:{
-                stacking: 'normal'
+                stacking: 'normal',
               } 
             },
             title: {
@@ -227,25 +202,25 @@ $(function () {
               pointFormat: '<span style="font-size:80px"</span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
               valueSuffix: ' hrs ' 
             }
-      }],
-      drillUpButton: {
-        theme: {
-          fill: '#003c4b',
-          states: {
-            hover:{
-              fill: '#49ceae'
-            },
-            select:
-            {
-              fill: '#49ceae'
-            },
-          },
-          style: {
-            color: '#FFFFFF',
-            fontWeight: 'bold'
-          }, 
-        },         
-      }
-    }
+          }],
+          drillUpButton: {
+            theme: {
+              fill: '#003c4b',
+              states: {
+                hover:{
+                  fill: '#49ceae'
+                },
+                select:
+                {
+                  fill: '#49ceae'
+                },
+              },
+              style: {
+                color: '#FFFFFF',
+                fontWeight: 'bold'
+              }, 
+            },         
+          }
+        }
   })
 });

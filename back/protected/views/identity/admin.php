@@ -1,5 +1,5 @@
 <div class="headers">
-	<div id="button-box-admin" onclick="window.location.replace('index.php?r=identity/create')"> </div>
+	<a href="<?php echo Yii::app()->createUrl('identity/create', array())?>"><div id="button-box-admin"> </div></a>
 	<h1>Manage Identities</h1>
 </div>
 
