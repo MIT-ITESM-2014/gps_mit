@@ -47,6 +47,7 @@ class Truck extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'truck_id'),
+			'samplings' => array(self::HAS_MANY, 'Sampling', 'truck_id'),
 			'routes' => array(self::HAS_MANY, 'Route', 'truck_id'),
       'routesCount'=>array(self::STAT, 'Route', 'truck_id'),
 			'timeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(time)'),

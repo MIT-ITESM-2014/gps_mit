@@ -88,6 +88,7 @@ class SampleController extends Controller
 	
 	function calculateAllMetrics()
   {
+    $this->actionFindSamplings();
     $this->actionFindStopsAndRoutes();
     $this->actionGenerateRouteMetrics();
     $this->actionGenerateTruckMetrics();
@@ -464,6 +465,19 @@ class SampleController extends Controller
     $secondSample->save();
   }
   
+  function calculateIfContinuous($firstSample, $secondSample)
+  {
+    $time_treshold = 21600;
+    
+    $firstDate = new DateTime($firstSample->datetime);
+    $secondDate = new DateTime($secondSample->datetime);
+    $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
+    if($time_diff > $time_treshold)
+      return false;
+    else
+      return true;
+  }
+  
   function saveDistance($sample, $distance)
   {
     $sample->distance = $distance;
@@ -576,6 +590,7 @@ class SampleController extends Controller
         $this->generateStopsRanges($route);
         $this->generateAverageStopDuration($route);
         $this->generateLongStopsDuration($route);
+        $this->generateRouteIsValid($route);
       }
       $limit++;
       $offset++;
@@ -586,6 +601,20 @@ class SampleController extends Controller
       $routes = Route::model()->findAll($criteria);
     }
     
+  }
+  
+  function generateRouteIsValid($route)
+  {
+    $minimum_route_time = 1800;//seconds
+    if($route->time < $minimum_route_time)
+    {
+      $route->is_valid = false;
+    }
+    else
+    {
+      $route->is_valid = true;
+    }
+    $route->save();
   }
   
   function generateLongStopsDuration($route)
@@ -779,7 +808,7 @@ class SampleController extends Controller
     }  
   }
   
-  function actionFindStopsAndRoutes()
+  function actionFindSamplings()
   {
     $trucks = Truck::model()->findAll();
     foreach($trucks as $truck)
@@ -789,285 +818,320 @@ class SampleController extends Controller
       $criteria->addCondition('truck_id = '.$truck->id);
       //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
       $samples = Sample::model()->findAll($criteria);
-      
-      $distance_treshold_for_short_stop= Yii::app()->user->getCompany()->distance_radius_short_stop;//0.1; //TODO define treshold
-      $time_treshold_for_short_stop= Yii::app()->user->getCompany()->time_radius_short_stop;//14400;//Time in seconds
-      $distance_treshold_for_long_stop= Yii::app()->user->getCompany()->distance_radius_long_stop;//0.1; //TODO define treshold
-      $time_treshold_for_long_stop= Yii::app()->user->getCompany()->time_radius_long_stop;//14400;//Time in seconds
-      
-      
-      
       $samples_size = count($samples);
+      $sampling_name = 0;
       
-      if($samples_size > 1)
+      if($samples_size > 2)
       {
-        $new_stop = null;// = new LongStop;
-        //$new_stop->latitude = 0.0;
-        //$new_stop->longitude = 0.0;
-        //$new_stop->save();
-        
-        $previous_sample = $samples[0];
-        $route_count = 0;
-        $current_route = null;// = new Route;
-        //$current_route->truck_id = $truck->id;
-        //$current_route->name = $route_count;
-        //$current_route->beginning_stop_id = $new_stop->id;
-        //$current_route->save();
-        //$samples[0]->route_id=$current_route->id;//Set the first coordinate to the first route
-        //$samples[0]->save();
-        $stop_start;
-        $stop_end;
-        $stop_type = 0;
+        $new_sampling = new Sampling;
+        $new_sampling->truck_id = $truck->id;
+        $sampling_name++;
+        $new_sampling->name = $sampling_name;
+        $new_sampling->save();
+        $samples[0]->sampling_id = $new_sampling->id;
+        $samples[0]->save();
         
         for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
         {
-          $this->calculateDistanceSpeedAndTime($samples[$i-1],$samples[$i]);
-          $stop_type = 0;
-          $lon1 = $previous_sample->longitude;
-          $lat1 = $previous_sample->latitude;
-          $lon2 = $samples[$i]->longitude;
-          $lat2 = $samples[$i]->latitude;
-          
-          //Distance of just one step
-          $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-          $this->saveDistance($samples[$i], $distance);
-          $this->calculateSpeedAndTime($samples[$i-1],$samples[$i]);
-          //$previous_sample->route_id = $route_count;
-          //$previous_sample->save();
-          
-          $previous_sample_date = new DateTime($previous_sample->datetime);
-          $sample_i_date = new DateTime($samples[$i]->datetime);
-          
-          $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-          if($distance<$distance_treshold_for_short_stop )//If it is staying in "the same" place
+          if(!$this->calculateIfContinuous($samples[$i-1],$samples[$i]))
           {
-            //A stop begins
-            $stop_start = $i;
-            $stop_type = -1;
-            
-            //Possible problem
-              
-            while( ($distance<$distance_treshold_for_short_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
-            {
-              //A stop begins
-              //Move one step forward
-              $i++;
-              $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-              $sample_i_date = new DateTime($samples[$i]->datetime);
-              $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-              
-              //Recalculate distance for new position
-              $lon2 = $samples[$i]->longitude;
-              $lat2 = $samples[$i]->latitude;
-              $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-              
-              if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
-              {
-                $stop_type = -2;
-                //A stop becomes long stop
-                while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
-                {
-                  //Move one step forward
-                  $i++;
-                  $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-                  //Recalculate distance for new position
-                  $lon2 = $samples[$i]->longitude;
-                  $lat2 = $samples[$i]->latitude;
-                  $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-                }
-              } 
-            }
-            while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
-            {
-              //A stop begins
-              //Move one step forward
-              $i++;
-              $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-              $sample_i_date = new DateTime($samples[$i]->datetime);
-              $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-              
-              //Recalculate distance for new position
-              $lon2 = $samples[$i]->longitude;
-              $lat2 = $samples[$i]->latitude;
-              $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-              
-              if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
-              {
-                $stop_type = -2;
-                //A stop becomes long stop
-                while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
-                {
-                  //Move one step forward
-                  $i++;
-                  $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-                  //Recalculate distance for new position
-                  $lon2 = $samples[$i]->longitude;
-                  $lat2 = $samples[$i]->latitude;
-                  $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-                }
-              }             
-            }
-            $stop_end = $i-1;
-            $new_stop = null;
-            if($current_route != null)
-            {
-              switch ($stop_type) {
-                case -1://Short stop
-                  if($date_diff_timestamp > $time_treshold_for_short_stop)//Greater than the minimun for short stop
-                  {
-                    $new_stop = new ShortStop;
-                    $new_stop->route_id = $current_route->id;
-                    for($j = $stop_start; $j <= $stop_end; $j++)
-                    {
-                      $samples[$j]->route_id=$current_route->id; 
-                      $samples[$j]->update();
-                    }
-                  }
-                  else//Here we add just the first and last to the route
-                  {
-                    $samples[$stop_start]->route_id=$current_route->id; 
-                    $samples[$stop_start]->update();
-                    $samples[$stop_end]->route_id=$current_route->id; 
-                    $samples[$stop_end]->update();
-                  }
-                  break;
-                case -2://Long stop
-                  $new_stop = new LongStop;
-                  break;
-              }
-              if($new_stop != null)
-              {
-                $new_stop->latitude = $samples[$stop_start]->latitude;
-                $new_stop->longitude = $samples[$stop_start]->longitude;
-                $new_stop->start_time = $samples[$stop_start]->datetime;
-                $new_stop->end_time = $samples[$stop_end]->datetime;
-                $new_stop->save();
-                $new_stop->validate();
-              
-                $new_stop->save();
-              }
-              if($stop_type == -2)//If it was long stop
-              {
-                $route_count++;
-                $current_route->end_stop_id = $new_stop->id;
-                $current_route->save();
-                $current_route = new Route;
-                $current_route->truck_id = $truck->id;
-                $current_route->name = $route_count;
-                $current_route->beginning_stop_id = $new_stop->id;
-                $current_route->save();
-                $samples[$i-1]->route_id = $current_route->id;
-                $samples[$i-1]->update();
-              }
-            }
+            $new_samping = new Sampling;
+            $new_sampling->truck_id = $truck->id;
+            $sampling_name++;
+            $new_sampling->name = $sampling_name;
+            $new_sampling->save();
           }
-          if($distance<$distance_treshold_for_long_stop )//It can only be a long stop
-          {
-            //A stop begins
-            $stop_start = $i;
-            $stop_type = -1;
-            
-            //Possible problem
-              
-            while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
-            {
-              //A stop begins
-              //Move one step forward
-              $i++;
-              $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-              $sample_i_date = new DateTime($samples[$i]->datetime);
-              $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
-              
-              //Recalculate distance for new position
-              $lon2 = $samples[$i]->longitude;
-              $lat2 = $samples[$i]->latitude;
-              $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-              
-              if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a full Stop
-              {
-                $stop_type = -2;
-                //A stop becomes long stop
-                while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
-                {
-                  //Move one step forward
-                  $i++;
-                  $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-                  //Recalculate distance for new position
-                  $lon2 = $samples[$i]->longitude;
-                  $lat2 = $samples[$i]->latitude;
-                  $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-                }
-              } 
-            }
-            $stop_end = $i-1;
-            $new_stop = null;
-            if($current_route != null)
-            {
-              switch ($stop_type) {
-                case -1://It wasn't a long stop
-                  //TODO Possible code for not long stop
-                  break;
-                case -2://Long stop
-                  $new_stop = new LongStop;
-                  break;
-              }
-              
-              if($new_stop != null)
-              {
-                $new_stop->latitude = $samples[$stop_start]->latitude;
-                $new_stop->longitude = $samples[$stop_start]->longitude;
-                $new_stop->start_time = $samples[$stop_start]->datetime;
-                $new_stop->end_time = $samples[$stop_end]->datetime;
-                $new_stop->save();
-                $new_stop->validate();
-                
-                $new_stop->save();
-              }
-              
-              if($stop_type == -2)//If it was long stop
-              {
-                $route_count++;
-                $current_route->end_stop_id = $new_stop->id;
-                $current_route->save();
-                $current_route = new Route;
-                $current_route->truck_id = $truck->id;
-                $current_route->name = $route_count;
-                $current_route->beginning_stop_id = $new_stop->id;
-                $current_route->save();
-                $samples[$i-1]->route_id = $current_route->id;
-                $samples[$i-1]->update();
-              }
-            }
-          }
-          elseif($current_route == null)
-          {
-            $route_count++;
-            $current_route = new Route;
-            $current_route->truck_id = $truck->id;
-            $current_route->name = $route_count;
-            $current_route->save();
-            $samples[$i-1]->route_id = $current_route->id;
-            $samples[$i-1]->save();
-            $samples[$i]->route_id = $current_route->id;
-            $samples[$i]->save();
-            
-          }
-          
-          //Save parts of the route
-          if($current_route != null)
-          {
-            $samples[$i]->route_id = $current_route->id;
-            $samples[$i]->update();
-          }
-          
-          $previous_sample  =$samples[$i];
+          $samples[$i]->sampling_id = $new_sampling->id;
+          $samples[$i]->save();
         }
-        //$new_stop = new LongStop;
-        //$new_stop->latitude = 0.0;
-        //$new_stop->longitude = 0.0;
-        //$new_stop->save();
-        //$current_route->end_stop_id = $new_stop->id;
-        //$current_route->save();
+      }
+    }
+  }
+  
+  function actionFindStopsAndRoutes()
+  {
+    $trucks = Truck::model()->findAll();
+    foreach($trucks as $truck)
+    {
+      $samplings = $truck->samplings;
+      foreach($samplings as $sampling)
+      {    
+        //TODO Add the right filters here
+        $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+        $criteria->addCondition('truck_id = '.$truck->id);
+        $criteria->addCondition('sampling_id = '.$sampling->id);
+        //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
+        $samples = Sample::model()->findAll($criteria);
+        
+        $distance_treshold_for_short_stop= Yii::app()->user->getCompany()->distance_radius_short_stop;//0.1; //TODO define treshold
+        $time_treshold_for_short_stop= Yii::app()->user->getCompany()->time_radius_short_stop;//14400;//Time in seconds
+        $distance_treshold_for_long_stop= Yii::app()->user->getCompany()->distance_radius_long_stop;//0.1; //TODO define treshold
+        $time_treshold_for_long_stop= Yii::app()->user->getCompany()->time_radius_long_stop;//14400;//Time in seconds
+        
+        $samples_size = count($samples);
+        
+        if($samples_size > 1)
+        {
+          $new_stop = null;// = new LongStop;
+          //$new_stop->latitude = 0.0;
+          //$new_stop->longitude = 0.0;
+          //$new_stop->save();
+          
+          $previous_sample = $samples[0];
+          $route_count = 0;
+          $current_route = null;// = new Route;
+          //$current_route->truck_id = $truck->id;
+          //$current_route->name = $route_count;
+          //$current_route->beginning_stop_id = $new_stop->id;
+          //$current_route->save();
+          //$samples[0]->route_id=$current_route->id;//Set the first coordinate to the first route
+          //$samples[0]->save();
+          $stop_start;
+          $stop_end;
+          $stop_type = 0;
+          
+          for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
+          {
+            $this->calculateDistanceSpeedAndTime($samples[$i-1],$samples[$i]);
+            $stop_type = 0;
+            $lon1 = $previous_sample->longitude;
+            $lat1 = $previous_sample->latitude;
+            $lon2 = $samples[$i]->longitude;
+            $lat2 = $samples[$i]->latitude;
+            
+            //Distance of just one step
+            //TODO URGENT Get this methods out of the algorithm
+            $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+            $this->saveDistance($samples[$i], $distance);
+            $this->calculateSpeedAndTime($samples[$i-1],$samples[$i]);
+                    
+            $previous_sample_date = new DateTime($previous_sample->datetime);
+            $sample_i_date = new DateTime($samples[$i]->datetime);
+            
+            $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+            if($distance<$distance_treshold_for_short_stop )//If it is staying in "the same" place
+            {
+              //A stop begins
+              $stop_start = $i;
+              $stop_type = -1;
+              
+              //Possible problem
+                
+              while( ($distance<$distance_treshold_for_short_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
+              {
+                //A stop begins
+                //Move one step forward
+                $i++;
+                $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                $sample_i_date = new DateTime($samples[$i]->datetime);
+                $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+                
+                //Recalculate distance for new position
+                $lon2 = $samples[$i]->longitude;
+                $lat2 = $samples[$i]->latitude;
+                $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                
+                if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
+                {
+                  $stop_type = -2;
+                  //A stop becomes long stop
+                  while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
+                  {
+                    //Move one step forward
+                    $i++;
+                    $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                    //Recalculate distance for new position
+                    $lon2 = $samples[$i]->longitude;
+                    $lat2 = $samples[$i]->latitude;
+                    $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                  }
+                } 
+              }
+              while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
+              {
+                //A stop begins
+                //Move one step forward
+                $i++;
+                $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                $sample_i_date = new DateTime($samples[$i]->datetime);
+                $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+                
+                //Recalculate distance for new position
+                $lon2 = $samples[$i]->longitude;
+                $lat2 = $samples[$i]->latitude;
+                $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                
+                if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
+                {
+                  $stop_type = -2;
+                  //A stop becomes long stop
+                  while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
+                  {
+                    //Move one step forward
+                    $i++;
+                    $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                    //Recalculate distance for new position
+                    $lon2 = $samples[$i]->longitude;
+                    $lat2 = $samples[$i]->latitude;
+                    $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                  }
+                }             
+              }
+              $stop_end = $i-1;
+              $new_stop = null;
+              if($current_route != null)
+              {
+                switch ($stop_type) {
+                  case -1://Short stop
+                    if($date_diff_timestamp > $time_treshold_for_short_stop)//Greater than the minimun for short stop
+                    {
+                      $new_stop = new ShortStop;
+                      $new_stop->route_id = $current_route->id;
+                      for($j = $stop_start; $j <= $stop_end; $j++)
+                      {
+                        $samples[$j]->route_id=$current_route->id; 
+                        $samples[$j]->update();
+                      }
+                    }
+                    else//Here we add just the first and last to the route
+                    {
+                      $samples[$stop_start]->route_id=$current_route->id; 
+                      $samples[$stop_start]->update();
+                      $samples[$stop_end]->route_id=$current_route->id; 
+                      $samples[$stop_end]->update();
+                    }
+                    break;
+                  case -2://Long stop
+                    $new_stop = new LongStop;
+                    break;
+                }
+                if($new_stop != null)
+                {
+                  $new_stop->latitude = $samples[$stop_start]->latitude;
+                  $new_stop->longitude = $samples[$stop_start]->longitude;
+                  $new_stop->start_time = $samples[$stop_start]->datetime;
+                  $new_stop->end_time = $samples[$stop_end]->datetime;
+                  $new_stop->save();
+                  $new_stop->validate();
+                
+                  $new_stop->save();
+                }
+                if($stop_type == -2)//If it was long stop
+                {
+                  $route_count++;
+                  $current_route->end_stop_id = $new_stop->id;
+                  $current_route->save();
+                  $current_route = new Route;
+                  $current_route->truck_id = $truck->id;
+                  $current_route->name = $route_count;
+                  $current_route->beginning_stop_id = $new_stop->id;
+                  $current_route->save();
+                  $samples[$i-1]->route_id = $current_route->id;
+                  $samples[$i-1]->update();
+                }
+              }
+            }
+            if($distance<$distance_treshold_for_long_stop )//It can only be a long stop
+            {
+              //A stop begins
+              $stop_start = $i;
+              $stop_type = -1;
+              
+              //Possible problem
+                
+              while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
+              {
+                //A stop begins
+                //Move one step forward
+                $i++;
+                $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                $sample_i_date = new DateTime($samples[$i]->datetime);
+                $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
+                
+                //Recalculate distance for new position
+                $lon2 = $samples[$i]->longitude;
+                $lat2 = $samples[$i]->latitude;
+                $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                
+                if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a full Stop
+                {
+                  $stop_type = -2;
+                  //A stop becomes long stop
+                  while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
+                  {
+                    //Move one step forward
+                    $i++;
+                    $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                    //Recalculate distance for new position
+                    $lon2 = $samples[$i]->longitude;
+                    $lat2 = $samples[$i]->latitude;
+                    $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
+                  }
+                } 
+              }
+              $stop_end = $i-1;
+              $new_stop = null;
+              if($current_route != null)
+              {
+                switch ($stop_type) {
+                  case -1://It wasn't a long stop
+                    //TODO Possible code for not long stop
+                    break;
+                  case -2://Long stop
+                    $new_stop = new LongStop;
+                    break;
+                }
+                
+                if($new_stop != null)
+                {
+                  $new_stop->latitude = $samples[$stop_start]->latitude;
+                  $new_stop->longitude = $samples[$stop_start]->longitude;
+                  $new_stop->start_time = $samples[$stop_start]->datetime;
+                  $new_stop->end_time = $samples[$stop_end]->datetime;
+                  $new_stop->save();
+                  $new_stop->validate();
+                  
+                  $new_stop->save();
+                }
+                
+                if($stop_type == -2)//If it was long stop
+                {
+                  $route_count++;
+                  $current_route->end_stop_id = $new_stop->id;
+                  $current_route->save();
+                  $current_route = new Route;
+                  $current_route->truck_id = $truck->id;
+                  $current_route->name = $route_count;
+                  $current_route->beginning_stop_id = $new_stop->id;
+                  $current_route->save();
+                  $samples[$i-1]->route_id = $current_route->id;
+                  $samples[$i-1]->update();
+                }
+              }
+            }
+            elseif($current_route == null)
+            {
+              $route_count++;
+              $current_route = new Route;
+              $current_route->truck_id = $truck->id;
+              $current_route->name = $route_count;
+              $current_route->save();
+              $samples[$i-1]->route_id = $current_route->id;
+              $samples[$i-1]->save();
+              $samples[$i]->route_id = $current_route->id;
+              $samples[$i]->save();
+              
+            }
+            
+            //Save parts of the route
+            if($current_route != null)
+            {
+              $samples[$i]->route_id = $current_route->id;
+              $samples[$i]->update();
+            }
+            $previous_sample = $samples[$i];
+          }
+        }
       }
     }
   }
