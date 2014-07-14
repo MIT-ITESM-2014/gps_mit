@@ -55,7 +55,7 @@ body
 	float: right;
 }
 
-#routes-section
+.routes-section
 {
 	width: 140px;
 	height: 70px;
@@ -64,28 +64,23 @@ body
 	float: left;
 }
 
-#routes-section:hover
+.routes-section:hover
 {
 	background-position: 0px 70px;
 	background-color: #49ceae;
 }
 
-#header#icons-bar a:active
-{
-	background-color: red;
-}
-
-.active
+.active_truck
 {
 	width: 140px;
 	height: 70px;
 	background-position: 0px 70px;
-	background-image: url("../public/images/menu_front/TripsMenuButton.png");
+	background-image: url("../public/images/menu_front/TrucksMenuButton.png");
 	float: left;
-	background-color: red;
+	background-color: #49ceae;
 }
 
-#trucks-section
+.trucks-section
 {
 	width: 140px;
 	height: 70px;
@@ -94,13 +89,13 @@ body
 	float: left;
 }
 
-#trucks-section:hover
+.trucks-section:hover
 {
 	background-position: 0px 70px;
 	background-color: #49ceae;
 }
 
-#stats-section
+.stats-section
 {
 	width: 140px;
 	height: 70px;
@@ -109,7 +104,7 @@ body
 	float: left;
 }
 
-#stats-section:hover
+.stats-section:hover
 {
 	background-position: 0px 70px;
 	background-color: #49ceae;
