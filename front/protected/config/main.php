@@ -43,8 +43,14 @@ return array(
 	          'modules/drilldown.js',
 	        ),
 	      ),
-	    ),
+	      'screen-block'=>array(
+	        'baseUrl'=>'js/plugins/screen-block/',
+	        'js'=>array(
+	          'screen-block.js',
+	        ),
+	      ),
 	  ),
+	    ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
