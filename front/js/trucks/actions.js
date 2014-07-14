@@ -4,7 +4,8 @@ $('#select-background').screen_block_init('Gris-Op90.png');
 
 $('#select-background').screen_block_block();
 
-$('#trucks-section').addClass('active');
+$('#trucks-section').addClass('active_truck');
+$('#trucks-section').removeClass('trucks-section');
 
 $('#one-truck-go-button').click(function(){
   unblock();

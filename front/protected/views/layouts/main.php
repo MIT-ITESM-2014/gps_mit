@@ -26,9 +26,9 @@
 			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="logo-image"> </div></a>
 		</div>
 		<div id="icons-bar">
-			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="routes-section"></div></a>
-			<a href="<?php echo Yii::app()->createUrl('site/trucks', array())?>"><div id="trucks-section"> </div></a>
-			<a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section"> </div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="routes-section" class="routes-section"></div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/trucks', array())?>"><div id="trucks-section" class="trucks-section"> </div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section" class="stats-section"> </div></a>
 		</div>	
 	</div><!-- header -->
 
