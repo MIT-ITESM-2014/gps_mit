@@ -33,7 +33,7 @@ class Route extends CActiveRecord
 			array('name', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, beginning_stop_id, truck_id, end_stop_id, first_stem_distance, first_stem_time, second_stem_distance, second_stem_time, expected_route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, beginning_stop_id, distance, average_speed, truck_id, end_stop_id, first_stem_distance, first_stem_time, second_stem_distance, second_stem_time, expected_route_id, short_stops_count, time, short_stops_time, travelling_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_short_stop_duration, fuel_consumption, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +56,26 @@ class Route extends CActiveRecord
 			'distanceToNextShortStopSum'=>array(self::STAT,  'ShortStop', 'route_id', 'select' => 'SUM(distance_to_next_stop)'),
 			'distanceToNextShortStopCount'=>array(self::STAT, 'ShortStop', 'route_id', 'condition' => 't.distance_to_next_stop IS NOT NULL'),
 		);
+	}
+	
+	public function getFirstStemStop()
+	{
+    $short_stop_count = $this->shortStopsCount;
+    $five_percent = intval(round($short_stop_count * 0.05));
+    if($short_stop_count > 0)
+      return $this->shortStops[0+$five_percent];
+    else
+      return null;
+	}
+	
+	public function getLastStemStop()
+	{
+    $short_stop_count = $this->shortStopsCount;
+    $five_percent = intval(round($short_stop_count * 0.05));
+    if($short_stop_count > 0)
+      return $this->shortStops[$short_stop_count-1-$five_percent];
+    else
+      return null;
 	}
 
 	/**

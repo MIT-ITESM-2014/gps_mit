@@ -34,7 +34,7 @@ class Truck extends CActiveRecord
 			array('name, created_at, updated_at', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, average_stem_distance, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, company_id, total_distance, route_count, average_duration, average_speed, average_stop_count_per_trip, average_distance_between_short_stops, average_stem_distance, average_trip_distance, short_stops_time, traveling_time, resting_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, fuel_consumption, fuel_consumption_per_km, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 

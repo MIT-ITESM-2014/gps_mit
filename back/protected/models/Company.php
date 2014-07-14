@@ -35,11 +35,15 @@ class Company extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('has_expected_routes', 'numerical', 'integerOnly'=>true),
-			array('distance_ratio_long_stop, time_ratio_long_stop', 'numerical', 'integerOnly'=>false),
+			array('distance_radius_long_stop, time_radius_long_stop, distance_radius_short_stop, time_radius_short_stop', 'numerical', 'integerOnly'=>false),
 			array('created_at, updated_at, name', 'safe'),
+			array('distance_radius_long_stop','compare','compareAttribute'=>'distance_radius_short_stop','operator'=>'>','message'=>'Long stop distance radius must be greater than short stop distance radius.'),
+			array('time_radius_long_stop','compare','compareAttribute'=>'time_radius_short_stop','operator'=>'>','message'=>'Long stop time radius must be greater than short stop time radius.'),
+			array('distance_radius_short_stop','compare','compareAttribute'=>'distance_radius_long_stop','operator'=>'<','message'=>'Short stop distance radius must be less than long stop distance radius.'),
+			array('time_radius_short_stop','compare','compareAttribute'=>'time_radius_long_stop','operator'=>'<','message'=>'Short stop time radius must be less than long stop time radius.'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, has_expected_routes, distance_ratio_long_stop, time_ratio_long_stop, created_at, updated_at, name', 'safe', 'on'=>'search'),
+			array('id, has_expected_routes, distance_radius_long_stop, time_radius_long_stop, time_radius_short_stop, time_radius_short_stop, route_count, distance_traveled, average_short_stop_duration, fuel_consumption, created_at, updated_at, name', 'safe', 'on'=>'search'),
 		);
 	}
 

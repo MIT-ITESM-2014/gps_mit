@@ -2,8 +2,11 @@
 
 class ParameterForm extends CFormModel
 {
-	public $time_ratio_long_stop;
-	public $distance_ratio_long_stop;
+	public $time_radius_long_stop;
+	public $distance_radius_long_stop;
+	public $time_radius_short_stop;
+	public $distance_radius_short_stop;
+	
 
 	/**
 	 * Declares the validation rules.
@@ -12,8 +15,13 @@ class ParameterForm extends CFormModel
 	{
 		return array(
 			// name, email, subject and body are required
-			array('time_ratio_long_stop, distance_ratio_long_stop', 'required'),
-			array('time_ratio_long_stop, distance_ratio_long_stop', 'numerical', 'integerOnly'=>FALSE, 'message'=>'It must be a number'),
+			array('time_radius_long_stop, distance_radius_long_stop, time_radius_short_stop, distance_radius_short_stop', 'required'),
+			array('time_radius_long_stop, distance_radius_long_stop, time_radius_short_stop, distance_radius_short_stop', 'numerical', 'integerOnly'=>FALSE, 'message'=>'It must be a number'),
+		  array('distance_radius_long_stop','compare','compareAttribute'=>'distance_radius_short_stop','operator'=>'>','message'=>'Long stop distance radius must be greater than short stop distance radius.'),
+			array('time_radius_long_stop','compare','compareAttribute'=>'time_radius_short_stop','operator'=>'>','message'=>'Long stop time radius must be greater than short stop time radius.'),
+			array('distance_radius_short_stop','compare','compareAttribute'=>'distance_radius_long_stop','operator'=>'<','message'=>'Short stop distance radius must be less than long stop distance radius.'),
+			array('time_radius_short_stop','compare','compareAttribute'=>'time_radius_long_stop','operator'=>'<','message'=>'Short stop time radius must be less than long stop time radius.'),
+			
 		);
 	}
 
@@ -25,16 +33,20 @@ class ParameterForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-		  'time_ratio_long_stop'=>'Time ratio',
-		  'distance_ratio_long_stop'=>'Distance ratio',
+		  'time_radius_long_stop'=>'Long stop time radius',
+		  'distance_radius_long_stop'=>'Long stop distance radius',
+		  'time_radius_short_stop'=>'Short stop time radius',
+		  'distance_radius_short_stop'=>'Short stop distance radius',
 		);
 	}
 	
 	public function updateCompanyParameters()
 	{
 	  $company = Yii::app()->user->getCompany();
-	  $company->distance_ratio_long_stop = $this->distance_ratio_long_stop;
-	  $company->time_ratio_long_stop = $this->time_ratio_long_stop;
+	  $company->distance_radius_long_stop = $this->distance_radius_long_stop;
+	  $company->time_radius_long_stop = $this->time_radius_long_stop;
+	  $company->distance_radius_short_stop = $this->distance_radius_short_stop;
+	  $company->time_radius_short_stop = $this->time_radius_short_stop;
 	  
 	  if($company->validate())
 	    $company->save();

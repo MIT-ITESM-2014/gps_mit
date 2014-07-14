@@ -90,15 +90,26 @@ $this->breadcrumbs=array(
   <div class="errorMessage" id="formResult"></div>
         <div id="AjaxLoader" style="display: none"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spinner.gif"></img></div>
         <div class="row-parameter-single">
-                <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_ratio_long_stop'); ?> </div>
-                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_ratio_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
-                <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_ratio_long_stop'); ?> </div>
+                <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_long_stop'); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_radius_long_stop'); ?> </div>
         </div>
 
         <div class="row-parameter-single">
-                <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_ratio_long_stop'); ?> </div>
-                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_ratio_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
-                <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_ratio_long_stop'); ?> </div>
+                <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_long_stop'); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_long_stop'); ?> </div>
+        </div>
+        <div class="row-parameter-single">
+                <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_short_stop'); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_radius_short_stop'); ?> </div>
+        </div>
+
+        <div class="row-parameter-single">
+                <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_short_stop'); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_short_stop'); ?> </div>
         </div>
         <div class="buttons">
                 
@@ -110,7 +121,6 @@ $this->breadcrumbs=array(
                 
                  //$("#AjaxLoader").hide();  
                 if(data.status=="success"){
-                  alert("voy a acutalizar a pso 0");
                   actualizarPaso(0);
                   //$("#formResult").html("form submitted successfully.");
                   //$("#user-form")[0].reset();
@@ -124,7 +134,6 @@ $this->breadcrumbs=array(
             }',                    
            'beforeSend'=>'function(){                        
                  //$("#AjaxLoader").show();
-                 alert("Voy a envair");
             }'
            ),array('id'=>'submitButton','class'=>'submit_button')); ?>
   </div>
