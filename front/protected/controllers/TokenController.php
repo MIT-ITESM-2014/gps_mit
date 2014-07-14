@@ -165,9 +165,14 @@ class TokenController extends Controller
     );
     $route_ids = Sample::model()->findAll($criteria);
     $routes = array();
+    //print_r($route_ids);
+    //error_log();
     foreach($route_ids as $route_id)
     {
-      $routes[] = Route::model()->findByPk($route_id->route_id);
+      //print_r("La ruta es : ".$route_id->route_id);
+      //error_log(print_r($route_id));
+      if($route_id->route_id != null)
+        $routes[] = Route::model()->findByPk($route_id->route_id);
     }
     if(count($routes)>0)
     {

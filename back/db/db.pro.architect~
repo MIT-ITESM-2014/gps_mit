@@ -432,7 +432,7 @@
     <column id="COL126" populated="true" UUID="a44c5741-d392-4480-8795-0d3566814e07" autoIncrement="false" autoIncrementSequenceName="route_fuel_consumption_seq" defaultValue="" name="fuel_consumption" nullable="1" physicalName="fuel_consumption" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
      <remarks></remarks>
     </column>
-    <column id="COL127" populated="true" UUID="3b1371b7-f84f-468f-9257-c347335a3d28" autoIncrement="false" autoIncrementSequenceName="route_is_valid_seq" defaultValue="" name="is_valid" nullable="1" physicalName="is_valid" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+    <column id="COL127" populated="true" UUID="3b1371b7-f84f-468f-9257-c347335a3d28" autoIncrement="false" autoIncrementSequenceName="route_is_valid_seq" defaultValue="" name="is_valid" nullable="1" physicalName="is_valid" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL128" populated="true" UUID="fac250c5-a587-4090-ae38-d875b73e69f3" autoIncrement="false" autoIncrementSequenceName="route_created_at_seq" defaultValue="" name="created_at" nullable="0" physicalName="created_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
