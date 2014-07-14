@@ -28,7 +28,7 @@ class TruckController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'getTruckStats'),
+				'actions'=>array('index','view', 'getTruckStats', 'getTruckChart1'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -50,7 +50,6 @@ class TruckController extends Controller
   {
     header('Content-type: application/json');
     $_GET['truck_id'];
-    $json_data = "soy nuaeva data".$_GET['truck_id'];
     
     if(isset($_GET['truck_id']))
     {
@@ -91,6 +90,46 @@ class TruckController extends Controller
     */
     
   }
+  
+  public function actionGetTruckChart1()
+  {
+    header('Content-type: application/json');
+    if(isset($_GET['truck_id']))
+    {
+      if(isset($_GET['truck_id']))
+      {
+        if($_GET['truck_id'] > 0)
+        {
+          $truck_id = $_GET['truck_id'];
+          $data;
+          //TODO Validate session to access company trucks
+          $truck = Truck::model()->findByPk($truck_id);
+          if($truck != null)
+          {
+            $data = "[
+              ['0 - 5 min', ".$truck->stops_between_0_5."],
+              ['5 - 15 min', ".$truck->stops_between_5_15."],
+              ['15 - 30 min', ".$truck->stops_between_15_30."],
+              ['30 min - 1 hr', ".$truck->stops_between_30_60."],
+              ['1 hr- 2 hrs', ".$truck->stops_between_60_120."],
+              ['2+ hr', ".$truck->stops_between_120_plus."],
+            ]";
+            echo CJSON::encode($data);
+          }
+          else
+            echo CJSON::encode("");
+        }
+        else
+          echo CJSON::encode("");
+        
+      }
+      else
+        echo CJSON::encode("");
+    }
+    Yii::app()->end(); 
+  }
+  
+  
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

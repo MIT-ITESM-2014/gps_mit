@@ -19,6 +19,17 @@ $( "#trucks_truck_select" ).change(function() {
   updateTruckStats();
 });
 
+var data_for_chart_1 = [
+  ['0 - 5 min', 126],
+  ['5 - 15 min', 187],
+  ['15 - 30 min', 196],
+  ['30 min - 1 hr ', 40],
+  ['1 hr - 2 hrs', 5],
+  ['2 hr - 4 hrs', 5]
+];
+
+var chart_1;
+
 function updateTruckStats()
 {
   $.ajax({ 
@@ -107,7 +118,28 @@ function updateTruckStats()
             alert(thrownError);
           }   
       });
+      
+
+            
+      $.ajax({ 
+          type: "GET",
+          dataType: "json",
+          url: "index.php?r=truck/getTruckChart1&truck_id="+document.getElementById("trucks_truck_select").value,
+          success: function(data){
+            if(data != null)
+            {
+              alert("I'll update the data");
+              data_for_chart_1.drilldown.series.data =data;
+            }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.statusText);
+            alert(thrownError);
+          }   
+      });
 }
+
+
 
 $(function () {    
 
@@ -119,7 +151,7 @@ $(function () {
     });
 
     // Create the chart
-    $('#container').highcharts({
+    chart_1 = $('#container').highcharts({
         chart: {
           backgroundColor: '#efefef',
           font: '"Ubuntu Medium", Arial, Helvetica, sans-serif',
@@ -188,7 +220,7 @@ $(function () {
 
             tooltip: {
               headerFormat: ' ' ,
-              pointFormat: '<span style="font-size:80px"</span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
+              pointFormat: '<span style="font-size:80px"></span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
               valueSuffix: ' hrs ' 
             }
         }],
@@ -205,16 +237,9 @@ $(function () {
               text: 'Time spent in short stops',
             },
             id: 'short_stops_time',
-            data: [
-              ['0 - 5 min', 127],
-              ['5 - 15 min', 187],
-              ['15 - 30 min', 196],
-              ['30 min - 1 hr ', 40],
-              ['1 hr - 2 hrs', 5],
-              ['2 hr - 4 hrs', 5]
-            ],
+            data: data_for_chart_1,
             tooltip: {headerFormat: ' ' ,
-              pointFormat: '<span style="font-size:80px"</span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
+              pointFormat: '<span style="font-size:80px"></span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
               valueSuffix: ' hrs ' 
             }
           }],
