@@ -11,7 +11,6 @@
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
-
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
@@ -24,56 +23,19 @@
 
 	<div id="header">
 		<div id="logo">
-			<a href="index.php" ><div id="logo-image"> </div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>" ><div id="logo-image"> </div></a>
 		</div>
 		<div id="icons-bar">
-			<a href="index.php"><div id="routes-section"></div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="routes-section"></div></a>
 			<a href="<?php echo Yii::app()->createUrl('site/trucks', array())?>"><div id="trucks-section"> </div></a>
 			<a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section"> </div></a>
 		</div>	
 	</div><!-- header -->
 
-	<div class="clear"></div>
-
-	<!--<div id="routes-selection"> 
-		
-		<div id="selector-truck">
-			<div id="truck-icon"> </div>
-			<div id="truck-selector-container">
-        <select id="truck_selector" name="truck_selector">
-        </select>
-        <div id="truck-dropdown-arrow"></div>
-      </div>
-		</div>
-		<div id="selector-day">
-			<div id="day-icon"> </div>
-			<div id="date-route" name="date-route">
-			</div>
-		</div>
-		<div id="selector-route">
-			<div id="route-icon"> </div>
-			<div id="route-selector-container">
-				<select id="select-route" name="select-route"> 
-				</select>
-			</div>
-		</div>
-		
-		<div id="button_update_map" name="button_update_map" class="update-button-map">
-      <p id ="update-map-text"> Update </p>
-    </div>
-
-	</div>-->
-
 	<?php echo $content; ?>
 	
 
 	<div class="clear"></div>
-<!--
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by CTL.<br/>
-		All Rights Reserved.<br/>
-	</div>
--->
 
 </div><!-- page -->
 

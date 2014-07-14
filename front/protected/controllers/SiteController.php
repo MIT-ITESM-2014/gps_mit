@@ -291,12 +291,8 @@ class SiteController extends Controller
             $('#route-information-date').append(parsed_data['general_information']['date']);
             $('#distance_data_container').empty();
             $('#distance_data_container').append(parsed_data['route_stats']['distance']);
-            $('#time_data_container_days').empty();
-            $('#time_data_container_days').append(parsed_data['route_stats']['time_days']);
-            $('#time_data_container_hours').empty();
-            $('#time_data_container_hours').append(parsed_data['route_stats']['time_hours']);
-            $('#time_data_container_minutes').empty();           
-            $('#time_data_container_minutes').append(parsed_data['route_stats']['time_minutes']);            
+            $('#time_data_container').empty();
+            $('#time_data_container').append(parsed_data['route_stats']['duration']);
             $('#average_speed_data_container').empty();
             $('#average_speed_data_container').append(parsed_data['route_stats']['average_speed']);
             $('#short_stops_count_data_container').empty();

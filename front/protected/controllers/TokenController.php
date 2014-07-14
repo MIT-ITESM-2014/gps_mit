@@ -235,6 +235,13 @@ class TokenController extends Controller
 
     $truck = Truck::model()->findByPk($sample->truck_id);
 
+    //rounding and concatenating with units
+     $distance_trimmed = round($route->distance*100)/100;
+     $distance_string = (string) $distance_trimmed . " km";
+
+     $average_speed_trimmed = round($route->average_speed * 100)/100;
+     $average_speed_string = (string) $average_speed_trimmed . " km/h";
+
     //changes in time covered by route
     $secondsInAMinute = 60;
     $secondsInAnHour = 60 * $secondsInAMinute;
@@ -251,12 +258,21 @@ class TokenController extends Controller
     $remainingSeconds = $minuteSeconds % $secondsInAMinute;
     $time_seconds = ceil($remainingSeconds);
 
+    if($time_days > 0)
+    {
+      $total_duration_string = (string) $time_days . " d " . (string) $time_hours . " h " . (string) $time_minutes . " min";
+    }
+    else
+    {
+      $total_duration_string = (string) $time_hours . " h " . (string) $time_minutes . " min";
+    }
+
     //date parser
     $source = $sample->datetime;
     $date = new DateTime($source);
     //modifying json
     //added fields (general_information)
-    $json_data = '{"general_information": {"truck_id": "'.$truck->name.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$route->distance.'", "average_speed" : "'.$route->average_speed.'", "short_stops_count" : "'.$route->short_stops_count.'", "time_days": "'.$time_days.'","time_hours" : "'.$time_hours.'", "time_minutes": "'.$time_minutes.'"}}';
+    $json_data = '{"general_information": {"truck_id": "'.$truck->name.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$distance_string.'", "average_speed" : "'. $average_speed_string.'", "short_stops_count" : "'.$route->short_stops_count.'", "duration": "'.$total_duration_string.'"}}';
     echo CJSON::encode($json_data);
     Yii::app()->end(); 
   }
