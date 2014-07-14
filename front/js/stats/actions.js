@@ -1,7 +1,7 @@
 (function($){
  
   $.fn.center = function(){
-    alert("lololo");
+    //alert("lololo");
     var element = this;
     
     //$(element).load(function(){
@@ -9,7 +9,7 @@
       changeCss();
        
       $(window).bind("resize", function(){
-          alert("cambie de tamaó");
+          //alert("cambie de tamaó");
           changeCss();
       });
        
@@ -37,7 +37,7 @@
  
 })(jQuery);
 
-alert("voy a cnetrar:");
+//alert("voy a cnetrar:");
 
 $(function(){
   $("#prueba").center();

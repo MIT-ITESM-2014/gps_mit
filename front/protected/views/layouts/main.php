@@ -23,7 +23,7 @@
 
 	<div id="header">
 		<div id="logo">
-			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>" ><div id="logo-image"> </div></a>
+			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="logo-image"> </div></a>
 		</div>
 		<div id="icons-bar">
 			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="routes-section"></div></a>

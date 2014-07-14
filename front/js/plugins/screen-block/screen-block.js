@@ -7,7 +7,7 @@
     });
   };
   
-  $.fn.screen_block_init = function(bcolor, opacity, alphaopacity){
+  $.fn.screen_block_init = function(image){
     var startWindowWidth = $(this).parent().width();
     var startWindowHeight = $(this).parent().height();
     var element = this;
@@ -15,12 +15,13 @@
         "overflow" : "hidden",
         "left" : 0,
         "top" : 0,
-        "background-color": bcolor,//"#003C4B",
-        "opacity": opacity,//"0.9",
-        "filter": "alpha(opacity="+alphaopacity+")",//90
+        "background-image": "url('../front/public/images/" + image + "')",
+        "background-repeat": "repeat",
         "width": startWindowWidth,
         "height": startWindowHeight - 100,
         "display": "none",
+        "position": "absolute",
+        "z-index": 2,
     });
     
     changeSize();

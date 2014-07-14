@@ -1,3 +1,26 @@
+ <div id="select-background">
+
+  <div id="select-view-container"> 
+    <div id="one-truck-container">
+      <div id="one-truck-icon"> </div>
+      <div class="truck-options-title"> Choose One Truck</div>
+      <div class="truck-options-text"> Get information and statistics for one truck.</div>
+      <a href="#" onclick="unblock();"><div id="one-truck-go-button"></div></a>
+    </div>
+
+    <div id="or-division"></div>
+
+    <div id="all-trucks-container">
+      <div id="all-trucks-icon"></div>
+      <div class="truck-options-title">Compare All Trucks</div>
+      <div class="truck-options-text">Get graphs comparing information and statistics from all trucks.</div>
+      <div id="all-trucks-button"></div>
+    </div>  
+
+  </div>
+
+</div>
+
   <div id="routes-selection"> 
     
     <div id="selector-truck-truck-section">

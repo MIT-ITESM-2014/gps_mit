@@ -363,6 +363,7 @@ class SiteController extends Controller
 	  $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery');
     $cs->registerCoreScript('highcharts');
+    $cs->registerCoreScript('screen-block');  
 	  $criteria = new CDbCriteria();
 	  $criteria->select = 'id, name';
 	  //TODO  Validate company in truck list
@@ -384,8 +385,21 @@ class SiteController extends Controller
 	  $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery');
     $cs->registerCoreScript('highcharts');
+    $cs->registerCoreScript('screen-block');  
 	  $this->render('stats');
 	}
+
+  /**
+   * Render the truck_options section
+   */
+  public function actionTruck_Options()
+  {
+    $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery');
+    $cs->registerCoreScript('highcharts');
+    $cs->registerCoreScript('screen-block');
+    $this->render('truck_options');
+  }  
 
 	/**
 	 * This is the action to handle external exceptions.

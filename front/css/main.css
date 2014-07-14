@@ -70,6 +70,21 @@ body
 	background-color: #49ceae;
 }
 
+#header#icons-bar a:active
+{
+	background-color: red;
+}
+
+.active
+{
+	width: 140px;
+	height: 70px;
+	background-position: 0px 70px;
+	background-image: url("../public/images/menu_front/TripsMenuButton.png");
+	float: left;
+	background-color: red;
+}
+
 #trucks-section
 {
 	width: 140px;
@@ -533,7 +548,7 @@ body
 #trucks_truck_stats
 {
 	margin: 25px 55px 55px 75px;
-	height: 780px;
+	height: 600px;
 	width: 1100px;
 	background-color: #efefef;
 	border-radius: 25px 25px 25px 25px;
@@ -783,4 +798,103 @@ body
 	background-color: #003c4b;
 	border: 1px solid #003c4b;
 	color: #FFFFFF;
+}
+
+#select-view-container
+{
+	width: 820px;
+	height: 500px;
+	border-radius: 25px 25px 25px 25px;
+	background-color: #FFFFFF;
+	margin-left: 200px;
+	margin-top: 40px;
+}
+
+#one-truck-container
+{
+	width: 47%;
+	height: auto;
+	float: left;
+}
+
+#one-truck-icon
+{
+	width: 241px;
+	height: 175px;
+	background-image: url("../public/images/choose_trucks/OneTruckIcon.png");
+	margin-left: 50px;
+	margin-top: 20px;
+}
+
+.truck-options-title
+{
+	color: #003c4b;
+	font-size: 36px;
+	text-align: center;
+}
+
+.truck-options-text
+{
+	color: #003c4b;
+	font-size: 22px;
+	text-align: center;
+	font-weight: lighter;
+	line-height: 30px;
+	margin-top: 25px;
+}
+
+#one-truck-go-button
+{
+	width: 269px;
+	height: 45px;
+	background-image: url("../public/images/choose_trucks/GoButton.png");
+	background-position: 0px 0px;
+	margin-top: 75px;
+	margin-left: 75px;
+}
+
+#one-truck-go-button:hover
+{
+	background-position: 0px 45px;
+	cursor: pointer;
+}
+
+#or-division
+{
+	width: 38px;
+	height: 500px;
+	background-image: url("../public/images/choose_trucks/OrDivision.png");
+	float: left;
+}
+
+#all-trucks-container
+{
+	width: 45%;
+	height: auto;
+	float: left;
+}
+
+#all-trucks-icon
+{
+	width: 241px;
+	height: 175px;
+	background-image: url("../public/images/choose_trucks/CompareAllTrucksIcon.png");
+	margin-left: 80px;
+	margin-top: 20px; 
+}
+
+#all-trucks-button
+{
+	width: 269px;
+	height: 45px;
+	background-image: url("../public/images/choose_trucks/CompareAllTrucksButtonBig.png");
+	background-position: 0px 0px;
+	margin-top: 75px;
+	margin-left: 75px;
+}
+
+#all-trucks-button:hover
+{
+	background-position: 0px 45px;
+	cursor: pointer;
 }

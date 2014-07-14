@@ -1,5 +1,20 @@
 /*Declare variables for charts*/
 
+$('#select-background').screen_block_init('Gris-Op90.png');
+
+$('#select-background').screen_block_block();
+
+$('#trucks-section').addClass('active');
+
+$('#one-truck-go-button').click(function(){
+  unblock();
+});
+
+function unblock()
+{
+  $('#select-background').screen_block_unblock();
+}
+
 $( "#trucks_truck_select" ).change(function() {
   updateTruckStats();
 });

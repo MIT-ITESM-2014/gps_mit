@@ -475,8 +475,8 @@ div.search-form
 
 .admin-list
 {
-	width: 918px;
-	height: autof;
+	width: auto;
+	height: 638px;
 	display: inline;
 	float: left;
 }
