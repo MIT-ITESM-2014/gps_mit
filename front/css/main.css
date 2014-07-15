@@ -134,7 +134,7 @@ body
 	background-color: #49ceae;
 }
 
-#selector-truck
+.selector-truck
 {
 	width: 140px;
 	height: 30px;
@@ -154,8 +154,7 @@ body
 	float: left;
 }
 
-
-#truck_selector
+.truck_selector
 {
 	background: transparent;
 	color: #FFFFFF;
@@ -168,7 +167,17 @@ body
   text-shadow: 0 0 0 #FFFFFF;
 }
 
-#selector-day
+.selector-day
+{
+	width: 275px;
+	height: 30px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 5px;
+	background-color: #003c4b;
+}
+
+.day-selector-container
 {
 	width: 275px;
 	height: 30px;
@@ -187,14 +196,14 @@ body
 	float: left;
 }
 
-#date-route
+.date-route
 {
 	width: 120px;
 	max-width: 120px;
 	float: right;
 }
 
-#selector-route
+.selector-route
 {
 	width: 120px;
 	height: 30px;
@@ -214,7 +223,7 @@ body
 	float: left;
 }
 
-#select-route
+.select-route
 {
 	background: transparent;
 	color: #FFFFFF;
@@ -258,7 +267,7 @@ body
 	margin-right: 30px;
 }
 
-#truck-selector-container
+.truck-selector-container
 {
 	background-image: url("../public/images/ArrowDropdown.png");
 	background-repeat: no-repeat;
@@ -269,7 +278,7 @@ body
 	overflow: hidden;
 }
 
-#route-selector-container
+.route-selector-container
 {
 	background-image: url("../public/images/ArrowDropdown.png");
 	background-repeat: no-repeat;
@@ -284,7 +293,7 @@ body
 {
 	width: 140px;
 	height: 40px;
-	background-color: #003c4b;
+	background-color: #00a894;
 	color: #FFFFFF;
 	margin-top: 0px;
 	margin-left: 620px;
@@ -292,16 +301,15 @@ body
 
 .update-button-map:hover
 {
-	background-color: #00a894; 
+	background-color: #003c4b; 
 	cursor: pointer;
 }
 
 #update-map-text
 {
 	font-size: 16px;
-	font-weight: bold;
 	padding: 10px;
-	margin-left: 30px;
+	margin-left: 45px;
 }
 
 #map-legend
