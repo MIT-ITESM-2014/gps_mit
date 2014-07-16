@@ -35,6 +35,10 @@ class SiteController extends Controller
 		//TODO:Define default Truck and default day
 		//$rows = user::model()->findAllByAttributes($user, $criteria);
 	  
+    $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery');    
+    $cs->registerCoreScript('screen-block'); 
+
 	  $trucks = Truck::model()->findAll();
 	  $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
 	  $criteria->with = array('truck');
@@ -352,7 +356,7 @@ class SiteController extends Controller
 			'max_date'=>$max_date,
 			'inactive_days_string'=>$inactive_days_string,
 			'trucks'=>$trucks,
-		));
+		));  
 	}
 	
 	/**

@@ -1,30 +1,60 @@
-  <div id="truck-selection"> 
-    
-    <div id="selector-truck">
+<div id="background-content">
+  <div id="welcome-box">
+    <div id="welcome-icon"></div>
+    <div id ="welcome-title">Welcome to Compass</div>
+    <div id ="welcome-text">Compass is a GPS Web app that tracks delivery cars and creates statistics based on this information.</div>    
+    <div id="welcome-instructions">Choose a truck, a day and a trip to continue.</div>
+    <div id="selector-truck" class="selector-truck">
       <div id="truck-icon"> </div>
-      <div id="truck-selector-container">
-        <select id="truck_selector" name="truck_selector">
+      <div id="truck-selector-container" class="truck-selector-container">
+        <select id="truck_selector" class="truck_selector" name="truck_selector">
         </select>
         <div id="truck-dropdown-arrow"></div>
       </div>
     </div>
-    <div id="selector-day">
+    <div id="selector-day" class="day-selector-container">
       <div id="day-icon"> </div>
-      <div id="date-route" name="date-route">
+      <div id="date-route" class="date-route" name="date-route">
       </div>
     </div>
-    <div id="selector-route">
+    <div id="selector-route" class="selector-route">
       <div id="route-icon"> </div>
-      <div id="route-selector-container">
-        <select id="select-route" name="select-route"> 
+      <div id="route-selector-container" class="route-selector-container">
+        <select id="select-route" class="select-route" name="select-route"> 
         </select>
       </div>
     </div>
-    
     <div id="button_update_map" name="button_update_map" class="update-button-map">
-      <p id ="update-map-text"> Update </p>
+      <p id ="update-map-text"> Go </p>
     </div>
+  </div>
+</div>  
+
+  <div id="truck-selection"> 
     
+    <div id="selector-truck-two" class="selector-truck">
+      <div id="truck-icon"> </div>
+      <div id="truck-selector-container" class="truck-selector-container">
+        <select id="truck_selector" class="truck_selector" name="truck_selector">
+        </select>
+        <div id="truck-dropdown-arrow"></div>
+      </div>
+    </div>
+    <div id="selector-day-two" class="day-selector-container">
+      <div id="day-icon"> </div>
+      <div id="date-route" class="date-route" name="date-route">
+      </div>
+    </div>
+    <div id="selector-route-two" class="selector-route">
+      <div id="route-icon"> </div>
+      <div id="route-selector-container" class="route-selector-container">
+        <select id="select-route" class="select-route" name="select-route"> 
+        </select>
+      </div>
+    </div>
+    <div id="button_update_map_two" name="button_update_map" class="update-button-map">
+      <p id ="update-map-text"> Go </p>
+    </div>
   </div>
 
 <?php
@@ -44,14 +74,12 @@ foreach ($trucks as $t)
   
 
     <?php
-    //echo $form->textField($model,'user_end_date'); 
       $this->widget('zii.widgets.jui.CJuiDatePicker', array(
               'model'=>$model,
               'attribute'=>'start_date',
               'options'   => array(
                       'changeYear' => true,
                       'dateFormat' => 'mm/dd/yy',
-                      //'timeFormat' => '',//'hh:mm tt' default
                       'beforeShowDay'=>'js:editDays',
                       'minDate'=>$min_date,
                       'maxDate'=>$max_date,
@@ -163,6 +191,9 @@ foreach ($trucks as $t)
 
 <?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_HEAD); ?>
 
+<?php
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/routes/actions.js',CClientScript::POS_END);
+?>
 
 <?php
 Yii::app()->clientScript->registerScript('addOptions', "

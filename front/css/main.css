@@ -70,6 +70,16 @@ body
 	background-color: #49ceae;
 }
 
+.active_routes
+{
+	width: 140px;
+	height: 70px;
+	background-position: 0px 70px;
+	background-image: url("../public/images/menu_front/TripsMenuButton.png");
+	float: left;
+	background-color: #49ceae;
+}
+
 .active_truck
 {
 	width: 140px;
@@ -110,6 +120,13 @@ body
 	background-color: #49ceae;
 }
 
+#background-content
+{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
 #routes-selection
 {
 	width: 100%;
@@ -117,7 +134,7 @@ body
 	background-color: #49ceae;
 }
 
-#selector-truck
+.selector-truck
 {
 	width: 140px;
 	height: 30px;
@@ -137,8 +154,7 @@ body
 	float: left;
 }
 
-
-#truck_selector
+.truck_selector
 {
 	background: transparent;
 	color: #FFFFFF;
@@ -151,7 +167,17 @@ body
   text-shadow: 0 0 0 #FFFFFF;
 }
 
-#selector-day
+.selector-day
+{
+	width: 275px;
+	height: 30px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 5px;
+	background-color: #003c4b;
+}
+
+.day-selector-container
 {
 	width: 275px;
 	height: 30px;
@@ -170,14 +196,14 @@ body
 	float: left;
 }
 
-#date-route
+.date-route
 {
 	width: 120px;
 	max-width: 120px;
 	float: right;
 }
 
-#selector-route
+.selector-route
 {
 	width: 120px;
 	height: 30px;
@@ -197,7 +223,7 @@ body
 	float: left;
 }
 
-#select-route
+.select-route
 {
 	background: transparent;
 	color: #FFFFFF;
@@ -212,8 +238,8 @@ body
 #content
 {
     padding: 0px;
-    width:100%;
-    height:100%;
+    width:1200px;
+    height:800px;
     position:absolute;
 }
 
@@ -241,7 +267,7 @@ body
 	margin-right: 30px;
 }
 
-#truck-selector-container
+.truck-selector-container
 {
 	background-image: url("../public/images/ArrowDropdown.png");
 	background-repeat: no-repeat;
@@ -252,7 +278,7 @@ body
 	overflow: hidden;
 }
 
-#route-selector-container
+.route-selector-container
 {
 	background-image: url("../public/images/ArrowDropdown.png");
 	background-repeat: no-repeat;
@@ -267,7 +293,7 @@ body
 {
 	width: 140px;
 	height: 40px;
-	background-color: #003c4b;
+	background-color: #00a894;
 	color: #FFFFFF;
 	margin-top: 0px;
 	margin-left: 620px;
@@ -275,16 +301,15 @@ body
 
 .update-button-map:hover
 {
-	background-color: #00a894; 
+	background-color: #003c4b; 
 	cursor: pointer;
 }
 
 #update-map-text
 {
 	font-size: 16px;
-	font-weight: bold;
 	padding: 10px;
-	margin-left: 30px;
+	margin-left: 45px;
 }
 
 #map-legend
@@ -297,8 +322,9 @@ body
 
 #map-canvas
 {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 #route-information-container
@@ -487,6 +513,7 @@ body
 	width: 100%;
 	height: 40px;
 	background-color: #49ceae;
+	z-index: 1;
 }
 
 #truck-selector-container-truck-section
@@ -892,4 +919,73 @@ body
 {
 	background-position: 0px 45px;
 	cursor: pointer;
+}
+
+.ui-datepicker-calendar th
+{
+	background-color: #49ceae;
+	color: #FFFFFF;
+}
+
+#welcome-box
+{
+	width: 820px;
+	height: 500px;
+	border-radius: 25px 25px 25px 25px;
+	background-color: #FFFFFF;
+	margin-left: 200px;
+	margin-top: 40px;
+}
+
+#welcome-icon
+{
+	width: 125px;
+	height: 123px;
+	background-image: url("../public/images/CompassLogoWelcome.png");
+	margin-top: 10px;
+	margin-left: 350px;
+}
+
+#welcome-title
+{
+	color: #003a4b;
+	font-size: 55px;
+	text-align: center;
+	margin-top: 20px;
+}
+
+#welcome-text
+{
+	color: #003a4b;
+	font-size: 25px;
+	text-align: center;
+	margin-top: 20px;
+	line-height: 30px;
+}
+
+#welcome-instructions
+{
+	color: #003a4b;
+	font-size: 20px;
+	text-align: center;
+	margin-top: 30px;
+}
+
+#welcome-choose-truck
+{
+	height: 40px;
+	width: 200px;
+	background-color: #003a4b;
+	float: left;
+	margin-top: 20px;
+	margin-left: 65px;
+}
+
+#welcome-choose-truck-icon
+{
+	width: 50px;
+	height: 30px;
+	background-color: red;
+	margin-top: 5px;
+	margin-left: 15px;
 }
