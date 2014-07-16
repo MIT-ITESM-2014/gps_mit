@@ -27,9 +27,10 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+		if(Yii::app()->user->getId()===null)
+            $this->redirect(array('site/login'));
+    else
+		  $this->render('index');
 	}
 
 	/**

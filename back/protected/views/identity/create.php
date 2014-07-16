@@ -14,9 +14,8 @@ $this->menu=array(
 
 Yii::app()->clientScript->registerScript('submitForm', "
 $('#button-box').click( function(){
-	$('.form').submit( function(){
-		alert('Test')});
-	});");
+  $('#identity-form input').click();
+});");
 ?>
 
 <div id="create-header">

@@ -64,12 +64,9 @@ class CompanyController extends Controller
     
     $data = array(
       'total_trips' => $company_model->route_count,
-      'distance_traveled' => number_format($company_model->distance_traveled,2).' km',
       'average_short_stop_duration' => $average_short_stop_duration,
+      'distance_traveled' => number_format($company_model->distance_traveled,2).' km',
       'total_fuel_consumption' =>$company_model->fuel_consumption,
-      'original_time'=>$company_model->average_short_stop_duration,
-      'hours'=>$hours,
-      'minutes'=>$minutes,
     );
     
     if($data != null)

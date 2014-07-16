@@ -104,7 +104,7 @@ div.form textarea.error,
 div.form select.error
 {
 	background: #FEE;
-	border-color: #C00;
+	/*border-color: #C00;*/
 }
 
 div.form div.success input,

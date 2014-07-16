@@ -758,7 +758,78 @@ div.search-form
 	color: #ff0000;
 }
 
-.buttons
+.login_field_container
 {
+  border-radius:20px;
+  width:220px;
+  height:20px;
+  background-color: #ffffff;
+  overflow:hidden;
+  display:inline-block;
+}
 
+.login_field
+{
+  position: relative;
+  top:-18px;
+  left: -5px;
+  padding:10px;
+  width:202px;
+  height:30px;
+  margin: 0px !important;
+}
+
+#login_error_container
+{
+  height:80px;
+  text-align:center;
+}
+#login-form-container
+{
+  text-align:center;
+}
+
+#login-form-container .form
+{
+  width:240px;
+  height:200px;
+  text-align:center;
+  display: inline-block;
+}
+
+#login-form-container .row
+{
+  text-align:center;
+}
+
+#login-logo
+{
+  text-align:center;
+  margin-top: 85px;
+  margin-bottom: 40px;
+}
+
+#login-submit-button-container input
+{
+  display:none;
+  text-align:center;
+}
+
+#login_simulated_button
+{
+  width: 100px;
+  height: 25px;
+  display: inline-block;
+  background-color: #00a894;
+  color:#003c4b;
+  cursor:pointer;
+  font-weight: bold;
+}
+
+#login_simulated_button:hover
+{
+  color:#00a894;
+  background-color: #003c4b;
+  
+  
 }
