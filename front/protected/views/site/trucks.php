@@ -1,5 +1,22 @@
- <div id="select-background">
 
+<div id="compare-all-trucks-background">
+  <div id="close-compare-all-trucks" style="width:100px; height:100px; background-color: #ffffff; display: block;">
+  X
+  </div>
+  <div id="charts-slider-container" style="overflow:hidden; height:900px; display:block; width:100%; text-align:center;">
+    <div id="trucks-slider-left-arrow" class="trucks-charts-slider-arrow" style="vertical-align:middle; overflow:hidden; display:inline-block; width:30px; height:30px; background-color: #ffffff;">
+    izq
+    </div>
+    <div id="trucks-slider-chart-container" style="vertical-align:middle;  overflow:hidden; display:inline-block; width:800px; height:600px;  background-color: #ffffff;">
+    contenido
+    </div>
+    <div id="trucks-slider-right-arrow" class="trucks-charts-slider-arrow" style="vertical-align:middle;  overflow:hidden; display:inline-block; width:30px; height:30px; background-color: #ffffff;">
+    der
+    </div>
+  </div>
+</div>
+
+<div id="select-background">
   <div id="select-view-container"> 
     <div id="one-truck-container">
       <div id="one-truck-icon"> </div>
@@ -16,9 +33,7 @@
       <div class="truck-options-text">Get graphs comparing information and statistics from all trucks.</div>
       <div id="all-trucks-button"></div>
     </div>  
-
   </div>
-
 </div>
 
   <div id="routes-selection"> 
