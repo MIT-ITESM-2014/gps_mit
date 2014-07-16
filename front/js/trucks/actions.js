@@ -33,6 +33,9 @@ $( "#trucks_truck_select" ).change(function() {
   updateTruckStats();
 });
 
+//hide change chart by default
+$('#change_chart_button_truck').hide();
+
 /*Declare variables for charts*/
 /*var chart_1;
 var chart_2;
@@ -58,6 +61,9 @@ function updateTruckStats()
       {
         if(data.truck != null)
         {
+          //show change chart button
+          $('#change_chart_button_truck').show();
+
           if(data.truck.name != null)
           {
             $("#trucks_truck_name").html(data.truck.name);
@@ -65,7 +71,7 @@ function updateTruckStats()
           if(data.truck.total_distance != null)
           {
             //added units and trimmed results
-            var total_distance_trimmed = Math.round(data.truck.total_distance*100)/100;
+            var total_distance_trimmed = Math.round(data.truck.total_distance*10)/10;
             var total_distance_trimmed_string = total_distance_trimmed.toString().concat(" km");
             $("#trucks_truck_stats_data_total_distance_traveled").html(total_distance_trimmed_string);                
           }
@@ -106,7 +112,7 @@ function updateTruckStats()
           }
           if(data.truck.average_speed != null)
           {
-            var average_speed_trimmed = Math.round(data.truck.average_speed*100)/100;
+            var average_speed_trimmed = Math.round(data.truck.average_speed*10)/10;
             var average_speed_trimmed_string = average_speed_trimmed.toString().concat(" km/h");
             $("#trucks_truck_stats_data_average_speed").html(average_speed_trimmed_string);
           }
@@ -117,13 +123,13 @@ function updateTruckStats()
           }
           if(data.truck.average_distance_between_short_stops != null)
           {
-            var distance_between_short_stops_trimmed = Math.round(data.truck.average_distance_between_short_stops*100)/100;
+            var distance_between_short_stops_trimmed = Math.round(data.truck.average_distance_between_short_stops*10)/10;
             var distance_between_short_stops_trimmed_string = distance_between_short_stops_trimmed.toString().concat(" km");
             $("#trucks_truck_stats_data_average_distance_between_short_stops").html(distance_between_short_stops_trimmed_string);   
           }
           if(data.truck.average_stem_distance != null)
           {
-            var average_stem_distance_trimmed = Math.round(data.truck.average_stem_distance*100)/100;
+            var average_stem_distance_trimmed = Math.round(data.truck.average_stem_distance*10)/10;
             var average_stem_distance_trimmed_string = average_stem_distance_trimmed.toString().concat(" km");
             $("#trucks_truck_stats_data_average_stem_distance").html(average_stem_distance_trimmed_string);  
           }              

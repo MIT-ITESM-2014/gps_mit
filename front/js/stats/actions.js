@@ -1,3 +1,7 @@
+/*Main menu navigation*/
+$('#stats-section').addClass('active_stats');
+$('#stats-section').removeClass('stats-section');
+
 /*Loading data*/
 $.ajax({ 
   type: "GET",
