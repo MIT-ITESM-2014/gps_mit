@@ -170,12 +170,12 @@ class TruckController extends Controller
             $data = 
               array(
                 'short_stops_ranges_data'=>array(
-                  array('0 - 5 min',$truck->stops_between_0_5),
-                  array('5 - 15 min', $truck->stops_between_5_15),
-                  array('15 - 30 min',$truck->stops_between_15_30),
-                  array('30 min - 1 hr', $truck->stops_between_30_60),
-                  array('1 hr- 2 hrs', $truck->stops_between_60_120),
-                  array('2+ hr', $truck->stops_between_120_plus)
+                  'stops_0_5'=>array($truck->stops_between_0_5),
+                  'stops_5_15'=> array($truck->stops_between_5_15),
+                  'stops_15_30'=>array($truck->stops_between_15_30),
+                  'stops_30_1'=> array($truck->stops_between_30_60),
+                  'stops_1_2'=> array($truck->stops_between_60_120),
+                  'stops_2_plus'=> array($truck->stops_between_120_plus)
                 ),
                 'time_data'=>array(
                   array(

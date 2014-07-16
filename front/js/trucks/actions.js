@@ -1,3 +1,5 @@
+var chart_status = 0;
+
 /*Main menu navigation*/
 $('#trucks-section').addClass('active_truck');
 $('#trucks-section').removeClass('trucks-section');
@@ -32,9 +34,18 @@ $( "#trucks_truck_select" ).change(function() {
 });
 
 /*Declare variables for charts*/
-var chart_1;
+/*var chart_1;
 var chart_2;
+*/
+var short_stops_ranges_data_stops_0_5;
+var short_stops_ranges_data_stops_5_15;
+var short_stops_ranges_data_stops_15_30;
+var short_stops_ranges_data_stops_30_1;
+var short_stops_ranges_data_stops_1_2;
+var short_stops_ranges_data_stops_2_plus;
 
+var chart_1_1_params;
+var chart_1_params;
 
 function updateTruckStats()
 {
@@ -132,10 +143,162 @@ function updateTruckStats()
     success: function(data){
       if(data != null)
       {
-        chart_1.highcharts().series[0].setData(data.time_data, true); 
-        /*
-        chart_2.highcharts().series[0].setData(data.short_stops_ranges_data, true);
-        */
+        //chart_1.highcharts().series[0].setData(data.time_data, true);
+        $('#container').highcharts(chart_1_params);
+        short_stops_ranges_data_stops_0_5 = data.short_stops_ranges_data.stops_0_5;
+        short_stops_ranges_data_stops_5_15 = data.short_stops_ranges_data.stops_5_15;
+        short_stops_ranges_data_stops_15_30 = data.short_stops_ranges_data.stops_15_30;
+        short_stops_ranges_data_stops_30_1 = data.short_stops_ranges_data.stops_30_1;
+        short_stops_ranges_data_stops_1_2 = data.short_stops_ranges_data.stops_1_2;
+        short_stops_ranges_data_stops_2_plus = data.short_stops_ranges_data.stops_2_plus;
+
+        chart_1_1_params ={
+          chart: {
+            backgroundColor: '#efefef',
+            type: 'column'
+          },
+          title: {
+            text: 'Short Stops Duration'
+          },
+          xAxis: {
+            categories: ['BDPD-24'],
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Time distribution'
+            }
+          },
+          tooltip: {
+            headerFormat: '<span style="font-size:28px"><b>{point.key}</span><table><br/    > ',
+            shared: false,
+          },
+          plotOptions: {
+            column: {
+              stacking: 'percent'
+            }
+          },
+          series: [
+            {
+              name: '0-5 min',
+              color: '#139B83',
+              data: short_stops_ranges_data_stops_0_5,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' stops ' 
+              }
+            },
+            {
+              name: '5-15 min',
+              color: '#042E3C',
+              data: short_stops_ranges_data_stops_5_15,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' stops ' 
+              }
+            },
+            {
+              name: '15-30 min',
+              data: short_stops_ranges_data_stops_15_30,                
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' stops ' 
+              }
+            },
+            {
+              name: '30 min-1 hr',
+              data: short_stops_ranges_data_stops_30_1,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' stops ' 
+              }
+            },
+            {
+              name: '1-2 hr',
+              data: short_stops_ranges_data_stops_1_2,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' stops ' 
+              }
+            },
+            {
+              name: '2+ hrs',
+              data: short_stops_ranges_data_stops_2_plus,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' stops ' 
+              }
+            }
+          ]
+        };
+  
+        chart_1_params = {
+          chart: {
+            backgroundColor: '#efefef',
+            font: '"Ubuntu Medium", Arial, Helvetica, sans-serif',
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
+          title: {
+            text: 'Stops Analysis',
+            align: 'center',
+            y: 25
+          },
+          exporting: {
+            buttons:{
+              contextButton:{
+                symbol: 'square',
+                symbolFill: '#003c4b',
+                symbolSize: 18,
+                symbolStrokeWidth: 0
+              }           
+            }
+          },      
+          credits: {
+            enabled: false  
+          },
+          plotOptions: {
+            pie: {
+              dataLabels: {
+                enabled: true,
+                distance: -50,
+                style: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                  textShadow: '0px 1px 2px black'
+                }
+              },
+              startAngle: -90,
+              endAngle: 90,
+              center: ['50%', '75%']
+            }
+          },
+          plotOptions: {
+            series: {
+              borderWidth: 0,
+            }
+          },
+          series: [{
+            data: [
+              ['Short Stop', 5],
+              ['Long Stop', 6],
+              ['Traveling', 10]
+            ],
+              type: 'pie',
+              innerSize: '50%',
+              colorByPoint: true,
+              tooltip: {
+                headerFormat: ' ' ,
+                pointFormat: '<span style="font-size:80px"></span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                valueSuffix: ' hrs ' 
+              }
+          }],
+        };
+        if(chart_status == 0)
+          $('#container').highcharts(chart_1_params);
+        else if(chart_status == 1)
+          $('#container').highcharts(chart_1_1_params);
       }
     },
     error: function (xhr, ajaxOptions, thrownError) {
@@ -145,65 +308,38 @@ function updateTruckStats()
   });
 }
 
-var chart_1_params = {
-  chart: {
-    backgroundColor: '#efefef',
-    font: '"Ubuntu Medium", Arial, Helvetica, sans-serif',
-    plotBackgroundColor: null,
-    plotBorderWidth: 0,
-    plotShadow: false
-  },
-  title: {
-    text: 'Stops Analysis',
-    align: 'center',
-    y: 25
-  },
-  exporting: {
-    buttons:{
-      contextButton:{
-        symbol: 'square',
-        symbolFill: '#003c4b',
-        symbolSize: 18,
-        symbolStrokeWidth: 0
-      }           
-    }
-  },      
-  credits: {
-    enabled: false  
-  },
-  plotOptions: {
-    pie: {
-      dataLabels: {
-        enabled: true,
-        distance: -50,
-        style: {
-          fontWeight: 'bold',
-          color: 'white',
-          textShadow: '0px 1px 2px black'
-        }
-      },
-      startAngle: -90,
-      endAngle: 90,
-      center: ['50%', '75%']
-    }
-  },
-  plotOptions: {
-    series: {
-      borderWidth: 0,
-    }
-  },
-  series: [{
-      type: 'pie',
-      innerSize: '50%',
-      colorByPoint: true,
-      data: null,
-      tooltip: {
-        headerFormat: ' ' ,
-        pointFormat: '<span style="font-size:80px"></span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
-        valueSuffix: ' hrs ' 
-      }
-  }],
-};
+
+
+
+/* Change truck chart navigation*/
+
+var change_chart_button_truck = $('#change_chart_button_truck');
+change_chart_button_truck.click(function(){
+  if(chart_status==0)
+  {
+    displayShortStopsAnalysis();
+    change_chart_button_truck.html('Use Analysis');
+    $('#container').highcharts(chart_1_1_params);
+    chart_status = 1;
+  }
+  else if(chart_status==1)
+  {
+    displayStopsAnalysis();
+    change_chart_button_truck.html('Short Stops Analysis');
+    $('#container').highcharts(chart_1_params);
+    chart_status = 0;
+  }
+});
+
+function displayShortStopsAnalysis()
+{
+  $('#container').highcharts(chart_1_params);
+}
+
+function displayStopsAnalysis()
+{
+  $('#container').highcharts(chart_1_1_params);
+}
 
 /*Load data for trucks charts*/
 var chart_2_params_categories;
@@ -215,13 +351,11 @@ var chart_3_params;
 var chart_4_params;
 var chart_slider_1;
 
-alert("voy a pedir datos");
 $.ajax({ 
     type: "GET",
     dataType: "json",
     url: "index.php?r=truck/getTrucksChartsInfo",
     success: function(data){
-    alert("ya recibi datos");
       if(data != null)
       {
       
@@ -466,9 +600,10 @@ Highcharts.setOptions({
       drillUpText: '<--', 
   }
 });
-
+/*
 chart_1 = $('#container').highcharts(chart_1_params);
-
+chart_2 = $('#container').highcharts(chart_1_params);
+*/
 
 
 
@@ -482,7 +617,6 @@ function ChartSlider (container_id, left_arrow_id, right_arrow_id) {
     this.chart_container = null;
     this.charts_container = [];
     this.parent = this;
-
     
     this.moveRight = function() {
       if(this.current_status != null)
@@ -551,6 +685,7 @@ function ChartSlider (container_id, left_arrow_id, right_arrow_id) {
     
     return this;
 }
+
 
 
 
