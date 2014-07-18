@@ -1,17 +1,13 @@
 
 <div id="compare-all-trucks-background">
-  <div id="close-compare-all-trucks" style="width:100px; height:100px; background-color: #ffffff; display: block;">
-  X
-  </div>
-  <div id="charts-slider-container" style="overflow:hidden; height:900px; display:block; width:100%; text-align:center;">
-    <div id="trucks-slider-left-arrow" class="trucks-charts-slider-arrow" style="vertical-align:middle; overflow:hidden; display:inline-block; width:30px; height:30px; background-color: #ffffff;">
-    izq
-    </div>
-    <div id="trucks-slider-chart-container" style="vertical-align:middle;  overflow:hidden; display:inline-block; width:800px; height:600px;  background-color: #ffffff;">
-    contenido
-    </div>
-    <div id="trucks-slider-right-arrow" class="trucks-charts-slider-arrow" style="vertical-align:middle;  overflow:hidden; display:inline-block; width:30px; height:30px; background-color: #ffffff;">
-    der
+  <div id="compare-all-trucks-container">
+    <div id="close-compare-all-trucks" class="close-compare-all-trucks"> </div>
+    <div id="charts-slider-container" class="charts-slider-container">
+      <div id="trucks-slider-left-arrow" class="trucks-charts-slider-arrow-left"> </div>
+      <div id="trucks-slider-chart-container" class="trucks-slider-chart-container">
+      contenido
+      </div>
+      <div id="trucks-slider-right-arrow" class="trucks-charts-slider-arrow-right"> </div>
     </div>
   </div>
 </div>
@@ -73,11 +69,11 @@
       </div>
       <div id="trips_data_container_two">
         <div id="trucks_truck_stats_data_average_trip_duration" class="trucks_truck_stats_data"> </div>
-        <div class="trucks_truck_stats_mini_label">Duration</div>
+        <div class="trucks_truck_stats_mini_label">Avg. Duration</div>
       </div>  
       <div id="trips_data_container_three"> 
         <div id="trucks_truck_stats_data_average_stop_count_per_trip" class="trucks_truck_stats_data"></div> 
-        <div class="trucks_truck_stats_mini_label">Stops</div>
+        <div class="trucks_truck_stats_mini_label">Avg. Stops</div>
       </div>
     </div>
 
@@ -86,7 +82,7 @@
     <div class="speed-stats-container">
       <div id="truck-average-speed-icon"> </div> 
       <div id="trucks_truck_stats_label_average_speed" class="trucks_truck_stats_label">       
-        Speed
+        Avg. Speed
       </div>
       <div id="trucks_truck_stats_data_average_speed" class="trucks_truck_stats_data"></div>
     </div> 
@@ -108,7 +104,7 @@
       </div>
       <div id="distance_data_container_three">
         <div id="trucks_truck_stats_data_average_stem_distance" class="trucks_truck_stats_data"></div>
-        <div class="trucks_truck_stats_mini_label">STEM</div>
+        <div class="trucks_truck_stats_mini_label">Avg. STEM</div>
       </div>  
       <div id="distance_data_container_four">
         <div id="trucks_truck_stats_data_average_distance_between_short_stops" class="trucks_truck_stats_data"></div>
@@ -116,7 +112,7 @@
       </div>  
     </div>  
 
-    <div class="clear"> </div>
+   <!-- <div class="clear"> </div>
 
     <div class="fuel-consumption-stats-container">
       <div id="fuel-consumption-icon"> </div>  
@@ -124,21 +120,19 @@
         Fuel
       </div>
       <div id="fuel_consumption_container_one">
-        <!--TODO make a tag that has an id that links to the js-->
         <div class="trucks_truck_stats_mini_label">Total</div>       
       </div>
       <div id="fuel_consumption_container_two">
-        <!--TODO make a tag that has an id that links to the js-->
         <div class="trucks_truck_stats_mini_label">Per km</div> 
-      </div>    
-    </div>  
+      </div> 
+    </div> -->
 
   </div>
   
   <div id="truck-stats-right">
     <div id="truck-analysis-right"> 
       <div id="truck-analysis-icon"></div><div id="truck-analysis-label"> Use Analysis </div>
-      <div id="change_chart_button_truck" syle="width:100px; height: 30px; background-color: #e5e5e5; ">Short Stops Analysis</div>
+      <div id="change_chart_button_truck">Short Stops Analysis</div>
     </div>
     <div id="container" class="chart_style"></div>
   </div>
