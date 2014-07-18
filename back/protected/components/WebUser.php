@@ -5,6 +5,8 @@ class WebUser extends CWebUser
    private $_id;
    private $_identity;
    private $_company;
+   private $_username;
+   private $_isAdmin = false;
 /*   
    public function setId($safe_id)
    {
@@ -37,5 +39,29 @@ class WebUser extends CWebUser
     return $this->_company;
    }
    
+   public function getUsername()
+   {
+    return $this->_username;
+   }
+   
+   public function setUsername($new_username)
+   {
+    $this->_username = $new_username;
+   }
+   
+   public function setAdmin()
+   {
+    $this->_isAdmin = true;
+   }
+   
+   public function resetAdmin()
+   {
+    $this->_isAdmin = false;
+   }
+   
+   public function isAdmin()
+   {
+    return $this->_isAdmin;
+   }
 }
 ?>

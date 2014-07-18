@@ -1,28 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "identity".
+ * This is the model class for table "identity_company".
  *
- * The followings are the available columns in table 'identity':
+ * The followings are the available columns in table 'identity_company':
  * @property integer $id
- * @property string $name
- * @property string $last_name
- * @property string $username
- * @property string $password
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $identity_id
+ * @property integer $company_id
  *
  * The followings are the available model relations:
- * @property Token[] $tokens
+ * @property Company $company
+ * @property Identity $identity
  */
-class Identity extends CActiveRecord
+class IdentityCompany extends CActiveRecord
 {
+  public $fullname_search;
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'identity';
+		return 'identity_company';
 	}
 
 	/**
@@ -33,12 +31,11 @@ class Identity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, last_name, username, password, updated_at', 'required'),
-			array('password', 'length', 'max'=>40),
-			array('created_at', 'safe'),
+			array('identity_id, company_id', 'required'),
+			array('identity_id, company_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, last_name, username, password, created_at, updated_at, fullname', 'safe', 'on'=>'search'),
+			array('id, identity_id, company_id, fullname_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +47,8 @@ class Identity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tokens' => array(self::HAS_MANY, 'Token', 'identity_id'),
-			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'identity_id'),
+			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
+			'identity' => array(self::BELONGS_TO, 'Identity', 'identity_id'),
 		);
 	}
 
@@ -62,12 +59,8 @@ class Identity extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'last_name' => 'Last Name',
-			'username' => 'Username',
-			'password' => 'Password',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'identity_id' => 'Identity',
+			'company_id' => 'Company',
 		);
 	}
 
@@ -88,55 +81,25 @@ class Identity extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
+    $criteria->with = array('identity');
+    $criteria->compare("LOWER(CONCAT(identity.last_name, ', ', identity.name))", strtolower($this->fullname_search), true);
+    //$criteria->select = array('*', 'CONCAT(identity.last_name, ", ", identity.name) AS fullname');
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('last_name',$this->last_name,true);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('identity_id',$this->identity_id);
+		$criteria->compare('company_id',$this->company_id);
+    /*$criteria->compare('identity.fullname', $this->fullname_search, true);*/
+  		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
 
-  public function getFullname()
-  {
-    return $this->last_name.", ".$this->name;
-  }
-  	
-	public function pendingUploads()
-  {
-    $uploaded_files = $this->uploaded_files(array('condition'=>'step < 2'));
-    return $uploaded_files;
-    
-    /*
-    return array(
-        'with'=> array("uploaded_files" => array(
-          'condition'=> "uploaded_file.step = 1",
-        ),
-      )
-    );
-    */
-  }
-  
-  public function pendingUpload()
-  {
-    $uploaded_files = $this->uploaded_files(array('condition'=>'step < 2'));
-    if(count($uploaded_files)>0)
-      return $uploaded_files[0];
-    else
-      return null;
-    
-  }
-
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Identity the static model class
+	 * @return IdentityCompany the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -173,5 +136,6 @@ class Identity extends CActiveRecord
 	  }
 	  return true;
 	}
+	
 	
 }

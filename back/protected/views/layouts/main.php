@@ -33,19 +33,27 @@
 	<div id="page-contents">
 		<div id="mainmenu-container">
 			<div id="mainmenu">
-				<?php $this->widget('zii.widgets.CMenu',array(
-					'encodeLabel'=>false,
-					'items'=>array(
-						//array('label'=>'Home', 'url'=>array('/site/index')),
-						array('label'=>'<div id="upload-image"> </div> Upload CSV', 'url'=>array('/sample/create')),
-						array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/admin')),
-						array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/admin')),
-						//array('label'=>'Token', 'url'=>array('/token/index')),
-						array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/admin')),
-						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-						array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-					), 'id' => 'menu-elements' 
-				)); ?>
+			<?php error_log("al pintar ".print_r(Yii::app()->user->getState('isAdmin'), true)); ?>
+				<?php 
+				  if(Yii::app()->user->hasState('isAdmin'))
+				  {
+				    $this->widget('zii.widgets.CMenu',array(
+					    'encodeLabel'=>false,
+					    'items'=>array(
+						    //array('label'=>'Home', 'url'=>array('/site/index')),
+						    array('label'=>'<div id="upload-image"> </div> Upload CSV', 'url'=>array('/sample/create'), 'visible'=>!Yii::app()->user->getState('isAdmin')),
+						    array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/admin'),'visible'=>!Yii::app()->user->getState('isAdmin')),
+						    //array('label'=>'Token', 'url'=>array('/token/index')),
+						
+						    array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/admin'), 'visible'=>!Yii::app()->user->getState('isAdmin')),
+						    array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/admin'), 'visible'=>Yii::app()->user->getState('isAdmin')),
+						    array('label'=>'<div id="fleet-image"> </div> Fleet', 'url'=>array('/company/admin', 'visible'=>Yii::app()->user->getState('isAdmin'))),
+						    array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+						    array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+					    ), 'id' => 'menu-elements' 
+				    )); 
+				  }
+			  ?>
 			</div><!-- mainmenu -->
 		</div>
 		<?php echo $content; ?>

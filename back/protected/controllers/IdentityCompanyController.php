@@ -1,6 +1,6 @@
 <?php
 
-class CompanyController extends Controller
+class IdentityCompanyController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -45,16 +45,6 @@ class CompanyController extends Controller
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
 
 	/**
 	 * Creates a new model.
@@ -62,50 +52,49 @@ class CompanyController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Company;
+		$model=new IdentityCompany;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Company']))
-		{
-			$model->attributes=$_POST['Company'];
-			if($model->save())
-			{
-        $this->redirect(array('admin'));
+    if(isset($_GET['company_id']))
+    {
+      $model->company_id = $_GET['company_id'];
+		  if(isset($_POST['IdentityCompany']))
+		  {
+			  $model->attributes=$_POST['IdentityCompany'];
+			  $model->company_id = $_GET['company_id'];
+			  if($model->save())
+				  $this->redirect(array('admin','company_id' => $_GET['company_id']));
+		  }
+		  else
+		  {
+		    $criteria = new CDbCriteria;
+		    $criteria->select = array('identity_id');
+		    $criteria->addCondition('t.company_id = '.$model->company_id);
+		    $current_identities = IdentityCompany::model()->findAll($criteria);
+		    
+		    $current_identities_array = array();
+		    
+		    foreach($current_identities as $identity)
+		    {
+		      $current_identities_array[] = $identity->identity_id;
+		    }
+		    $criteria=new CDbCriteria;
+		    
+		    $criteria->addNotInCondition('id', $current_identities_array);
+        
+        $dropdown_data = CHtml::listData(Identity::model()->findAll($criteria),'id','fullname');
+        
+        $this->render('create',array(
+			    'model'=>$model,
+			    'dropdown_data'=>$dropdown_data,
+		    ));
 		  }
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Company']))
-		{
-			$model->attributes=$_POST['Company'];
-			if($model->save())
-			{
-			  $this->redirect(array('admin'));
-		  }
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
+	
 
 	/**
 	 * Deletes a particular model.
@@ -121,42 +110,40 @@ class CompanyController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Company');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+	
 
 	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
-		$model=new Company('search');
+	  $aux = Identity::model()->findByPk('1');
+	  error_log(print_r($aux, true));
+		$model=new IdentityCompany('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Company']))
-			$model->attributes=$_GET['Company'];
+		if(isset($_GET['company_id']))
+		{
+		  $model->company_id = $_GET['company_id'];
+		  if(isset($_GET['IdentityCompany']))
+			  $model->attributes=$_GET['IdentityCompany'];
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		  $this->render('admin',array(
+			  'model'=>$model,
+			  'company_id'=>$_GET['company_id'],
+		  ));
+		}
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Company the loaded model
+	 * @return IdentityCompany the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Company::model()->findByPk($id);
+		$model=IdentityCompany::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -164,11 +151,11 @@ class CompanyController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Company $model the model to be validated
+	 * @param IdentityCompany $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='company-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='identity-company-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

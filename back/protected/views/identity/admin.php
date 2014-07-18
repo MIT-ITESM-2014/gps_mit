@@ -17,7 +17,6 @@
 			'name',
 			'last_name',
 			'username',
-			'mail',
 			//'password',
 			/*
 			'created_at',

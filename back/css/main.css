@@ -371,6 +371,35 @@ div.search-form
 	display: inline;
 }
 
+#button-box
+{
+	width: 100px;
+	height: 29px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/CreateButton.png");
+	float: right;
+	display: inline;
+	margin-top: 15px;
+	margin-right: 350px;
+}
+
+#identity-update-button
+{
+  width: 100px;
+	height: 29px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/CreateButton.png");
+	float: right;
+	display: inline;
+	margin-top: 15px;
+	margin-right: 350px;  
+}
+
+#identity-update-button:hover
+{
+	background-position: 0px 90px;
+}
+
 .headers
 {
 	display: inline-block;

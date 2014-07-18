@@ -1,16 +1,4 @@
 <?php
-/* @var $this IdentityController */
-/* @var $model Identity */
-
-/*$this->breadcrumbs=array(
-	'Identities'=>array('index'),
-	'Create',
-);
-
-$this->menu=array(
-	array('label'=>'List Identity', 'url'=>array('index')),
-	array('label'=>'Manage Identity', 'url'=>array('admin')),
-);*/
 
 Yii::app()->clientScript->registerScript('submitForm', "
 $('#button-box').click( function(){
@@ -19,7 +7,7 @@ $('#button-box').click( function(){
 ?>
 
 <div id="create-header">
-	<div id="button-box" onclick="'submitForm();'"> </div>
+	<div id="button-box" onclick=""> </div>
 	<h1>Create Identity</h1>
 </div>
 

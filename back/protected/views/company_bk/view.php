@@ -21,6 +21,12 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
+		'id',
+		'has_expected_routes',
+		'distance_ratio_long_stop',
+		'time_ratio_long_stop',
+		'created_at',
+		'updated_at',
 		'name',
 	),
 )); ?>

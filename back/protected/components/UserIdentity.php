@@ -20,31 +20,35 @@ class UserIdentity extends CUserIdentity
 	 
 	public function authenticate()
 	{
-		$users=array(
+		$admin_users=array(
 			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
+			'cadmin'=>'123456',
 		);
-		if(!isset($users[$this->username]))
+		if(!isset($admin_users[$this->username]))
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($users[$this->username]!==$this->password)
+		elseif($admin_users[$this->username]!==$this->password)
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
-		  $this->_id = 1 * 456345; //Must be divided by 456345 to get the real ID
+		  Yii::app()->user->setUsername($this->username);
+		  Yii::app()->user->setState('isAdmin', true);
+		  Yii::app()->user->setAdmin();
+		  error_log("acabo de setearlo");
+		  error_log(print_r(Yii::app()->user->isAdmin()));
+		  
+		  //$this->_id = 1 * 456345; //Must be divided by 456345 to get the real ID
 		  //$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
 		  //Yii::app()->user->login($this, $duration);
 		  //$user = Yii::app()->user->setId(1 * 456345);
 		  //To add more information to the User
-		  $this->setState('safe_id', 1 * 456345);//Must be divided by 456345 to get the real ID
-		  Yii::app()->user->setId("3");
-		  print_r(Yii::app()->user->getId());
+		  //$this->setState('safe_id', 1 * 456345);//Must be divided by 456345 to get the real ID
+		  //Yii::app()->user->setId("3");
 			$this->errorCode=self::ERROR_NONE;
 			
 		}
 		return !$this->errorCode;
-	}
 	
+	}
 	  /*This is the actual function that will return the id for the CWebUser
 	  */
 	 public function getId()
