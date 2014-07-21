@@ -30,8 +30,8 @@ class SiteController extends Controller
 	{
 		if(Yii::app()->user->getId()===null)
             $this->redirect(array('site/login'));
-  
-    elseif(Yii::app()->user->hasState('companies_count'))
+    //elseif(Yii::app()->user->hasState('companies_count'))
+/*
     {
       if(Yii::app()->user->getState('companies_count') > 0)
       {
@@ -48,59 +48,70 @@ class SiteController extends Controller
         $this->render('no_company',array());  
       }
     }
-    elseif(Yii::app()->user->hasState('current_company'))
+    */
+    elseif(Yii::app()->user->hasState('companies_count'))
     {
+      if(Yii::app()->user->getState('companies_count')<=0)
+      {
+        $this->render('no_company',array());
+      }
+      if(Yii::app()->user->hasState('current_company'))
+      {
         $cs = Yii::app()->clientScript;
         $cs->registerCoreScript('jquery');    
         $cs->registerCoreScript('screen-block'); 
 
-	      $trucks = Truck::model()->findAll();
-	      $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-	      $criteria->with = array('truck');
-	      //$truck_id = $trucks[0]->id;
-        //$criteria->addCondition('truck_id = '.$truck_id);
-        //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-07');
-	      $samples = Sample::model()->findAll($criteria);
+	      $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+	      $trucks_ids = array();
+        foreach($trucks as $truck)
+          $trucks_ids[] = $truck->id;
+	      $truck_id = null;
+	      $samples = null;
 	      
-	      $criteria2 = new CDbCriteria(array('order'=>'datetime ASC'));
-	      $truck_id2 = $samples[0]->truck->id;
-        $criteria2->addCondition('truck_id = '.$truck_id2);
-        //$criteria2->addBetweenCondition('datetime', '2013-09-27', '2013-09-28');
-	      $samples2 = Sample::model()->findAll($criteria2);
-        
+	      if(count($trucks) > 0)
+	      {
+	        $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+	        $truck_id = $trucks[0]->id;
+          $criteria->addCondition('truck_id = '.$truck_id);
+          $samples = Sample::model()->findAll($criteria);
+        }
         //Get the min_date
         $criteria_min_date = new CDbCriteria();
         $criteria_min_date->select='min(datetime) as min_date';
+        $criteria_min_date->addInCondition('truck_id', $trucks_ids);
         $min_date_sample = Sample::model()->findAll($criteria_min_date);
-        //$min_date = $min_date_sample[0]->min_date;
-        $date = new DateTime($min_date_sample[0]->min_date);
-        $min_date = $date->format('m/d/Y');
+        $min_date = null;
+        if(!empty($min_date_sample))
+        {
+          $date = new DateTime($min_date_sample[0]->min_date);
+          $min_date = $date->format('m/d/Y');  
+        }
         
         //Get the max_date
         $criteria_max_date = new CDbCriteria();
         $criteria_max_date->select='max(datetime) as max_date';
+        $criteria_max_date->addInCondition('truck_id', $trucks_ids);
         $max_date_sample = Sample::model()->findAll($criteria_max_date);
-        //$max_date = $max_date_sample[0]->max_date;
-        $date = new DateTime($max_date_sample[0]->max_date);
-        $max_date = $date->format('m/d/Y');
+        $max_date = null;
+        if(!empty($max_date_sample))
+        {
+          $date = new DateTime($max_date_sample[0]->max_date);
+          $max_date = $date->format('m/d/Y');
+        }
         
         //TODO Disable the calendar when no dates available
         if($max_date == null)
-        {
           $max_date = date('m/d/Y');
-        }
         if($min_date == null)
-        {
           $min_date = date('m/d/Y');
-        }
         
         //Get the list of unavailable dates
-        
         $criteria_active_days = new CDbCriteria(array('order'=>'active_day ASC'));
         $criteria_active_days->select='distinct DATE(datetime) as active_day';
         $active_days_sample = Sample::model()->findAll($criteria_active_days);
-        //$old_date = strtotime($active_days_sample[0]->active_day); //Temporary useless value
-        $old_date = new DateTime($active_days_sample[0]->active_day);
+        $old_date = null;
+        if(!empty($active_days_sample))
+          $old_date = new DateTime($active_days_sample[0]->active_day);
         $inactive_days = array();
         foreach($active_days_sample as $ads)
         {
@@ -109,33 +120,37 @@ class SiteController extends Controller
           while( $diff > 2  )//More than one day distance
           { 
             $old_date->modify('+1 day');
-            //print_r("--".$old_date->format('m/d/Y')."--");
             $inactive_days[] = $old_date->format('m/d/Y');
             $diff = (int)($old_date->diff($new_day)->format('%R%a'));
           }
-          
           $old_date = $new_day;
-          
         }
-        
         $inactive_days_string = "";
         foreach($inactive_days as $id)
-        {
           $inactive_days_string = $inactive_days_string . "'" . $id ."',"; 
-        }
+        
+        //Script variables
+        $map_center = "";
+        if(!empty($samples))
+          $map_center = $samples[0]->latitude.", ".$samples[0]->longitude;
+        $route_coordinates = "";
+        if(!empty($samples))
+          foreach($samples as $sample)
+            $route_coordinates = " new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
+          
         
         //DEfine center
 	      $script = "
 	        var temporal_script = null;
 	        var route;
 	        var map;
-	        var routeCoordinates;
+	        //var routeCoordinates;
 	        var routeCoordinates2;
 	        
 	        function initialize() {
             var mapOptions = {
             zoom: 12,
-            center: new google.maps.LatLng(".$samples2[0]->latitude.",".$samples2[0]->longitude.")
+            center: new google.maps.LatLng(".$map_center.")
           };
           
           map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -217,58 +232,15 @@ class SiteController extends Controller
         document.getElementById(\"button_update_map\").onclick = function() {
           button_update_map_action(); 
         };
-        //document.getElementById(\"button_two\").onclick = function() {
-        //  button_two_action(); 
-        //};
-        //document.getElementById(\"button_three\").onclick = function() {
-        //  button_three_action(); 
-        //};
-        //document.getElementById(\"button_four\").onclick = function() {
-        //  button_four_action(); 
-        //};
-        //document.getElementById(\"button_five\").onclick = function() {
-        //  button_five_action(); 
-        //};
-        //Add icon
-        //var iconBase = 'http://www.miamidade.gov/transit/mobile/images/';
-        //var myLatLng = new google.maps.LatLng(-33.44586, -70.76714 )
-        //var marker = new google.maps.Marker({
-          //position: myLatLng,
-          //map: map,
-          //icon: iconBase + 'icon-Bus-Stop.png'
-        //});
-        map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(
-        document.getElementById('map-legend'));
-
-        //LEGEND
-        //var legend = document.getElementById('map-legend');
-
-        //GEOJSON
-        //map.data.loadGeoJson('http://localhost/gps_mit/front/js/maps/geojson_test.json');
-        
-        //Load a polyline by hand
-        routeCoordinates = [";
-        foreach($samples as $sample)
-        {
-          $temp_string = " new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
-          $script = $script.$temp_string;
-        }  
-        $script = $script."];
 
         //Load a polyline by hand
-        routeCoordinates2 = [";
-        foreach($samples2 as $sample2)
-        {
-          $temp_string2 = " new google.maps.LatLng( ".$sample2->latitude.", ".$sample2->longitude." ),\n";
-          $script = $script.$temp_string2;
-        }
-        $script = $script."];
+        routeCoordinates = [".$route_coordinates."];
         
 
         var color = generateRandomColor();
 
         route = new google.maps.Polyline({
-          path: routeCoordinates2,
+          path: routeCoordinates,
           geodesic: true,
           strokeColor: color, //'#AAAAA',
           strokeOpacity: 1.0,
@@ -341,22 +313,22 @@ class SiteController extends Controller
       }
       
       //Add polyline
-      function button_two_action()
-      {
-        route.setMap(map);
-      }
+      //function button_two_action()
+      //{
+      //  route.setMap(map);
+      //}
       
       //Change polyline
-      function button_three_action()
-      {
-        route.setPath(routeCoordinates);
-      }
+      //function button_three_action()
+      //{
+      //  route.setPath(routeCoordinates);
+      //}
       
       //Change polyline
-      function button_four_action()
-      {
-        route.setPath(routeCoordinates2);
-      }
+      //function button_four_action()
+      //{
+      //  route.setPath(routeCoordinates2);
+      //}
       
       //Get new route generated at th emoment
       
@@ -372,6 +344,7 @@ class SiteController extends Controller
 			  'inactive_days_string'=>$inactive_days_string,
 			  'trucks'=>$trucks,
 		  ));  
+		  }
 		}
 	}
 	
@@ -482,7 +455,8 @@ class SiteController extends Controller
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 			{
-				$this->redirect(Yii::app()->user->returnUrl);
+			  $this->redirect(array('company/change'));
+				//$this->redirect(Yii::app()->user->returnUrl);
 			}
 		}
 		// display the login form
