@@ -32,7 +32,7 @@ class CompanyController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'change'),
+				'actions'=>array('create','update', 'change', 'reset'),
 				'users'=>array('@'),
 			),
 			/*( $_GET['id'] !== Yii::app()->user->id ) || ( Yii::app()->user->isAdmin !==  'Back' */
@@ -103,6 +103,68 @@ class CompanyController extends Controller
 	  ));
 	}
 
+
+  public function actionReset()
+	{
+	  if(isset($_POST['reset_confirmation']))
+	  {
+	    
+	    $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+      $trucks_ids = array();
+      foreach($trucks as $truck)
+        $trucks_ids[] = $truck->id;
+      
+      $criteria_find_routes = new CDbCriteria();
+      $criteria_find_routes->select = 'id';
+      $criteria_find_routes->addInCondition('truck_id', $trucks_ids);
+      $criteria_find_routes->with = 'beginning_stop';
+      $criteria_find_routes->with = 'end_stop';
+      
+      $routes = Route::model()->findAll($criteria_find_routes);
+	    $routes_ids = array();
+	    $long_stops_ids = array();
+	    foreach($routes as $route)
+	    {
+	      $routes_ids[] = $route->id;
+	      error_log('el modelo es' . print_r($route->beginning_stop, true));
+	      if(!empty($route->beginning_stop))
+	        $long_stops_ids[] = $route->beginning_stop->id;
+	      if(!empty($route->end_stop))
+	        $long_stops_ids[] = $route->end_stop->id;
+	    }
+	    error_log('voy a borrar');
+	    //Sample
+	    $criteria_sample = new CDbCriteria();
+      $criteria_sample->addInCondition('truck_id', $trucks_ids);
+	    Sample::model()->deleteAll($criteria_sample);
+	    //sampling
+	    $criteria_sampling = new CDbCriteria();
+      $criteria_sampling->addInCondition('truck_id', $trucks_ids);
+	    Sampling::model()->deleteAll($criteria_sampling);
+	    //Shortstop
+	    $criteria_short_stop = new CDbCriteria();
+      $criteria_short_stop->addInCondition('route_id', $routes_ids);
+	    ShortStop::model()->deleteAll($criteria_short_stop);
+	    //route
+	    $criteria_route = new CDbCriteria();
+      $criteria_route->addInCondition('id', $routes_ids);
+	    Route::model()->deleteAll($criteria_route);
+	    //LongStop
+	    $criteria_long_stop = new CDbCriteria();
+      $criteria_long_stop->addInCondition('id', $long_stops_ids);
+	    LongStop::model()->deleteAll($criteria_route);
+	    //Truck
+	    $criteria_truck = new CDbCriteria();
+      $criteria_truck->condition = 'company_id = '. Yii::app()->user->getState('current_company');
+	    Truck::model()->deleteAll($criteria_truck);
+	    $this->render('successful_reset');
+	  }
+	  else
+	  {
+	    $this->render('reset_form');
+	  }
+	}
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

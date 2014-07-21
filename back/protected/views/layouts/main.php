@@ -59,6 +59,7 @@
 						      //array('label'=>'Token', 'url'=>array('/token/index')),
 						
 						      array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/admin')),
+						      array('label'=>'<div id="reset-image"> </div> Reset', 'url'=>array('/company/reset')),
 						      array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'))
 					      ), 'id' => 'menu-elements' 
 				      ));
