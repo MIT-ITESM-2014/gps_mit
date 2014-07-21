@@ -15,19 +15,70 @@ class UserIdentity extends CUserIdentity
 	 * against some persistent user identity storage (e.g. database).
 	 * @return boolean whether authentication succeeds.
 	 */
-	public function authenticate()
+	 
+	private $_id;
+	 
+  public function authenticate()
 	{
-		$users=array(
-			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
-		);
-		if(!isset($users[$this->username]))
-			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($users[$this->username]!==$this->password)
-			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+	  $identity_model=Identity::model()->findByAttributes(array('username'=>$this->username));
+	  
+	  if($identity_model === null)
+	  {
+	    $this->errorCode=self::ERROR_USERNAME_INVALID;
+	  }
+	  else if($identity_model->password!==$this->password)
+	  {
+	    $this->errorCode=self::ERROR_PASSWORD_INVALID;
+	  }
+	  
 		else
-			$this->errorCode=self::ERROR_NONE;
+		{
+		  Yii::app()->user->setUsername($this->username);
+		  if($identity_model->is_admin == 1)
+		  {
+		    Yii::app()->user->setState('isAdmin', true);
+		  }
+		  else
+		  {
+		    Yii::app()->user->setState('isAdmin', false);
+		    Yii::app()->user->setState('user', $identity_model->id);
+		    $companies_model=IdentityCompany::model()->findAllByAttributes(array('identity_id'=>$identity_model->id));
+		    if(empty($companies_model))
+	        Yii::app()->user->setState('companies_count', 0);
+	      else
+	      {
+	        Yii::app()->user->setState('companies_count', count($companies_model));
+	        Yii::app()->user->setState('current_company', $companies_model[0]->id);
+	        Yii::app()->user->setState('current_company_name', $companies_model[0]->company->name);
+	        
+	      }
+		  }
+
+			$this->errorCode=self::ERROR_NONE;		
+		}
+	 
 		return !$this->errorCode;
-	}
+	
+	 }
+	  /*This is the actual function that will return the id for the CWebUser
+	  */
+	 public function getId()
+   {
+    return 1;
+    //return $this->_id;
+   }
+   
+   
+   public function getIdentity()
+   {
+    return Identity::model()->find('id='.($this->_id/456345));
+   }
+   
+   public function getCompany()
+   {
+    $identity = $this->getIdentity();
+    $company_id = $identity->company_id;
+    $company = Company::model()->find('id='.$company_id);
+    return $company;
+   }
 }

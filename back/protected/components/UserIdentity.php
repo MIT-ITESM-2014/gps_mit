@@ -20,32 +20,42 @@ class UserIdentity extends CUserIdentity
 	 
 	public function authenticate()
 	{
-		$admin_users=array(
-			// username => password
-			'cadmin'=>'123456',
-		);
-		if(!isset($admin_users[$this->username]))
-			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($admin_users[$this->username]!==$this->password)
-			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+	  $identity_model=Identity::model()->findByAttributes(array('username'=>$this->username));
+	  
+	  if($identity_model === null)
+	  {
+	    $this->errorCode=self::ERROR_USERNAME_INVALID;
+	  }
+	  elseif($identity_model->password!==$this->password)
+	  {
+	    $this->errorCode=self::ERROR_PASSWORD_INVALID;
+	  }
 		else
 		{
 		  Yii::app()->user->setUsername($this->username);
-		  Yii::app()->user->setState('isAdmin', true);
-		  Yii::app()->user->setAdmin();
-		  error_log("acabo de setearlo");
-		  error_log(print_r(Yii::app()->user->isAdmin()));
-		  
-		  //$this->_id = 1 * 456345; //Must be divided by 456345 to get the real ID
-		  //$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-		  //Yii::app()->user->login($this, $duration);
-		  //$user = Yii::app()->user->setId(1 * 456345);
-		  //To add more information to the User
-		  //$this->setState('safe_id', 1 * 456345);//Must be divided by 456345 to get the real ID
-		  //Yii::app()->user->setId("3");
-			$this->errorCode=self::ERROR_NONE;
-			
+		  if($identity_model->is_admin == 1)
+		  {
+		    Yii::app()->user->setState('isAdmin', true);
+		  }
+		  else
+		  {
+		    Yii::app()->user->setState('isAdmin', false);
+		    Yii::app()->user->setState('user', $identity_model->id);
+		    $companies_model=IdentityCompany::model()->findAllByAttributes(array('identity_id'=>$identity_model->id));
+		    if(empty($companies_model))
+	        Yii::app()->user->setState('companies_count', 0);
+	      else
+	      {
+	        Yii::app()->user->setState('companies_count', count($companies_model));
+	        Yii::app()->user->setState('current_company', $companies_model[0]->id);
+	        Yii::app()->user->setState('current_company_name', $companies_model[0]->company->name);
+	        
+	      }
+		  }
+
+			$this->errorCode=self::ERROR_NONE;		
 		}
+	 
 		return !$this->errorCode;
 	
 	}

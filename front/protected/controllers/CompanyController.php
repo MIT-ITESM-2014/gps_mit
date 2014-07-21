@@ -36,7 +36,7 @@ class CompanyController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'change'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -86,6 +86,29 @@ class CompanyController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+	
+	public function actionChange()
+	{
+	  $identity_company_model = null;
+	  if(isset($_GET['company']))
+	    $identity_company_model = IdentityCompany::model()->findByAttributes(array('company_id'=>$_GET['company'],'identity_id'=>Yii::app()->user->getState('user')));
+	  if(isset($_GET['company']) && !empty($identity_company_model))
+	  {
+	      Yii::app()->user->setState('current_company', $identity_company_model->company_id);
+	      Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
+	      $this->redirect(array('site/index')); 
+	  }
+	  else
+	  {
+      $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
+	    $model=new IdentityCompany('search');
+	    $model->unsetAttributes();  // clear any default values
+	    $model->identity_id = $aux->id;
+	    $this->render('change',array(
+	      'model'=>$model,
+	    ));
+	  }
 	}
 
 	/**

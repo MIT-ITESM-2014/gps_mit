@@ -32,12 +32,13 @@ class CompanyController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'change'),
 				'users'=>array('@'),
 			),
+			/*( $_GET['id'] !== Yii::app()->user->id ) || ( Yii::app()->user->isAdmin !==  'Back' */
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('cadmin'),
+				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -70,6 +71,7 @@ class CompanyController extends Controller
 		if(isset($_POST['Company']))
 		{
 			$model->attributes=$_POST['Company'];
+			$model->has_file_in_process = 0;
 			if($model->save())
 			{
         $this->redirect(array('admin'));
@@ -79,6 +81,26 @@ class CompanyController extends Controller
 		$this->render('create',array(
 			'model'=>$model,
 		));
+	}
+	
+	public function actionChange()
+	{
+	  if(isset($_GET['company']))
+	  {
+	    $identity_company_model = IdentityCompany::model()->findByAttributes(array('company_id'=>$_GET['company'],'identity_id'=>Yii::app()->user->getState('user')));
+	    if(!empty($identity_company_model))
+	    {
+	      Yii::app()->user->setState('current_company', $identity_company_model->company_id);
+	      Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
+	    }
+	  }
+    $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
+	  $model=new IdentityCompany('search');
+	  $model->unsetAttributes();  // clear any default values
+	  $model->identity_id = $aux->id;
+	  $this->render('change',array(
+	    'model'=>$model,
+	  ));
 	}
 
 	/**

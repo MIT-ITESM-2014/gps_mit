@@ -37,7 +37,7 @@ class IdentityCompanyController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('cadmin'),
+				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -117,8 +117,7 @@ class IdentityCompanyController extends Controller
 	 */
 	public function actionAdmin()
 	{
-	  $aux = Identity::model()->findByPk('1');
-	  error_log(print_r($aux, true));
+	  $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
 		$model=new IdentityCompany('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['company_id']))

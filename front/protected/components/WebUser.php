@@ -7,7 +7,20 @@ class WebUser extends CWebUser
    private $_company;
    private $_username;
    private $_isAdmin = false;
-
+/*   
+   public function setId($safe_id)
+   {
+    $this->_id = $safe_id;
+   }
+   */
+   /*
+   public function getId()
+   {
+    return $this->id;
+   }
+   */
+   
+   
    public function getIdentity()
    {
     if($this->_identity == null)
