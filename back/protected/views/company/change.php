@@ -9,7 +9,7 @@
 	'htmlOptions' => array('class' => 'gridStyle'),
 	'columns'=>array(
 	  array(
-	    'header'=>'Company Name',
+	    'header'=>'Fleet Name',
 	    'value'=>'$data->company->name',
 	  ),
 		array(

@@ -10,12 +10,21 @@ body
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: lighter;
-	color: white;
+	color: #FFFFFF;
 }
 
 p {
 	margin-bottom: 1.1em;
 	margin-top: 0;
+}
+
+#app-watermark
+{
+	width: 616px;
+	height: 180px; 
+	background-image: url("../public/images/CompassWatermark.png");
+	margin-top: 150px;
+	margin-left: 40px;
 }
 
 #page

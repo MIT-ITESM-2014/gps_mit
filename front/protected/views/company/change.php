@@ -2,9 +2,10 @@
 	'id'=>'identity-company-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+	'summaryText'=>' ',
 	'columns'=>array(
 	  array(
-	    'header'=>'Company Name',
+	    'header'=>'Fleet Name',
 	    'value'=>'$data->company->name',
 	  ),
 		array(
