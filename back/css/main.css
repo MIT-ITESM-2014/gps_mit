@@ -174,11 +174,11 @@ html > body #mainmenu {
 	font-size:16px;
 	font-weight:lighter;
 	text-decoration:none;
-	padding: 20px 0px 0px 65px;
+	padding: 10px 0px 0px 65px;
 	margin: 0px;
 	width: 182px;
-	height: 70px;
-	max-height: 70px;
+	height: 50px;
+	max-height: 50px;
 }
 
 #mainmenu ul li.active
@@ -187,9 +187,15 @@ html > body #mainmenu {
 	background-color:#00a894;
 	text-decoration:none;
 	width: 262px;
-	height: 70px;
+	height: 50px;
 	margin: 0px;
-	max-height: 70px;
+	max-height: 50px;
+}
+
+#mainmenu ul li.active a
+{
+	padding: 10px 0px 0px 65px;
+	max-height: 50px;
 }
 
 #mainmenu ul li:first-child.active
@@ -197,10 +203,11 @@ html > body #mainmenu {
 	color: #FFFFFF;
 	background-color:#00a894;
 	margin: 0px;
-	max-height: 70px;
+	max-height: 50px;
+	padding: 0px;
 }
 
-#mainmenu ul li:hover, #mainmenu ul li:focus
+#mainmenu ul li:hover
 {
 	color: #FFFFFF;
 	background-color:#00a894;
@@ -282,7 +289,7 @@ div.view
 	float: right;
 	display: inline;
 	margin-top: 15px;
-	margin-right: 100px;
+	margin-right: 50px;
 }
 
 #button-box:hover
@@ -323,6 +330,7 @@ div.view
 {
 	margin-left: 20px;
 	margin-top: 15px;
+	overflow: hidden;
 }
 
 #sample-image
@@ -442,21 +450,6 @@ div.view
 	float: left;
 }
 
-#button-box
-{
-	width: 100px;
-	height: 29px;
-	background-position: 0px 0px;
-	background-image: url("../public/images/CreateButton.png");
-	float: right;
-}
-
-#button-box:hover
-{
-	background-position: 0px 30px;
-	cursor: pointer;
-}
-
 #button-box-admin
 {
 	width: 100px;
@@ -465,7 +458,7 @@ div.view
 	background-image: url("../public/images/NewIdentityButton.png");
 	float: right;
 	margin-top: 15px;
-	margin-right: 100px;
+	margin-right: 50px;
 }
 
 #button-box-admin:hover

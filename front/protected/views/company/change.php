@@ -1,8 +1,12 @@
+
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'identity-company-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'summaryText'=>' ',
+	'htmlOptions' => array('class' => 'gridStyle'),
+	'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/changeCompany.css', 'header' => ' '),	
+	'cssFile' => Yii::app()->baseUrl . '/css/changeCompany.css',
 	'columns'=>array(
 	  array(
 	    'header'=>'Fleet Name',
@@ -14,7 +18,6 @@
 			'buttons'=>array(
 			  'select' => array(
 			    'label'=>'Select',
-			    //'imageUrl'=>Yii::app()->request->baseUrl.'/images/email.png',
 			    'url'=>'Yii::app()->createUrl("company/change", array("company"=>$data->company_id))',
 			  ),
 			),

@@ -8,6 +8,7 @@
 .items
 {
 	width: 700px;
+	border-collapse: collapse;
 }
 
 .filters
@@ -50,6 +51,11 @@ tr
 {
 	background-color: #efefef;
 	height: 35px;
+}
+
+tbody tr 
+{
+	border-bottom: 1px solid #B5B5B5;
 }
 
 .users-button img
@@ -213,58 +219,63 @@ li.next:hover a
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;
 }
 
 #truck-grid_c1
 {
 	background-color: #003c4b;
 	height: 50px;
-
+	font-weight: lighter;
 }
 
 #identity-grid_c0
 {
 	background-color: #003c4b;
 	height: 50px;
-
+	font-weight: lighter;
 }
 
 #identity-grid_c1
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;	
 }
 
 #identity-grid_c2
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;
 }
 
 #identity-grid_c3
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;	
 }
 
 #identity-grid_c4
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;	
 }
 
 #identity-grid_c5
 {
 	background-color: #003c4b;
 	height: 50px;
-
+	font-weight: lighter;
 }
 
 #sample-grid_c0
 {
 	background-color: #003c4b;
 	height: 50px;
-
+	font-weight: lighter;
 }
 
 #sample-grid_c1
@@ -277,12 +288,14 @@ li.next:hover a
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;	
 }
 
 #sample-grid_c3
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;	
 }
 
 #sample-grid_c4
@@ -295,18 +308,21 @@ li.next:hover a
 {
 	background-color: #003c4b;
 	height: 50px;
+	font-weight: lighter;	
 }
 
 #company-grid_c0
 {
 	background-color: #003c4b;
 	height: 50px;	
+	font-weight: lighter;	
 }
 
 #company-grid_c1
 {
 	background-color: #003c4b;
 	height: 50px;	
+	font-weight: lighter;	
 }
 
 #identity-company-grid_c0
@@ -314,10 +330,12 @@ li.next:hover a
 	background-color: #003c4b;
 	height: 50px;		
 	color: #FFFFFF;
+	font-weight: lighter;	
 }
 
 #identity-company-grid_c1
 {
 	background-color: #003c4b;
-	height: 50px;		
+	height: 50px;	
+	font-weight: lighter;		
 }
