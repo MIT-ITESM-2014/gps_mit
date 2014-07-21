@@ -132,7 +132,7 @@ class CompanyController extends Controller
 	      if(!empty($route->end_stop))
 	        $long_stops_ids[] = $route->end_stop->id;
 	    }
-	    error_log('voy a borrar');
+	    
 	    //Sample
 	    $criteria_sample = new CDbCriteria();
       $criteria_sample->addInCondition('truck_id', $trucks_ids);

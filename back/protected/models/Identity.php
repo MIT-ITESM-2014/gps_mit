@@ -17,6 +17,7 @@
  */
 class Identity extends CActiveRecord
 {
+  public $is_admin_value;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,9 +38,10 @@ class Identity extends CActiveRecord
 			array('password', 'length', 'max'=>40),
 			array('created_at', 'safe'),
 			array('username', 'unique', 'message' => "This username already exists."),
+			array('is_admin', 'boolean'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, last_name, username, password, created_at, updated_at, fullname', 'safe', 'on'=>'search'),
+			array('id, name, last_name, username, password, created_at, updated_at, fullname, is_admin', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +71,8 @@ class Identity extends CActiveRecord
 			'password' => 'Password',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
+			'is_admin_value' => 'Is administrator',
+			'is_admin' => 'Is administrator',
 		);
 	}
 
@@ -157,6 +161,7 @@ class Identity extends CActiveRecord
 	
 	protected function beforeValidate()
 	{
+	  //if $this->is_admin_value = 
 	  if(parent::beforeValidate())
 	  {
 	    if($this->isNewRecord)
