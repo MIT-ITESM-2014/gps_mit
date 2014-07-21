@@ -36,7 +36,7 @@ class Identity extends CActiveRecord
 			array('name, last_name, username, password, updated_at', 'required'),
 			array('password', 'length', 'max'=>40),
 			array('created_at', 'safe'),
-			array('username', 'unique', 'message' => "This username already exists.")
+			array('username', 'unique', 'message' => "This username already exists."),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, last_name, username, password, created_at, updated_at, fullname', 'safe', 'on'=>'search'),

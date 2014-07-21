@@ -42,7 +42,7 @@ class ParameterForm extends CFormModel
 	
 	public function updateCompanyParameters()
 	{
-	  $company = Yii::app()->user->getCompany();
+	  $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
 	  $company->distance_radius_long_stop = $this->distance_radius_long_stop;
 	  $company->time_radius_long_stop = $this->time_radius_long_stop;
 	  $company->distance_radius_short_stop = $this->distance_radius_short_stop;

@@ -434,6 +434,12 @@ class SiteController extends Controller
 		$this->render('contact',array('model'=>$model));
 	}
 
+
+  public function actionErrorIsAdmin()
+  {
+    
+    $this->render('error_is_admin');
+  }
 	/**
 	 * Displays the login page
 	 */
@@ -455,7 +461,10 @@ class SiteController extends Controller
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 			{
-			  $this->redirect(array('company/change'));
+			  if(Yii::app()->user->getState('isAdmin'))
+			    $this->redirect(array('site/errorIsAdmin'));
+			  else
+			    $this->redirect(array('company/change'));
 				//$this->redirect(Yii::app()->user->returnUrl);
 			}
 		}

@@ -63,7 +63,7 @@ class SampleController extends Controller
 	public function actionCreate()
 	{
 	  //Add script for uploading files
-	  $company_id = Yii::app()->user->getState('company');
+	  $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
@@ -106,7 +106,7 @@ class SampleController extends Controller
   
   function actionGenerateCompanyMetrics()
   {
-    $company = Yii::app()->user->getCompany();
+    $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
     
     //RouteCount
     $route_count = 0;
@@ -338,7 +338,7 @@ class SampleController extends Controller
   
 	public function actionUploadOne()
 	{
-	  $company_id = Yii::app()->user->getState('company');
+	  $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
@@ -396,7 +396,7 @@ class SampleController extends Controller
           if(!count($registered_truck))
           {
             $new_truck = new Truck;
-            $new_truck->company_id = Yii::app()->user->getCompany()->id;
+            $new_truck->company_id = Company::model()->findByPk(Yii::app()->user->getState('current_company'))->id;
             $new_truck->name = $truck_name;
             $new_truck->save();
           }
@@ -881,10 +881,10 @@ class SampleController extends Controller
         //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
         $samples = Sample::model()->findAll($criteria);
         
-        $distance_treshold_for_short_stop= Yii::app()->user->getCompany()->distance_radius_short_stop;//0.1; //TODO define treshold
-        $time_treshold_for_short_stop= Yii::app()->user->getCompany()->time_radius_short_stop;//14400;//Time in seconds
-        $distance_treshold_for_long_stop= Yii::app()->user->getCompany()->distance_radius_long_stop;//0.1; //TODO define treshold
-        $time_treshold_for_long_stop= Yii::app()->user->getCompany()->time_radius_long_stop;//14400;//Time in seconds
+        $distance_treshold_for_short_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->distance_radius_short_stop;//0.1; //TODO define treshold
+        $time_treshold_for_short_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->time_radius_short_stop;//14400;//Time in seconds
+        $distance_treshold_for_long_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->distance_radius_long_stop;//0.1; //TODO define treshold
+        $time_treshold_for_long_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->time_radius_long_stop;//14400;//Time in seconds
         
         $samples_size = count($samples);
         
@@ -1156,7 +1156,7 @@ class SampleController extends Controller
   
   public function actionCreatePartial()
   {
-    $company_id = Yii::app()->user->getState('company');
+    $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
@@ -1182,7 +1182,7 @@ class SampleController extends Controller
     
   public function actionSubmitParameters()
   {
-    $company_id = Yii::app()->user->getState('company');
+    $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
@@ -1198,7 +1198,7 @@ class SampleController extends Controller
 			    $pending_upload->step++;
 			    $pending_upload->save();
 			    
-			    $company_id = Yii::app()->user->getState('company');
+			    $company_id = Yii::app()->user->getState('current_company');
 			    $company_model = Company::model()->findByPk($company_id);
 			    $company_model->has_file_in_process = 1;
 			    $company_model->save();
@@ -1228,7 +1228,7 @@ class SampleController extends Controller
   
   public function actionSendParameters()
   {
-    $company_id = Yii::app()->user->getState('company');
+    $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {

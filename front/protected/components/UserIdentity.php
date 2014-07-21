@@ -34,14 +34,13 @@ class UserIdentity extends CUserIdentity
 		else
 		{
 		  Yii::app()->user->setUsername($this->username);
+		  Yii::app()->user->setState('user', $identity_model->id);
+		  Yii::app()->user->setState('first_name', $identity_model->name);
 		  if($identity_model->is_admin == 1)
-		  {
 		    Yii::app()->user->setState('isAdmin', true);
-		  }
 		  else
 		  {
 		    Yii::app()->user->setState('isAdmin', false);
-		    Yii::app()->user->setState('user', $identity_model->id);
 		    $companies_model=IdentityCompany::model()->findAllByAttributes(array('identity_id'=>$identity_model->id));
 		    if(empty($companies_model))
 	        Yii::app()->user->setState('companies_count', 0);

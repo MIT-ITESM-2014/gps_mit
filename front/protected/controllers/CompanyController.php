@@ -104,6 +104,8 @@ class CompanyController extends Controller
       $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
 	    $model=new IdentityCompany('search');
 	    $model->unsetAttributes();  // clear any default values
+	    error_log("El id del usaurio es ".Yii::app()->user->getState('user')); 
+	    error_log("El modelo del suuario es ".print_r($aux, true));
 	    $model->identity_id = $aux->id;
 	    $this->render('change',array(
 	      'model'=>$model,

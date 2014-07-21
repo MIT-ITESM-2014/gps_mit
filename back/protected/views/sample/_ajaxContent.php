@@ -4,7 +4,6 @@
   {
 ?>
     <script type="text/javascript">
-      alert("js");
       actualizarPaso(<?=$step?>);
     </script>
 <?php
