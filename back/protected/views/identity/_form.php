@@ -41,11 +41,15 @@
 		<?php echo $form->passwordField($model,'password',array('size'=>40,'maxlength'=>40)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
+	<div class="row">
+		<?php echo $form->checkBox($model,'is_admin',array('uncheckValue'=>'0', 'value'=>'1')); ?>
+		<?php echo $form->labelEx($model,'is_admin'); ?>
+	</div>
 
 	<p class="note"> <span class="required">* Required fields</span></p>
 	
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'CREATE' : 'Save', array('class'=>'hide-button')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'CREATE' : 'Save', array('id'=>'submit-button-create', 'class'=>'hide-button')); ?>
 	</div>
 
 

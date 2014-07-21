@@ -2,7 +2,7 @@
 
 Yii::app()->clientScript->registerScript('submitForm', "
 $('#button-box').click( function(){
-  $('#identity-form input').click();
+  $('#submit-button-create').click();
 });");
 ?>
 
