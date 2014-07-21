@@ -101,6 +101,10 @@ class TruckController extends Controller
     $chart_4_average_speed = array();
     $chart_4_fuel_consumption_per_km = array();
     $chart_4_number_of_trips = array();
+
+    //test for new charts
+    $chart_4_new_params = array();
+    $chart_4_new_params_2 = array();
     
     foreach($trucks as $truck)
     {
@@ -116,10 +120,23 @@ class TruckController extends Controller
       $chart_3_params_series_long_stop[] = $truck->resting_time;
       $chart_4_average_short_stops_count[] = round($truck->average_stop_count_per_trip);
       $chart_4_average_short_stops_duration[] = 1;// $truck->short_stops_time;//TODO
-      $chart_4_average_distance[] = ($truck->total_distance / $truck->route_count);
+      $chart_4_average_distance[] = round($truck->total_distance / $truck->route_count);
       $chart_4_average_speed[] = $truck->total_distance/$truck->route_count;
       $chart_4_fuel_consumption_per_km[] = 1;//$truck->fuel_comsumption_per_km;//TODO
       $chart_4_number_of_trips[] = $truck->route_count; 
+      //new chart
+      $chart_4_new_params [] = array(
+        'myData'=> $truck->name,
+        'color' => '#FF00FF',
+        'x' => $truck->total_distance,
+        'y' => ($truck->total_distance/$truck->route_count)
+        );
+      $chart_4_new_params_2 [] = array(
+          'myData'=> $truck->name,
+          'color' => '1234FF',
+          'x' => $truck->total_distance,
+          'y' => $truck->average_stem_distance
+        );
     }
 
     $data = 
@@ -146,6 +163,10 @@ class TruckController extends Controller
           'fuel_consumption_per_km' => $chart_4_fuel_consumption_per_km,
           'number_of_trips' => $chart_4_number_of_trips
         ),
+        'chart_4_new_params_series' => array(
+            'chart_4_data_speed' => $chart_4_new_params,
+            'chart_4_data_stem' => $chart_4_new_params_2
+        )
       );
     echo CJSON::encode($data);
     

@@ -1,16 +1,4 @@
 <?php
-/* @var $this TruckController */
-/* @var $model Truck */
-
-$this->breadcrumbs=array(
-	'Trucks'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'List Truck', 'url'=>array('index')),
-	array('label'=>'Create Truck', 'url'=>array('create')),
-);
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -35,9 +23,9 @@ $('.search-form form').submit(function(){
 		'id'=>'truck-grid',
 		'dataProvider'=>$model->search(),
 		'filter'=>$model,
-		'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css'),
+		'summaryText'=>' ',
+		'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css', 'header' => ' '),
 		'cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css',
-		'summaryText'=>'Displaying {start} of {end} pages',
 		'htmlOptions' => array('class' => 'gridStyle'),
 		'columns'=>array(
 			//'id',

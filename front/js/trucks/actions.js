@@ -132,6 +132,12 @@ function updateTruckStats()
             var average_stem_distance_trimmed = Math.round(data.truck.average_stem_distance*10)/10;
             var average_stem_distance_trimmed_string = average_stem_distance_trimmed.toString().concat(" km");
             $("#trucks_truck_stats_data_average_stem_distance").html(average_stem_distance_trimmed_string);  
+          }
+          if(data.truck.average_trip_distance != null)
+          {
+            var average_trip_distance_trimmed = Math.round(data.truck.average_trip_distance*10)/10;
+            var average_trip_distance_string = average_trip_distance_trimmed.toString().concat(" km");
+            $("#trucks_truck_stats_distance_per_trip").html(average_trip_distance_string);
           }              
         }
       }
@@ -164,7 +170,7 @@ function updateTruckStats()
             type: 'column'
           },
           title: {
-            text: 'Short Stops Duration'
+            text: 'Stops Duration'
           },
           xAxis: {
             categories: ['BDPD-24'],
@@ -287,8 +293,8 @@ function updateTruckStats()
           },
           series: [{
             data: [
-              ['Short Stop', 5],
-              ['Long Stop', 6],
+              ['Stop', 5],
+              ['Idle', 6],
               ['Traveling', 10]
             ],
               type: 'pie',
@@ -331,7 +337,7 @@ change_chart_button_truck.click(function(){
   else if(chart_status==1)
   {
     displayStopsAnalysis();
-    change_chart_button_truck.html('Short Stops Analysis');
+    change_chart_button_truck.html('Stops Analysis');
     $('#container').highcharts(chart_1_params);
     chart_status = 0;
   }
@@ -352,6 +358,7 @@ var chart_2_params_categories;
 var chart_2_params_series;
 var chart_3_params_series;
 var chart_4_params_categories_series;
+var chart_4_new_params_series;
 var chart_2_params;
 var chart_3_params;
 var chart_4_params;
@@ -369,13 +376,14 @@ $.ajax({
         chart_2_params_series = data.chart_2_params_series;
         chart_3_params_series = data.chart_3_params_series;
         chart_4_params_categories_series = data.chart_4_params_categories_series;
+        chart_4_new_params_series = data.chart_4_new_params_series;
         
         chart_2_params = {
           chart: {
-            type: 'column'
+            type: 'area'
           },
           title: {
-            text: 'Time in short stops'
+            text: 'Time in stops'
           },
           xAxis: {
             categories: chart_2_params_categories
@@ -391,7 +399,7 @@ $.ajax({
             shared: true,
           },
           plotOptions: {
-            column: {
+            area: {
               stacking: 'percent'
             }
           },
@@ -444,18 +452,22 @@ $.ajax({
         
         chart_3_params = {
           chart: {
-              type: 'column'
+              type: 'area'
           },
           title: {
               text: 'Time distribution'
           },
           xAxis: {
-              categories: chart_2_params_categories
+              categories: chart_2_params_categories,
+              labels: {
+                enabled: false
+              }
           },
           yAxis: {
               min: 0,
+              max: 100,
               title: {
-                  text: 'Time distribution'
+                  text: 'Percent'
               }
           },
           tooltip: {
@@ -463,7 +475,7 @@ $.ajax({
               shared: true,
           },
           plotOptions: {
-              column: {
+              area: {
                   stacking: 'percent'
               }
           },
@@ -476,7 +488,7 @@ $.ajax({
                   valueSuffix: ' min ' 
                   }
           }, {
-              name: 'Short stop',
+              name: 'Stop',
               color: '#042E3C',
               data: chart_3_params_series.chart_3_params_series_short_stop,
               tooltip: {
@@ -484,7 +496,7 @@ $.ajax({
                   valueSuffix: ' min ' 
                   }
           }, {
-              name: 'Long stop',
+              name: 'Idle',
               data: chart_3_params_series.chart_3_params_series_long_stop,
               tooltip: {
                   pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -495,32 +507,68 @@ $.ajax({
         
         chart_4_params = {
           chart: {
-            type: 'column',
-            margin: 75,
-            options3d: {
-              enabled: true,
-              alpha: 15,
-              beta: 5,
-              depth: 70
-            }
+            type: 'scatter',
+            zoom: 'xy'
+            // margin: 75,
+            // options3d: {
+            //   enabled: true,
+            //   alpha: 15,
+            //   beta: 5,
+            //   depth: 70
+            // }
           },
 
           title: {
             text: 'General Stats',
           },
           plotOptions: {
-            column: {
-              depth: 25
+            // column: {
+            //   depth: 25
+            // }
+            scatter: {
+              marker: {
+                radius: 6,
+                states: {
+                  hover: {
+                    enabled: true,
+                    lineColor: 'rgb(100, 100, 100)'
+                  }
+                }
+              },
+              states: {
+                hover: {
+                  marker: {
+                    enabled: false
+                  }
+                }
+              }
             }
           },
+          legend: {
+            layout: 'vertical',
+            align: 'center',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            borderWidth: 1
+          },
           xAxis: {
-            categories: chart_2_params_categories,
+            title: {
+              enabled: true, 
+              text: 'Avg. distance per trip (km)'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
           },
           yAxis: {
             opposite: false,
-            /*title: {
-                text: 'Number of stops'
-            }*/
+            title: {
+                enabled: false
+                //text: 'Number of stops'
+            }
           },
           tooltip: { 
             headerFormat: '<span style="font-size:20px"><b>{point.key}</span><br/>',
@@ -529,16 +577,16 @@ $.ajax({
           },  
           series: [
             {
-              name: 'Average number of short stops',
-              color: '#139B83',
-              data: chart_4_params_categories_series.average_short_stops_count,
+              name: 'Average Speed',
+              color: '#FF00FF',
+              data: chart_4_new_params_series.chart_4_data_speed,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
-                valueSuffix: ' <br/>' 
+                valueSuffix: ' km/h <br/>' 
               }
             },
             {
-              name: 'Average short stop duration',
+              name: 'Average stop duration',
               color: '#042E3C',
               data: chart_4_params_categories_series.average_short_stops_duration,
               visible: false,

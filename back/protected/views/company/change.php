@@ -3,14 +3,13 @@
 	'id'=>'identity-company-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+	'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css', 'header' => ' '),
+	'cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css',
+	'summaryText'=>' ',
+	'htmlOptions' => array('class' => 'gridStyle'),
 	'columns'=>array(
 	  array(
-	    /*'name'=>'User',*/
-	    /*'header'=>'User',
-	    'value'=>'$data->identity->name." ".$data->identity->last_name',*/
-	    /*'name'=>'identity.fullname',*/
 	    'header'=>'Company Name',
-	    /*'name'=>'fullname_search',*/
 	    'value'=>'$data->company->name',
 	  ),
 		array(
@@ -19,7 +18,6 @@
 			'buttons'=>array(
 			  'select' => array(
 			    'label'=>'Select',
-			    //'imageUrl'=>Yii::app()->request->baseUrl.'/images/email.png',
 			    'url'=>'Yii::app()->createUrl("company/change", array("company"=>$data->company_id))',
 			  ),
 			),

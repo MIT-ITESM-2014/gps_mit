@@ -1,18 +1,14 @@
 <?php
-/* @var $this IdentityCompanyController */
-/* @var $model IdentityCompany */
 
-$this->breadcrumbs=array(
-	'Identity Companies'=>array('index'),
-	'Create',
-);
-
-$this->menu=array(
-	array('label'=>'List IdentityCompany', 'url'=>array('index')),
-	array('label'=>'Manage IdentityCompany', 'url'=>array('admin')),
-);
+Yii::app()->clientScript->registerScript('submitForm', "
+$('#button-box').click( function(){
+  $('#identity-company-form input').click();
+});");
 ?>
 
-<h1>Create IdentityCompany</h1>
+<div class="headers">
+	<div id="button-box" onclick=""> </div>
+	<h1>Create Fleet</h1>
+</div>
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'dropdown_data'=>$dropdown_data)); ?>

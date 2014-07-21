@@ -41,8 +41,7 @@
 				      $this->widget('zii.widgets.CMenu',array(
 					      'encodeLabel'=>false,
 					      'items'=>array(
-						      //array('label'=>'Home', 'url'=>array('/site/index')),
-						      array('label'=>'<div id="identity-image"> </div> Identity', 'url'=>array('/identity/admin')),
+						      array('label'=>'<div id="identity-image"> </div> Users', 'url'=>array('/identity/admin')),
 						      array('label'=>'<div id="fleet-image"> </div> Fleet', 'url'=>array('/company/admin')),
 						      array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'))
 					      ), 'id' => 'menu-elements' 

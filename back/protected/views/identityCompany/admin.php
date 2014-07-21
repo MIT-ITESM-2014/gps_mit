@@ -1,31 +1,18 @@
-<?php
-/* @var $this IdentityCompanyController */
-/* @var $model IdentityCompany */
-
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#identity-company-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
-?>
 
 <div class="headers">
 	<a href="<?php echo Yii::app()->createUrl('identityCompany/create', array('company_id'=>$company_id))?>"><div id="button-box-admin"> </div></a>
-	<h1></h1>
+	<h1>Fleet</h1>
 </div>
 
+<div class="admin-list">
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'identity-company-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+	'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css', 'header' => ' '),
+	'cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css',
+	'summaryText'=>' ',
+	'htmlOptions' => array('class' => 'gridStyle'),
 	'columns'=>array(
 	  array(
 	    /*'name'=>'User',*/
@@ -39,6 +26,11 @@ $('.search-form form').submit(function(){
 		array(
 			'class'=>'CButtonColumn',
 			'template'=>'{delete}',
+			'updateButtonImageUrl' => "",//Yii::app()->baseUrl . '/public/images/icons/' . 'Edit.png',
+			'updateButtonOptions' => array('class' => 'update-button'),
+			'deleteButtonImageUrl' => Yii::app()->baseUrl . '/public/images/icons/' . 'DeleteColor.png',
+			'deleteButtonOptions' => array('class' => 'delete-button')
 		),
 	),
 )); ?>
+</div>
