@@ -23,8 +23,10 @@
 		<?php echo $form->error($model,'name'); ?>
 	</div>
 
+	<p class="note"> <span class="required">* Required fields</span></p>
+
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'hide-button')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

@@ -1,5 +1,10 @@
+<?php
 
-
+Yii::app()->clientScript->registerScript('submitForm', "
+$('#button-box').click( function(){
+  $('#company-form input').click();
+});");
+?>
 
 <div id="create-header">
 	<div id="button-box" onclick=""> </div>

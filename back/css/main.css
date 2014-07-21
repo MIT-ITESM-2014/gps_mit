@@ -10,7 +10,7 @@ body
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: lighter;
-	color: white;
+	color: #FFFFFF;
 }
 
 p {
@@ -18,12 +18,21 @@ p {
 	margin-top: 0;
 }
 
+#app-watermark
+{
+	width: 616px;
+	height: 180px; 
+	background-image: url("../public/images/CompassWatermark.png");
+	margin-top: 150px;
+	margin-left: 40px;
+}
+
 #page
 {
 	width: 100%;
 	height: 100%;
-	margin-top: 0px;
-	margin-bottom: 5px;
+	margin: 0px;
+	padding: 0px;
 	background: #FFFFFF;
 }
 
@@ -81,7 +90,7 @@ ul.symbolList {
 	font-size: 15px;
 	text-align: left;
 	padding-bottom: 2px;
-	width: 100%;
+	width: 700px;
 }
 
 h1#contents-field
@@ -92,7 +101,7 @@ h1#contents-field
 #contents-field
 {
 	display: table;
-	width: 100%;
+	width: 700px;
 	height: auto;
 	color: #1b1b1b;
 }
@@ -140,7 +149,7 @@ h1#contents-field
 
 html > body #mainmenu {
 	height: auto;
-	min-height: 708px;
+	min-height: 650px;
 }
 
 #mainmenu ul
@@ -254,98 +263,10 @@ div.view
 	border: 1px solid #C9E0ED;
 }
 
-div.breadcrumbs
-{
-	font-size: 0.9em;
-	padding: 5px 20px;
-}
-
-div.breadcrumbs span
-{
-	font-weight: bold;
-}
-
-div.search-form
-{
-	padding: 10px;
-	margin: 10px 0;
-	background: #eee;
-}
-
-.portlet-decoration
-{
-	padding: 3px 8px;
-	background: #B7D6E7;
-	border-left: 5px solid #6FACCF;
-}
-
-.portlet-title
-{
-	font-size: 12px;
-	font-weight: bold;
-	padding: 0;
-	margin: 0;
-	color: #298dcd;
-}
-
-.portlet-content
-{
-	font-size:0.9em;
-	margin: 0 0 15px 0;
-	padding: 5px 8px;
-	background:#EFFDFF;
-}
-
-.portlet-content ul
-{
-	list-style-image:none;
-	list-style-position:outside;
-	list-style-type:none;
-	margin: 0;
-	padding: 0;
-}
-
-.portlet-content li
-{
-	padding: 2px 0 4px 0px;
-}
-
-.operations
-{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
-.operations li
-{
-	padding-bottom: 2px;
-}
-
-.operations li a
-{
-	font: bold 12px Arial;
-	color: #0066A4;
-	display: block;
-	padding: 2px 0 2px 8px;
-	line-height: 15px;
-	text-decoration: none;
-}
-
-.operations li a:visited
-{
-	color: #0066A4;
-}
-
-.operations li a:hover
-{
-	background: #80CFFF;
-}
-
 #create-header
 {
 	background-color: #006060;
-	width: 100%;
+	width: 700px;
 	height: 70px;
 	float: left;
 	padding-top: 15px;
@@ -361,50 +282,39 @@ div.search-form
 	float: right;
 	display: inline;
 	margin-top: 15px;
-	margin-right: 350px;
+	margin-right: 100px;
 }
 
 #button-box:hover
 {
-	background-position: 0px 90px;
+	background-position: 0px 30px;
 	float: right;
 	display: inline;
-}
-
-#button-box
-{
-	width: 100px;
-	height: 29px;
-	background-position: 0px 0px;
-	background-image: url("../public/images/CreateButton.png");
-	float: right;
-	display: inline;
-	margin-top: 15px;
-	margin-right: 350px;
 }
 
 #identity-update-button
 {
-  width: 100px;
-	height: 29px;
+  width: 125px;
+	height: 38px;
 	background-position: 0px 0px;
-	background-image: url("../public/images/CreateButton.png");
+	background-image: url("../public/images/updateButton.png");
 	float: right;
 	display: inline;
 	margin-top: 15px;
-	margin-right: 350px;  
+	margin-right: 50px;  
 }
 
 #identity-update-button:hover
 {
-	background-position: 0px 90px;
+	background-position: 0px 38px;
+	cursor: pointer;
 }
 
 .headers
 {
-	display: inline-block;
+	display: inline;
 	background-color: #006060;
-	width: 100%;
+	width: 700px;
 	height: 70px;
 	float: left;
 }
@@ -480,6 +390,28 @@ div.search-form
 	vertical-align: middle;	
 }
 
+#fleet-image
+{
+	background-position: 0px 0px;
+	background-image: url("../public/images/icons/fleetIcon.png");
+	width: 50px;
+	height: 38px;
+	float: left;
+	vertical-align: middle;
+}
+
+#mainmenu ul li:hover #fleet-image
+{
+	background-position: 0px 38px;
+	vertical-align: middle;	
+}
+
+#mainmenu ul li.active #fleet-image
+{
+	background-position: 0px 38px;
+	vertical-align: middle;	
+}
+
 #upload-image
 {
 	background-position: 0px 0px;
@@ -504,8 +436,8 @@ div.search-form
 
 .admin-list
 {
-	width: auto;
-	height: 638px;
+	width: 700px;
+	height: auto;
 	display: inline;
 	float: left;
 }
@@ -533,7 +465,7 @@ div.search-form
 	background-image: url("../public/images/NewIdentityButton.png");
 	float: right;
 	margin-top: 15px;
-	margin-right: 330px;
+	margin-right: 100px;
 }
 
 #button-box-admin:hover

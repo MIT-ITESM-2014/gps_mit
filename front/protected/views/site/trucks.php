@@ -99,8 +99,8 @@
         <div class="trucks_truck_stats_mini_label">Total</div>
       </div>  
       <div id="distance_data_container_two">
-        <!--TODO make a tag that has an id that links to the js-->
-        <div class="trucks_truck_stats_mini_label">Per trip</div>
+        <div id="trucks_truck_stats_distance_per_trip" class="trucks_truck_stats_data"></div>
+        <div class="trucks_truck_stats_mini_label">Per Trip</div>
       </div>
       <div id="distance_data_container_three">
         <div id="trucks_truck_stats_data_average_stem_distance" class="trucks_truck_stats_data"></div>
@@ -108,31 +108,16 @@
       </div>  
       <div id="distance_data_container_four">
         <div id="trucks_truck_stats_data_average_distance_between_short_stops" class="trucks_truck_stats_data"></div>
-        <div class="trucks_truck_stats_mini_label">B/w short stops</div>        
+        <div class="trucks_truck_stats_mini_label">B/w Stops</div>        
       </div>  
     </div>  
-
-   <!-- <div class="clear"> </div>
-
-    <div class="fuel-consumption-stats-container">
-      <div id="fuel-consumption-icon"> </div>  
-      <div id="trucks_truck_stats_label_total_distance_traveled" class="trucks_truck_stats_label">
-        Fuel
-      </div>
-      <div id="fuel_consumption_container_one">
-        <div class="trucks_truck_stats_mini_label">Total</div>       
-      </div>
-      <div id="fuel_consumption_container_two">
-        <div class="trucks_truck_stats_mini_label">Per km</div> 
-      </div> 
-    </div> -->
 
   </div>
   
   <div id="truck-stats-right">
     <div id="truck-analysis-right"> 
       <div id="truck-analysis-icon"></div><div id="truck-analysis-label"> Use Analysis </div>
-      <div id="change_chart_button_truck">Short Stops Analysis</div>
+      <div id="change_chart_button_truck">Stops Analysis</div>
     </div>
     <div id="container" class="chart_style"></div>
   </div>

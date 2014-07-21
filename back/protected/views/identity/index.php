@@ -13,7 +13,7 @@ $this->menu=array(
 ?>
 
 <div class="headers">
-	<h1>Identities</h1>
+	<h1>Users</h1>
 </div>
 
 <div id="list-contents">

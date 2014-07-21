@@ -42,6 +42,8 @@
 		<?php echo $form->error($model,'password'); ?>
 	</div>
 
+	<p class="note"> <span class="required">* Required fields</span></p>
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'CREATE' : 'Save', array('class'=>'hide-button')); ?>
 	</div>

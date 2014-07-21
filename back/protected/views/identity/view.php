@@ -17,7 +17,7 @@ $this->menu=array(
 ?>
 
 <div class="headers">
-	<h1>View Identity #<?php echo $model->id; ?></h1>
+	<h1>View User #<?php echo $model->id; ?></h1>
 </div>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
