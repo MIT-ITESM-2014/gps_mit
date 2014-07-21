@@ -41,8 +41,8 @@
 				      $this->widget('zii.widgets.CMenu',array(
 					      'encodeLabel'=>false,
 					      'items'=>array(
-						      array('label'=>'<div id="identity-image"> </div> Users', 'url'=>array('/identity/admin')),
-						      array('label'=>'<div id="fleet-image"> </div> Fleet', 'url'=>array('/company/admin')),
+						      array('label'=>'<div id="identity-image"> </div> <div class="mainmenu-titles"> Users </div>', 'url'=>array('/identity/admin')),
+						      array('label'=>'<div id="fleet-image"> </div> <div class="mainmenu-titles"> Fleet </div>', 'url'=>array('/company/admin')),
 						      array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'))
 					      ), 'id' => 'menu-elements' 
 				      ));
@@ -53,14 +53,12 @@
 					      'encodeLabel'=>false,
 					      'items'=>array(
 						      //array('label'=>'Home', 'url'=>array('/site/index')),
-						      array('label'=>'<div id="change-fleet-image"> </div> '.Yii::app()->user->getState('current_company_name').'', 'url'=>array('/company/change')),
-						      array('label'=>'<div id="upload-image"> </div> Upload CSV', 'url'=>array('/sample/create')),
-						      array('label'=>'<div id="sample-image"> </div> Sample', 'url'=>array('/sample/admin')),
-						      //array('label'=>'Token', 'url'=>array('/token/index')),
-						
-						      array('label'=>'<div id="truck-image"> </div> Truck', 'url'=>array('/truck/admin')),
-						      array('label'=>'<div id="reset-image"> </div> Reset', 'url'=>array('/company/reset')),
-						      array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'))
+						      array('label'=>'<div id="change-fleet-image"> </div>  <div class="mainmenu-titles">'.Yii::app()->user->getState('current_company_name').'</div>', 'url'=>array('/company/change')),
+						      array('label'=>'<div id="upload-image"> </div>  <div class="mainmenu-titles"> Upload CSV </div>', 'url'=>array('/sample/create')),
+						      array('label'=>'<div id="sample-image"> </div> <div class="mainmenu-titles"> Sample </div>', 'url'=>array('/sample/admin')),						
+						      array('label'=>'<div id="truck-image"> </div> <div class="mainmenu-titles"> Truck </div>', 'url'=>array('/truck/admin')),
+						      array('label'=>'<div id="reset-image"> </div> <div class="mainmenu-titles"> Reset </div>', 'url'=>array('/company/reset')),
+						      array('label'=>' <div class="mainmenu-titles"> Logout ('.Yii::app()->user->name.') </div>', 'url'=>array('/site/logout'))
 					      ), 'id' => 'menu-elements' 
 				      ));
 				    }

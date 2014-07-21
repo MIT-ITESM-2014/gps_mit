@@ -1273,8 +1273,36 @@ body
 {
   color:#00a894;
   background-color: #003c4b;
-  
-  
 }
 
+#change-fleet-view-container
+{
+	width: 100%;
+	height: 100%;
+	background-color: #efefef;
+}
 
+#select-fleet-container
+{
+	width: 400px;
+	height: 110px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 60px;
+}
+
+#select-fleet-image
+{
+	width: 161px;
+	height: 110px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/select_Fleet/Fleet-IconStart.png");
+	float: left;
+}
+
+#select-fleet-text
+{
+	color: #003a4b;
+	font-size: 30px;
+	text-align: left;
+}
