@@ -25,9 +25,6 @@
     });
     
     changeSize();
-    $(window).bind("resize", function(){
-        changeCss();
-    });
      
     function changeSize(){
         var windowWidth = $(this).parent().width();
