@@ -1,6 +1,6 @@
 .gridStyle
 {
-	background-color: #efefef;
+	background-color: #FFFFFF;
 	width: 700px;
 	height: auto;
 	margin-left: auto;
@@ -22,7 +22,8 @@ table
 {
 	background-color: #00a894;
 	height: 50px;
-	border-radius: 25px 25px 0px 0px;
+	z-index: 1;
+	position: relative;
 }
 
 .summary
@@ -96,7 +97,8 @@ thead tr:first-child
 
 .pager
 {
-	margin-left: 150px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .pager ul li
@@ -193,4 +195,16 @@ li.next:hover a
 .last.hidden
 {
 	display: none;
+}
+
+.hola
+{
+	width: 30px;
+	height: 30px;
+	background-color: red;
+	margin-right: 400px;
+}
+#fleet-search-form
+{
+	margin-left: 430px;
 }
