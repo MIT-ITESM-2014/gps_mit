@@ -271,24 +271,26 @@ class SiteController extends Controller
         $.ajax({ 
             type: \"GET\",
             dataType: \"json\",
-            url: \"index.php?r=token/getRouteStats&route_id=\"+document.getElementById(\"select-route\").value,
+            url: \"index.php?r=route/getRouteStats&route_id=\"+document.getElementById(\"select-route\").value,
             success: function(data){
               var parsed_data = $.parseJSON(data);
-              $('#route-information-truck-name').empty();
-              $('#route-information-truck-name').append(parsed_data['general_information']['truck_id']);
-              $('#route-information-route-id').empty();
-              $('#route-information-route-id').append(parsed_data['general_information']['route_id']);
-              $('#route-information-date').empty();
-              $('#route-information-date').append(parsed_data['general_information']['date']);
-              $('#distance_data_container').empty();
-              $('#distance_data_container').append(parsed_data['route_stats']['distance']);
-              $('#time_data_container').empty();
-              $('#time_data_container').append(parsed_data['route_stats']['duration']);
-              $('#average_speed_data_container').empty();
-              $('#average_speed_data_container').append(parsed_data['route_stats']['average_speed']);
-              $('#short_stops_count_data_container').empty();
-              $('#short_stops_count_data_container').append(parsed_data['route_stats']['short_stops_count']);
-              
+              if(parsed_data != null)
+              {
+                $('#route-information-truck-name').empty();
+                $('#route-information-truck-name').append(parsed_data['general_information']['truck_id']);
+                $('#route-information-route-id').empty();
+                $('#route-information-route-id').append(parsed_data['general_information']['route_id']);
+                $('#route-information-date').empty();
+                $('#route-information-date').append(parsed_data['general_information']['date']);
+                $('#distance_data_container').empty();
+                $('#distance_data_container').append(parsed_data['route_stats']['distance']);
+                $('#time_data_container').empty();
+                $('#time_data_container').append(parsed_data['route_stats']['duration']);
+                $('#average_speed_data_container').empty();
+                $('#average_speed_data_container').append(parsed_data['route_stats']['average_speed']);
+                $('#short_stops_count_data_container').empty();
+                $('#short_stops_count_data_container').append(parsed_data['route_stats']['short_stops_count']);
+              }
             },
             error: function (xhr, ajaxOptions, thrownError) {
               alert(xhr.statusText);
@@ -307,7 +309,7 @@ class SiteController extends Controller
         
         var script = document.createElement(\"script\");
         script.type = \"text/javascript\";
-        script.src = \"index.php?r=token/getRoute&route_id=\"+document.getElementById(\"select-route\").value;
+        script.src = \"index.php?r=route/getRoute&route_id=\"+document.getElementById(\"select-route\").value;
         temporal_script = document.body.appendChild(script);
         update_stats();
       }

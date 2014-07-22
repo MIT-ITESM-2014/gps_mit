@@ -103,84 +103,98 @@ class RouteController extends Controller
   {
     //header('Content-type: application/json');
 	  //$trucks = Truck::model()->findAll();
-	  $route_id = $_GET['route_id'];
-	  $criteria = new CDbCriteria();
-    $criteria->addCondition('t.id = '.$route_id);
-    $criteria->with = array('samples');
-    $routes = Route::model()->findAll($criteria);
-    $samples = $routes[0]->samples;
-    $script = "";
-    $script = $script . "
-    routeCoordinates = [";
-    foreach($samples as $sample)
-    {
-      $script = $script." new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
-    }  
-    $script = $script."];
-    route.setPath(routeCoordinates);
-    ";
+	  $script="";
+	  if(isset($_GET['route_id']))
+	  {
+	    if(!empty($_GET['route_id']))
+	    {
+	      $route_id = $_GET['route_id'];
+	      $criteria = new CDbCriteria();
+        $criteria->addCondition('t.id = '.$route_id);
+        $criteria->with = array('samples');
+        $routes = Route::model()->findAll($criteria);
+        $samples = $routes[0]->samples;
+        $script = "";
+        $script = $script . "
+        routeCoordinates = [";
+        foreach($samples as $sample)
+        {
+          $script = $script." new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
+        }  
+        $script = $script."];
+        route.setPath(routeCoordinates);
+        ";
+      }
+    }
     echo $script;
     Yii::app()->end();
   }
   
   public function actionGetRouteStats()
   {
-    
     header('Content-type: application/json');
-    $route_id = $_GET["route_id"];
-    
-    $criteria = new CDbCriteria();
-    $criteria->condition = "t.id=".$route_id;
-    $routes = Route::model()->findAll($criteria);
-    $route = $routes[0];
-
-    $criteria2 = new CDbCriteria();
-    $criteria2->condition = "t.route_id=".$route_id;
-    $samples = Sample::model()->findAll($criteria2);
-    $sample = $samples[0];
-
-    $truck = Truck::model()->findByPk($sample->truck_id);
-
-    //rounding and concatenating with units
-     $distance_trimmed = round($route->distance*100)/100;
-     $distance_string = (string) $distance_trimmed . " km";
-
-     $average_speed_trimmed = round($route->average_speed * 100)/100;
-     $average_speed_string = (string) $average_speed_trimmed . " km/h";
-
-    //changes in time covered by route
-    $secondsInAMinute = 60;
-    $secondsInAnHour = 60 * $secondsInAMinute;
-    $secondsInADay = 24 * $secondsInAnHour;
-
-    $time_days = floor($route->time / $secondsInADay);
-
-    $hourSeconds = $route->time % $secondsInADay;
-    $time_hours = floor($hourSeconds / $secondsInAnHour);
-
-    $minuteSeconds = $hourSeconds % $secondsInAnHour;
-    $time_minutes = floor($minuteSeconds / $secondsInAMinute);
-
-    $remainingSeconds = $minuteSeconds % $secondsInAMinute;
-    $time_seconds = ceil($remainingSeconds);
-
-    if($time_days > 0)
+    $json_data = "";
+    if(isset($_GET["route_id"]))
     {
-      $total_duration_string = (string) $time_days . " d " . (string) $time_hours . " h " . (string) $time_minutes . " min";
-    }
-    else
-    {
-      $total_duration_string = (string) $time_hours . " h " . (string) $time_minutes . " min";
-    }
+      if(!empty($_GET["route_id"]))
+      {
+        
+        $route_id = $_GET["route_id"];
+        
+        $criteria = new CDbCriteria();
+        $criteria->condition = "t.id=".$route_id;
+        $routes = Route::model()->findAll($criteria);
+        $route = $routes[0];
 
-    //date parser
-    $source = $sample->datetime;
-    $date = new DateTime($source);
-    //modifying json
-    //added fields (general_information)
-    $json_data = '{"general_information": {"truck_id": "'.$truck->name.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$distance_string.'", "average_speed" : "'. $average_speed_string.'", "short_stops_count" : "'.$route->short_stops_count.'", "duration": "'.$total_duration_string.'"}}';
+        $criteria2 = new CDbCriteria();
+        $criteria2->condition = "t.route_id=".$route_id;
+        $samples = Sample::model()->findAll($criteria2);
+        $sample = $samples[0];
+
+        $truck = Truck::model()->findByPk($sample->truck_id);
+
+        //rounding and concatenating with units
+         $distance_trimmed = round($route->distance*100)/100;
+         $distance_string = (string) $distance_trimmed . " km";
+
+         $average_speed_trimmed = round($route->average_speed * 100)/100;
+         $average_speed_string = (string) $average_speed_trimmed . " km/h";
+
+        //changes in time covered by route
+        $secondsInAMinute = 60;
+        $secondsInAnHour = 60 * $secondsInAMinute;
+        $secondsInADay = 24 * $secondsInAnHour;
+
+        $time_days = floor($route->time / $secondsInADay);
+
+        $hourSeconds = $route->time % $secondsInADay;
+        $time_hours = floor($hourSeconds / $secondsInAnHour);
+
+        $minuteSeconds = $hourSeconds % $secondsInAnHour;
+        $time_minutes = floor($minuteSeconds / $secondsInAMinute);
+
+        $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+        $time_seconds = ceil($remainingSeconds);
+
+        if($time_days > 0)
+        {
+          $total_duration_string = (string) $time_days . " d " . (string) $time_hours . " h " . (string) $time_minutes . " min";
+        }
+        else
+        {
+          $total_duration_string = (string) $time_hours . " h " . (string) $time_minutes . " min";
+        }
+
+        //date parser
+        $source = $sample->datetime;
+        $date = new DateTime($source);
+        //modifying json
+        //added fields (general_information)
+        $json_data = '{"general_information": {"truck_id": "'.$truck->name.'", "route_id": "'.$route->name.'", "date": "'.$date->format('M d, Y').'"},"route_stats":{ "distance" : "'.$distance_string.'", "average_speed" : "'. $average_speed_string.'", "short_stops_count" : "'.$route->short_stops_count.'", "duration": "'.$total_duration_string.'"}}';
+      }
+    }
     echo CJSON::encode($json_data);
-    Yii::app()->end(); 
+    Yii::app()->end();
   }
 
 	/**
