@@ -10,7 +10,6 @@
 		'summaryText'=>' ',
 		'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css', 'header' => ''),
 		'cssFile' => Yii::app()->baseUrl . '/css/gridViewCompass.css',
-		'summaryText'=>'Displaying {start} of {end} pages',
 		'htmlOptions' => array('class' => 'gridStyle'),
 		'columns'=>array(
 		  array(
@@ -34,6 +33,9 @@
 			array(
 				'class'=>'CButtonColumn',
 				'template' =>'{delete}',
+				'deleteButtonOptions' => array(
+				  'class' => 'delete-button',
+				 )
 			),
 		),
 	)); ?>

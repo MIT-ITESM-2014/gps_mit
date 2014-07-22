@@ -464,6 +464,26 @@ div.view
 	vertical-align: middle;	
 }
 
+#change-fleet-image
+{
+	background-position: 0px 0px;
+	background-image: url("../public/images/icons/FleetIcon-BackEnd.png");
+	width: 50px;
+	height: 50px;
+	float: left;
+	vertical-align: middle;
+}
+
+#mainmenu ul li:hover #change-fleet-image
+{
+	background-position: 0px 50px;
+}
+
+#mainmenu ul li.active #change-fleet-image
+{
+	background-position: 0px 50px;
+}
+
 #upload-image
 {
 	background-position: 0px 0px;
@@ -616,7 +636,7 @@ div.view
 .files-to-upload ul li
 {
 	background: transparent;
-	padding: 5px;
+	padding: 0px 0px 0px 10px;
 }
 
 .delete-icon
@@ -819,7 +839,7 @@ div.view
   height: 25px;
   display: inline-block;
   background-color: #00a894;
-  color:#003c4b;
+  color: #003c4b;
   cursor:pointer;
   font-weight: bold;
 }
@@ -827,7 +847,12 @@ div.view
 #login_simulated_button:hover
 {
   color:#00a894;
-  background-color: #003c4b;
-  
-  
+  background-color: #003c4b;  
+}
+
+#no-companies-message
+{
+	padding: 100px 0px 0px 60px;
+	color: #003a4b;
+	font-size: 24px;
 }
