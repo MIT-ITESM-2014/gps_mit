@@ -32,6 +32,7 @@ class UserIdentity extends CUserIdentity
 	  }
 		else
 		{
+		  Yii::app()->user->setState('user', $identity_model->id);
 		  Yii::app()->user->setUsername($this->username);
 		  if($identity_model->is_admin == 1)
 		  {
@@ -40,7 +41,7 @@ class UserIdentity extends CUserIdentity
 		  else
 		  {
 		    Yii::app()->user->setState('isAdmin', false);
-		    Yii::app()->user->setState('user', $identity_model->id);
+		    
 		    $companies_model=IdentityCompany::model()->findAllByAttributes(array('identity_id'=>$identity_model->id));
 		    if(empty($companies_model))
 	        Yii::app()->user->setState('companies_count', 0);
