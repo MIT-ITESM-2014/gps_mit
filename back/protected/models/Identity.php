@@ -101,7 +101,7 @@ class Identity extends CActiveRecord
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
-		$criteria->addNotInCondition('id',array(Yii::app()->user->getState('user')));
+		//$criteria->addNotInCondition('id',array(Yii::app()->user->getState('user')));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -20,7 +20,14 @@
 				'class'=>'CButtonColumn',
 				'template'=>'{update}{delete}',
 				'updateButtonOptions' => array('class' => 'update-button'),
-				'deleteButtonOptions' => array('class' => 'delete-button')
+				'deleteButtonOptions' => array(
+				  'class' => 'delete-button',
+				 ),
+				 'buttons' => array(
+				    'delete' => array(
+				      'visible'=>'$data->id == Yii::app()->user->getState("user") ? false : true',
+				    ),
+				 ),
 			),
 		),
 	)); ?>
