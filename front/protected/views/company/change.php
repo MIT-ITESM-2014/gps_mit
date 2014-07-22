@@ -10,6 +10,7 @@
 		'id'=>'identity-company-grid',
 		'dataProvider'=>$model->search(),
 		'filter'=>$model,
+		'emptyText'=>"You don't have any fleets available.",
 		'summaryText'=>' ',
 		'htmlOptions' => array('class' => 'gridStyle'),
 		'pager' => array('cssFile' => Yii::app()->baseUrl . '/css/changeCompany.css', 'header' => ' '),	

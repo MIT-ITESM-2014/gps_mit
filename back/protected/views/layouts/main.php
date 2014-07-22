@@ -59,7 +59,7 @@
 					      'encodeLabel'=>false,
 					      'items'=>array(
 						      //array('label'=>'Home', 'url'=>array('/site/index')),
-						      array('label'=>'<div id="change-fleet-image"> </div>  <div class="mainmenu-titles">'.Yii::app()->user->getState('current_company_name').'</div>', 'url'=>array('/company/change')),
+						      array('label'=>'<div id="change-fleet-image"> </div>  <div class="mainmenu-titles">Change fleet</div>', 'url'=>array('/company/change')),
 						      array('label'=>'<div id="upload-image"> </div>  <div class="mainmenu-titles"> Upload CSV </div>', 'url'=>array('/sample/create')),
 						      array('label'=>'<div id="sample-image"> </div> <div class="mainmenu-titles"> Sample </div>', 'url'=>array('/sample/admin')),						
 						      array('label'=>'<div id="truck-image"> </div> <div class="mainmenu-titles"> Truck </div>', 'url'=>array('/truck/admin')),
