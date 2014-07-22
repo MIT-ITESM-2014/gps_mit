@@ -1306,3 +1306,32 @@ body
 	font-size: 30px;
 	text-align: left;
 }
+
+.go-to-map-button
+{
+	width: 40px;
+	height: 29px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/select_Fleet/GoIconButton.png");
+	float: right;
+}
+
+.choose-fleet-list-container
+{
+	width: 720px;
+	height: auto;
+	background-color: #FFFFFF;
+	border-radius: 15px 15px 15px 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.choose-fleet-filter-background
+{
+	width: 720px;
+	height: 50px;
+	border-radius: 15px 15px 0px 0px;
+	background-color: #00a994;
+	z-index: 0;
+	position: absolute;
+}
