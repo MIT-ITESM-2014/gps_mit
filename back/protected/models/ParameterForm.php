@@ -7,6 +7,7 @@ class ParameterForm extends CFormModel
 	public $time_radius_short_stop;
 	public $distance_radius_short_stop;
 	
+	
 
 	/**
 	 * Declares the validation rules.

@@ -334,7 +334,6 @@ class SiteController extends Controller
       
       
       window.onload = loadScript;";
-		  $dataProvider=new CActiveDataProvider('Token');
 		  $this->render('index',array(
 			  //'dataProvider'=>$dataProvider,
 			  'script'=>$script,
