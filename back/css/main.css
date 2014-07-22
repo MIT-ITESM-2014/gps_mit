@@ -174,7 +174,7 @@ html > body #mainmenu {
 	font-size:16px;
 	font-weight:lighter;
 	text-decoration:none;
-	padding: 10px 0px 0px 65px;
+	padding: 0px 0px 0px 65px;
 	margin: 0px;
 	width: 182px;
 	height: 50px;
@@ -194,7 +194,7 @@ html > body #mainmenu {
 
 #mainmenu ul li.active a
 {
-	padding: 10px 0px 0px 65px;
+	padding: 0px 0px 0px 65px;
 	max-height: 50px;
 }
 
@@ -213,6 +213,12 @@ html > body #mainmenu {
 	background-color:#00a894;
 	margin: 0px;
 	padding: 0px;
+}
+
+.mainmenu-titles
+{
+	padding: 10px 0px 0px 50px;
+	max-height: 50px;
 }
 
 div.flash-error, div.flash-notice, div.flash-success
@@ -285,11 +291,11 @@ div.view
 	width: 100px;
 	height: 29px;
 	background-position: 0px 0px;
-	background-image: url("../public/images/CreateButton.png");
+	background-image: url("../public/images/CRUD_Buttons/CreateButton.png");
 	float: right;
 	display: inline;
 	margin-top: 15px;
-	margin-right: 50px;
+	margin-right: 35px;
 }
 
 #button-box:hover
@@ -297,23 +303,24 @@ div.view
 	background-position: 0px 30px;
 	float: right;
 	display: inline;
+	cursor: pointer;
 }
 
 #identity-update-button
 {
-  width: 125px;
-	height: 38px;
+  width: 100px;
+	height: 30px;
 	background-position: 0px 0px;
-	background-image: url("../public/images/updateButton.png");
+	background-image: url("../public/images/CRUD_Buttons/UpdateButton.png");
 	float: right;
 	display: inline;
 	margin-top: 15px;
-	margin-right: 50px;  
+	margin-right: 35px;  
 }
 
 #identity-update-button:hover
 {
-	background-position: 0px 38px;
+	background-position: 0px 30px;
 	cursor: pointer;
 }
 
@@ -336,109 +343,109 @@ div.view
 #sample-image
 {
 	background-position: 0px 0px;
-	background-image: url("../public/images/icons/Sample.png");
-	width: 40px;
-	height: 30px;
+	background-image: url("../public/images/icons/SampleIcon-BackEnd.png");
+	width: 50px;
+	height: 50px;
 	float: left;
 	vertical-align: middle;
 }
 
 #mainmenu ul li:hover #sample-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #sample-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #truck-image
 {
 	background-position: 0px 0px;
-	background-image: url("../public/images/icons/Truck.png");
-	width: 40px;
-	height: 30px;
+	background-image: url("../public/images/icons/TrucksIcon-BackEnd.png");
+	width: 50px;
+	height: 50px;
 	float: left;
 	vertical-align: middle;
 }
 
 #mainmenu ul li:hover #truck-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #truck-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 }
 
 #identity-image
 {
 	background-position: 0px 0px;
-	background-image: url("../public/images/icons/Identity2.png");
-	width: 40px;
-	height: 30px;
+	background-image: url("../public/images/icons/IdentityIcon-BackEnd.png");
+	width: 50px;
+	height: 50px;
 	float: left;
 	vertical-align: middle;	
 }
 
 #mainmenu ul li:hover #identity-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #identity-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #fleet-image
 {
 	background-position: 0px 0px;
-	background-image: url("../public/images/icons/fleetIcon.png");
+	background-image: url("../public/images/icons/FleetIcon-BackEnd.png");
 	width: 50px;
-	height: 38px;
+	height: 50px;
 	float: left;
 	vertical-align: middle;
 }
 
 #mainmenu ul li:hover #fleet-image
 {
-	background-position: 0px 38px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #mainmenu ul li.active #fleet-image
 {
-	background-position: 0px 38px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
 #upload-image
 {
 	background-position: 0px 0px;
-	background-image: url("../public/images/icons/Upload.png");
-	width: 40px;
-	height: 30px;
+	background-image: url("../public/images/icons/UploadCSVIcon-BackEnd.png");
+	width: 50px;
+	height: 50px;
 	float: left;
 	vertical-align: middle;	
 }
 
 #mainmenu ul li:hover #upload-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;
 }
 
 #mainmenu ul li.active #upload-image
 {
-	background-position: 0px 30px;
+	background-position: 0px 50px;
 	vertical-align: middle;	
 }
 
@@ -455,10 +462,10 @@ div.view
 	width: 100px;
 	height: 30px;
 	background-position: 0px 0px;
-	background-image: url("../public/images/NewIdentityButton.png");
+	background-image: url("../public/images/CRUD_Buttons/NewButton.png");
 	float: right;
 	margin-top: 15px;
-	margin-right: 50px;
+	margin-right: 35px;
 }
 
 #button-box-admin:hover

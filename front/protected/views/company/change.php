@@ -1,3 +1,8 @@
+<div id="change-fleet-view-container"> 
+<div id="select-fleet-container">
+	<div id="select-fleet-image"> </div>
+	<div id="select-fleet-text"> Select a fleet to continue. </div>
+</div>	
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'identity-company-grid',
@@ -24,3 +29,9 @@
 		),
 	),
 )); ?>
+
+<?php
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/fleets/actions.js',CClientScript::POS_END);
+?>
+
+</div>
