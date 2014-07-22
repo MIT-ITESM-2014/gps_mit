@@ -23,7 +23,7 @@ table
 	background-color: #00a894;
 	height: 50px;
 	z-index: 1;
-	position: relative;
+	position: absolute;
 }
 
 .summary
@@ -199,10 +199,12 @@ li.next:hover a
 
 .hola
 {
-	width: 30px;
-	height: 30px;
-	background-color: red;
+	width: 42px;
+	height: 38px;
+	background-image: url("../public/images/select_Fleet/SearchIcon.png");
+	background-position: 0px 0px;
 	margin-right: 400px;
+	padding: 0px;
 }
 #fleet-search-form
 {

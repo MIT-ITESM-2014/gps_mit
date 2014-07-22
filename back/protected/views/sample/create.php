@@ -40,13 +40,13 @@ $this->breadcrumbs=array(
       <br />
       <div class="explanation-par-one">
         <p>Format Requirements</p>
-        <p>The file must have four columns: the first one must have the truck name, the second column must have </p>
-        <p> the latitude, the third column must have the longitude, and the fourth column must contain the timestamp. </p>
+        <p>The file must have four columns: the first one must have the truck name, the second column must have
+        the latitude, the third column must have the longitude, and the fourth column must contain the timestamp. </p>
       </div>
       <br />
       <div class="explanation-par-two">
-        <p>The first row of the file must have the headers of the columns. You can use any name for each column, </p>
-        <p>but remember to follow the right order (truck name, latitude, longitude, timestamp)</p>
+        <p>The first row of the file must have the headers of the columns. You can use any name for each column,
+        but remember to follow the right order (truck name, latitude, longitude, timestamp)</p>
       </div>
       <br />
       <p>You can download a sample file with the required format.</p>
