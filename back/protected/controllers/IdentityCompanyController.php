@@ -53,7 +53,7 @@ class IdentityCompanyController extends Controller
 	public function actionCreate()
 	{
 		$model=new IdentityCompany;
-
+    error_log('Estoy entrando');
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -69,11 +69,11 @@ class IdentityCompanyController extends Controller
 		  }
 		  else
 		  {
+		    error_log('voy a buscar los identities');
 		    $criteria = new CDbCriteria;
 		    $criteria->select = array('identity_id');
 		    $criteria->addCondition('t.company_id = '.$model->company_id);
 		    $current_identities = IdentityCompany::model()->findAll($criteria);
-		    
 		    $current_identities_array = array();
 		    
 		    foreach($current_identities as $identity)
@@ -83,7 +83,7 @@ class IdentityCompanyController extends Controller
 		    $criteria=new CDbCriteria;
 		    
 		    $criteria->addNotInCondition('id', $current_identities_array);
-        
+        $criteria->addCondition('is_admin != 1');
         $dropdown_data = CHtml::listData(Identity::model()->findAll($criteria),'id','fullname');
         
         $this->render('create',array(

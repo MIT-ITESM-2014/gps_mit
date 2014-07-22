@@ -16,6 +16,7 @@
 			'name',
 			'last_name',
 			'username',
+			'is_admin:boolean',
 			array(
 				'class'=>'CButtonColumn',
 				'template'=>'{update}{delete}',

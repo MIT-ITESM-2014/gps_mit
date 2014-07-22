@@ -17,6 +17,8 @@
  */
 class Sample extends CActiveRecord
 {
+  public $truck_name_search;
+  public $short_datetime_search;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,7 +39,7 @@ class Sample extends CActiveRecord
 			array('latitude, longitude, status_id', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at, truck_name_search, short_datetime_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -97,7 +99,13 @@ class Sample extends CActiveRecord
 		$criteria->compare('status_id',$this->route_id,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
-
+		error_log('voy a buscar el cmaion '.$this->truck_name_search);
+		$criteria->with = array('truck');
+		$criteria->compare("LOWER(truck.name)", strtolower($this->truck_name_search), true);
+		
+    //$criteria->compare("LOWER(truck.name)", strtolower($this->short_datetime_search), true);
+    
+    
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
