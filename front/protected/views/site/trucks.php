@@ -65,7 +65,7 @@
         </div>
       <div id="trips_data_container_one">
         <div id="trucks_truck_stats_data_trips" class="trucks_truck_stats_data"> </div>
-        <div class="trucks_truck_stats_mini_label">No.</div>
+        <div class="trucks_truck_stats_mini_label">Count</div>
       </div>
       <div id="trips_data_container_two">
         <div id="trucks_truck_stats_data_average_trip_duration" class="trucks_truck_stats_data"> </div>

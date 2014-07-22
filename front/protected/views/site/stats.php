@@ -18,7 +18,7 @@
     </div>
     <div id="stats-data-average-short-stop-duration">
       <div id="stats-average-short-stop-duration-icon"></div>
-      <div class="stats-data-label">Average short stop duration</div>
+      <div class="stats-data-label">Average stop duration</div>
       <div class="stats-data-data"></div>
     </div>
    <!-- <div id="stats-data-total-fuel-consumption">

@@ -28,6 +28,12 @@
 		<div id="logo">
 			<a href="index.php" ><div id="logo-image"> </div></a>
 		</div>
+		<div id="session-info">
+			<div id="session-username" class=""><?php echo Yii::app()->user->hasState('first_name') ? Yii::app()->user->getState('first_name') : "User"; ?></div>
+			<a href="<?php echo Yii::app()->createUrl('site/logout', array())?>"> <div id="logout-button"> </div></a>
+			<div id="session-fleet" class=""><?php echo Yii::app()->user->hasState('current_company_name') ? Yii::app()->user->getState('current_company_name') : "Admin"; ?></div>
+			<a href="<?php echo Yii::app()->createUrl('company/change', array())?>"> <div id="change-company-button"> </div></a>
+		</div>
 	</div><!-- header -->
 
 	<div id="page-contents">
