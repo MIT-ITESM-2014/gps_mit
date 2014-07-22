@@ -17,33 +17,33 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body>
+<body style="width:100%; height:100%;">
+<div class="" id="page" style="min-width:1250px; width: 100%; overflow:hidden; position:relative; min-height:750px; height:100%; display:inline-block; float:left;">
 
-<div class="" id="page">
-
-	<div id="header">
-		<div id="logo">
-			<a href="<?php echo Yii::app()->createUrl('company/change', array())?>"><div id="logo-image"> </div></a>
-		</div>
-		<div id="session-info">
-			<div id="session-username" class=""><?php echo Yii::app()->user->hasState('first_name') ? Yii::app()->user->getState('first_name') : "User"; ?></div>
-			<a href="<?php echo Yii::app()->createUrl('site/logout', array())?>"> <div id="logout-button"> </div></a>
-			<div id="session-fleet" class=""><?php echo Yii::app()->user->hasState('current_company_name') ? Yii::app()->user->getState('current_company_name') : "Fleet"; ?></div>
-			<a href="<?php echo Yii::app()->createUrl('company/change', array())?>"> <div id="change-company-button"> </div></a>
-		</div>
-		<div id="icons-bar">
-			<a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="routes-section" class="routes-section"></div></a>
-			<a href="<?php echo Yii::app()->createUrl('site/trucks', array())?>"><div id="trucks-section" class="trucks-section"> </div></a>
-			<a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section" class="stats-section"> </div></a>
-		</div>		
-	</div><!-- header -->
-
-	<?php echo $content; ?>
-	
-
-	<div class="clear"></div>
-
-</div><!-- page -->
+	  <div id="header" style="min-width:1250px; width:100%; overflow:hidden; position:relative; height:70px; ">
+		  <div id="logo">
+			  <a href="<?php echo Yii::app()->createUrl('company/change', array())?>"><div id="logo-image"> </div></a>
+		  </div>
+		  <div id="session-info">
+			  <div id="session-username" class=""><?php echo Yii::app()->user->hasState('first_name') ? Yii::app()->user->getState('first_name') : "User"; ?></div>
+			  <a href="<?php echo Yii::app()->createUrl('site/logout', array())?>"> <div id="logout-button"> </div></a>
+			  <div id="session-fleet" class=""><?php echo Yii::app()->user->hasState('current_company_name') ? Yii::app()->user->getState('current_company_name') : "Fleet"; ?></div>
+			  <a href="<?php echo Yii::app()->createUrl('company/change', array())?>"> <div id="change-company-button"> </div></a>
+		  </div>
+		  <div id="icons-bar">
+			  <a href="<?php echo Yii::app()->createUrl('site/index', array())?>"><div id="routes-section" class="routes-section"></div></a>
+			  <a href="<?php echo Yii::app()->createUrl('site/trucks', array())?>"><div id="trucks-section" class="trucks-section"> </div></a>
+			  <a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section" class="stats-section"> </div></a>
+		  </div>		
+	  </div><!-- header -->
+    <div id="content-container" style="min-width:1250px; width:100%; overflow:hidden; position:relative; min-height:680px;">
+	  <?php echo $content; ?>
+	  </div>
+	  <div class="clear"></div>
+  </div><!-- page -->
 
 </body>
 </html>
+<?php
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/site/fill_window.js',CClientScript::POS_END);
+?>

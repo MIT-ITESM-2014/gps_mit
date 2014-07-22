@@ -11,14 +11,18 @@
           //var imageWidth = $(element).width();
           var windowWidth = $(window).width();
           var windowHeight = $(window).height();
-       
+          var block_height = windowHeight - 0;
+          if(block_height < 680)
+          {
+            block_height = 680;
+          }       
           $(element).css({
               "position" : "absolute",
               "left" : 0,
               "top" : "-70px",
               "background-color": "#68d8c5",
               "width": windowWidth,
-              "height": windowHeight - 0,
+              "height": block_height+"px",
           });
       };
       

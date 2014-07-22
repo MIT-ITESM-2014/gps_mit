@@ -614,7 +614,10 @@ body
 
 #trucks_truck_stats
 {
-	margin: 25px 55px 55px 75px;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0px;
 	height: 600px;
 	width: 1100px;
 	background-color: #efefef;
@@ -873,7 +876,8 @@ body
 	height: 500px;
 	border-radius: 25px 25px 25px 25px;
 	background-color: #FFFFFF;
-	margin-left: 200px;
+	margin-left: auto;
+	margin-right:auto;
 	margin-top: 40px;
 }
 
@@ -978,7 +982,8 @@ body
 	height: 500px;
 	border-radius: 25px 25px 25px 25px;
 	background-color: #FFFFFF;
-	margin-left: 200px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 40px;
 	padding: 5px;
 }
@@ -1042,8 +1047,9 @@ body
 	height: 600px;
 	border-radius: 25px 25px 25px 25px;
 	background-color: #efefef;
-	margin-left: 50px;
-	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+  margin-top: 20px;
 }
 
 #stats-data-title
@@ -1167,7 +1173,8 @@ body
 	width: 900px;
 	height: 600px;
 	background-color: #FFFFFF;
-	margin-left: 150px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 10px;
 	border-radius: 25px 25px 25px 25px;
 }
