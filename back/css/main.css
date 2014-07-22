@@ -477,13 +477,13 @@ div.view
 .upload-guidelines
 {
 	height: 100px;
-	width: 100%;
+	width: 700px;
 }
 
 .upload-guidelines-file
 {
 	background-color: #00a894;
-	width: 430px;
+	width: 47%;
 	height: 98px;
 	float: left;
 }
@@ -493,9 +493,9 @@ div.view
 	background-image: url("../public/images/GPSInformation.png");
 	background-position: 0px 0px;
 	background-repeat: no-repeat;
-	width: 50%;
+	width: 178px;
 	height: 98px;
-	margin-left: 120px;
+	margin-left: 75px;
 }
 
 .upload-guidelines-arrow
@@ -510,7 +510,7 @@ div.view
 .upload-guidelines-params
 {
 	background-color: #49ceae;
-	width: 50%;
+	width: 47%;
 	height: 98px;
 	float: left;
 }
@@ -522,7 +522,7 @@ div.view
 	background-repeat: no-repeat;
 	width: 178px;
 	height: 98px;
-	margin-left: 120px;
+	margin-left: 75px;
 }
 
 .upload-file-explanation
@@ -538,12 +538,12 @@ div.view
 
 .explanation-par-one
 {
-	line-height: 3px;
+	line-height: 20px;
 }
 
 .explanation-par-two
 {
-	line-height: 3px;
+	line-height: 20px;
 }
 
 .download-sample-file-button
