@@ -13,8 +13,16 @@
 		'summaryText'=>'Displaying {start} of {end} pages',
 		'htmlOptions' => array('class' => 'gridStyle'),
 		'columns'=>array(
+		  array(
+	      /*'name'=>'User',*/
+	      /*'header'=>'User',
+	      'value'=>'$data->identity->name." ".$data->identity->last_name',*/
+	      /*'name'=>'identity.fullname',*/
+	      'header'=>'Truck',
+	      'name'=>'truck_name_search',
+	      'value'=>'$data->truck->name',
+	    ),
 			//'id',
-			'truck_id',
 			'latitude',
 			'longitude',
 			//'speed',
@@ -25,7 +33,7 @@
 			*/
 			array(
 				'class'=>'CButtonColumn',
-				'template' =>'',
+				'template' =>'{delete}',
 			),
 		),
 	)); ?>
