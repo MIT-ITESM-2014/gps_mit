@@ -1,11 +1,14 @@
-<!--
+
 <div id="change-fleet-view-container"> 
 <div id="select-fleet-container">
 	<div id="select-fleet-image"> </div>
 	<div id="select-fleet-text"> Select a fleet to continue. </div>
-</div>	-->
-<!--<div class="choose-fleet-list-container">-->
-	<!--<div class="choose-fleet-filter-background"></div>-->
+</div>
+
+<div class="choose-fleet-list-container">
+	<div class="choose-fleet-filter-background">
+		<div class="select-fleet-search-icon"></div>
+	</div>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 		'id'=>'identity-company-grid',
 		'dataProvider'=>$model->search(),
@@ -17,18 +20,10 @@
 		'cssFile' => Yii::app()->baseUrl . '/css/changeCompany.css',
 		'columns'=>array(
 		  array(
-	      /*'name'=>'User',*/
-	      /*'header'=>'User',
-	      'value'=>'$data->identity->name." ".$data->identity->last_name',*/
-	      /*'name'=>'identity.fullname',*/
 	      'header'=>'Fleet Name',
 	      'name'=>'company_name_search',
 	      'value'=>'$data->company->name',
 	    ),
-		  /*array(
-		    'header'=>'Fleet Name',
-		    'value'=>'$data->company->name',
-		  ),*/
 			array(
 				'class'=>'CButtonColumn',
 				'template'=>'{select}',
@@ -42,10 +37,10 @@
 			),
 		),
 	)); ?>
-<!--</div>-->
+</div>
 
 <?php
-  //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/fleets/actions.js',CClientScript::POS_END);
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/fleets/actions.js',CClientScript::POS_END);
 ?>
 
-<!--</div>-->
+</div>

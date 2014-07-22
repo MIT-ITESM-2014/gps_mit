@@ -5,12 +5,19 @@
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: -50px;
 }
 
 table
 {
 	border-spacing: 0;
 	border-collapse: collapse;
+}
+
+thead
+{
+	height: 50px;
+	width: 700px;
 }
 
 .items
@@ -22,8 +29,7 @@ table
 {
 	background-color: #00a894;
 	height: 50px;
-	z-index: 1;
-	position: absolute;
+	width: 700px;
 }
 
 .summary
@@ -197,14 +203,14 @@ li.next:hover a
 	display: none;
 }
 
-.hola
+.select-fleet-search-icon
 {
 	width: 42px;
 	height: 38px;
 	background-image: url("../public/images/select_Fleet/SearchIcon.png");
 	background-position: 0px 0px;
-	margin-right: 400px;
 	padding: 0px;
+	vertical-align: middle;
 }
 #fleet-search-form
 {

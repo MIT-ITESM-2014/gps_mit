@@ -49,7 +49,6 @@
 					      'items'=>array(
 						      array('label'=>'<div id="identity-image"> </div> <div class="mainmenu-titles"> Users </div>', 'url'=>array('/identity/admin')),
 						      array('label'=>'<div id="fleet-image"> </div> <div class="mainmenu-titles"> Fleet </div>', 'url'=>array('/company/admin')),
-						      array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'))
 					      ), 'id' => 'menu-elements' 
 				      ));
 				    }
@@ -64,7 +63,6 @@
 						      array('label'=>'<div id="sample-image"> </div> <div class="mainmenu-titles"> Sample </div>', 'url'=>array('/sample/admin')),						
 						      array('label'=>'<div id="truck-image"> </div> <div class="mainmenu-titles"> Truck </div>', 'url'=>array('/truck/admin')),
 						      array('label'=>'<div id="reset-image"> </div> <div class="mainmenu-titles"> Reset </div>', 'url'=>array('/company/reset')),
-						      array('label'=>' <div class="mainmenu-titles"> Logout ('.Yii::app()->user->name.') </div>', 'url'=>array('/site/logout'))
 					      ), 'id' => 'menu-elements' 
 				      ));
 				    }

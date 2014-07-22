@@ -116,6 +116,7 @@ h1#contents-field
 	padding: 10px 20px 0px;
 	font-size: 200%;
 	color:#FFFFFF;
+	float: left;
 }
 
 #logo-image
@@ -130,6 +131,42 @@ h1#contents-field
 {
 	
 	background-position: 0px 38px;
+}
+
+#session-info
+{
+	color: #FFFFFF;
+	float: right;
+	margin-right: 40px;
+	line-height: 15px;
+}
+
+#session-username
+{	
+	float: left;
+	font-size: 16px;
+	margin-top: 12px;
+}
+
+#session-fleet
+{
+	font-size: 16px;
+	text-align: left;
+	padding-bottom: 5px;
+}
+
+#logout-button
+{
+	width: 40px;
+	height: 39px;
+	background-image: url("../public/images/icons/LogoutIcon.png");
+	background-position: 0px 39px;
+	float: left;
+}
+
+#logout-button:hover
+{
+	background-position: 0px 0px;
 }
 
 #mainmenu
@@ -632,7 +669,7 @@ div.view
 .upload-guidelines-file-two
 {
 	background-color: #49ceae;
-	width: 40%;
+	width: 47%;
 	height: 98px;
 	float: left;
 }
@@ -643,7 +680,7 @@ div.view
 	background-position: 0px 98px;
 	width: 178px;
 	height: 98px;
-	margin-left: 120px;
+	margin-left: 65px;
 }
 
 .upload-guidelines-arrow-two
@@ -657,7 +694,7 @@ div.view
 .upload-guidelines-params-two
 {
 	background-color: #00a894;
-	width: 40%;
+	width: 47%;
 	height: 98px;
 	float: left;
 }
@@ -668,7 +705,7 @@ div.view
 	background-position: 0px 98px;
 	width: 178px;
 	height: 98px;
-	margin-left: 120px;
+	margin-left: 65px;
 }
 
 .parameters-form

@@ -398,6 +398,10 @@ class SiteController extends Controller
 	 */
 	public function actionError()
 	{
+
+    $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery');  
+
 		if($error=Yii::app()->errorHandler->error)
 		{
 			if(Yii::app()->request->isAjaxRequest)
@@ -437,6 +441,9 @@ class SiteController extends Controller
   public function actionErrorIsAdmin()
   {
     
+    $cs = Yii::app()->clientScript;
+    $cs->registerCoreScript('jquery'); 
+
     $this->render('error_is_admin');
   }
 	/**
