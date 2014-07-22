@@ -55,6 +55,35 @@ class SampleController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+	
+	public function createNewParametersForm()
+	{
+	  $parameter_form_model = new ParameterForm;
+	  $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+	  
+	  if($company_model->time_radius_short_stop == null)
+	    $parameter_form_model->time_radius_short_stop = 600;
+	  else
+	    $parameter_form_model->time_radius_short_stop = $company_model->time_radius_short_stop;
+	  
+	  if($company_model->distance_radius_short_stop == null)
+	    $parameter_form_model->distance_radius_short_stop = 0.05;
+	  else
+	    $parameter_form_model->distance_radius_short_stop = $company_model->distance_radius_short_stop;
+	  
+	  if($company_model->time_radius_long_stop == null)
+	    $parameter_form_model->time_radius_long_stop = 14400;
+	  else
+	    $parameter_form_model->time_radius_long_stop = $company_model->time_radius_long_stop;
+	  
+	  if($company_model->distance_radius_long_stop == null)
+	    $parameter_form_model->distance_radius_long_stop = 0.1;
+	  else
+	    $parameter_form_model->distance_radius_long_stop = $company_model->distance_radius_long_stop;
+	  
+	  return $parameter_form_model;
+	}
+	
 
 	/**
 	 * Creates a new model.
@@ -80,7 +109,7 @@ class SampleController extends Controller
 		  else
 		    $step = 0;
 		
-		  $parameter_model = new ParameterForm;
+		  $parameter_model = $this->createNewParametersForm();
 		  $script = isset($_GET['script']);
 		
 		  $this->render('create',array(
@@ -1160,7 +1189,7 @@ class SampleController extends Controller
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
-      $parameter_model = new ParameterForm;
+      $parameter_model = $this->createNewParametersForm();
 		  //TODO ¿Whats going on with the step
 		
 		  $script = isset($_GET['script']);
@@ -1186,7 +1215,7 @@ class SampleController extends Controller
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
-      $parameter_model = new ParameterForm;
+      $parameter_model = $this->createNewParametersForm();
       if(isset($_POST['ParameterForm']))
 		  {
 			  $parameter_model->attributes=$_POST['ParameterForm'];
@@ -1232,7 +1261,7 @@ class SampleController extends Controller
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
-      $parameter_model = new ParameterForm;
+      $parameter_model = $this->createNewParametersForm();
       if(isset($_POST['ParameterForm']))
 		  {
 			  $parameter_model->attributes=$_POST['ParameterForm'];
