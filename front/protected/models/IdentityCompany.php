@@ -15,6 +15,7 @@
 class IdentityCompany extends CActiveRecord
 {
   public $fullname_search;
+  public $company_name_search;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -35,7 +36,7 @@ class IdentityCompany extends CActiveRecord
 			array('identity_id, company_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, identity_id, company_id, fullname_search', 'safe', 'on'=>'search'),
+			array('id, identity_id, company_id, fullname_search, company_name_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -87,6 +88,8 @@ class IdentityCompany extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('identity_id',$this->identity_id);
 		$criteria->compare('company_id',$this->company_id);
+		$criteria->with = array('company');
+		$criteria->compare('company.name', $this->company_name_search, true);
     /*$criteria->compare('identity.fullname', $this->fullname_search, true);*/
   		
 

@@ -95,18 +95,20 @@ class CompanyController extends Controller
 	    $identity_company_model = IdentityCompany::model()->findByAttributes(array('company_id'=>$_GET['company'],'identity_id'=>Yii::app()->user->getState('user')));
 	  if(isset($_GET['company']) && !empty($identity_company_model))
 	  {
-	      Yii::app()->user->setState('current_company', $identity_company_model->company_id);
-	      Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
-	      $this->redirect(array('site/index')); 
+      Yii::app()->user->setState('current_company', $identity_company_model->company_id);
+      Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
+      $this->redirect(array('site/index')); 
 	  }
 	  else
 	  {
       $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
 	    $model=new IdentityCompany('search');
 	    $model->unsetAttributes();  // clear any default values
-	    error_log("El id del usaurio es ".Yii::app()->user->getState('user')); 
-	    error_log("El modelo del suuario es ".print_r($aux, true));
 	    $model->identity_id = $aux->id;
+	    if(isset($_GET['IdentityCompany']))
+	    {
+	      $model->company_name_search=$_GET['IdentityCompany']['company_name_search'];
+	    }
 	    $this->render('change',array(
 	      'model'=>$model,
 	    ));

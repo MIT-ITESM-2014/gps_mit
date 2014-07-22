@@ -94,18 +94,16 @@ class Sample extends CActiveRecord
 		$criteria->compare('truck_id',$this->truck_id,true);
 		$criteria->compare('latitude',$this->latitude);
 		$criteria->compare('longitude',$this->longitude);
-		$criteria->compare('datetime',$this->datetime,true);
+		$criteria->compare('datetime::text',$this->datetime,true);
 		$criteria->compare('route_id',$this->route_id,true);
 		$criteria->compare('status_id',$this->route_id,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
-		error_log('voy a buscar el cmaion '.$this->truck_name_search);
 		$criteria->with = array('truck');
 		$criteria->compare("LOWER(truck.name)", strtolower($this->truck_name_search), true);
 		
     //$criteria->compare("LOWER(truck.name)", strtolower($this->short_datetime_search), true);
-    
-    
+        
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
