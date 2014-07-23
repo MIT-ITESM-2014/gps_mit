@@ -936,10 +936,20 @@ div.view
 	height: 30px;
 	background-position: 0px 0px;
 	background-image: url("../public/images/ResetButton.png");
+	margin-top: 10px;
 }
 
 .fleet-reset-button:hover
 {
 	background-position: 0px 30px;
 	cursor: pointer;
+}
+
+.reset-form-container
+{
+	color: #003a4b;
+	font-size: 16px;
+	padding: 20px 0px 0px 30px;
+	width: 700px;
+	height: auto;
 }
