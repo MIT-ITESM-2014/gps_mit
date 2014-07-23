@@ -1,3 +1,6 @@
+<div class="headers">	
+	<h1>Change Fleet</h1>
+</div>	
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'identity-company-grid',

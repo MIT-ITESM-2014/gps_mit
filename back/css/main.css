@@ -904,3 +904,42 @@ div.view
 	background-position: 0px 26px;
 	cursor: pointer;
 }
+
+.parameter-information-box
+{
+	width: 324px;
+	height: 264px;
+	background-image: url("../public/images/ParametersTable.png");
+	float: left;
+	margin-top: -115px;
+	z-index: 10000;
+}
+
+.upload-continue-button
+{
+	width: 120px;
+	height: 30px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/CRUD_Buttons/ContinueButton.png");
+	margin-top: 250px;
+}
+
+.upload-continue-button:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
+}
+
+.fleet-reset-button
+{
+	width: 120px;
+	height: 30px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/ResetButton.png");
+}
+
+.fleet-reset-button:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
+}

@@ -21,6 +21,7 @@ $this->breadcrumbs=array(
       }
   }
 </script>
+
 <div class="headers">
 	<h1> Upload CSV File</h1>
 </div>
@@ -110,10 +111,12 @@ $this->breadcrumbs=array(
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_short_stop'); ?> </div>
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
                 <div id="information-icon" class="information-icon"> </div>
+                <div id="parameter-information-box" class="parameter-information-box"> </div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_short_stop'); ?> </div>
         </div>
+      
         <div class="buttons">
-                
+         <div id="upload-continue-button" class="upload-continue-button"></div>       
          <?php echo CHtml::ajaxSubmitButton('Continue',CHtml::normalizeUrl(array('sample/submitParameters','render'=>true)),
            array(
              'dataType'=>'json',
@@ -137,7 +140,7 @@ $this->breadcrumbs=array(
                  //$("#AjaxLoader").show();
             }'
            ),array('id'=>'submitButton','class'=>'submit_button')); ?>
-  </div>
+        </div>  
 <?php $this->endWidget();?>
   </div>
 </div>  
@@ -153,4 +156,8 @@ $this->breadcrumbs=array(
     $this->renderPartial('_ajaxContent', $data);
   ?>
 </div>
+
+<?php
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/sample/actions.js',CClientScript::POS_END);
+?>
 
