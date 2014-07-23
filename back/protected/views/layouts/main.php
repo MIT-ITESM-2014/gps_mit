@@ -77,3 +77,7 @@
 
 </body>
 </html>
+
+<?php
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/site/fill_window.js',CClientScript::POS_END);
+?>
