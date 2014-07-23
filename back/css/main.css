@@ -430,6 +430,27 @@ div.view
 	background-position: 0px 50px;
 }
 
+#reset-image
+{
+	background-position: 0px 0px;
+	background-image: url("../public/images/icons/ResetIcon-Backend.png");
+	width: 50px;
+	height: 50px;
+	float: left;
+	vertical-align: middle;
+}
+
+#mainmenu ul li:hover #reset-image
+{
+	background-position: 0px 50px;
+}
+
+#mainmenu ul li.active #reset-image
+{
+	background-position: 0px 50px;
+}
+
+
 #identity-image
 {
 	background-position: 0px 0px;
@@ -865,4 +886,21 @@ div.view
 	padding: 100px 0px 0px 60px;
 	color: #003a4b;
 	font-size: 24px;
+}
+
+.information-icon
+{
+	width: 26px;
+	height: 26px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/AboutButton.png");
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.information-icon:hover
+{
+	background-position: 0px 26px;
+	cursor: pointer;
 }

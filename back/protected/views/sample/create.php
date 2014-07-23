@@ -109,6 +109,7 @@ $this->breadcrumbs=array(
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_short_stop'); ?> </div>
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div id="information-icon" class="information-icon"> </div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_short_stop'); ?> </div>
         </div>
         <div class="buttons">
