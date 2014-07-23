@@ -1,5 +1,5 @@
 
-var page_contents_div = $('#page_contents');
+var page_contents_div = $('#page-contents');
 var mainmenu_container_div = $('#mainmenu-container');
 var content_div = $('#content');
 
@@ -12,7 +12,7 @@ function fillWindow(){
     //var imageWidth = $(element).width();
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
-    var page_contents_height = windowHeight;
+    var page_contents_height = windowHeight - 60;
     if(page_contents_height < 610)
     {
       page_contents_height = 610;
