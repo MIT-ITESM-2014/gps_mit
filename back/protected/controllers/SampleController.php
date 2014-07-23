@@ -62,7 +62,7 @@ class SampleController extends Controller
 	  $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
 	  
 	  if($company_model->time_radius_short_stop == null)
-	    $parameter_form_model->time_radius_short_stop = 600;
+	    $parameter_form_model->time_radius_short_stop = 50;
 	  else
 	    $parameter_form_model->time_radius_short_stop = $company_model->time_radius_short_stop;
 	  
