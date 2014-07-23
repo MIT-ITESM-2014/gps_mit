@@ -17,10 +17,10 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body style="width:100%; height:100%;">
-<div class="" id="page" style="min-width:1250px; width: 100%; overflow:hidden; position:relative; min-height:750px; height:100%; display:inline-block; float:left;">
+<body>
+<div class="" id="page">
 
-	  <div id="header" style="min-width:1250px; width:100%; overflow:hidden; position:relative; height:70px; ">
+	  <div id="header">
 		  <div id="logo">
 			  <a href="<?php echo Yii::app()->createUrl('company/change', array())?>"><div id="logo-image"> </div></a>
 		  </div>
@@ -36,7 +36,7 @@
 			  <a href="<?php echo Yii::app()->createUrl('site/stats', array())?>"><div id="stats-section" class="stats-section"> </div></a>
 		  </div>		
 	  </div><!-- header -->
-    <div id="content-container" style="min-width:1250px; width:100%; overflow:hidden; position:relative; min-height:680px;">
+    <div id="content-container">
 	  <?php echo $content; ?>
 	  </div>
 	  <div class="clear"></div>
