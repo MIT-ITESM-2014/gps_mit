@@ -1,4 +1,4 @@
-<div id="background-content">
+<!--<div id="background-content">
   <div id="welcome-box">
     <div id="welcome-icon"></div>
     <div id ="welcome-title">Welcome to Compass</div>
@@ -28,11 +28,11 @@
       <p id ="update-map-text"> Go </p>
     </div>
   </div>
-</div>  
+</div>  -->
 
   <div id="truck-selection"> 
     
-    <div id="selector-truck-two" class="selector-truck">
+    <div id="selector-truck" class="selector-truck">
       <div id="truck-icon"> </div>
       <div id="truck-selector-container" class="truck-selector-container">
         <select id="truck_selector" class="truck_selector" name="truck_selector">
@@ -40,19 +40,19 @@
         <div id="truck-dropdown-arrow"></div>
       </div>
     </div>
-    <div id="selector-day-two" class="day-selector-container">
+    <div id="selector-day" class="day-selector-container">
       <div id="day-icon"> </div>
       <div id="date-route" class="date-route" name="date-route">
       </div>
     </div>
-    <div id="selector-route-two" class="selector-route">
+    <div id="selector-route" class="selector-route">
       <div id="route-icon"> </div>
       <div id="route-selector-container" class="route-selector-container">
         <select id="select-route" class="select-route" name="select-route"> 
         </select>
       </div>
     </div>
-    <div id="button_update_map_two" name="button_update_map" class="update-button-map">
+    <div id="button_update_map" name="button_update_map" class="update-button-map">
       <p id ="update-map-text"> Go </p>
     </div>
   </div>

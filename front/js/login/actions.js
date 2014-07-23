@@ -40,3 +40,6 @@ $(function(){
 $("#login_simulated_button").click(function() {
   $("#login-submit-button-container input").click();
 });
+
+$('#icons-bar').hide();
+$('#session-info').hide();
