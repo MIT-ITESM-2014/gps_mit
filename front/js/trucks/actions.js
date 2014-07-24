@@ -571,8 +571,11 @@ $.ajax({
             }
           },
           tooltip: { 
-            headerFormat: '<span style="font-size:20px"><b>{point.key}</span><br/>',
-            valueDecimals: 2,
+             formatter: function() {
+                return '<b>' + this.point.myData + '</b>' + '<br/>' + 'Distance: ' +  this.point.x +' km <br/>' + this.series.name + ': ' +this.point.y;
+              },
+            //headerFormat: '<span style="font-size:20px"><b>{point.myData}</span><br/>',
+            //valueDecimals: 2,
             shared: true
           },  
           series: [
@@ -585,6 +588,15 @@ $.ajax({
                 valueSuffix: ' km/h <br/>' 
               }
             },
+            {
+              name: 'STEM Distance',
+              color: '#1234FF',
+              data: chart_4_new_params_series.chart_4_data_stem,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
+                valueSuffix: ' km <br/>' 
+              }
+            },            
             {
               name: 'Average stop duration',
               color: '#042E3C',

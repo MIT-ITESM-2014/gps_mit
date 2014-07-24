@@ -43,3 +43,4 @@ $("#login_simulated_button").click(function() {
 
 $('#icons-bar').hide();
 $('#session-info').hide();
+$('#logo-image').hide();
