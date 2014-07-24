@@ -430,6 +430,27 @@ div.view
 	background-position: 0px 50px;
 }
 
+#reset-image
+{
+	background-position: 0px 0px;
+	background-image: url("../public/images/icons/ResetIcon-Backend.png");
+	width: 50px;
+	height: 50px;
+	float: left;
+	vertical-align: middle;
+}
+
+#mainmenu ul li:hover #reset-image
+{
+	background-position: 0px 50px;
+}
+
+#mainmenu ul li.active #reset-image
+{
+	background-position: 0px 50px;
+}
+
+
 #identity-image
 {
 	background-position: 0px 0px;
@@ -865,4 +886,70 @@ div.view
 	padding: 100px 0px 0px 60px;
 	color: #003a4b;
 	font-size: 24px;
+}
+
+.information-icon
+{
+	width: 26px;
+	height: 26px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/AboutButton.png");
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.information-icon:hover
+{
+	background-position: 0px 26px;
+	cursor: pointer;
+}
+
+.parameter-information-box
+{
+	width: 324px;
+	height: 264px;
+	background-image: url("../public/images/ParametersTable.png");
+	float: left;
+	margin-top: -115px;
+	z-index: 10000;
+}
+
+.upload-continue-button
+{
+	width: 120px;
+	height: 30px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/CRUD_Buttons/ContinueButton.png");
+	margin-top: 250px;
+}
+
+.upload-continue-button:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
+}
+
+.fleet-reset-button
+{
+	width: 120px;
+	height: 30px;
+	background-position: 0px 0px;
+	background-image: url("../public/images/ResetButton.png");
+	margin-top: 10px;
+}
+
+.fleet-reset-button:hover
+{
+	background-position: 0px 30px;
+	cursor: pointer;
+}
+
+.reset-form-container
+{
+	color: #003a4b;
+	font-size: 16px;
+	padding: 20px 0px 0px 30px;
+	width: 700px;
+	height: auto;
 }

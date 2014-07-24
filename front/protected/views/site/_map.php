@@ -30,8 +30,7 @@
   </div>
 </div>  -->
 
-  <div id="truck-selection"> 
-    
+  <div id="truck-selection">   
     <div id="selector-truck" class="selector-truck">
       <div id="truck-icon"> </div>
       <div id="truck-selector-container" class="truck-selector-container">

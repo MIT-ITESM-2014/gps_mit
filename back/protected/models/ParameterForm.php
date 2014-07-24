@@ -34,10 +34,10 @@ class ParameterForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-		  'time_radius_long_stop'=>'Long stop time radius',
-		  'distance_radius_long_stop'=>'Long stop distance radius',
-		  'time_radius_short_stop'=>'Short stop time radius',
-		  'distance_radius_short_stop'=>'Short stop distance radius',
+		  'time_radius_long_stop'=>'Idle minimum time',
+		  'distance_radius_long_stop'=>'Idle maximum distance radius',
+		  'time_radius_short_stop'=>'Stop minimum time',
+		  'distance_radius_short_stop'=>'Stop maximum distance radius',
 		);
 	}
 	
