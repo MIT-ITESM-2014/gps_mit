@@ -60,6 +60,7 @@ class Company extends CActiveRecord
 		return array(
 			'identityCompanies' => array(self::HAS_MANY, 'IdentityCompany', 'company_id'),
 			'trucks' => array(self::HAS_MANY, 'Truck', 'company_id'),
+			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'company_id'),
 		);
 	}
 
