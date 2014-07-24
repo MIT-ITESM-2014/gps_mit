@@ -156,12 +156,13 @@ h1#contents-field
 	margin-top: 12px;
 	width: 120px;
 	overflow: hidden;
+	text-align: right;
 }
 
 #session-fleet
 {
 	font-size: 16px;
-	text-align: left;
+	text-align: right;
 	padding-bottom: 5px;
 	width: 120px;
 	overflow: hidden;
