@@ -181,12 +181,6 @@ foreach ($trucks as $t)
     <div id="short_stops_count_data_container"></div>
   </div>
 
-  <div class="clear"> </div>
-
-  <div id="more_statistics_container">
-    <div id="more_statistics_button"> </div>
-  </div>
-
 </div>
 
 <?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_HEAD); ?>
