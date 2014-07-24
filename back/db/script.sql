@@ -1,17 +1,3 @@
-CREATE SEQUENCE public.client_id_seq;
-
-CREATE TABLE public.client (
-                id BIGINT NOT NULL DEFAULT nextval('public.client_id_seq'),
-                name VARCHAR NOT NULL,
-                latitude DOUBLE PRECISION NOT NULL,
-                longitude DOUBLE PRECISION NOT NULL,
-                created_at TIMESTAMP NOT NULL,
-                updated_at TIMESTAMP NOT NULL,
-                CONSTRAINT client_pk PRIMARY KEY (id)
-);
-
-
-ALTER SEQUENCE public.client_id_seq OWNED BY public.client.id;
 
 CREATE SEQUENCE public.company_id_seq;
 
@@ -27,6 +13,7 @@ CREATE TABLE public.company (
                 distance_traveled DOUBLE PRECISION,
                 average_short_stop_duration DOUBLE PRECISION,
                 fuel_consumption DOUBLE PRECISION,
+                has_file_in_process INTEGER NOT NULL,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP,
                 CONSTRAINT company_pk PRIMARY KEY (id)
@@ -34,17 +21,6 @@ CREATE TABLE public.company (
 
 
 ALTER SEQUENCE public.company_id_seq OWNED BY public.company.id;
-
-CREATE SEQUENCE public.expected_route_id_seq;
-
-CREATE TABLE public.expected_route (
-                id BIGINT NOT NULL DEFAULT nextval('public.expected_route_id_seq'),
-                name VARCHAR NOT NULL,
-                CONSTRAINT expected_route_pk PRIMARY KEY (id)
-);
-
-
-ALTER SEQUENCE public.expected_route_id_seq OWNED BY public.expected_route.id;
 
 CREATE SEQUENCE public.long_stop_id_seq;
 
@@ -71,8 +47,10 @@ CREATE TABLE public.identity (
                 last_name VARCHAR NOT NULL,
                 username VARCHAR NOT NULL,
                 password VARCHAR(40) NOT NULL,
+                is_admin INTEGER,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP NOT NULL,
+                has_connected INTEGER,
                 CONSTRAINT identity_pk PRIMARY KEY (id)
 );
 
@@ -107,22 +85,6 @@ CREATE TABLE public.uploaded_file (
 
 
 ALTER SEQUENCE public.uploaded_file_id_seq OWNED BY public.uploaded_file.id;
-
-CREATE SEQUENCE public.token_id_seq;
-
-CREATE TABLE public.token (
-                id INTEGER NOT NULL DEFAULT nextval('public.token_id_seq'),
-                identity_id INTEGER NOT NULL,
-                token TEXT NOT NULL,
-                secret TEXT NOT NULL,
-                expires_at TIMESTAMP NOT NULL,
-                created_at TIMESTAMP NOT NULL,
-                updated_at TIMESTAMP NOT NULL,
-                CONSTRAINT token_pk PRIMARY KEY (id)
-);
-
-
-ALTER SEQUENCE public.token_id_seq OWNED BY public.token.id;
 
 CREATE SEQUENCE public.truck_id_seq;
 
@@ -272,13 +234,6 @@ NOT DEFERRABLE;
 ALTER TABLE public.route ADD CONSTRAINT long_stop_route_fk1
 FOREIGN KEY (beginning_stop_id)
 REFERENCES public.long_stop (id)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.token ADD CONSTRAINT identity_tokens_fk
-FOREIGN KEY (identity_id)
-REFERENCES public.identity (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;

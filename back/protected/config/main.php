@@ -65,9 +65,9 @@ return array(
 		*/
 		// Connection string for PostgreSQL
 		'db'=>array(
-			'connectionString' => 'pgsql:host=localhost;port=5432;dbname=gpstracks',
+			'connectionString' => 'pgsql:host=localhost;port=5432;dbname=compass',
 			'emulatePrepare' => true,
-			'username' => 'gpstracks',
+			'username' => 'compass',
 			'password' => 'dh28HszAn89sRg9iwsxy',
 			'charset' => 'UTF8',
 		),
