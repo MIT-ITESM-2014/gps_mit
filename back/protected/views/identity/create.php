@@ -6,7 +6,7 @@ $('#button-box').click( function(){
 });");
 ?>
 
-<div id="create-header">
+<div class="headers">
 	<div id="button-box" onclick=""> </div>
 	<h1>Create User</h1>
 </div>

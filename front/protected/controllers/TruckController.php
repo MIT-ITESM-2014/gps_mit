@@ -128,14 +128,14 @@ class TruckController extends Controller
       $chart_4_new_params [] = array(
         'myData'=> $truck->name,
         'color' => '#FF00FF',
-        'x' => $truck->total_distance,
-        'y' => ($truck->total_distance/$truck->route_count)
+        'x' => (float)$truck->total_distance,
+        'y' => (float)round($truck->total_distance/$truck->route_count, 1)
         );
       $chart_4_new_params_2 [] = array(
           'myData'=> $truck->name,
-          'color' => '1234FF',
-          'x' => $truck->total_distance,
-          'y' => $truck->average_stem_distance
+          'color' => '#1234FF',
+          'x' => (float)$truck->total_distance,
+          'y' => (float) round($truck->average_stem_distance, 1)
         );
     }
 
