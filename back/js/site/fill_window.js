@@ -2,6 +2,7 @@
 var page_contents_div = $('#page-contents');
 var mainmenu_container_div = $('#mainmenu-container');
 var content_div = $('#content');
+var body_div = $('body');
 
 $(window).bind("resize", function(){
     fillWindow();
@@ -12,6 +13,15 @@ function fillWindow(){
     //var imageWidth = $(element).width();
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
+    
+    if (windowWidth < 712)
+    {
+      body_div.css({"width":"712px"});
+    }
+    else
+    { 
+      body_div.css({"width":windowWidth+"px"});
+    }
     var page_contents_height = windowHeight - 60;
     if(page_contents_height < 610)
     {

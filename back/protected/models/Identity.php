@@ -54,7 +54,7 @@ class Identity extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'tokens' => array(self::HAS_MANY, 'Token', 'identity_id'),
-			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'identity_id'),
+			//'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'identity_id'),
 		);
 	}
 
@@ -115,7 +115,8 @@ class Identity extends CActiveRecord
   	
 	public function pendingUploads()
   {
-    $uploaded_files = $this->uploaded_files(array('condition'=>'step < 2'));
+    $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+    $uploaded_files = $company_model->uploaded_files(array('condition'=>'step < 2 '));
     return $uploaded_files;
     
     /*
@@ -130,7 +131,8 @@ class Identity extends CActiveRecord
   
   public function pendingUpload()
   {
-    $uploaded_files = $this->uploaded_files(array('condition'=>'step < 2'));
+    $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+    $uploaded_files = $company_model->uploaded_files(array('condition'=>'step < 2 '));
     if(count($uploaded_files)>0)
       return $uploaded_files[0];
     else

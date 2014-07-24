@@ -379,10 +379,12 @@ class SampleController extends Controller
         move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
         
         $uploaded_file_model = new UploadedFile;
-        $uploaded_file_model->identity_id = Yii::app()->user->getId();
+        $uploaded_file_model->company_id = $company_id;
         $uploaded_file_model->filename = $fileName;
         $uploaded_file_model->step = 0;
         $uploaded_file_model->save();
+        $company_model->has_file_in_process = 1;
+        $company_model->save();
         
         //Parse CSV file
         $handler = fopen("../files/".$fileName,'r');
@@ -1187,7 +1189,7 @@ class SampleController extends Controller
   {
     $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
-	  if($company_model->has_file_in_process != 1)
+	  if($company_model->has_file_in_process == 1)
 	  {
       $parameter_model = $this->createNewParametersForm();
 		  //TODO ¿Whats going on with the step
@@ -1213,7 +1215,7 @@ class SampleController extends Controller
   {
     $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
-	  if($company_model->has_file_in_process != 1)
+	  if($company_model->has_file_in_process == 1)
 	  {
       $parameter_model = $this->createNewParametersForm();
       if(isset($_POST['ParameterForm']))
@@ -1229,9 +1231,12 @@ class SampleController extends Controller
 			    
 			    $company_id = Yii::app()->user->getState('current_company');
 			    $company_model = Company::model()->findByPk($company_id);
-			    $company_model->has_file_in_process = 1;
-			    $company_model->save();
+			    //$company_model->has_file_in_process = 1;
+			    //$company_model->save();
 			    $this->calculateAllMetrics();
+			    $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
+			    unlink("../files/".$uploaded_file_model->filename);
+			    $uploaded_file_model->delete();
 			    $company_model->has_file_in_process = 0;
 			    $company_model->save();
 			    

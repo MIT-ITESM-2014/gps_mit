@@ -6,13 +6,13 @@
  * The followings are the available columns in table 'uploaded_file':
  * @property string $id
  * @property string $filename
- * @property integer $identity_id
+ * @property integer $company_id
  * @property double $step
  * @property string $created_at
  *
  * The followings are the available model relations:
  * @property Truck[] $trucks
- * @property Identity $identity
+ * @property Company $company
  */
 class UploadedFile extends CActiveRecord
 {
@@ -32,13 +32,13 @@ class UploadedFile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('identity_id, step, created_at', 'required'),
-			array('identity_id', 'numerical', 'integerOnly'=>true),
+			array('company_id, step, created_at', 'required'),
+			array('company_id', 'numerical', 'integerOnly'=>true),
 			array('step', 'numerical'),
 			array('filename', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, filename, identity_id, step, created_at', 'safe', 'on'=>'search'),
+			array('id, filename, company_id, step, created_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +51,7 @@ class UploadedFile extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'trucks' => array(self::HAS_MANY, 'Truck', 'uploaded_file_id'),
-			'identity' => array(self::BELONGS_TO, 'Identity', 'identity_id'),
+			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
 		);
 	}
 
@@ -63,7 +63,7 @@ class UploadedFile extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'filename' => 'Filename',
-			'identity_id' => 'Identity',
+			'company_id' => 'Company',
 			'step' => 'Step',
 			'created_at' => 'Created At',
 		);
@@ -89,7 +89,7 @@ class UploadedFile extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('filename',$this->filename,true);
-		$criteria->compare('identity_id',$this->identity_id);
+		$criteria->compare('company_id',$this->company_id);
 		$criteria->compare('step',$this->step);
 		$criteria->compare('created_at',$this->created_at,true);
 
