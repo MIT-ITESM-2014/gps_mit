@@ -89,7 +89,7 @@ $this->breadcrumbs=array(
     <p> Please provide the parameters that best fit your organization's data. </p>
   
   <div class="errorMessage" id="formResult"></div>
-        <div id="AjaxLoader" style="display: none"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spinner.gif"></img></div>
+        <div id="AjaxLoader" style="display: none"><img src="<?php echo Yii::app()->request->baseUrl; ?>/public/images/spinner.gif"></img></div>
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_long_stop'); ?> </div>
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
