@@ -1,5 +1,8 @@
 <?php
 
+//Importing extension for asynchronous processing
+Yii::import('ext.runactions.components.ERunActions');
+
 class SampleController extends Controller
 {
 	/**
@@ -1210,54 +1213,69 @@ class SampleController extends Controller
 	    $this->render('file_in_process',array());
 	  }
   }
+  
+  public function actionProcessData()
+  {
+    if(isset($_POST['cid']) && isset($_POST['uid']))
+    {
+      $cid = (int)$_POST['cid'];
+      Yii::app()->user->setState('current_company',$cid);
+      $uid = (int)$_POST['uid'];
+      Yii::app()->user->setState('user', $uid);
+      //STart process
+      $identity_model = Identity::model()->findByPk(Yii::app()->user->getState('user'));
+      $pending_upload = $identity_model->pendingUpload();
+      //$pending_upload = Yii::app()->user->getIdentity();//->pendingUpload();
+      
+      $pending_upload->step++;
+      $pending_upload->save();
+      $company_id = Yii::app()->user->getState('current_company');
+      $company_model = Company::model()->findByPk($company_id);
+      $this->calculateAllMetrics();
+      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
+      unlink("../files/".$uploaded_file_model->filename);
+      $uploaded_file_model->delete();
+      $company_model->has_file_in_process = 0;
+      $company_model->save();
+      error_log("File has been processed successfully");
+    }
+  }
     
   public function actionSubmitParameters()
-  {
-    $company_id = Yii::app()->user->getState('current_company');
-	  $company_model = Company::model()->findByPk($company_id);
-	  if($company_model->has_file_in_process == 1)
-	  {
-      $parameter_model = $this->createNewParametersForm();
-      if(isset($_POST['ParameterForm']))
-		  {
-			  $parameter_model->attributes=$_POST['ParameterForm'];
-			  if($parameter_model->validate())
-			  {
-			    $parameter_model->updateCompanyParameters();
-			    //Declared concluded the step
-			    $pending_upload = Yii::app()->user->getIdentity()->pendingUpload();
-			    $pending_upload->step++;
-			    $pending_upload->save();
-			    
-			    $company_id = Yii::app()->user->getState('current_company');
-			    $company_model = Company::model()->findByPk($company_id);
-			    //$company_model->has_file_in_process = 1;
-			    //$company_model->save();
-			    $this->calculateAllMetrics();
-			    $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
-			    unlink("../files/".$uploaded_file_model->filename);
-			    $uploaded_file_model->delete();
-			    $company_model->has_file_in_process = 0;
-			    $company_model->save();
-			    
-			    //Identity::model()->find('id='.Yii::app()->user->getId())->pendingUpload()
-			    echo CJSON::encode(array(
-            'status'=>'success'
-          ));
-			  }
-			  else
-			  {
-			    $error = CActiveForm::validate($parameter_model);
-          if($error!='[]')
-            echo $error;
-          Yii::app()->end();
-			  }
+  { 
+    //$action_url = 'http://arturo:hola@hostname/path?arg=value#anchor';
+    //if (ERunActions::runBackground())//do all the stuff that should work in background
+    //{
+             
+          
+      $company_id = Yii::app()->user->getState('current_company');
+	    $company_model = Company::model()->findByPk($company_id);
+	    if($company_model->has_file_in_process == 1)//Si está en procesamiento
+	    {
+        $parameter_model = $this->createNewParametersForm();
+        if(isset($_POST['ParameterForm']))
+		    {
+			    $parameter_model->attributes=$_POST['ParameterForm'];
+			    if($parameter_model->validate())
+			    {
+			      $parameter_model->updateCompanyParameters();
+			      
+            $action_url = Yii::app()->createAbsoluteUrl('sample/processData');
+            ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
+            
+			      echo CJSON::encode(array(
+              'status'=>'success'
+            ));
+			    }
+			    else
+			    {
+			      $error = CActiveForm::validate($parameter_model);
+            if($error!='[]')
+              echo $error;
+            Yii::app()->end();
+			    }
+		    }
 		  }
-		}
-	  else
-	  {
-	    $this->render('file_in_process',array());
-	  }
   }
   
   public function actionSendParameters()

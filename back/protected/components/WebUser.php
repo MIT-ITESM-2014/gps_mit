@@ -11,9 +11,8 @@ class WebUser extends CWebUser
    public function getIdentity()
    {
     if($this->_identity == null)
-      $this->_identity = Identity::model()->find('id='.(Yii::app()->user->id));
+      $this->_identity = Identity::model()->find('id='.(Yii::app()->user->getState('user')));
     return $this->_identity; 
-      
    }
    
    public function getCompany()
