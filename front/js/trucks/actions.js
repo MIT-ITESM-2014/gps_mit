@@ -46,6 +46,7 @@ var short_stops_ranges_data_stops_15_30;
 var short_stops_ranges_data_stops_30_1;
 var short_stops_ranges_data_stops_1_2;
 var short_stops_ranges_data_stops_2_plus;
+var truck_usage;
 
 var chart_1_1_params;
 var chart_1_params;
@@ -163,6 +164,7 @@ function updateTruckStats()
         short_stops_ranges_data_stops_30_1 = data.short_stops_ranges_data.stops_30_1;
         short_stops_ranges_data_stops_1_2 = data.short_stops_ranges_data.stops_1_2;
         short_stops_ranges_data_stops_2_plus = data.short_stops_ranges_data.stops_2_plus;
+        truck_usage = data.time_data;
 
         chart_1_1_params ={
           chart: {
@@ -173,7 +175,7 @@ function updateTruckStats()
             text: 'Stops Duration'
           },
           xAxis: {
-            categories: ['BDPD-24'],
+            //categories: ['BDPD-24'],
           },
           yAxis: {
             min: 0,
@@ -193,7 +195,7 @@ function updateTruckStats()
           series: [
             {
               name: '0-5 min',
-              color: '#139B83',
+              color: '#684bb2',
               data: short_stops_ranges_data_stops_0_5,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -202,7 +204,7 @@ function updateTruckStats()
             },
             {
               name: '5-15 min',
-              color: '#042E3C',
+              color: '#00b27d',
               data: short_stops_ranges_data_stops_5_15,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -211,6 +213,7 @@ function updateTruckStats()
             },
             {
               name: '15-30 min',
+              color: '#efbb1e',
               data: short_stops_ranges_data_stops_15_30,                
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -219,6 +222,7 @@ function updateTruckStats()
             },
             {
               name: '30 min-1 hr',
+              color: '#e27331',
               data: short_stops_ranges_data_stops_30_1,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -227,6 +231,7 @@ function updateTruckStats()
             },
             {
               name: '1-2 hr',
+              color: '#df3e3c',
               data: short_stops_ranges_data_stops_1_2,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -235,6 +240,7 @@ function updateTruckStats()
             },
             {
               name: '2+ hrs',
+              color: '#044e73',
               data: short_stops_ranges_data_stops_2_plus,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -256,16 +262,6 @@ function updateTruckStats()
             text: 'Stops Analysis',
             align: 'center',
             y: 25
-          },
-          exporting: {
-            buttons:{
-              contextButton:{
-                symbol: 'square',
-                symbolFill: '#003c4b',
-                symbolSize: 18,
-                symbolStrokeWidth: 0
-              }           
-            }
           },      
           credits: {
             enabled: false  
@@ -292,18 +288,14 @@ function updateTruckStats()
             }
           },
           series: [{
-            data: [
-              ['Stop', 5],
-              ['Idle', 6],
-              ['Traveling', 10]
-            ],
+            data: truck_usage,
               type: 'pie',
               innerSize: '50%',
               colorByPoint: true,
               tooltip: {
                 headerFormat: ' ' ,
                 pointFormat: '<span style="font-size:80px"></span>{point.y}<b>({point.percentage:.1f}%)</b><br/>',
-                valueSuffix: ' hrs ' 
+                valueSuffix: ' s ' 
               }
           }],
         };
@@ -377,6 +369,7 @@ $.ajax({
         chart_3_params_series = data.chart_3_params_series;
         chart_4_params_categories_series = data.chart_4_params_categories_series;
         chart_4_new_params_series = data.chart_4_new_params_series;
+        chart_5_params_categories_series = data.chart_5_params_categories_series;
         
         chart_2_params = {
           chart: {
@@ -509,22 +502,11 @@ $.ajax({
           chart: {
             type: 'scatter',
             zoom: 'xy'
-            // margin: 75,
-            // options3d: {
-            //   enabled: true,
-            //   alpha: 15,
-            //   beta: 5,
-            //   depth: 70
-            // }
           },
-
           title: {
             text: 'General Stats',
           },
           plotOptions: {
-            // column: {
-            //   depth: 25
-            // }
             scatter: {
               marker: {
                 radius: 6,
@@ -557,7 +539,7 @@ $.ajax({
           xAxis: {
             title: {
               enabled: true, 
-              text: 'Avg. distance per trip (km)'
+              text: 'Distance of Trip (km)'
             },
             startOnTick: true,
             endOnTick: true,
@@ -571,11 +553,9 @@ $.ajax({
             }
           },
           tooltip: { 
-             formatter: function() {
-                return '<b>' + this.point.myData + '</b>' + '<br/>' + 'Distance: ' +  this.point.x +' km <br/>' + this.series.name + ': ' +this.point.y;
-              },
-            //headerFormat: '<span style="font-size:20px"><b>{point.myData}</span><br/>',
-            //valueDecimals: 2,
+           formatter: function() {
+              return '<b>' + this.point.myData + '</b>' + '<br/>' + 'Distance: ' +  this.point.x +' km <br/>' + this.series.name + ': ' +this.point.y;
+            },
             shared: true
           },  
           series: [
@@ -596,60 +576,123 @@ $.ajax({
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
                 valueSuffix: ' km <br/>' 
               }
-            },            
-            {
-              name: 'Average stop duration',
-              color: '#042E3C',
-              data: chart_4_params_categories_series.average_short_stops_duration,
-              visible: false,
-              tooltip: {
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
-                valueSuffix: ' min<br/>' 
-              }             
-            },
-            {
-              name: 'Average Distance',
-              data: chart_4_params_categories_series.average_distance,
-              visible: false,
-              tooltip: {
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
-                valueSuffix: ' km<br/>',
-              }   
-            },
-            {
-              name: 'Average Speed',
-              data: chart_4_params_categories_series.average_speed,
-              visible: false,
-              tooltip: {
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
-                valueSuffix: ' km/hr<br/>'
-              }
-            },
-            {
-              name: 'Fuel consumption per km',
-              data: chart_4_params_categories_series.fuel_consumption_per_km,
-              visible: false,
-              tooltip: {
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
-                valueSuffix: ' Lts<br/>'
-              }
-            },
-            {
-              name: 'Total number of trips',
-              data: chart_4_params_categories_series.number_of_trips,
-              visible: false,
-              tooltip: {
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y:,.0f}</b>',
-                valueSuffix: ' <br/>'
-              }
-            }
+            },           
           ]
         };//end chart_4
+
+        chart_5_params = {
+          chart: {
+            type: 'scatter',
+            zoom: 'xy'
+          },
+          title: {
+            text: 'General Stats',
+          },
+          plotOptions: {
+            scatter: {
+              marker: {
+                radius: 6,
+                states: {
+                  hover: {
+                    enabled: true,
+                    lineColor: 'rgb(100, 100, 100)'
+                  }
+                }
+              },
+              states: {
+                hover: {
+                  marker: {
+                    enabled: false
+                  }
+                }
+              }
+            }
+          },
+          legend: {
+            layout: 'vertical',
+            align: 'center',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            borderWidth: 1
+          },
+          xAxis: {
+            title: {
+              enabled: true, 
+              text: 'Time of Trip (s)'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+          },
+          yAxis: {
+            opposite: false,
+            title: {
+                enabled: false
+            }
+          },
+          tooltip: { 
+           formatter: function() {
+              return '<b>' + this.point.myData + '</b>' + '<br/>' + 'Time: ' +  this.point.x +' s <br/>' + this.series.name + ': ' +this.point.y;
+            },
+            shared: true
+          },
+          series: [
+            {
+              name: 'Average Speed',
+              color: '#0036AF',
+              data: chart_5_params_categories_series.chart_5_data_average_speed,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
+                valueSuffix: ' km/h <br/>' 
+              }
+            },
+            {
+              name: 'Time in Stops',
+              color: '#20E145',
+              data: chart_5_params_categories_series.chart_5_data_time_short_stops,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
+                valueSuffix: ' s <br/>' 
+              }
+            },
+            {
+              name: 'Time Traveling ',
+              color: '#6578EF',
+              data: chart_5_params_categories_series.chart_5_data_time_traveling,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
+                valueSuffix: ' s <br/>' 
+              }
+            },
+            {
+              name: 'Stops ',
+              color: '#E51A81',
+              data: chart_5_params_categories_series.chart_5_data_no_short_stops,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
+                //valueSuffix: ' s <br/>' 
+              }
+            },
+            {
+              name: 'Distance ',
+              color: '#F64A33',
+              data: chart_5_params_categories_series.chart_5_data_total_distance_traveled,
+              tooltip: {
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
+                valueSuffix: ' km <br/>' 
+              }
+            },
+          ]  
+        }; //chart 5
         
         chart_slider_1 = ChartSlider('#trucks-slider-chart-container','#trucks-slider-left-arrow','#trucks-slider-right-arrow')
         chart_slider_1.addElement(chart_2_params);
         chart_slider_1.addElement(chart_3_params);
         chart_slider_1.addElement(chart_4_params);
+        chart_slider_1.addElement(chart_5_params);
         chart_slider_1.start();
       }
     },

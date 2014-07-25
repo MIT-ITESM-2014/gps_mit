@@ -105,6 +105,13 @@ class TruckController extends Controller
     //test for new charts
     $chart_4_new_params = array();
     $chart_4_new_params_2 = array();
+
+    //new chart
+    $chart_5_params_average_speed = array();
+    $chart_5_params_time_short_stops = array();
+    $chart_5_params_time_traveling = array();
+    $chart_5_params_no_short_stops = array();
+    $chart_5_params_total_distance_traveled = array();
     
     foreach($trucks as $truck)
     {
@@ -128,14 +135,44 @@ class TruckController extends Controller
       $chart_4_new_params [] = array(
         'myData'=> $truck->name,
         'color' => '#FF00FF',
-        'x' => (float)$truck->total_distance,
-        'y' => (float)round($truck->total_distance/$truck->route_count, 1)
+        'x' => (float)round($truck->total_distance / $truck->route_count, 1),
+        'y' => (float)round($truck->average_speed, 1)
         );
       $chart_4_new_params_2 [] = array(
           'myData'=> $truck->name,
           'color' => '#1234FF',
-          'x' => (float)$truck->total_distance,
+          'x' => (float)round($truck->total_distance / $truck->route_count, 1),
           'y' => (float) round($truck->average_stem_distance, 1)
+        );
+      $chart_5_params_average_speed[] = array(
+          'myData'=> $truck->name,
+          'color' => '#0036AF',
+          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'y' => (float) round($truck->average_speed, 1)
+        );
+      $chart_5_params_time_short_stops[] = array(
+          'myData'=> $truck->name,
+          'color' => '#20E145',
+          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'y' => (float) round($truck->short_stops_time/$truck->route_count, 1)
+        );
+      $chart_5_params_time_traveling[] = array(
+         'myData'=> $truck->name,
+          'color' => '#6578EF',
+          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'y' => (float) round($truck->traveling_time/$truck->route_count, 1) 
+        );
+      $chart_5_params_no_short_stops[] = array(
+          'myData'=> $truck->name,
+          'color' => '#E51A81',
+          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'y' => (float) round($truck->average_stop_count_per_trip, 1) 
+        );
+      $chart_5_params_total_distance_traveled[] = array(
+          'myData'=> $truck->name,
+          'color' => '#F64A33',
+          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'y' => (float) round($truck->total_distance/$truck->route_count, 1) 
         );
     }
 
@@ -164,8 +201,15 @@ class TruckController extends Controller
           'number_of_trips' => $chart_4_number_of_trips
         ),
         'chart_4_new_params_series' => array(
-            'chart_4_data_speed' => $chart_4_new_params,
-            'chart_4_data_stem' => $chart_4_new_params_2
+          'chart_4_data_speed' => $chart_4_new_params,
+          'chart_4_data_stem' => $chart_4_new_params_2
+        ), 
+        'chart_5_params_categories_series' => array(
+          'chart_5_data_average_speed' => $chart_5_params_average_speed,
+          'chart_5_data_time_short_stops' => $chart_5_params_time_short_stops,
+          'chart_5_data_time_traveling' => $chart_5_params_time_traveling,
+          'chart_5_data_no_short_stops' => $chart_5_params_no_short_stops,
+          'chart_5_data_total_distance_traveled' => $chart_5_params_total_distance_traveled
         )
       );
     echo CJSON::encode($data);
@@ -201,16 +245,19 @@ class TruckController extends Controller
                 'time_data'=>array(
                   array(
                     'name'=> 'Short Stop',
+                    'color' => '#4acfaf',
                     'y' => $truck->short_stops_time,
                     'drilldown' => 'false',
                   ),
                   array(
                     'name'=> 'Long Stop',
+                    'color' => '#00a995',
                     'y' => $truck->resting_time,
                     'drilldown' => 'false',
                   ),
                   array(
                     'name'=> 'Traveling',
+                    'color' => '#006161',
                     'y' => $truck->traveling_time,
                     'drilldown' => 'false',
                   ),

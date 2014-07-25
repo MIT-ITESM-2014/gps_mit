@@ -99,7 +99,7 @@ body
 #session-fleet
 {
 	font-size: 20px;
-	font-weight: bold;
+	font-weight: 700;
 	text-align: right;
 	float: left;
 	width: 100px;
@@ -402,7 +402,7 @@ body
 {
   background-color: #efefef;
   width:280px;
-  height: 400px;
+  height: 340px;
   margin-right:20px;
 }
 
@@ -425,7 +425,7 @@ body
 	color: #00a894;
 	font-size: 30px;
 	text-align: center;
-	font-weight: bold;
+	font-weight: 700;
 }
 
 #route-information-route-id
@@ -463,14 +463,14 @@ body
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: lighter;
+	font-weight: 200;
 }
 
 #distance_data_container
 {
 	font-size: 24px;
 	color: #003d4c;
-	font-weight: lighter;
+	font-weight: 200;
 	float: left;
 }
 
@@ -495,14 +495,14 @@ body
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: lighter;
+	font-weight: 200;
 }
 
 #time_data_container
 {
 	color: #003d4c;
 	font-size: 24px;
-	font-weight: lighter;
+	font-weight: 200;
 	float: left;
 }
 
@@ -527,14 +527,14 @@ body
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: lighter;
+	font-weight: 200;
 }
 
 #average_speed_data_container
 {
 	color: #003d4c;
 	font-size: 24px;
-	font-weight: lighter;
+	font-weight: 200;
 	float: left;
 }
 
@@ -559,14 +559,14 @@ body
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: lighter;
+	font-weight: 200;
 }
 
 #short_stops_count_data_container
 {
 	color: #003d4c;
 	font-size: 24px;
-	font-weight: lighter;
+	font-weight: 200;
 	float: left;
 }
 
@@ -709,6 +709,7 @@ body
 
 .trucks_truck_stats_label
 {
+	font-weight: 500;
 	color: #003d4c;
 	font-size: 22px;
 }
@@ -950,7 +951,7 @@ body
 	color: #003c4b;
 	font-size: 22px;
 	text-align: center;
-	font-weight: lighter;
+	font-weight: 200;
 	line-height: 30px;
 	margin-top: 25px;
 }
@@ -1350,7 +1351,7 @@ body
   background-color: #00a894;
   color:#003c4b;
   cursor:pointer;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 #login_simulated_button:hover
