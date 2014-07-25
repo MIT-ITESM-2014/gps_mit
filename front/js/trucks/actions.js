@@ -195,7 +195,7 @@ function updateTruckStats()
           series: [
             {
               name: '0-5 min',
-              color: '#a6ffbc',
+              color: '#684bb2',
               data: short_stops_ranges_data_stops_0_5,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -204,7 +204,7 @@ function updateTruckStats()
             },
             {
               name: '5-15 min',
-              color: '#4acfaf',
+              color: '#00b27d',
               data: short_stops_ranges_data_stops_5_15,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -213,7 +213,7 @@ function updateTruckStats()
             },
             {
               name: '15-30 min',
-              color: '#00a995',
+              color: '#efbb1e',
               data: short_stops_ranges_data_stops_15_30,                
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -222,7 +222,7 @@ function updateTruckStats()
             },
             {
               name: '30 min-1 hr',
-              color: '#006161',
+              color: '#e27331',
               data: short_stops_ranges_data_stops_30_1,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -231,7 +231,7 @@ function updateTruckStats()
             },
             {
               name: '1-2 hr',
-              color: '#003d4c',
+              color: '#df3e3c',
               data: short_stops_ranges_data_stops_1_2,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
@@ -240,7 +240,7 @@ function updateTruckStats()
             },
             {
               name: '2+ hrs',
-              color: '#001f26',
+              color: '#044e73',
               data: short_stops_ranges_data_stops_2_plus,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',

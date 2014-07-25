@@ -245,16 +245,19 @@ class TruckController extends Controller
                 'time_data'=>array(
                   array(
                     'name'=> 'Short Stop',
+                    'color' => '#4acfaf',
                     'y' => $truck->short_stops_time,
                     'drilldown' => 'false',
                   ),
                   array(
                     'name'=> 'Long Stop',
+                    'color' => '#00a995',
                     'y' => $truck->resting_time,
                     'drilldown' => 'false',
                   ),
                   array(
                     'name'=> 'Traveling',
+                    'color' => '#006161',
                     'y' => $truck->traveling_time,
                     'drilldown' => 'false',
                   ),
