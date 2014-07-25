@@ -1,12 +1,4 @@
-<?php
-/* @var $this SampleController */
-/* @var $model Sample */
 
-$this->breadcrumbs=array(
-	'Samples'=>array('index'),
-	'Create',
-);
-?>
 <script type="text/javascript">
   function actualizarPaso(p1) {
       switch(p1){
@@ -23,7 +15,7 @@ $this->breadcrumbs=array(
 </script>
 
 <div class="headers">
-	<h1> Upload CSV File</h1>
+	<h1> Upload CSV File for ... </h1>
 </div>
 
   <div id="file_upload_container" style="display:none">
