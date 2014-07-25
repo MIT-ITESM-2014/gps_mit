@@ -20,7 +20,7 @@ function fillWindow(){
     }
     else
     { 
-      body_div.css({"width":windowWidths+"px"});
+      body_div.css({"width":windowWidth+"px"});
     }
     var page_contents_height = windowHeight - 60;
     if(page_contents_height < 610)
