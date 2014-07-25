@@ -112,7 +112,7 @@ class TruckController extends Controller
     $chart_5_params_time_traveling = array();
     $chart_5_params_no_short_stops = array();
     $chart_5_params_total_distance_traveled = array();
-    
+
     foreach($trucks as $truck)
     {
       $chart_2_params_categories[] = $truck->name;
@@ -131,47 +131,49 @@ class TruckController extends Controller
       $chart_4_average_speed[] = $truck->total_distance/$truck->route_count;
       $chart_4_fuel_consumption_per_km[] = 1;//$truck->fuel_comsumption_per_km;//TODO
       $chart_4_number_of_trips[] = $truck->route_count; 
+
+      //change seconds to hours to display in highcharts
+      $secondsInAMinute = 60;
+      $secondsInAnHour = 60 * $secondsInAMinute;
+
+      $time_hours_short_stops = round($truck->short_stops_time / $secondsInAnHour, 1);
+      $time_hours_traveling = round($truck->traveling_time / $secondsInAnHour, 1);
+      
       //new chart
       $chart_4_new_params [] = array(
         'myData'=> $truck->name,
-        'color' => '#FF00FF',
         'x' => (float)round($truck->total_distance / $truck->route_count, 1),
         'y' => (float)round($truck->average_speed, 1)
         );
       $chart_4_new_params_2 [] = array(
           'myData'=> $truck->name,
-          'color' => '#1234FF',
           'x' => (float)round($truck->total_distance / $truck->route_count, 1),
           'y' => (float) round($truck->average_stem_distance, 1)
         );
       $chart_5_params_average_speed[] = array(
           'myData'=> $truck->name,
-          'color' => '#0036AF',
-          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'x' => (float)round(($time_hours_traveling + $time_hours_short_stops)/$truck->route_count, 1), 
           'y' => (float) round($truck->average_speed, 1)
         );
       $chart_5_params_time_short_stops[] = array(
           'myData'=> $truck->name,
-          'color' => '#20E145',
-          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
-          'y' => (float) round($truck->short_stops_time/$truck->route_count, 1)
+          'x' => (float)round(($time_hours_traveling + $time_hours_short_stops)/$truck->route_count, 1), 
+          'y' => (float) round($time_hours_short_stops/$truck->route_count, 1)
         );
       $chart_5_params_time_traveling[] = array(
          'myData'=> $truck->name,
-          'color' => '#6578EF',
-          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
-          'y' => (float) round($truck->traveling_time/$truck->route_count, 1) 
+          'x' => (float)round(($time_hours_traveling + $time_hours_short_stops)/$truck->route_count, 1), 
+          'y' => (float) round($time_hours_traveling/$truck->route_count, 1) 
         );
       $chart_5_params_no_short_stops[] = array(
           'myData'=> $truck->name,
           'color' => '#E51A81',
-          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'x' => (float)round(($time_hours_traveling + $time_hours_short_stops)/$truck->route_count, 1), 
           'y' => (float) round($truck->average_stop_count_per_trip, 1) 
         );
       $chart_5_params_total_distance_traveled[] = array(
           'myData'=> $truck->name,
-          'color' => '#F64A33',
-          'x' => (float)round(($truck->traveling_time + $truck->short_stops_time)/$truck->route_count, 1), 
+          'x' => (float)round(($time_hours_traveling + $time_hours_short_stops)/$truck->route_count, 1), 
           'y' => (float) round($truck->total_distance/$truck->route_count, 1) 
         );
     }
@@ -232,6 +234,16 @@ class TruckController extends Controller
           $truck = Truck::model()->findByPk($truck_id);
           if($truck != null)
           {
+
+            //change seconds to hours to display in highcharts
+            $secondsInAMinute = 60;
+            $secondsInAnHour = 60 * $secondsInAMinute;
+            $secondsInADay = 24 * $secondsInAnHour;
+
+            $time_hours_short_stops = round($truck->short_stops_time / $secondsInAnHour, 1);
+            $time_hours_long_stops = round($truck->resting_time / $secondsInAnHour, 1);
+            $time_hours_traveling = round($truck->traveling_time / $secondsInAnHour, 1);
+
             $data = 
               array(
                 'short_stops_ranges_data'=>array(
@@ -244,21 +256,21 @@ class TruckController extends Controller
                 ),
                 'time_data'=>array(
                   array(
-                    'name'=> 'Short Stop',
+                    'name'=> 'Stop',
                     'color' => '#4acfaf',
-                    'y' => $truck->short_stops_time,
+                    'y' => $time_hours_short_stops,
                     'drilldown' => 'false',
                   ),
                   array(
-                    'name'=> 'Long Stop',
+                    'name'=> 'Idle',
                     'color' => '#00a995',
-                    'y' => $truck->resting_time,
+                    'y' => $time_hours_long_stops,
                     'drilldown' => 'false',
                   ),
                   array(
                     'name'=> 'Traveling',
                     'color' => '#006161',
-                    'y' => $truck->traveling_time,
+                    'y' => $time_hours_traveling,
                     'drilldown' => 'false',
                   ),
                 )
