@@ -167,7 +167,6 @@ class TruckController extends Controller
         );
       $chart_5_params_no_short_stops[] = array(
           'myData'=> $truck->name,
-          'color' => '#E51A81',
           'x' => (float)round(($time_hours_traveling + $time_hours_short_stops)/$truck->route_count, 1), 
           'y' => (float) round($truck->average_stop_count_per_trip, 1) 
         );

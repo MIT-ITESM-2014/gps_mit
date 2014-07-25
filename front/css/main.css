@@ -1427,3 +1427,11 @@ body
 	font-size: 24px;
 	text-align: center;
 }
+
+#stats-right-title
+{
+	font-size: 22px;
+	font-weight: 400;
+	padding-top: 5px;
+	padding-left: 30px;
+}

@@ -21,14 +21,10 @@
       <div class="stats-data-label">Average stop duration</div>
       <div class="stats-data-data"></div>
     </div>
-   <!-- <div id="stats-data-total-fuel-consumption">
-      <div class="stats-data-label">Total fuel consumption</div>
-      <div class="stats-data-data"></div>
-    </div> -->
   </div>
 
   <div id="stats-data-right">
-    <div id="stats-right-title">dasdasd</div>
+    <div id="stats-right-title">Fleet Analysis</div>
   </div>
 
 </div>
