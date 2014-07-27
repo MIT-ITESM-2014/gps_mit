@@ -115,8 +115,8 @@ class Identity extends CActiveRecord
   	
 	public function pendingUploads()
   {
-    $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
-    $uploaded_files = $company_model->uploaded_files(array('condition'=>'step < 2 '));
+    $company_model = Company::model()->findByPk(Yii::app()->user->getStatependi('current_company'));
+    $uploaded_files = $company_model->uploaded_files(array());
     return $uploaded_files;
     
     /*
@@ -132,7 +132,7 @@ class Identity extends CActiveRecord
   public function pendingUpload()
   {
     $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
-    $uploaded_files = $company_model->uploaded_files(array('condition'=>'step < 2 '));
+    $uploaded_files = $company_model->uploaded_files(array('condition'=>'step > 0 '));
     if(count($uploaded_files)>0)
       return $uploaded_files[0];
     else

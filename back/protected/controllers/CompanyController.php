@@ -46,7 +46,7 @@ class CompanyController extends Controller
 		);
 	}
 
-	/**
+	/**a
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
@@ -157,7 +157,20 @@ class CompanyController extends Controller
 	    $criteria_truck = new CDbCriteria();
       $criteria_truck->condition = 'company_id = '. Yii::app()->user->getState('current_company');
 	    Truck::model()->deleteAll($criteria_truck);
+	    
+	    $uploaded_files = UploadedFile::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+	    foreach($uploaded_files as $uploaded_file)
+	    {
+	      unlink("../files/".$uploaded_file->filename);
+	      $uploaded_file->delete();
+	    }
+	    
+	    $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+	    $company->has_file_in_process = 0;
+	    $company->save();
+	    
 	    $this->render('successful_reset');
+	    
 	  }
 	  else
 	  {

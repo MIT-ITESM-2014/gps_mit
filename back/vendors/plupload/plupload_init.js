@@ -2,6 +2,9 @@
 var maxfiles = 1;
 
 
+
+
+
 function removeFile(up, file_id)
 {
   $('#'+file_id).remove();
@@ -33,6 +36,7 @@ var uploader = new plupload.Uploader({
       // Called after initialization is finished and internal event handlers bound
       $('#start-upload').hide("fast");
       $('.moxie-shim-html5').hide(); 
+      $('#progress-bar-number').hide("fast");
       
     },
     FilesAdded: function(up, files) {
@@ -52,6 +56,7 @@ var uploader = new plupload.Uploader({
       {
         $('#start-upload').fadeIn("slow");
         $('#browse').hide("fast");
+        $('#progress-bar-number').fadeIn("slow");
       }
       else if(up.files.length > maxfiles) //Must delete the last file
       {
@@ -62,6 +67,7 @@ var uploader = new plupload.Uploader({
     },
     FilesRemoved: function(up, files) {
       if (up.files.length < maxfiles) {
+         $('#progress-bar-number').hide("fast");
          $('#browse').fadeIn("slow");
        }
     },
@@ -80,6 +86,8 @@ var uploader = new plupload.Uploader({
             removeFile(up,files[index].id);
           }
           eval(req.responseText);
+          hide_screen_loading();
+          $('#progress-bar-number').innerHTML = "<span>0%</span>";
           //document.getElementById("ajax_content").innerHTML=req.responseText;
         }
       }
@@ -105,14 +113,17 @@ uploader.bind('FilesAdded', function(up, files) {
 });
  
 uploader.bind('UploadProgress', function(up, file) {
-  document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+  document.getElementById('progress-bar-number').innerHTML = '<span>' + file.percent + "%</span>";
+  //document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
 });
  
 uploader.bind('Error', function(up, err) {
-  document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+  alert(err.message);
+  //document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
 });
  
 document.getElementById('start-upload').onclick = function() {
+  show_screen_loading(); 
   uploader.start();
 };
 }

@@ -1,5 +1,5 @@
 <div class="headers">
-	<h1>Error</h1>
+	<h1> Upload CSV File for <?php echo Yii::app()->user->getState('current_company_name');?> </h1>
 </div>
 
 <div class="clear"></div>

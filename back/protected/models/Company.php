@@ -46,7 +46,7 @@ class Company extends CActiveRecord
 			array('name, route_count, created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, has_expected_routes, route_count, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, fuel_consumption, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, has_expected_routes, has_file_in_process, route_count, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, fuel_consumption, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -116,6 +116,7 @@ class Company extends CActiveRecord
 		$criteria->compare('average_short_stop_duration',$this->average_short_stop_duration);
 		$criteria->compare('fuel_consumption',$this->fuel_consumption);
 		$criteria->compare('created_at',$this->created_at,true);
+		$criteria->compare('has_file_in_process',$this->has_file_in_process,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 
 		return new CActiveDataProvider($this, array(

@@ -15,7 +15,11 @@
 </script>
 
 <div class="headers">
-	<h1> Upload CSV File for ... </h1>
+	<h1> Upload CSV File for <?php echo Yii::app()->user->getState('current_company_name');?> </h1>
+</div>
+<div id="all_content_container">
+<div id="screen_loading">
+  <img id="spinner_image" src="<?php echo Yii::app()->request->baseUrl.'/public/images/spinner.gif';?>"/>
 </div>
 
   <div id="file_upload_container" style="display:none">
@@ -50,6 +54,7 @@
     </div>
     <div id="container">
       <a id="browse" href="javascript:;"> <div class="browse-files-button"> </div></a>
+      <div id="progress-bar-number"> 0% </div>
       <br/>
       <a id="start-upload" href="javascript:;"><div class="start-upload-button"></div></a>
     </div>
@@ -110,33 +115,41 @@
         <div class="buttons">
          <div id="upload-continue-button" class="upload-continue-button"></div>       
          <?php echo CHtml::ajaxSubmitButton('Continue',CHtml::normalizeUrl(array('sample/submitParameters','render'=>true)),
-           array(
-             'dataType'=>'json',
-             'type'=>'post',
-             'success'=>'function(data) {
-                
-                 //$("#AjaxLoader").hide();  
-                if(data.status=="success"){
-                  actualizarPaso(0);
-                  //$("#formResult").html("form submitted successfully.");
-                  //$("#user-form")[0].reset();
-                }
-                else{
-                  $.each(data, function(key, val) {
-                    $("#parameters-form #"+key+"_em_").text(val);                                                    
-                    $("#parameters-form #"+key+"_em_").show();
-                  });
-                }       
-            }',                    
-           'beforeSend'=>'function(){                        
-                 //$("#AjaxLoader").show();
-            }'
-           ),array('id'=>'submitButton','class'=>'submit_button')); ?>
+             array(
+               'dataType'=>'json',
+               'type'=>'post',
+               'success'=>'function(data) {
+                  hide_screen_loading();
+                  if(data.status=="success"){
+                    display_file_in_process();
+                    
+                  }
+                  else{
+                    $.each(data, function(key, val) {
+                      $("#parameters-form #"+key+"_em_").text(val);                                                    
+                      $("#parameters-form #"+key+"_em_").show();
+                    });
+                  }       
+                }',                    
+               'error'=>'function(){
+                 hide_screen_loading();
+                 alert("We are sorry. There was a problem sending your data.");
+               }',
+               'beforeSend'=>'function(){                        
+                   show_screen_loading();
+                }'
+             ),
+             array('id'=>'submitButton','class'=>'submit_button')
+           );
+         ?>
         </div>  
 <?php $this->endWidget();?>
   </div>
 </div>  
-
+<div id="file_in_process_container" class="reset-form-container">
+	The file is being processed at the moment. You must wait until all the statistics are generated before viewing the fleet information or uploading another file.
+</div>
+</div>
 <div id="ajax_content" name="ajax_content" >
 
   <?php

@@ -31,20 +31,20 @@ class SampleController extends Controller
 	{
 		return array(
 			//array('allow',  // allow all users to perform 'index' and 'view' actions
-			//	'actions'=>array('index','view'),
+			//	'actions'=>array('clear'),
 			//	'users'=>array('*'),
 			//),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array( 'uploadOne', 'createPartial', 'submitParameters', 'sendParameters', 'admin','delete'),
-				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
+				'actions'=>array( 'uploadOne', 'createPartial', 'submitParameters', 'sendParameters', 'admin','delete', 'create', 'processData'),
+				'expression'=> "(Yii::app()->user->getState('isAdmin') != 1)"
 			),
 			//array('allow', // allow admin user to perform 'admin' and 'delete' actions
 			//	'actions'=>array('create','update','admin','delete'),
 			//	'users'=>array('admin'),
 			//),
-			//array('deny',  // deny all users
-			//	'users'=>array('*'),
-			//),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 		);
 	}
 
@@ -97,34 +97,33 @@ class SampleController extends Controller
 	  //Add script for uploading files
 	  $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
-	  if($company_model->has_file_in_process != 1)
-	  {
-	    $baseUrl = Yii::app()->baseUrl;
-	    $cs = Yii::app()->getClientScript();
-	    $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload.full.min.js', CClientScript::POS_HEAD);
-      $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
-		
-		  $pending_files = Identity::model()->find('id='.Yii::app()->user->getId())->pendingUploads();
-		
-		  //If it is at the second step
-		  if(count($pending_files) > 0)
-		    $step = $pending_files[0]->step;
-		  else
-		    $step = 0;
-		
-		  $parameter_model = $this->createNewParametersForm();
-		  $script = isset($_GET['script']);
-		
-		  $this->render('create',array(
-	      'step'=>$step,
-	      'parameter_model'=>$parameter_model,
-	      'script'=>$script
-		  ));
+	  
+		$step = 0;
+
+		if($company_model->has_file_in_process == 1)
+		{
+		  $pending_files = $company_model->uploaded_files;
+	    if(count($pending_files) > 0)
+	      $step = $pending_files[0]->step;
 		}
+		
+		if($step == 2)
+		  $this->render('file_in_process',array());
 		else
 		{
-		  $this->render('file_in_process',array());
-		}
+		  $baseUrl = Yii::app()->baseUrl;
+      $cs = Yii::app()->getClientScript();
+      $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload.full.min.js', CClientScript::POS_HEAD);
+      $cs->registerScriptFile($baseUrl.'/vendors/plupload/plupload_init.js', CClientScript::POS_END);
+	    $parameter_model = $this->createNewParametersForm();
+      $script = isset($_GET['script']);
+      	    
+		  $this->render('create',array(
+        'step'=>$step,
+        'parameter_model'=>$parameter_model,
+        'script'=>$script
+	    ));
+	  }
 	}
 	
 	function calculateAllMetrics()
@@ -139,7 +138,7 @@ class SampleController extends Controller
   function actionGenerateCompanyMetrics()
   {
     $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
-    
+      
     //RouteCount
     $route_count = 0;
     $distance_traveled = 0.0;
@@ -156,13 +155,13 @@ class SampleController extends Controller
       $short_stop_count = $short_stop_count + $truck->stops_between_30_60;
       $short_stop_count = $short_stop_count + $truck->stops_between_60_120;
       $short_stop_count = $short_stop_count + $truck->stops_between_120_plus;
-      
     }
     $company->route_count = $route_count;
     $company->distance_traveled = $distance_traveled;
     if($short_stop_count > 0)
       $company->average_short_stop_duration = $total_short_stop_time/$short_stop_count;
     $company->save();
+    $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
   }
   
   function actionGenerateTruckMetrics()
@@ -437,7 +436,8 @@ class SampleController extends Controller
         }
         
         //Set all the truck_ids of the sample, even if they were already set.
-        $trucks = Truck::model()->findAll();
+        
+        $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
         foreach($trucks as $truck)
         {
           $criteria = new CDbCriteria();
@@ -452,6 +452,7 @@ class SampleController extends Controller
         
         $uploaded_file_model->step = 1;
         $uploaded_file_model->save();
+		    
 		  }
 		}
 	  else
@@ -1192,7 +1193,7 @@ class SampleController extends Controller
   {
     $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
-	  if($company_model->has_file_in_process == 1)
+	  if($company_model != null)
 	  {
       $parameter_model = $this->createNewParametersForm();
 		  //TODO ¿Whats going on with the step
@@ -1208,10 +1209,6 @@ class SampleController extends Controller
       else 
         $this->renderPartial('_ajaxContent', $data, true, true);
     }
-	  else
-	  {
-	    $this->render('file_in_process',array());
-	  }
   }
   
   public function actionProcessData()
@@ -1235,9 +1232,9 @@ class SampleController extends Controller
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
       unlink("../files/".$uploaded_file_model->filename);
       $uploaded_file_model->delete();
+      $company_model = Company::model()->findByPk($company_id);
       $company_model->has_file_in_process = 0;
       $company_model->save();
-      error_log("File has been processed successfully");
     }
   }
     
@@ -1247,7 +1244,7 @@ class SampleController extends Controller
     //if (ERunActions::runBackground())//do all the stuff that should work in background
     //{
              
-          
+      
       $company_id = Yii::app()->user->getState('current_company');
 	    $company_model = Company::model()->findByPk($company_id);
 	    if($company_model->has_file_in_process == 1)//Si está en procesamiento
@@ -1259,11 +1256,12 @@ class SampleController extends Controller
 			    if($parameter_model->validate())
 			    {
 			      $parameter_model->updateCompanyParameters();
-			      
+			      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+            $uploaded_file_model->step = 2;
+            $uploaded_file_model->save();
             $action_url = Yii::app()->createAbsoluteUrl('sample/processData');
             ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
-            
-			      echo CJSON::encode(array(
+            echo CJSON::encode(array(
               'status'=>'success'
             ));
 			    }
