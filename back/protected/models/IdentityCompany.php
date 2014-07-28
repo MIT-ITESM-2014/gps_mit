@@ -59,7 +59,7 @@ class IdentityCompany extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'identity_id' => 'Identity',
+			'identity_id' => 'User',
 			'company_id' => 'Company',
 		);
 	}

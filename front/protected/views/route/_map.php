@@ -57,6 +57,7 @@
     </div>
   </div>
   <div id="truck-selection-help">
+    <img id="truck-selection-help-image" src="<?php echo Yii::app()->request->baseUrl.'/public/images/truck_help.png';?>"/>
   </div>
 
 <?php

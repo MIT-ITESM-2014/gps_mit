@@ -19,6 +19,7 @@ class Sample extends CActiveRecord
 {
   public $truck_name_search;
   public $short_datetime_search;
+  public $trucks_array_for_search = null;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -91,7 +92,8 @@ class Sample extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('truck_id',$this->truck_id,true);
+		//$criteria->compare('truck_id',$this->truck_id,true);
+		$criteria->addInCondition('truck_id',$this->getTrucksArray());
 		$criteria->compare('latitude',$this->latitude);
 		$criteria->compare('longitude',$this->longitude);
 		$criteria->compare('datetime::text',$this->datetime,true);
@@ -118,6 +120,21 @@ class Sample extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function getTrucksArray()
+	{
+	  if ($this->trucks_array_for_search == null)
+	  {
+	    $this->trucks_array_for_search = array();
+	    $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+	    foreach($company_model->trucks as $truck)
+	    {
+	      $this->trucks_array_for_search[] = $truck->id;
+	    }
+	    
+	  }
+	  return $this->trucks_array_for_search;
 	}
 	
 	protected function beforeSave()

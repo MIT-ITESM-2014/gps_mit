@@ -133,7 +133,7 @@ class TruckController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Truck']))
 			$model->attributes=$_GET['Truck'];
-
+    
 		$this->render('admin',array(
 			'model'=>$model,
 		));

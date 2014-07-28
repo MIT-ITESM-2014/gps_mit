@@ -92,6 +92,7 @@ class Truck extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->addCondition('company_id = '.Yii::app()->user->getState('current_company'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

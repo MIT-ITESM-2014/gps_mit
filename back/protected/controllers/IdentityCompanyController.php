@@ -53,45 +53,40 @@ class IdentityCompanyController extends Controller
 	public function actionCreate()
 	{
 		$model=new IdentityCompany;
-    error_log('Estoy entrando');
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
     if(isset($_GET['company_id']))
     {
       $model->company_id = $_GET['company_id'];
-		  if(isset($_POST['IdentityCompany']))
-		  {
-			  $model->attributes=$_POST['IdentityCompany'];
-			  $model->company_id = $_GET['company_id'];
-			  if($model->save())
-				  $this->redirect(array('admin','company_id' => $_GET['company_id']));
-		  }
-		  else
-		  {
-		    error_log('voy a buscar los identities');
-		    $criteria = new CDbCriteria;
-		    $criteria->select = array('identity_id');
-		    $criteria->addCondition('t.company_id = '.$model->company_id);
-		    $current_identities = IdentityCompany::model()->findAll($criteria);
-		    $current_identities_array = array();
-		    
-		    foreach($current_identities as $identity)
-		    {
-		      $current_identities_array[] = $identity->identity_id;
-		    }
-		    $criteria=new CDbCriteria;
-		    
-		    $criteria->addNotInCondition('id', $current_identities_array);
-        $criteria->addCondition('is_admin != 1');
-        $dropdown_data = CHtml::listData(Identity::model()->findAll($criteria),'id','fullname');
-        
-        $this->render('create',array(
-			    'model'=>$model,
-			    'dropdown_data'=>$dropdown_data,
-		    ));
-		  }
-		}
+	    if(isset($_POST['IdentityCompany']))
+	    {
+		    $model->attributes=$_POST['IdentityCompany'];
+		    $model->company_id = $_GET['company_id'];
+		    if($model->save())
+			    $this->redirect(array('admin','company_id' => $_GET['company_id']));
+	    }
+	    $criteria = new CDbCriteria;
+	    $criteria->select = array('identity_id');
+	    $criteria->addCondition('t.company_id = '.$model->company_id);
+	    $current_identities = IdentityCompany::model()->findAll($criteria);
+	    $current_identities_array = array();
+	    
+	    foreach($current_identities as $identity)
+	    {
+	      $current_identities_array[] = $identity->identity_id;
+	    }
+	    $criteria=new CDbCriteria;
+	    
+	    $criteria->addNotInCondition('id', $current_identities_array);
+      $criteria->addCondition('is_admin != 1');
+      $dropdown_data = CHtml::listData(Identity::model()->findAll($criteria),'id','fullname');
+      
+      $this->render('create',array(
+		    'model'=>$model,
+		    'dropdown_data'=>$dropdown_data,
+	    ));
+	  }
 	}
 
 	
