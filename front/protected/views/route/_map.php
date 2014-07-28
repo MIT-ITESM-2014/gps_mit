@@ -56,6 +56,8 @@
       <p id ="update-map-text"> Go </p>
     </div>
   </div>
+  <div id="truck-selection-help">
+  </div>
 
 <?php
 

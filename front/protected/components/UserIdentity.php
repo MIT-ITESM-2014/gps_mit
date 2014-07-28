@@ -36,6 +36,7 @@ class UserIdentity extends CUserIdentity
 		  Yii::app()->user->setUsername($this->username);
 		  Yii::app()->user->setState('user', $identity_model->id);
 		  Yii::app()->user->setState('first_name', $identity_model->name);
+		  //Yii::app()->user->setState('has_connected', $identity_model->has_connected);
 		  if($identity_model->is_admin == 1)
 		    Yii::app()->user->setState('isAdmin', true);
 		  else

@@ -10,3 +10,5 @@ $this->renderPartial('_map', array(
   'inactive_days_string'=>$inactive_days_string,
  )); 
 ?>
+
+

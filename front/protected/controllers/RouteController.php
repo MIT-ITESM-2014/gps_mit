@@ -536,27 +536,8 @@ class RouteController extends Controller
         script.src = \"index.php?r=route/getRoute&route_id=\"+document.getElementById(\"select-route\").value;
         temporal_script = document.body.appendChild(script);
         update_stats();
+        $('#truck-selection-help').hide('fast');
       }
-      
-      //Add polyline
-      //function button_two_action()
-      //{
-      //  route.setMap(map);
-      //}
-      
-      //Change polyline
-      //function button_three_action()
-      //{
-      //  route.setPath(routeCoordinates);
-      //}
-      
-      //Change polyline
-      //function button_four_action()
-      //{
-      //  route.setPath(routeCoordinates2);
-      //}
-      
-      //Get new route generated at th emoment
       
       
       window.onload = loadScript;";

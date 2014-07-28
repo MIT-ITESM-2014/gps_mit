@@ -1435,3 +1435,16 @@ body
 	padding-top: 5px;
 	padding-left: 30px;
 }
+
+
+#truck-selection-help
+{
+  background-color: #000000;
+  width: 555px;
+  height: 80px;
+  position:absolute;
+  z-index: 2;
+  margin-left: 45px;
+  margin-top:0px;
+   
+}
