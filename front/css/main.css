@@ -1439,12 +1439,16 @@ body
 
 #truck-selection-help
 {
-  background-color: #000000;
-  width: 555px;
+  width: 715px;
   height: 100px;
   position:absolute;
   z-index: 2;
   margin-left: 45px;
   margin-top:0px;
    
+}
+
+#ui-datepicker-div
+{
+  z-index:3 !important;
 }
