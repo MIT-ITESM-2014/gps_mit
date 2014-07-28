@@ -18,10 +18,10 @@ class ParameterForm extends CFormModel
 			// name, email, subject and body are required
 			array('time_radius_long_stop, distance_radius_long_stop, time_radius_short_stop, distance_radius_short_stop', 'required'),
 			array('time_radius_long_stop, distance_radius_long_stop, time_radius_short_stop, distance_radius_short_stop', 'numerical', 'integerOnly'=>FALSE, 'message'=>'It must be a number'),
-		  array('distance_radius_long_stop','compare','compareAttribute'=>'distance_radius_short_stop','operator'=>'>','message'=>'Long stop distance radius must be greater than short stop distance radius.'),
-			array('time_radius_long_stop','compare','compareAttribute'=>'time_radius_short_stop','operator'=>'>','message'=>'Long stop time radius must be greater than short stop time radius.'),
-			array('distance_radius_short_stop','compare','compareAttribute'=>'distance_radius_long_stop','operator'=>'<','message'=>'Short stop distance radius must be less than long stop distance radius.'),
-			array('time_radius_short_stop','compare','compareAttribute'=>'time_radius_long_stop','operator'=>'<','message'=>'Short stop time radius must be less than long stop time radius.'),
+		  array('distance_radius_long_stop','compare','compareAttribute'=>'distance_radius_short_stop','operator'=>'>','message'=>'Idle maximum distance radius must be greater than stop maximum distance radius.'),
+			array('time_radius_long_stop','compare','compareAttribute'=>'time_radius_short_stop','operator'=>'>','message'=>'Idle minimum time must be greater than stop minimum time.'),
+			array('distance_radius_short_stop','compare','compareAttribute'=>'distance_radius_long_stop','operator'=>'<','message'=>'Stop maximum distance radius must be less than idle maximum distance radius.'),
+			array('time_radius_short_stop','compare','compareAttribute'=>'time_radius_long_stop','operator'=>'<','message'=>'Stop minimum time must be less than idle minimum time.'),
 			
 		);
 	}
