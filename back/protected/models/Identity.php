@@ -54,6 +54,7 @@ class Identity extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'tokens' => array(self::HAS_MANY, 'Token', 'identity_id'),
+			'identityCompanies' => array(self::HAS_MANY, 'IdentityCompany', 'identity_id'),
 			//'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'identity_id'),
 		);
 	}

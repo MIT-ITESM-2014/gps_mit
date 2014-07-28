@@ -49,7 +49,7 @@ class UserIdentity extends CUserIdentity
 	      else
 	      {
 	        Yii::app()->user->setState('companies_count', count($companies_model));
-	        Yii::app()->user->setState('current_company', $companies_model[0]->id);
+	        Yii::app()->user->setState('current_company', $companies_model[0]->company_id);
 	        Yii::app()->user->setState('current_company_name', $companies_model[0]->company->name);
 	        
 	      }

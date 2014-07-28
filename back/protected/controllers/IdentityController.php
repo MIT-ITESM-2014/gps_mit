@@ -27,10 +27,13 @@ class IdentityController extends Controller
 	public function accessRules()
 	{
 		return array(
-			//array('allow',  // allow all users to perform 'index' and 'view' actions
-			//	'actions'=>array(),
-			//	'users'=>array('*'),
-			//),
+		  array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'users'=>array('*'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view'),
 				'users'=>array('@'),
@@ -39,9 +42,6 @@ class IdentityController extends Controller
 				'actions'=>array('admin','delete','create','update'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
 			),
-			//array('deny',  // deny all users
-			//	'users'=>array('*'),
-			//),
 		);
 	}
 
@@ -110,7 +110,11 @@ class IdentityController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		
+		$identity_model = $this->loadModel($id);
+		foreach($identity_model->identityCompanies as $identity_company)
+		  $identity_company->delete();
+		$identity_model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))

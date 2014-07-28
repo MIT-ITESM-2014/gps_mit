@@ -27,22 +27,22 @@ class CompanyController extends Controller
 	public function accessRules()
 	{
 		return array(
-			//array('allow',  // allow all users to perform 'index' and 'view' actions
-			//	'actions'=>array(),
-			//	'users'=>array('*'),
-			//),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update', 'change', 'reset'),
-				'users'=>array('@'),
-			),
-			/*( $_GET['id'] !== Yii::app()->user->id ) || ( Yii::app()->user->isAdmin !==  'Back' */
+			
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
 			),
-			//array('deny',  // deny all users
-			//	'users'=>array('*'),
-			//),
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array(),
+				'users'=>array('@'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 		);
 	}
 

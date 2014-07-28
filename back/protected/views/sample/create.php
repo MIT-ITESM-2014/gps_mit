@@ -36,14 +36,11 @@
       <p> Please provide a .csv file containing the GPS information of the trucks.</p>
       <br />
       <div class="explanation-par-one">
-        <p>Format Requirements</p>
-        <p>The file must have four columns: the first one must have the truck name, the second column must have
-        the latitude, the third column must have the longitude, and the fourth column must contain the timestamp. </p>
+        <p>The file must have four columns: truck name, latitude, longitude, and timestamp. </p>
       </div>
       <br />
       <div class="explanation-par-two">
-        <p>The first row of the file must have the headers of the columns. You can use any name for each column,
-        but remember to follow the right order (truck name, latitude, longitude, timestamp)</p>
+        <p>The first row of the file must have the headers of the columns(truck name, latitude, longitude, timestamp).</p>
       </div>
       <br />
       <p>You can download a sample file with the required format.</p>
@@ -89,24 +86,24 @@
         <div id="AjaxLoader" style="display: none"><img src="<?php echo Yii::app()->request->baseUrl; ?>/public/images/spinner.gif"></img></div>
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_long_stop'); ?> </div>
-                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> km</div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_radius_long_stop'); ?> </div>
         </div>
 
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_long_stop'); ?> </div>
-                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> s</div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_long_stop'); ?> </div>
         </div>
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_short_stop'); ?> </div>
-                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> km</div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_radius_short_stop'); ?> </div>
         </div>
 
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_short_stop'); ?> </div>
-                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> </div>
+                <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> s</div>
                 <div id="information-icon" class="information-icon"> </div>
                 <div id="parameter-information-box" class="parameter-information-box"> </div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_short_stop'); ?> </div>

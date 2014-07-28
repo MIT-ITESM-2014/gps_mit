@@ -16,8 +16,8 @@
    <property key="PWD" value="dh28HszAn89sRg9iwsxy" />
   </data-source>
   <data-source id="DS0">
-   <property key="Connection Type" value="PostgreSQL" />
    <property key="Logical" value="gpstracks_new" />
+   <property key="Connection Type" value="PostgreSQL" />
    <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
@@ -211,13 +211,13 @@
     <column id="COL58" populated="true" UUID="ee7b6135-0471-4318-92a7-064676d6c489" autoIncrement="false" autoIncrementSequenceName="identity_is_admin_seq" defaultValue="" name="is_admin" nullable="1" physicalName="is_admin" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL59" populated="true" UUID="398b3e7d-6460-49d4-9256-5bab145caf6b" autoIncrement="false" autoIncrementSequenceName="identity_created_at_seq" defaultValue="" name="created_at" nullable="1" physicalName="created_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL59" populated="true" UUID="49c70ca9-92f1-4ad1-a500-9f885ea28b3e" autoIncrement="false" autoIncrementSequenceName="identity_has_connected_seq" defaultValue="" name="has_connected" nullable="1" physicalName="has_connected" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL60" populated="true" UUID="6f35741e-2f27-4fcd-91e7-6562f86dc010" autoIncrement="false" autoIncrementSequenceName="identity_updated_at_seq" defaultValue="" name="updated_at" nullable="0" physicalName="updated_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL60" populated="true" UUID="398b3e7d-6460-49d4-9256-5bab145caf6b" autoIncrement="false" autoIncrementSequenceName="identity_created_at_seq" defaultValue="" name="created_at" nullable="1" physicalName="created_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
-    <column id="COL61" populated="true" UUID="49c70ca9-92f1-4ad1-a500-9f885ea28b3e" autoIncrement="false" autoIncrementSequenceName="identity_has_connected_seq" defaultValue="" name="has_connected" nullable="1" physicalName="has_connected" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL61" populated="true" UUID="6f35741e-2f27-4fcd-91e7-6562f86dc010" autoIncrement="false" autoIncrementSequenceName="identity_updated_at_seq" defaultValue="" name="updated_at" nullable="0" physicalName="updated_at" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
     </folder>
@@ -590,7 +590,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537148" viewportX="0" viewportY="33" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537148" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB7" x="584" y="24" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB34" x="590" y="678" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB52" x="346" y="600" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
