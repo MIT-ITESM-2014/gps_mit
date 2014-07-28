@@ -87,17 +87,20 @@
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_long_stop'); ?> </div>
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> km</div>
+                <div class="clear"></div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_radius_long_stop'); ?> </div>
         </div>
 
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'time_radius_long_stop'); ?> </div>
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> s</div>
+                <div class="clear"></div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_long_stop'); ?> </div>
         </div>
         <div class="row-parameter-single">
                 <div class="parameter-label"> <?php echo $parameters_form->labelEx($parameter_model,'distance_radius_short_stop'); ?> </div>
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'distance_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> km</div>
+                <div class="clear"></div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'distance_radius_short_stop'); ?> </div>
         </div>
 
@@ -106,9 +109,10 @@
                 <div class="parameter-input"> <?php echo $parameters_form->textField($parameter_model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> s</div>
                 <div id="information-icon" class="information-icon"> </div>
                 <div id="parameter-information-box" class="parameter-information-box"> </div>
+                <div class="clear"></div>
                 <div class="parameter-error"> <?php echo $parameters_form->error($parameter_model,'time_radius_short_stop'); ?> </div>
         </div>
-      
+        <div class="clear"></div>      
         <div class="buttons">
          <div id="upload-continue-button" class="upload-continue-button"></div>       
          <?php echo CHtml::ajaxSubmitButton('Continue',CHtml::normalizeUrl(array('sample/submitParameters','render'=>true)),

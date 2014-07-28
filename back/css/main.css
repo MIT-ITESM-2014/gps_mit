@@ -804,7 +804,7 @@ div.view
 
 .parameters-form
 {
-	margin-top: 30px;
+	margin-top: 20px;
 	margin-left: 20px;
 }
 
@@ -987,7 +987,7 @@ div.view
 	height: 30px;
 	background-position: 0px 0px;
 	background-image: url("../public/images/CRUD_Buttons/ContinueButton.png");
-	margin-top: 100px;
+	margin-top: 10px;
 }
 
 .upload-continue-button:hover

@@ -35,6 +35,7 @@
     <div class="clear"></div>
     <div class="parameter-error"> <?php echo $form->error($model,'time_radius_short_stop'); ?> </div>
   </div>
+  <div class="clear"></div>
   <div class="buttons">
     <div id="upload-continue-button" class="upload-continue-button"></div>       
      <?php echo CHtml::ajaxSubmitButton('Continue',CHtml::normalizeUrl(array('parameterForm/update','render'=>true)),
