@@ -804,7 +804,7 @@ div.view
 
 .parameters-form
 {
-	margin-top: 30px;
+	margin-top: 20px;
 	margin-left: 20px;
 }
 
@@ -826,8 +826,8 @@ div.view
 {
 	width: 100%;
 	float: left;
-	height: 30px;
-	margin-top: 25px;
+	height: 70px;
+	margin-top: 15px;
 }
 
 .parameter-label
@@ -835,6 +835,7 @@ div.view
 	width: 220px;
 	height: 30px;
 	float: left;
+	margin-top: 5px;
 	vertical-align: top;
 }
 
@@ -856,13 +857,15 @@ div.view
 .parameter-input
 {
 	float: left;
-	width: 216px;
+	width: 245px;
 	height: 30px;
 }
 
-.parameter-input.parameter-error
+.parameter-input.error
 {
 	float: left;
+	width: 245px;
+	height: 30px;
 }
 
 .parameter-error
@@ -959,7 +962,6 @@ div.view
 	background-image: url("../public/images/AboutButton.png");
 	float: left;
 	margin-top: 10px;
-	margin-left: 10px;
 }
 
 .information-icon:hover
@@ -975,7 +977,7 @@ div.view
 	background-image: url("../public/images/ParametersTable.png");
 	float: left;
 	margin-top: -145px;
-	margin-left: 475px;
+	margin-left: 490px;
 	z-index: 10000;
 }
 
@@ -985,7 +987,7 @@ div.view
 	height: 30px;
 	background-position: 0px 0px;
 	background-image: url("../public/images/CRUD_Buttons/ContinueButton.png");
-	margin-top: 100px;
+	margin-top: 10px;
 }
 
 .upload-continue-button:hover

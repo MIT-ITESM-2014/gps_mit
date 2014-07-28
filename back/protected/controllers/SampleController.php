@@ -94,8 +94,10 @@ class SampleController extends Controller
 	 */
 	public function actionCreate()
 	{
+    error_log("llegue");
 	  if((!Yii::app()->user->isGuest) && (Yii::app()->user->hasState('current_company')))
 	  {
+      error_log("tengo sesion");
 	    $company_id = Yii::app()->user->getState('current_company');
 	    $company_model = Company::model()->findByPk($company_id);
 	    
@@ -103,6 +105,7 @@ class SampleController extends Controller
 
 		  if($company_model->has_file_in_process == 1)
 		  {
+        error_log("hay en proceso");
 		    $pending_files = $company_model->uploaded_files;
 	      if(count($pending_files) > 0)
 	        $step = $pending_files[0]->step;
