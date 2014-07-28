@@ -395,6 +395,7 @@ class SampleController extends Controller
         $company_model->has_file_in_process = 1;
         $company_model->save();
         
+        /*
         //Parse CSV file
         $handler = fopen("../files/".$fileName,'r');
         
@@ -456,10 +457,9 @@ class SampleController extends Controller
             $truck_sample->save();
           }
         }
-        
+        */
         $uploaded_file_model->step = 1;
         $uploaded_file_model->save();
-		    
 		  }
 		}
 	  else
@@ -1249,6 +1249,68 @@ class SampleController extends Controller
       Yii::app()->user->setState('current_company',$cid);
       $uid = (int)$_POST['uid'];
       Yii::app()->user->setState('user', $uid);
+      //Parse CSV file
+      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+      $filename = $uploaded_file_model->filename;
+      $handler = fopen("../files/".$filename,'r');
+      $trucks_array = array();
+      $samples = array();
+      $new_sample;
+      
+      fgetcsv($handler, 0, ',');//Ignore headers
+      //Read each row and create the corresponding sample
+      //Requires columns in the next order truck_name, latitude, longitude, and datetime
+      error_log('voy a parsear');
+      while($pointer = fgetcsv($handler, 0, ','))
+      {
+        if(array_key_exists(3, $pointer))//Validates the row has enough columns
+        {
+          
+          $new_sample = new Sample;
+          $new_sample->truck_name = $pointer[0];
+          $trucks_array[$pointer[0]] = 1;
+          $new_sample->latitude = $pointer[1];
+          $new_sample->longitude = $pointer[2];
+          $new_sample->datetime = $pointer[3];
+          $new_sample->status_id = -3;
+          //TODO:Define behaviour when unable to save
+          $new_sample->save();
+        }
+      }
+	    fclose($handler);
+	    error_log('termine parseo');
+	    //Create each of the trucks mentioned in the samples if any doesn't exist.
+	    foreach($trucks_array as $truck_name => $value)
+      {
+        $condition_string = "name = '" . $truck_name . "' ";
+        $registered_truck = Truck::model()->find($condition_string);
+        if(!count($registered_truck))
+        {
+          $new_truck = new Truck;
+          $new_truck->company_id = Company::model()->findByPk(Yii::app()->user->getState('current_company'))->id;
+          $new_truck->name = $truck_name;
+          $new_truck->save();
+        }
+      }
+      error_log('termine de crear trucks');
+      //Set all the truck_ids of the sample, even if they were already set.
+      
+      $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+      foreach($trucks as $truck)
+      {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
+        $truck_samples = Sample::model()->findAll($criteria);
+        foreach($truck_samples as $truck_sample)
+        {
+          $truck_sample->truck_id = $truck->id;
+          $truck_sample->save();
+        }
+      }
+      
+      
+      
+      
       //STart process
       $identity_model = Identity::model()->findByPk(Yii::app()->user->getState('user'));
       $pending_upload = $identity_model->pendingUpload();

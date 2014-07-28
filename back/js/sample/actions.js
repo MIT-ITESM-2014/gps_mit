@@ -6,6 +6,13 @@ function show_screen_loading(){
   $('#screen_loading').fadeIn("fast");
 }
 
+function show_parameters_form_container(){
+  $("#file_upload_container").hide();
+  $("#parameters_form_container").show();
+  $('#file_in_process_container').hide();
+  $('#screen_loading').hide();
+}
+
 function hide_screen_loading(){
   $('#screen_loading').hide();
 } 

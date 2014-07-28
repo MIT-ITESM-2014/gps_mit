@@ -119,13 +119,14 @@
                   hide_screen_loading();
                   if(data.status=="success"){
                     display_file_in_process();
-                    
                   }
                   else{
                     $.each(data, function(key, val) {
                       $("#parameters-form #"+key+"_em_").text(val);                                                    
                       $("#parameters-form #"+key+"_em_").show();
                     });
+                    
+                    show_parameters_form_container();
                   }       
                 }',                    
                'error'=>'function(){
