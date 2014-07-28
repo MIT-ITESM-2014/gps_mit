@@ -38,7 +38,7 @@ class UploadedFile extends CActiveRecord
 			array('filename', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, filename, company_id, step, created_at', 'safe', 'on'=>'search'),
+			array('id, filename, company_id, step, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 

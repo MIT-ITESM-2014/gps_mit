@@ -33,7 +33,7 @@ class Sampling extends CActiveRecord
 			array('name, truck_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, truck_id', 'safe', 'on'=>'search'),
+			array('id, name, truck_id, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -98,5 +98,36 @@ class Sampling extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	protected function beforeSave()
+	{
+	  if(parent::beforeSave())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeValidate()
+	{
+	  if(parent::beforeValidate())
+	  {
+	    if($this->isNewRecord)
+	      $this->created_at = date('Y-m-d H:i:s.u');
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
+	}
+	
+	protected function beforeUpdate()
+	{
+	  if(parent::beforeUpdate())
+	  {
+	    $this->updated_at = date('Y-m-d H:i:s.u');
+	  }
+	  return true;
 	}
 }

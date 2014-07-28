@@ -33,7 +33,7 @@ class Route extends CActiveRecord
 			array('name', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, beginning_stop_id, end_stop_id, expected_route_id, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, beginning_stop_id, end_stop_id, truck_id, distance, average_speed, short_stops_count, time, first_stem_distance, first_stem_time, second_stem_distance, second_stem_time,short_stops_time, travelling_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_short_stop_duration, fuel_consumption, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,9 +47,14 @@ class Route extends CActiveRecord
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'route_id','order'=>'datetime ASC'),
 			'shortStops' => array(self::HAS_MANY, 'ShortStop', 'route_id'),
+			'firstShortStop' => array(self::HAS_MANY, 'ShortStop', 'route_id', 'order'=>'start_time ASC', 'limit'=>'1'),
+			'lastShortStop' => array(self::HAS_MANY, 'ShortStop', 'route_id', 'order'=>'start_time DESC', 'limit'=>'1'),
+			'shortStopsCount' => array(self::STAT, 'ShortStop', 'route_id'),
 			'longStops' => array(self::HAS_MANY, 'LongStop', 'route_id'),
 			'beginning_stop' => array(self::BELONGS_TO, 'LongStop', 'beginning_stop_id'),
 			'end_stop' => array(self::BELONGS_TO,'LongStop', 'end_stop_id'),
+		  'distanceToNextShortStopSum'=>array(self::STAT,  'ShortStop', 'route_id', 'select' => 'SUM(distance_to_next_stop)'),
+			'distanceToNextShortStopCount'=>array(self::STAT, 'ShortStop', 'route_id', 'condition' => 't.distance_to_next_stop IS NOT NULL'),
 		);
 	}
 

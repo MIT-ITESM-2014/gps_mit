@@ -40,7 +40,7 @@ class Sample extends CActiveRecord
 			array('latitude, longitude, status_id', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_id, latitude, longitude, datetime, route_id, created_at, updated_at, truck_name_search, short_datetime_search', 'safe', 'on'=>'search'),
+			array('id, latitude, longitude, datetime, route_id, truck_id, truck_name, interval, distance, speed, status_id, sampling_id, created_at, updated_at, aux1, aux2, aux3, truck_name_search, short_datetime_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +53,8 @@ class Sample extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
+			'sampling' => array(self::BELONGS_TO, 'Sampling', 'truck_id'),
+			'route' => array(self::BELONGS_TO, 'Route', 'truck_id'),
 		);
 	}
 

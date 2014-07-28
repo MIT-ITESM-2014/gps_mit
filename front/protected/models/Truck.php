@@ -35,7 +35,7 @@ class Truck extends CActiveRecord
 			array('name, created_at, updated_at', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, company_id, total_distance, route_count, average_duration, average_speed, average_stop_count_per_trip, average_distance_between_short_stops, average_stem_distance, average_trip_distance, short_stops_time, traveling_time, resting_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, fuel_consumption, fuel_consumption_per_km, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,6 +48,13 @@ class Truck extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'truck_id'),
+		  'samplings' => array(self::HAS_MANY, 'Sampling', 'truck_id'),
+			'routes' => array(self::HAS_MANY, 'Route', 'truck_id'),
+      'routesCount'=>array(self::STAT, 'Route', 'truck_id'),
+			'timeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(time)'),
+      'averageSpeedSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(average_speed)'),
+      'shortStopsCountSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(short_stops_count)'),
+      'distanceSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(distance)'),
 		);
 	}
 

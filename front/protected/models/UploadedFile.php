@@ -39,7 +39,7 @@ class UploadedFile extends CActiveRecord
 			array('truck_file, filename', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, truck_file, filename, identity_id, step, created_at', 'safe', 'on'=>'search'),
+			array('id, filename, company_id, step, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +52,7 @@ class UploadedFile extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'trucks' => array(self::HAS_MANY, 'Truck', 'uploaded_file_id'),
-			'identity' => array(self::BELONGS_TO, 'Identity', 'identity_id'),
+			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
 		);
 	}
 

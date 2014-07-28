@@ -36,7 +36,7 @@ class LongStop extends CActiveRecord
 			array('latitude, longitude', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, latitude, longitude, start_time, end_time, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, latitude, longitude, start_time, end_time, duration, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +48,8 @@ class LongStop extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		
+	  	'routeBeginning' => array(self::HAS_MANY, 'Route', 'beginning_stop_id'),
+			'routeEnding' => array(self::HAS_MANY, 'Route', 'end_stop_id'),
 		);
 	}
 
@@ -87,6 +88,9 @@ class LongStop extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('latitude',$this->latitude);
 		$criteria->compare('longitude',$this->longitude);
+		$criteria->compare('start_time',$this->start_time);
+		$criteria->compare('end_time',$this->end_time);
+		$criteria->compare('duration',$this->duration);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 

@@ -43,7 +43,7 @@ class Company extends CActiveRecord
 			array('time_radius_short_stop','compare','compareAttribute'=>'time_radius_long_stop','operator'=>'<','message'=>'Short stop time radius must be less than long stop time radius.'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, has_expected_routes, distance_radius_long_stop, time_radius_long_stop, time_radius_short_stop, time_radius_short_stop, route_count, distance_traveled, average_short_stop_duration, fuel_consumption, created_at, updated_at, name', 'safe', 'on'=>'search'),
+			array('id, name, has_expected_routes, has_file_in_process, route_count, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, fuel_consumption, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +57,7 @@ class Company extends CActiveRecord
 		return array(
 			'identities' => array(self::HAS_MANY, 'Identity', 'company_id'),
 			'trucks' => array(self::HAS_MANY, 'Truck', 'company_id'),
+			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'company_id'),
 		);
 	}
 
