@@ -1050,7 +1050,9 @@ div.view
 {
  width:200px;
  height:200px;
- margin-left:40px;
+ margin-left:auto;
+ margin-right:auto;
+ display:block;
  margin-top:40px;  
 }
 
