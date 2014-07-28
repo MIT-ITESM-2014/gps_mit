@@ -8,7 +8,7 @@ $('#button-box').click( function(){
 
 <div class="headers">
 	<div id="button-box" onclick=""> </div>
-	<h1>Create Fleet</h1>
+	<h1>Add User to Fleet</h1>
 </div>
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'dropdown_data'=>$dropdown_data)); ?>

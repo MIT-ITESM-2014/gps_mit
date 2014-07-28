@@ -1,7 +1,6 @@
 
 <div class="headers">
-	<div id="identity-update-button" onclick=""> </div>
-	<h1>Update parameters for <?php echo Yii::app()->user->getState('current_company_name'); ?></h1>
+	<h1>Update Parameters for <?php echo Yii::app()->user->getState('current_company_name'); ?></h1>
 </div>
 <div id="all_content_container">
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

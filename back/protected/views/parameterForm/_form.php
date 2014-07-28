@@ -8,24 +8,31 @@
   <div class="errorMessage" id="formResult"></div>
   <div class="row-parameter-single">
     <div class="parameter-label"> <?php echo $form->labelEx($model,'distance_radius_long_stop'); ?> </div>
-    <div class="parameter-input"> <?php echo $form->textField($model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> km </div>
+    <div class="parameter-input"> <?php echo $form->textField($model,'distance_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> km</div>
+    <div class="clear"></div>
     <div class="parameter-error"> <?php echo $form->error($model,'distance_radius_long_stop'); ?> </div>
   </div>
+  <div class="clear"></div>
   <div class="row-parameter-single">
     <div class="parameter-label"> <?php echo $form->labelEx($model,'time_radius_long_stop'); ?> </div>
     <div class="parameter-input"> <?php echo $form->textField($model,'time_radius_long_stop',array('size'=>60,'maxlength'=>500)); ?> s</div>
+    <div class="clear"></div>
     <div class="parameter-error"> <?php echo $form->error($model,'time_radius_long_stop'); ?> </div>
   </div>
+  <div class="clear"></div>
   <div class="row-parameter-single">
     <div class="parameter-label"> <?php echo $form->labelEx($model,'distance_radius_short_stop'); ?> </div>
     <div class="parameter-input"> <?php echo $form->textField($model,'distance_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> km</div>
+    <div class="clear"></div>
     <div class="parameter-error"> <?php echo $form->error($model,'distance_radius_short_stop'); ?> </div>
   </div>
+  <div class="clear"></div>
   <div class="row-parameter-single">
     <div class="parameter-label"> <?php echo $form->labelEx($model,'time_radius_short_stop'); ?> </div>
     <div class="parameter-input"> <?php echo $form->textField($model,'time_radius_short_stop',array('size'=>60,'maxlength'=>500)); ?> s</div>
     <div id="information-icon" class="information-icon"> </div>
     <div id="parameter-information-box" class="parameter-information-box"> </div>
+    <div class="clear"></div>
     <div class="parameter-error"> <?php echo $form->error($model,'time_radius_short_stop'); ?> </div>
   </div>
   <div class="buttons">

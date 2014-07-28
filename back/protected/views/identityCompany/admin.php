@@ -1,7 +1,7 @@
 
 <div class="headers">
 	<a href="<?php echo Yii::app()->createUrl('identityCompany/create', array('company_id'=>$company_id))?>"><div id="button-box-admin"> </div></a>
-	<h1>Fleet</h1>
+	<h1>Users in Fleet</h1>
 </div>
 
 <div class="admin-list">
