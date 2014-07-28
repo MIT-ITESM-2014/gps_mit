@@ -43,7 +43,7 @@
 
 .button-column
 {
-	width: 70px;
+	width: 75px;
 	height: 16px;
 	padding: 0px;
 }
@@ -94,7 +94,6 @@ a
 	display: inline-block;
 	background-position: 0px 0px;
 	background-image: url("../public/images/icons/userIcon.png");
-	margin-left: -2px; 
 }
 
 .users-button:hover

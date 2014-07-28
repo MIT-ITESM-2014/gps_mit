@@ -15,7 +15,7 @@ $('.search-form form').submit(function(){
 ?>
 
 <div class="headers">
-	<h1>Manage Trucks</h1>
+	<h1>Manage Trucks for  <?php echo Yii::app()->user->getState('current_company_name');?></h1>
 </div>
 
 <div class="admin-list">

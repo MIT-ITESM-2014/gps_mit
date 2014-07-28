@@ -1,5 +1,5 @@
 <div class="headers">
-	<h1>Reset Fleet </h1>
+	<h1>Reset <?php echo Yii::app()->user->getState('current_company_name');?> Fleet Data  </h1>
 </div>	
 
 <div class="clear"></div>

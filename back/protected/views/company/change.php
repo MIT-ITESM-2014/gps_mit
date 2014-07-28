@@ -20,7 +20,8 @@
 			'template'=>'{select}',
 			'buttons'=>array(
 			  'select' => array(
-			    'label'=>'Select',
+			    'label'=>' ',
+			    'options' => array('class'=> 'go-to-map-button'),
 			    'url'=>'Yii::app()->createUrl("company/change", array("company"=>$data->company_id))',
 			  ),
 			),

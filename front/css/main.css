@@ -105,6 +105,7 @@ body
 	width: 100px;
 	overflow: hidden;
 	height: 25px;
+	line-height: 15px;
 }
 
 #change-company-button
