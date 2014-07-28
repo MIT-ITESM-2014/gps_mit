@@ -37,15 +37,47 @@ $.ajax({
             text: 'Fleet Statistics'
           },
           xAxis: {
-
+            title: {
+              text: 'Truck'
+            }
           },
           yAxis: {
             min: 0,
             title: {
-              text: 'Prueba'
+              text: 'Speed (km/h)'
             }
           },
+          legend: {
+              layout: 'vertical',
+              align: 'left',
+              verticalAlign: 'top',
+              x: 100,
+              y: 70,
+              floating: true,
+              backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+              borderWidth: 1
+          },
+          plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
 
+            }
+        },
       }
 
 

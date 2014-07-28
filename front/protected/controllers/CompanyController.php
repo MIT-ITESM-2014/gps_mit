@@ -59,7 +59,7 @@ class CompanyController extends Controller
     $minutes = (int)($time_left/60);
     if( $minutes > 0)
     {
-      $average_short_stop_duration = $average_short_stop_duration.$minutes."m ";
+      $average_short_stop_duration = $average_short_stop_duration.$minutes."min ";
     }
     
     $data = array(

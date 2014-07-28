@@ -1,6 +1,6 @@
 <div id="stats-data-container">
   <div id="stats-data-title"> 
-    <div id="stats-title-label"> General Stats for Fleet</div> 
+    <div id="stats-title-label"> General Stats for <?php echo Yii::app()->user->getState('current_company_name');?></div> 
   </div>
   
   <div class="clear"> </div>
@@ -25,6 +25,7 @@
 
   <div id="stats-data-right">
     <div id="stats-right-title">Fleet Analysis</div>
+    <div id="charts-container" class="chart_style"> </div>
   </div>
 
 </div>
