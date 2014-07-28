@@ -22,6 +22,39 @@ $.ajax({
   }   
 });
 
+$.ajax({ 
+  type: "GET",
+  dataType: "json",
+  url: "index.php?r=truck/getTrucksChartsInfo",
+  success: function(data){
+    if(data != null)
+    {
+      chart_1_params = {
+        chart: {
+            type: 'area'
+          },
+          title: {
+            text: 'Fleet Statistics'
+          },
+          xAxis: {
+
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Prueba'
+            }
+          },
+
+      }
+
+
+    }
+
+  }
+
+
+});
 
 /*
 (function($){

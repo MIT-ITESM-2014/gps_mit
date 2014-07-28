@@ -567,7 +567,6 @@ $.ajax({
           series: [
             {
               name: 'Average Speed',
-              color: colors[Math.random() * colors.length],
               data: chart_4_new_params_series.chart_4_data_speed,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -576,7 +575,6 @@ $.ajax({
             },
             {
               name: 'STEM Distance',
-              color: colors[Math.random() * colors.length],
               data: chart_4_new_params_series.chart_4_data_stem,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -648,7 +646,6 @@ $.ajax({
           series: [
             {
               name: 'Average Speed',
-              color: colors[Math.random() * colors.length],
               data: chart_5_params_categories_series.chart_5_data_average_speed,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -657,7 +654,6 @@ $.ajax({
             },
             {
               name: 'Time in Stops',
-              color: colors[Math.random() * colors.length],
               data: chart_5_params_categories_series.chart_5_data_time_short_stops,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -666,7 +662,6 @@ $.ajax({
             },
             {
               name: 'Time Traveling ',
-              color: colors[Math.random() * colors.length],
               data: chart_5_params_categories_series.chart_5_data_time_traveling,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -675,7 +670,6 @@ $.ajax({
             },
             {
               name: 'Stops ',
-              color: colors[Math.random() * colors.length],
               data: chart_5_params_categories_series.chart_5_data_no_short_stops,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -684,7 +678,6 @@ $.ajax({
             },
             {
               name: 'Distance ',
-              color: colors[Math.random() * colors.length],
               data: chart_5_params_categories_series.chart_5_data_total_distance_traveled,
               tooltip: {
                 pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b>',
@@ -710,7 +703,7 @@ $.ajax({
 
 /*Create chart_1*/
 Highcharts.setOptions({
-  colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+  colors: ['#e51c23', '#f06292', '#ba68c8', '#3f51b4', '#72d572', '#ffff00', '#ffaf4c', '#a1887f', '#9e9e9e', '#b0120a', '#e91e63', '#9c27b0', '#1a237e', '#259b24', '#ffe04c', '#ff9800', '#795548', '#424242', '#f36c60', '#880e4f', '#4a148c', '#91a7ff', '#0d4502', '#ffc107', '#e65100', '#3e2723', '#b0bec5', '#9575cd', '#5677fc', '#88ee7b', '#ff6f00', '#ffab91', '#607d8b'],
   lang: {
       drillUpText: '<--', 
   }
