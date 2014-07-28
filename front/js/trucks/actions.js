@@ -253,7 +253,7 @@ function updateTruckStats()
         chart_1_params = {
           chart: {
             backgroundColor: '#efefef',
-            font: '"Ubuntu Medium", Arial, Helvetica, sans-serif',
+            font: '"Ubuntu", Arial, Helvetica, sans-serif',
             plotBackgroundColor: null,
             plotBorderWidth: 0,
             plotShadow: false

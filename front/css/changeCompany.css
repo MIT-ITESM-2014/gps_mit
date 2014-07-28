@@ -111,41 +111,27 @@ thead tr:first-child
 {
 	list-style-type: none;
 	display: inline-block;
-	padding: 5px;
-	background: #00a894;
+	padding: 0px 3px 0px 3px;
 }
 
 .pager ul li a
 {
 	text-decoration: none;
 	color: #003c4b;
-}
-
-li.page.selected
-{
-	background-color: #003c4b;
+	font-size: 15px;
 }
 
 li.page.selected a
 {
 	color: #00a894;
 	font-weight: bold;
-	font-size: 17px;
+	font-size: 18px;
 }
 
-.pager ul li:hover 
-{
-	background-color: #003c4b;
-}
 
 .pager ul li:hover a 
 {
 	color: #00a894;
-}
-
-li.first:hover
-{
-	background-color: #003c4b;
 }
 
 li.first:hover a
@@ -153,29 +139,14 @@ li.first:hover a
 	color: #00a894;
 }
 
-li.previous:hover
-{
-	background-color: #003c4b;
-}
-
 li.previous:hover a
 {
 	color: #00a894;
 }
 
-li.last:hover
-{
-	background-color: #003c4b;
-}
-
 li.last:hover a
 {
 	color: #00a894;
-}
-
-li.next:hover
-{
-	background-color: #003c4b;
 }
 
 li.next:hover a

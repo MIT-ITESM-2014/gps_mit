@@ -49,6 +49,13 @@ class CompanyController extends Controller
   {
     header('Content-type: application/json');
     $company_model = Company::model()->findByPk('1');
+    $criteria = new CDbCriteria(array('order'=>'name ASC'));
+    $truck_model = Truck::model()->findAll($criteria);
+    $chart_1_params_x_axis = array();
+    $chart_1_trucks_speeds = array();
+    $chart_1_routes_speeds = array();
+
+    //general stats 
     $average_short_stop_duration = "";
     $hours = (int)($company_model->average_short_stop_duration / 3600); 
     if( $hours > 0)
@@ -61,11 +68,22 @@ class CompanyController extends Controller
     {
       $average_short_stop_duration = $average_short_stop_duration.$minutes."min ";
     }
+
+    //truck stats
+    foreach ($truck_model as $truck) {
+    	$chart_1_params_x_axis [] = $truck->name;
+    	$chart_1_trucks_speeds [] = array(
+    		'x' => $truck->name,
+    		'y' => $truck->average_speed,
+    		'myData' => 'tbd'
+    	);
+    }
     
     $data = array(
       'total_trips' => $company_model->route_count,
       'average_short_stop_duration' => $average_short_stop_duration,
       'distance_traveled' => number_format($company_model->distance_traveled, 1).' km',
+      'chart_1_params_x_axis' => $chart_1_params_x_axis,
     );
     
     if($data != null)
