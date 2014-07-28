@@ -1,13 +1,13 @@
 <?php
 
 Yii::app()->clientScript->registerScript('submitForm', "
-$('#button-box').click( function(){
+$('#add-user-button').click( function(){
   $('#identity-company-form input').click();
 });");
 ?>
 
 <div class="headers">
-	<div id="button-box" onclick=""> </div>
+	<div id="add-user-button" onclick=""> </div>
 	<h1>Add User to Fleet</h1>
 </div>
 

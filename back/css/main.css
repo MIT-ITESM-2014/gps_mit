@@ -338,7 +338,7 @@ div.view
 #button-box
 {
 	width: 100px;
-	height: 29px;
+	height: 30px;
 	background-position: 0px 0px;
 	background-image: url("../public/images/CRUD_Buttons/CreateButton.png");
 	float: right;
@@ -348,6 +348,26 @@ div.view
 }
 
 #button-box:hover
+{
+	background-position: 0px 30px;
+	float: right;
+	display: inline;
+	cursor: pointer;
+}
+
+#add-user-button
+{
+	background-position: 0px 0px;
+	background-image: url("../public/images/CRUD_Buttons/AddButton.png");
+	width: 100px;
+	height: 30px;
+	float: right;
+	display: inline;
+	margin-top: 15px;
+	margin-right: 35px;
+}
+
+#add-user-button:hover
 {
 	background-position: 0px 30px;
 	float: right;
