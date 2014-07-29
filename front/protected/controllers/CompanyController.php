@@ -48,15 +48,18 @@ class CompanyController extends Controller
 	public function actionGetCompanyStats()
   {
     header('Content-type: application/json');
-    $company_model = Company::model()->findByPk('1');
-    $criteria = new CDbCriteria(array('order'=>'name ASC'));
-    $truck_model = Truck::model()->findAll($criteria);
+    $current_company = Yii::app()->user->getState('current_company');
+    $company_model = Company::model()->findByPk($current_company);
+    
     $charts_params_x_axis = array();
     $chart_1_trucks_speeds = array();
     $chart_1_routes_speeds = array();
     $chart_2_trucks_stem = array();
+    $chart_2_routes_stem = array();
     $chart_3_trucks_trip_distance = array();
+    $chart_3_routes_trip_distance = array();
     $chart_4_trucks_duration = array();
+    $chart_4_routes_duration = array();
 
     //general stats 
     $average_short_stop_duration = "";
@@ -73,28 +76,44 @@ class CompanyController extends Controller
     }
 
     //truck stats
-    foreach ($truck_model as $truck) {
+    foreach ($company_model->trucks as $truck) {
     	$charts_params_x_axis [] = $truck->id;
     	$chart_1_trucks_speeds [] = array(
-    		'x' => $truck->id,
+    		'x' => $truck->id, //TODO change id for number assigned for ordering
     		'y' => (float)round($truck->average_speed, 1),
+    		'name' => $truck->name,    		
     		'myData' => (float)round(22.88, 1) // TODO insert standard deviation here
     	);
     	$chart_2_trucks_stem [] = array(
     		'x' => $truck->id,
     		'y' => (float)round($truck->average_stem_distance),
+    		'name' => $truck->name,    		
     		'myData' => (float)round(6.234, 1) //TODO insert real std. dev here
     	);
     	$chart_3_trucks_trip_distance [] = array(
     		'x'=> $truck->id,
     		'y' => (float) round($truck->average_trip_distance, 1),
+    		'name' => $truck->name,
     		'myData' => (float) round(3624.26, 1) //TODO insert real std dev
     	);
     	$chart_4_trucks_duration [] = array(
     		'x'=> $truck->id,
     		'y' => (float) round($truck->average_duration, 1),
+    		'name' => $truck->name,    	
     		'myData' => (float)round(374.747, 1) //TODO insert real std. dev here
     	);
+    	foreach ($truck->routes as $route) {
+    		$chart_1_routes_speeds [] = array(
+    			'x' => $truck->id, 			
+    			'y' => (float) round($route->average_speed, 1),
+    			'name' => $truck->name    			
+    		);
+    		$chart_2_routes_stem [] = array(
+    			'x' => $truck->id,
+    			'y' => (float) round($route->first_stem_distance + $route->second_stem_distance, 1),
+    			'name' => $truck->name
+    		);
+    	}
     }
     
     $data = array(
@@ -103,7 +122,9 @@ class CompanyController extends Controller
       'distance_traveled' => number_format($company_model->distance_traveled, 1).' km',
       'charts_params_x_axis' => $charts_params_x_axis,
       'chart_1_spline_data' => $chart_1_trucks_speeds,
+      'chart_1_scatter_data' => $chart_1_routes_speeds,
       'chart_2_spline_data' => $chart_2_trucks_stem,
+      'chart_2_scatter_data' => $chart_2_routes_stem,
       'chart_4_spline_data' => $chart_4_trucks_duration,
     );
     
