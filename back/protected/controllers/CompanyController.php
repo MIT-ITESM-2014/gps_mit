@@ -28,9 +28,18 @@ class CompanyController extends Controller
 	{
 		return array(
 			
+			
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'create'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('reset'),
+				'expression'=> "(Yii::app()->user->getState('isAdmin') != 1)"
+			),
+			array('deny',  // deny all users
+			  'actions'=>array(),
+				'users'=>array('*'),
 			),
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(),
@@ -40,9 +49,7 @@ class CompanyController extends Controller
 				'actions'=>array(),
 				'users'=>array('@'),
 			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
+			
 		);
 	}
 
@@ -126,7 +133,6 @@ class CompanyController extends Controller
 	    foreach($routes as $route)
 	    {
 	      $routes_ids[] = $route->id;
-	      error_log('el modelo es' . print_r($route->beginning_stop, true));
 	      if(!empty($route->beginning_stop))
 	        $long_stops_ids[] = $route->beginning_stop->id;
 	      if(!empty($route->end_stop))

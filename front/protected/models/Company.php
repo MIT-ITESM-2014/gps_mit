@@ -34,12 +34,11 @@ class Company extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('has_expected_routes', 'numerical', 'integerOnly'=>true),
 			array('distance_radius_long_stop, time_radius_long_stop, distance_radius_short_stop, time_radius_short_stop', 'numerical', 'integerOnly'=>false),
 			array('created_at, updated_at, name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, has_expected_routes, has_file_in_process, route_count, average_speed, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, fuel_consumption, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
+			array('id, name, has_file_in_process, route_count, average_speed, average_stop_count_per_trip, average_trip_distance, average_stem_distance, short_stop_time, traveling_time, resting_time, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, average_trip_duration, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +63,6 @@ class Company extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'has_expected_routes' => 'Has Expected Routes',
 			'distance_ratio_long_stop' => 'Distance Ratio Long Stop',
 			'time_ratio_long_stop' => 'Time Ratio Long Stop',
 			'created_at' => 'Created At',
@@ -92,7 +90,6 @@ class Company extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('has_expected_routes',$this->has_expected_routes);
 		$criteria->compare('distance_ratio_long_stop',$this->distance_ratio_long_stop);
 		$criteria->compare('time_ratio_long_stop',$this->time_ratio_long_stop);
 		$criteria->compare('created_at',$this->created_at,true);
