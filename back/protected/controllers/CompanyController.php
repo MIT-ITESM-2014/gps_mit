@@ -34,7 +34,7 @@ class CompanyController extends Controller
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('reset'),
+				'actions'=>array('reset', 'change'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') != 1)"
 			),
 			array('deny',  // deny all users

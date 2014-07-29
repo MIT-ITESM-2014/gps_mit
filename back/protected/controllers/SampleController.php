@@ -643,15 +643,15 @@ class SampleController extends Controller
     $samples_count = count($route->samples);
     $time_diff = 0;
     if($samples_count > 2)
-    {beginning_stop end_stop
+    {
       $firstDate;
       $secondDate;
       if(!empty($route->beginning_stop))
-        $firstDate = new DateTime($route->beginning_stop->end_time)
+        $firstDate = new DateTime($route->beginning_stop->end_time);
       else
         $firstDate = new DateTime($route->samples[0]->datetime);
       if(!empty($route->end_stop))
-        $secondDate = new DateTime($route->end_stop->start_time)
+        $secondDate = new DateTime($route->end_stop->start_time);
       else
         $secondDate = new DateTime($route->samples[$samples_count - 1]->datetime);
       $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
