@@ -4,18 +4,33 @@ CREATE SEQUENCE public.company_id_seq;
 CREATE TABLE public.company (
                 id INTEGER NOT NULL DEFAULT nextval('public.company_id_seq'),
                 name VARCHAR,
-                has_expected_routes INTEGER,
+                has_file_in_process INTEGER NOT NULL,
                 route_count BIGINT,
+                average_speed DOUBLE PRECISION,
+                average_stop_count_per_trip REAL,
+                average_trip_distance DOUBLE PRECISION,
+                average_stem_distance DOUBLE PRECISION,
+                short_stop_time DOUBLE PRECISION,
+                traveling_time DOUBLE PRECISION,
+                resting_time DOUBLE PRECISION,
                 time_radius_short_stop REAL,
                 distance_radius_short_stop REAL,
                 time_radius_long_stop REAL,
                 distance_radius_long_stop REAL,
                 distance_traveled DOUBLE PRECISION,
                 average_short_stop_duration DOUBLE PRECISION,
-                fuel_consumption DOUBLE PRECISION,
-                has_file_in_process INTEGER NOT NULL,
+                average_trip_duration DOUBLE PRECISION,
+                average_trip_stop_time DOUBLE PRECISION,
+                average_trip_traveling_time DOUBLE PRECISION,
+                average_stop_count_per_trip_sd DOUBLE PRECISION,
+                average_trip_distance_sd DOUBLE PRECISION,
+                average_stem_distance_sd DOUBLE PRECISION,
+                average_speed_sd DOUBLE PRECISION,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP,
+                aux1 REAL,
+                aux2 REAL,
+                aux3 VARCHAR,
                 CONSTRAINT company_pk PRIMARY KEY (id)
 );
 
@@ -33,11 +48,29 @@ CREATE TABLE public.long_stop (
                 duration BIGINT,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
+                aux1 REAL,
+                aux2 REAL,
+                aux3 VARCHAR,
                 CONSTRAINT long_stop_pk PRIMARY KEY (id)
 );
 
 
 ALTER SEQUENCE public.long_stop_id_seq OWNED BY public.long_stop.id;
+
+CREATE SEQUENCE public.uploaded_file_id_seq;
+
+CREATE TABLE public.uploaded_file (
+                id BIGINT NOT NULL DEFAULT nextval('public.uploaded_file_id_seq'),
+                filename VARCHAR(20),
+                step INTEGER NOT NULL,
+                company_id INTEGER NOT NULL,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
+                CONSTRAINT uploaded_file_pk PRIMARY KEY (id)
+);
+
+
+ALTER SEQUENCE public.uploaded_file_id_seq OWNED BY public.uploaded_file.id;
 
 CREATE SEQUENCE public.identity_id_seq;
 
@@ -50,7 +83,6 @@ CREATE TABLE public.identity (
                 is_admin INTEGER,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP NOT NULL,
-                has_connected INTEGER,
                 CONSTRAINT identity_pk PRIMARY KEY (id)
 );
 
@@ -70,21 +102,6 @@ CREATE TABLE public.identity_company (
 
 
 ALTER SEQUENCE public.identity_company_id_seq OWNED BY public.identity_company.id;
-
-CREATE SEQUENCE public.uploaded_file_id_seq;
-
-CREATE TABLE public.uploaded_file (
-                id BIGINT NOT NULL DEFAULT nextval('public.uploaded_file_id_seq'),
-                filename VARCHAR(20),
-                identity_id INTEGER NOT NULL,
-                step INTEGER NOT NULL,
-                created_at TIMESTAMP NOT NULL,
-                updated_at TIMESTAMP NOT NULL,
-                CONSTRAINT uploaded_file_pk PRIMARY KEY (id)
-);
-
-
-ALTER SEQUENCE public.uploaded_file_id_seq OWNED BY public.uploaded_file.id;
 
 CREATE SEQUENCE public.truck_id_seq;
 
@@ -109,10 +126,17 @@ CREATE TABLE public.truck (
                 stops_between_30_60 BIGINT,
                 stops_between_60_120 BIGINT,
                 stops_between_120_plus BIGINT,
-                fuel_consumption DOUBLE PRECISION,
-                fuel_consumption_per_km DOUBLE PRECISION,
+                average_trip_stop_time DOUBLE PRECISION,
+                average_trip_traveling_time DOUBLE PRECISION,
+                average_stop_count_per_trip_sd DOUBLE PRECISION,
+                average_trip_distance_sd DOUBLE PRECISION,
+                average_stem_distance_sd DOUBLE PRECISION,
+                average_speed_sd DOUBLE PRECISION,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
+                aux1 REAL,
+                aux2 REAL,
+                aux3 VARCHAR,
                 CONSTRAINT truck_pk PRIMARY KEY (id)
 );
 
@@ -125,6 +149,11 @@ CREATE TABLE public.sampling (
                 id INTEGER NOT NULL DEFAULT nextval('public.sampling_id_seq'),
                 name VARCHAR,
                 truck_id BIGINT,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP,
+                aux1 REAL,
+                aux2 DOUBLE PRECISION,
+                aux3 VARCHAR,
                 CONSTRAINT sampling_pk PRIMARY KEY (id)
 );
 
@@ -138,7 +167,6 @@ CREATE TABLE public.route (
                 name VARCHAR NOT NULL,
                 beginning_stop_id BIGINT,
                 end_stop_id BIGINT,
-                expected_route_id BIGINT,
                 truck_id BIGINT,
                 distance REAL,
                 average_speed REAL,
@@ -157,10 +185,13 @@ CREATE TABLE public.route (
                 stops_between_60_120 INTEGER,
                 stops_between_120_plus INTEGER,
                 average_short_stop_duration DOUBLE PRECISION,
-                fuel_consumption DOUBLE PRECISION,
                 is_valid INTEGER,
+                fuel_consumption DOUBLE PRECISION,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
+                aux1 REAL,
+                aux2 REAL,
+                aux3 VARCHAR,
                 CONSTRAINT route_pk PRIMARY KEY (id)
 );
 
@@ -180,6 +211,9 @@ CREATE TABLE public.short_stop (
                 duration DOUBLE PRECISION,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
+                aux1 REAL,
+                aux2 REAL,
+                aux3 VARCHAR,
                 CONSTRAINT short_stop_pk PRIMARY KEY (id)
 );
 
@@ -194,7 +228,6 @@ CREATE TABLE public.sample (
                 longitude DOUBLE PRECISION NOT NULL,
                 datetime TIMESTAMP NOT NULL,
                 route_id BIGINT,
-                expected_route_id BIGINT,
                 truck_id BIGINT,
                 truck_name VARCHAR,
                 interval DOUBLE PRECISION,
@@ -204,6 +237,9 @@ CREATE TABLE public.sample (
                 sampling_id INTEGER,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
+                aux1 REAL,
+                aux2 REAL,
+                aux3 VARCHAR,
                 CONSTRAINT sample_pk PRIMARY KEY (id)
 );
 
@@ -224,6 +260,13 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
+ALTER TABLE public.uploaded_file ADD CONSTRAINT company_uploaded_file_fk
+FOREIGN KEY (company_id)
+REFERENCES public.company (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
 ALTER TABLE public.route ADD CONSTRAINT long_stop_route_fk
 FOREIGN KEY (end_stop_id)
 REFERENCES public.long_stop (id)
@@ -234,13 +277,6 @@ NOT DEFERRABLE;
 ALTER TABLE public.route ADD CONSTRAINT long_stop_route_fk1
 FOREIGN KEY (beginning_stop_id)
 REFERENCES public.long_stop (id)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.uploaded_file ADD CONSTRAINT identity_uploaded_file_fk
-FOREIGN KEY (identity_id)
-REFERENCES public.identity (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
