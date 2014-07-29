@@ -774,9 +774,9 @@ body
 
 .chart_style
 {
-	float: right;
 	height: auto;
-	width: 100%;
+	width: 750px;
+	display: inline-block;
 }
 
 .trips-stats-container
@@ -1242,6 +1242,15 @@ body
 {
 	overflow:hidden; 
 	height:900px; 
+	display:block; 
+	width:100%; 
+	text-align:center;
+}
+
+.stats-charts-slider-container
+{
+	overflow:hidden; 
+	height:475px; 
 	display:block; 
 	width:100%; 
 	text-align:center;

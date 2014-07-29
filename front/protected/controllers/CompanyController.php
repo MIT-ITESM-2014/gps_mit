@@ -51,9 +51,12 @@ class CompanyController extends Controller
     $company_model = Company::model()->findByPk('1');
     $criteria = new CDbCriteria(array('order'=>'name ASC'));
     $truck_model = Truck::model()->findAll($criteria);
-    $chart_1_params_x_axis = array();
+    $charts_params_x_axis = array();
     $chart_1_trucks_speeds = array();
     $chart_1_routes_speeds = array();
+    $chart_2_trucks_stem = array();
+    $chart_3_trucks_trip_distance = array();
+    $chart_4_trucks_duration = array();
 
     //general stats 
     $average_short_stop_duration = "";
@@ -71,11 +74,26 @@ class CompanyController extends Controller
 
     //truck stats
     foreach ($truck_model as $truck) {
-    	$chart_1_params_x_axis [] = $truck->name;
+    	$charts_params_x_axis [] = $truck->id;
     	$chart_1_trucks_speeds [] = array(
-    		'x' => $truck->name,
-    		'y' => $truck->average_speed,
-    		'myData' => 'tbd'
+    		'x' => $truck->id,
+    		'y' => (float)round($truck->average_speed, 1),
+    		'myData' => (float)round(22.88, 1) // TODO insert standard deviation here
+    	);
+    	$chart_2_trucks_stem [] = array(
+    		'x' => $truck->id,
+    		'y' => (float)round($truck->average_stem_distance),
+    		'myData' => (float)round(6.234, 1) //TODO insert real std. dev here
+    	);
+    	$chart_3_trucks_trip_distance [] = array(
+    		'x'=> $truck->id,
+    		'y' => (float) round($truck->average_trip_distance, 1),
+    		'myData' => (float) round(3624.26, 1) //TODO insert real std dev
+    	);
+    	$chart_4_trucks_duration [] = array(
+    		'x'=> $truck->id,
+    		'y' => (float) round($truck->average_duration, 1),
+    		'myData' => (float)round(374.747, 1) //TODO insert real std. dev here
     	);
     }
     
@@ -83,7 +101,10 @@ class CompanyController extends Controller
       'total_trips' => $company_model->route_count,
       'average_short_stop_duration' => $average_short_stop_duration,
       'distance_traveled' => number_format($company_model->distance_traveled, 1).' km',
-      'chart_1_params_x_axis' => $chart_1_params_x_axis,
+      'charts_params_x_axis' => $charts_params_x_axis,
+      'chart_1_spline_data' => $chart_1_trucks_speeds,
+      'chart_2_spline_data' => $chart_2_trucks_stem,
+      'chart_4_spline_data' => $chart_4_trucks_duration,
     );
     
     if($data != null)

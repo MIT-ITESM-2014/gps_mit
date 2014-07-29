@@ -25,7 +25,11 @@
 
   <div id="stats-data-right">
     <div id="stats-right-title">Fleet Analysis</div>
-    <div id="charts-container" class="chart_style"> </div>
+    <div id="stats-charts-container" class="stats-charts-slider-container"> 
+      <div id="stats-slider-left-arrow" class="trucks-charts-slider-arrow-left"></div>
+      <div id="charts-container" class="chart_style"></div>
+      <div id="stats-slider-right-arrow" class="trucks-charts-slider-arrow-right"></div>
+    </div>
   </div>
 
 </div>
