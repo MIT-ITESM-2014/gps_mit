@@ -2,7 +2,7 @@
 
 <div class="headers">
 	<a href="<?php echo Yii::app()->createUrl('company/create', array())?>"><div id="button-box-admin"> </div></a>
-	<h1> Manage Fleet </h1>
+	<h1> Manage Fleets </h1>
 </div>
 
 <div class="admin-list">

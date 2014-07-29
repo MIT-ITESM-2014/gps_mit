@@ -1,5 +1,5 @@
 <div class="headers">
-	<h1>Manage Samples</h1>
+	<h1>Manage Samples for  <?php echo Yii::app()->user->getState('current_company_name');?> </h1>
 </div>
 
 <div class="admin-list">

@@ -58,11 +58,19 @@ class IdentityCompanyController extends Controller
 
     if(isset($_GET['company_id']))
     {
+    	$company_name = "";
       $model->company_id = $_GET['company_id'];
+      $company_model = Company::model()->findByPk($model->company_id);
+	    if(!empty($company_model))
+		 	{
+	 	 		$company_name = $company_model->name;
+		 	}
+
 	    if(isset($_POST['IdentityCompany']))
 	    {
 		    $model->attributes=$_POST['IdentityCompany'];
 		    $model->company_id = $_GET['company_id'];
+
 		    if($model->save())
 			    $this->redirect(array('admin','company_id' => $_GET['company_id']));
 	    }
@@ -85,6 +93,7 @@ class IdentityCompanyController extends Controller
       $this->render('create',array(
 		    'model'=>$model,
 		    'dropdown_data'=>$dropdown_data,
+		    'company_name' => $company_name,
 	    ));
 	  }
 	}
@@ -118,12 +127,17 @@ class IdentityCompanyController extends Controller
 		if(isset($_GET['company_id']))
 		{
 		  $model->company_id = $_GET['company_id'];
+		  $company_model = Company::model()->findByPk($model->company_id);
+		  $company_name = "";
+		  if(!empty($company_model))
+		  	$company_name = $company_model->name;
 		  if(isset($_GET['IdentityCompany']))
 			  $model->attributes=$_GET['IdentityCompany'];
 
 		  $this->render('admin',array(
 			  'model'=>$model,
 			  'company_id'=>$_GET['company_id'],
+			  'company_name'=>$company_name,
 		  ));
 		}
 	}
