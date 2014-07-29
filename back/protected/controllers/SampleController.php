@@ -298,8 +298,8 @@ class SampleController extends Controller
       $total_distance = $total_distance + $distance;
       $total_time = $total_time + $time;
     }
-    if($time > 0)
-      $average_speed = $distance/$time;
+    if($total_time > 0)
+      $average_speed = $total_distance/$total_time;
     return $average_speed;
   }
   

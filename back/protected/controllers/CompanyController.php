@@ -158,7 +158,7 @@ class CompanyController extends Controller
 	    //LongStop
 	    $criteria_long_stop = new CDbCriteria();
       $criteria_long_stop->addInCondition('id', $long_stops_ids);
-	    LongStop::model()->deleteAll($criteria_route);
+	    LongStop::model()->deleteAll($criteria_long_stop);
 	    //Truck
 	    $criteria_truck = new CDbCriteria();
       $criteria_truck->condition = 'company_id = '. Yii::app()->user->getState('current_company');
@@ -173,6 +173,27 @@ class CompanyController extends Controller
 	    
 	    $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
 	    $company->has_file_in_process = 0;
+	    $company->route_count = null;
+	    $company->average_speed = null;
+	    $company->average_stop_count_per_trip = null;
+	    $company->average_trip_distance = null;
+	    $company->average_stem_distance = null;
+	    $company->short_stop_time = null;
+	    $company->traveling_time = null;
+	    $company->resting_time = null;
+	    $company->time_radius_short_stop = null;
+	    $company->distance_radius_short_stop = null;
+	    $company->time_radius_long_stop = null;
+	    $company->distance_radius_long_stop = null;
+	    $company->distance_traveled = null;
+	    $company->average_short_stop_duration = null;
+	    $company->average_trip_duration = null;
+	    $company->average_trip_stop_time = null;
+	    $company->average_trip_traveling_time = null;
+	    $company->average_stop_count_per_trip_sd = null;
+	    $company->average_trip_distance_sd = null;
+	    $company->average_stem_distance_sd = null;
+	    $company->average_stem_distance_sd = null;
 	    $company->save();
 	    
 	    $this->render('successful_reset');
