@@ -267,8 +267,9 @@ class SampleController extends Controller
     $company->average_stem_distance = $average_stem_distance;
     $company->average_trip_duration = $average_trip_duration;
     $company->average_trip_stop_time = $average_trip_stop_time;
-    if($total_traveling_time > 0)
-      $company->average_speed = $distance_traveled / $total_traveling_time;
+    $total_traveling_time_hours = $total_traveling_time / 3600.0;
+    if($total_traveling_time_hours > 0)
+      $company->average_speed = $distance_traveled / $total_traveling_time_hours;
     if($short_stop_count > 0)
       $company->average_short_stop_duration = $total_short_stop_time/$short_stop_count;
     $company->save();
@@ -290,9 +291,9 @@ class SampleController extends Controller
       if(!empty($route->time))
       {
         if(!empty($route->short_stops_time))
-          $time = $route->time - $route->short_stops_time;
+          $time = ($route->time - $route->short_stops_time) / 3600.0;
         else
-          $time = $route->time;
+          $time = ($route->time) / 3600.0;
       }
       $total_distance = $total_distance + $distance;
       $total_time = $total_time + $time;
@@ -621,9 +622,9 @@ class SampleController extends Controller
     if(!empty($route->time))
     {
       if(!empty($route->short_stops_time))
-        $time = $route->time - $route->short_stops_time;
+        $time = ($route->time - $route->short_stops_time)/3600.0;
       else
-        $time = $route->time;
+        $time = ($route->time)/3600.0;
     }
     if($time > 0)
       $average_speed = $distance/$time;
