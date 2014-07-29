@@ -48,10 +48,6 @@ class SampleController extends Controller
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
 	public function actionView($id)
 	{
 		$this->render('view',array(
@@ -87,17 +83,10 @@ class SampleController extends Controller
 	  return $parameter_form_model;
 	}
 	
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate()
 	{
-    error_log("llegue");
 	  if((!Yii::app()->user->isGuest) && (Yii::app()->user->hasState('current_company')))
 	  {
-      error_log("tengo sesion");
 	    $company_id = Yii::app()->user->getState('current_company');
 	    $company_model = Company::model()->findByPk($company_id);
 	    
@@ -105,7 +94,6 @@ class SampleController extends Controller
 
 		  if($company_model->has_file_in_process == 1)
 		  {
-        error_log("hay en proceso");
 		    $pending_files = $company_model->uploaded_files;
 	      if(count($pending_files) > 0)
 	        $step = $pending_files[0]->step;
@@ -135,27 +123,115 @@ class SampleController extends Controller
 	
 	function calculateAllMetrics()
   {
+    error_log("step samplings");
     $this->actionFindSamplings();
+    error_log("s stopand route");
     $this->actionFindStopsAndRoutes();
+    error_log("s route");
     $this->actionGenerateRouteMetrics();
+    error_log("s truck");
     $this->actionGenerateTruckMetrics();
+    error_log("s company");
     $this->actionGenerateCompanyMetrics();
+    error_log("s sd");
+    $this->actionGenerateStandardDeviation();
   }
+  
+  function actionGenerateStandardDeviation()
+  {
+    $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+    $company_trip_count = $company->route_count;
+    
+    $company_average_stop_count_per_trip_sds = 0.0;
+    $company_average_trip_distance_sds = 0.0;
+    $company_average_stem_distance_sds = 0.0;
+    $company_average_speed_sds = 0.0;
+    
+    foreach( $company->trucks as $truck )
+    {
+      $truck_trip_count = $truck->route_count;
+      
+      $truck_average_stop_count_per_trip_sds = 0.0;
+      $truck_average_trip_distance_sds = 0.0;
+      $truck_average_stem_distance_sds = 0.0;
+      $truck_average_speed_sds = 0.0;
+      
+      foreach( $truck->routes as $route )
+      {
+        $company_average_stop_count_per_trip_sds = $company_average_stop_count_per_trip_sds + pow($route->short_stops_count - $company->average_stop_count_per_trip, 2);
+        $company_average_trip_distance_sds =  $company_average_trip_distance_sds + pow($route->distance - $company->average_trip_distance, 2);
+        $company_average_stem_distance_sds = $company_average_stem_distance_sds + pow(($route->first_stem_distance + $route->second_stem_distance) - $company->average_stem_distance, 2);
+        $company_average_speed_sds = $company_average_speed_sds + pow($route->average_speed - $company->average_speed, 2);
+      
+        $truck_average_stop_count_per_trip_sds = $truck_average_stop_count_per_trip_sds + pow($route->short_stops_count - $truck->average_stop_count_per_trip, 2);
+        $truck_average_trip_distance_sds =  $truck_average_trip_distance_sds + pow($route->distance - $truck->average_trip_distance, 2);
+        $truck_average_stem_distance_sds = $truck_average_stem_distance_sds + pow(($route->first_stem_distance + $route->second_stem_distance) - $truck->average_stem_distance, 2);
+        $truck_average_speed_sds = $truck_average_speed_sds + pow($route->average_speed - $truck->average_speed, 2);
+      }
+      
+      $truck_average_stop_count_per_trip_sd = 0.0;
+      $truck_average_trip_distance_sd = 0.0;
+      $truck_average_stem_distance_sd = 0.0;
+      $truck_average_speed_sd = 0.0;
+      
+      if($truck_trip_count > 0)
+      {
+        $truck_average_stop_count_per_trip_sd = sqrt($truck_average_stop_count_per_trip_sds / $truck_trip_count);
+        $truck_average_trip_distance_sd = sqrt($truck_average_trip_distance_sds / $truck_trip_count);
+        $truck_average_stem_distance_sd = sqrt($truck_average_stem_distance_sds / $truck_trip_count);
+        $truck_average_speed_sd = sqrt($truck_average_speed_sds / $truck_trip_count);  
+      }
+      
+      $truck->average_stop_count_per_trip_sd = $truck_average_stop_count_per_trip_sd;
+      $truck->average_trip_distance_sd = $truck_average_trip_distance_sd;
+      $truck->average_stem_distance_sd = $truck_average_stem_distance_sd;
+      $truck->average_speed_sd = $truck_average_speed_sd;
+      $truck->save();
+    }
+    
+    $company_average_stop_count_per_trip_sd = 0.0;
+    $company_average_trip_distance_sd = 0.0;
+    $company_average_stem_distance_sd = 0.0;
+    $company_average_speed_sd = 0.0;
+    
+    if($company_trip_count > 0)
+    {
+      $company_average_stop_count_per_trip_sd = sqrt($company_average_stop_count_per_trip_sds / $company_trip_count);
+      $company_average_trip_distance_sd = sqrt($company_average_trip_distance_sds / $company_trip_count);
+      $company_average_stem_distance_sd = sqrt($company_average_stem_distance_sds / $company_trip_count);
+      $company_average_speed_sd = sqrt($company_average_speed_sds / $company_trip_count);  
+    }
+    
+    $company->average_stop_count_per_trip_sd = $company_average_stop_count_per_trip_sd;
+    $company->average_trip_distance_sd = $company_average_trip_distance_sd;
+    $company->average_stem_distance_sd = $company_average_stem_distance_sd;
+    $company->average_speed_sd = $company_average_speed_sd;
+    $company->save();
+  }
+  
   
   function actionGenerateCompanyMetrics()
   {
     $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
-      
-    //RouteCount
+    $truck_count = count($company->trucks);
     $route_count = 0;
     $distance_traveled = 0.0;
     $total_short_stop_time = 0.0;
+    $total_traveling_time  =0.0;
+    $total_resting_time  =0.0;
     $short_stop_count = 0;
+    $total_average_stem_distance = 0.0;
+    $sum_average_trip_stop_time = 0.0;
+    
     foreach( $company->trucks as $truck )
     {
       $route_count = $route_count + $truck->routesCount;
       $distance_traveled = $distance_traveled + $truck->total_distance;
       $total_short_stop_time = $total_short_stop_time + $truck->short_stops_time;
+      $total_traveling_time = $total_traveling_time + $truck->traveling_time;
+      $total_resting_time = $total_resting_time + $truck->resting_time;
+      $total_average_stem_distance = $total_average_stem_distance + $truck->average_stem_distance;
+      $sum_average_trip_stop_time = $sum_average_trip_stop_time + $truck->short_stops_time;
       $short_stop_count = $short_stop_count + $truck->stops_between_0_5;
       $short_stop_count = $short_stop_count + $truck->stops_between_5_15;
       $short_stop_count = $short_stop_count + $truck->stops_between_15_30;
@@ -163,12 +239,83 @@ class SampleController extends Controller
       $short_stop_count = $short_stop_count + $truck->stops_between_60_120;
       $short_stop_count = $short_stop_count + $truck->stops_between_120_plus;
     }
+   
+    $average_stop_count_per_trip = 0.0;
+    $average_trip_distance = 0.0;
+    $average_stem_distance = 0.0;
+    $average_trip_duration = 0.0;
+    $average_trip_stop_time = 0.0;
+    $average_trip_traveling_time = 0.0;
+    
+    if($route_count > 0)
+    {
+      $average_stop_count_per_trip = $short_stop_count / $route_count;
+      $average_trip_distance = $distance_traveled / $route_count;
+      $average_stem_distance = $total_average_stem_distance / $route_count;
+      $average_trip_duration = ( $company->traveling_time + $company->short_stop_time ) / $route_count;
+      $average_trip_stop_time = $sum_average_trip_stop_time / $route_count;
+      $average_trip_traveling_time = $company->traveling_time / $route_count;
+    }
+    
     $company->route_count = $route_count;
     $company->distance_traveled = $distance_traveled;
+    $company->short_stop_time = $total_short_stop_time;
+    $company->traveling_time = $total_traveling_time;
+    $company->resting_time = $total_resting_time;
+    $company->average_stop_count_per_trip = $average_stop_count_per_trip;
+    $company->average_trip_distance = $average_trip_distance;
+    $company->average_stem_distance = $average_stem_distance;
+    $company->average_trip_duration = $average_trip_duration;
+    $company->average_trip_stop_time = $average_trip_stop_time;
+    if($total_traveling_time > 0)
+      $company->average_speed = $distance_traveled / $total_traveling_time;
     if($short_stop_count > 0)
       $company->average_short_stop_duration = $total_short_stop_time/$short_stop_count;
     $company->save();
     $company = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+  }
+  
+  function getTruckAverageSpeed($truck)
+  {
+    $total_distance = 0.0;
+    $total_time = 0.0;
+    $average_speed = 0.0;
+    
+    foreach($truck->routes as $route)
+    {
+      $distance = 0.0;
+      if(!empty($route->distance))
+        $distance = $route->distance;
+      $time = 0.0;
+      if(!empty($route->time))
+      {
+        if(!empty($route->short_stops_time))
+          $time = $route->time - $route->short_stops_time;
+        else
+          $time = $route->time;
+      }
+      $total_distance = $total_distance + $distance;
+      $total_time = $total_time + $time;
+    }
+    if($time > 0)
+      $average_speed = $distance/$time;
+    return $average_speed;
+  }
+  
+  function calculateTruckAverageTripStopTime($truck)
+  {
+    $average_trip_stop_time = 0.0;
+    if($truck->route_count > 0)
+      $average_trip_stop_time = $truck->short_stops_time / $truck->route_count;
+    return $average_trip_stop_time;
+  }
+  
+  function calculateTruckAverageTripTravelingTime($truck)
+  {
+    $average_trip_traveling_time = 0.0;
+    if($truck->route_count > 0)
+      $average_trip_traveling_time = $truck->traveling_time / $truck->route_count;
+    return $average_trip_traveling_time;
   }
   
   function actionGenerateTruckMetrics()
@@ -178,6 +325,7 @@ class SampleController extends Controller
     $limit_string = strval($limit);
     $offset_string = strval($offset);
     $criteria = new CDbCriteria();
+    $criteria->addCondition('company_id = '.Yii::app()->user->getState('current_company'));
     $criteria->with = array('routesCount', 'timeSum','averageSpeedSum', 'distanceSum', 'shortStopsCountSum');
     $criteria->limit = $limit_string;
     $criteria->offset = $offset_string;
@@ -191,7 +339,7 @@ class SampleController extends Controller
         $truck->route_count = $route_count;
         $truck->total_distance = $truck->distanceSum;
         $truck->average_duration = $truck->timeSum/$route_count;
-        $truck->average_speed = $truck->averageSpeedSum/$route_count;
+        $truck->average_speed = $this->getTruckAverageSpeed($truck);
         $truck->average_stop_count_per_trip = $truck->shortStopsCountSum/$route_count;
         $truck->average_distance_between_short_stops = $this->calculateAverageDistanceBetweenShortStops($truck);
         $truck->average_stem_distance = $this->calculateAverageStemDistance($truck);
@@ -199,6 +347,8 @@ class SampleController extends Controller
         $truck->short_stops_time = $this->calculateShortStopsTime($truck);
         $truck->traveling_time = $this->calculateTravelingTime($truck);
         $truck->resting_time = $this->calculateTruckRestingTime($truck);
+        $truck->average_trip_stop_time = $this->calculateTruckAverageTripStopTime($truck);
+        $truck->average_trip_traveling_time = $this->calculateTruckAverageTripTravelingTime($truck);
         $this->generateTruckShortStopsRangesCount($truck);
         
         
@@ -210,6 +360,7 @@ class SampleController extends Controller
       $offset_string = strval($offset);
       $criteria->limit = $limit_string;
       $criteria->offset = $offset_string;
+      $criteria->addCondition('company_id = '.Yii::app()->user->getState('current_company'));
       $trucks = Truck::model()->findAll($criteria);
     }
   }
@@ -222,13 +373,10 @@ class SampleController extends Controller
     $stops_between_30_60 = 0;
     $stops_between_60_120 = 0;
     $stops_between_120_plus = 0;
-    
-    
     $route_count = count($truck->routes);
     $resting_time = 0.0;
     
     if($route_count > 0)
-    {
       foreach($truck->routes as $route)
       {
         $stops_between_0_5 = $stops_between_0_5 + $route->stops_between_0_5;
@@ -238,7 +386,6 @@ class SampleController extends Controller
         $stops_between_60_120 = $stops_between_60_120 + $route->stops_between_60_120;
         $stops_between_120_plus = $stops_between_120_plus + $route->stops_between_120_plus;
       }
-    }
     
     $truck->stops_between_0_5 = $stops_between_0_5;
     $truck->stops_between_5_15 = $stops_between_5_15;
@@ -246,7 +393,6 @@ class SampleController extends Controller
     $truck->stops_between_30_60 = $stops_between_30_60;
     $truck->stops_between_60_120 = $stops_between_60_120;
     $truck->stops_between_120_plus = $stops_between_120_plus;
-    
     $truck->save();
   }
   
@@ -267,9 +413,7 @@ class SampleController extends Controller
       return $resting_time;
     }
     else
-    {
       return null;
-    }
   }
   
   function calculateTravelingTime($truck)
@@ -280,15 +424,11 @@ class SampleController extends Controller
     if($route_count > 0)
     {
       foreach($truck->routes as $route)
-      {
         $traveling_time = $traveling_time + $route->traveling_time;
-      }
       return $traveling_time;
     }
     else
-    {
       return null;
-    }
   }
   
   function calculateShortStopsTime($truck)
@@ -299,18 +439,12 @@ class SampleController extends Controller
     if($route_count > 0)
     {
       foreach($truck->routes as $route)
-      {
         foreach($route->shortStops as $shortStop)
-        {
           $short_stops_time = $short_stops_time + $shortStop->duration;
-        }
-      }
       return $short_stops_time;
     }
     else
-    {
       return null;
-    }
   }
   
   function calculateAverageTripDistance($truck)
@@ -321,18 +455,12 @@ class SampleController extends Controller
     if($route_count > 0)
     {
       foreach($truck->routes as $route)
-      {
         $route_distance_sum = $route_distance_sum + $route->distance;
-      }
-      
       return $route_distance_sum/$route_count;
     }
     else
-    {
       return null;
-    }
   }
-  
   
   public function calculateAverageStemDistance($truck)
   {
@@ -356,15 +484,12 @@ class SampleController extends Controller
   {
     $distanceSum  = 0.0;
     $count = 0;
-    
     foreach($truck->routes as $route)
-    {
       if($route->distanceToNextShortStopSum != null)
       {
         $distanceSum = $distanceSum + $route->distanceToNextShortStopSum;
         $count = $count + $route->distanceToNextShortStopCount;
       }
-    }
     
     $average;
     if($count > 0)
@@ -380,13 +505,12 @@ class SampleController extends Controller
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
 	  {
-	    if (empty($_FILES) || $_FILES["file"]["error"]) {
+	    if ( empty($_FILES) || $_FILES["file"]["error"] ) {
       }
       else
       {
         $fileName = date('YmdHis').strval(rand()%10);
         move_uploaded_file($_FILES["file"]["tmp_name"], "../files/$fileName");
-        
         $uploaded_file_model = new UploadedFile;
         $uploaded_file_model->company_id = $company_id;
         $uploaded_file_model->filename = $fileName;
@@ -394,82 +518,13 @@ class SampleController extends Controller
         $uploaded_file_model->save();
         $company_model->has_file_in_process = 1;
         $company_model->save();
-        
-        /*
-        //Parse CSV file
-        $handler = fopen("../files/".$fileName,'r');
-        
-        //Get all trucks that belong to the current uploaded file model
-        //TODO adjust to multiple uploaded files
-        $condition_string2 = 'uploaded_file_id='.$uploaded_file_model->id;
-        //$trucks = Truck::model()->findAll($condition_string2);
-        
-        $trucks_array = array();
-        $samples = array();
-        $new_sample;
-        
-        fgetcsv($handler, 0, ',');//Ignore headers
-        //Read each row and create the corresponding sample
-        //Requires columns in the next order truck_name, latitude, longitude, and datetime
-        while($pointer = fgetcsv($handler, 0, ','))
-        {
-          if(array_key_exists(3, $pointer))//Validates the row has enough columns
-          {
-            
-            $new_sample = new Sample;
-            $new_sample->truck_name = $pointer[0];
-            $trucks_array[$pointer[0]] = 1;
-            $new_sample->latitude = $pointer[1];
-            $new_sample->longitude = $pointer[2];
-            $new_sample->datetime = $pointer[3];
-            $new_sample->status_id = -3;
-            //TODO:Define behaviour when unable to save
-            $new_sample->save();
-          }
-        }
-		    fclose($handler);
-		    
-		    //Create each of the trucks mentioned in the samples if any doesn't exist.
-		    foreach($trucks_array as $truck_name => $value)
-        {
-          $condition_string = "name = '" . $truck_name . "' ";
-          $registered_truck = Truck::model()->find($condition_string);
-          if(!count($registered_truck))
-          {
-            $new_truck = new Truck;
-            $new_truck->company_id = Company::model()->findByPk(Yii::app()->user->getState('current_company'))->id;
-            $new_truck->name = $truck_name;
-            $new_truck->save();
-          }
-        }
-        
-        //Set all the truck_ids of the sample, even if they were already set.
-        
-        $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
-        foreach($trucks as $truck)
-        {
-          $criteria = new CDbCriteria();
-          $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
-          $truck_samples = Sample::model()->findAll($criteria);
-          foreach($truck_samples as $truck_sample)
-          {
-            $truck_sample->truck_id = $truck->id;
-            $truck_sample->save();
-          }
-        }
-        */
         $uploaded_file_model->step = 1;
         $uploaded_file_model->save();
 		  }
 		}
 	  else
-	  {
 	    $this->render('file_in_process',array());
-	  }
   }
-  
-  
-  
   
   function calculateDistance($lon1, $lat1, $lon2, $lat2)
   {
@@ -479,34 +534,18 @@ class SampleController extends Controller
     $pi = 3.14159;
     
     if( ( abs($lat1) > 90 ) || ( abs($lat2) >90 ) || ( abs($lon1) > 360 ) || ( abs($lon2) >360 ) )
-    {
-      //TODO Throw exception for invalid coordinates
-    } 
-      
+      return 0.0;
     if( $lon1 < 0 )
-    {
       $lon1 = $lon1 + 360;
-    }
-    
     if( $lon2 < 0 )
-    {
       $lon2 = $lon2 + 360;
-    }
-    
     $km_la = $km_per_deg_la * ($lat1-$lat2);
-    
     if( abs($lon1-$lon2) > 180)
-    {
       $dif_lo = abs($lon1-$lon2)-180;
-    }
     else
-    {
       $dif_lo = abs($lon1-$lon2);
-    }
-    
     $km_lo = $km_per_deg_lo * $dif_lo * cos(($lat1+$lat2)*$pi/360);
     $dist = sqrt(pow($km_la,2) + pow($km_lo,2));
-    
     return $dist;
   }
   
@@ -527,7 +566,7 @@ class SampleController extends Controller
   
   function calculateIfContinuous($firstSample, $secondSample)
   {
-    $time_treshold = 21600;
+    $time_treshold = 21600;//6 hours
     
     $firstDate = new DateTime($firstSample->datetime);
     $secondDate = new DateTime($secondSample->datetime);
@@ -550,19 +589,11 @@ class SampleController extends Controller
     $lat1 = $firstSample->latitude;
     $lon2 = $secondSample->longitude;
     $lat2 = $secondSample->latitude;
-    //Distance of just one step
+    
     $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
-    $secondSample->distance = $distance;  
-    //Time interval
-    $firstDate = new DateTime($firstSample->datetime);
-    $secondDate = new DateTime($secondSample->datetime);
-    $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
-    $secondSample->interval = $time_diff;
-    //Speed is km/hr
-    $aux = $secondSample->interval/3600.0;
-        
+    $secondSample->distance = $distance;
+    
     $secondSample->interval = $secondSample->datetime - $firstSample->datetime;
-    //Speed is km/hr
     $aux = $secondSample->interval/3600.0;
     if($aux > 0)
       $secondSample->speed = $secondSample->distance/$aux;
@@ -575,31 +606,31 @@ class SampleController extends Controller
   {
     $total_distance = 0.0;
     foreach($route->samples as $sample)
-    {
       $total_distance = $total_distance + $sample->distance;
-    }
     $route->distance = $total_distance;
     $route->save();
   }
   
   function generateRouteAverageSpeed($route)
   {
-    $speed_count = 0.0;
-    $samples_count = 0;
-    foreach($route->samples as $sample)
+    $average_speed = 0.0;
+    $distance = 0.0;
+    if(!empty($route->distance))
+      $distance = $route->distance;
+    $time = 0.0;
+    if(!empty($route->time))
     {
-      $speed_count = $speed_count + ($sample->speed*$sample->distance);
-      $samples_count++;
+      if(!empty($route->short_stops_time))
+        $time = $route->time - $route->short_stops_time;
+      else
+        $time = $route->time;
     }
-    if($route->distance > 0)
-      $average_speed = $speed_count/$route->distance;
-    else
-      $average_speed = 0;
+    if($time > 0)
+      $average_speed = $distance/$time;
     $route->average_speed = $average_speed;
     $route->save();
   }
   
-  //TODO Change to relation
   function generateRouteStopsCount($route)
   {
     $short_stops_count = count($route->shortStops);
@@ -607,23 +638,34 @@ class SampleController extends Controller
     $route->save();
   }
   
-  //TODO change to long_stop beginning and end time
-  //TODO fix bug of null when only two samples as part of the route.
   function generateRouteTotalTime($route)
   {
     $samples_count = count($route->samples);
+    $time_diff = 0;
     if($samples_count > 2)
-    {
-      $firstDate = new DateTime($route->samples[0]->datetime);
-      $secondDate = new DateTime($route->samples[$samples_count - 1]->datetime);
+    {beginning_stop end_stop
+      $firstDate;
+      $secondDate;
+      if(!empty($route->beginning_stop))
+        $firstDate = new DateTime($route->beginning_stop->end_time)
+      else
+        $firstDate = new DateTime($route->samples[0]->datetime);
+      if(!empty($route->end_stop))
+        $secondDate = new DateTime($route->end_stop->start_time)
+      else
+        $secondDate = new DateTime($route->samples[$samples_count - 1]->datetime);
       $time_diff = $secondDate->getTimestamp()-$firstDate->getTimestamp();
-      $route->time = $time_diff;
-      $route->save();
     }
+    $route->time = $time_diff;
+    $route->save();
   }
   
   function actionGenerateRouteMetrics()
   {
+    $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+    $trucks_ids = array();
+    foreach($trucks as $truck)
+      $trucks_ids[] = $truck->id;
     $limit = 1;
     $offset = 0;
     $limit_string = strval($limit);
@@ -633,24 +675,33 @@ class SampleController extends Controller
     $criteria->limit = $limit_string;
     $criteria->offset = $offset_string;
     $criteria->order = "t.id ASC";
+    $criteria->addInCondition('truck_id', $trucks_ids);
     $routes = Route::model()->findAll($criteria);
     while(count($routes) > 0)
     {
       foreach($routes as $route)
       {
-        
         $this->generateRouteDistance($route);
-        $this->generateRouteAverageSpeed($route);
-        $this->generateRouteStopsCount($route);
         $this->generateRouteTotalTime($route);
-        $this->generateRouteShortStopsDistance($route);
-        $this->generateRouteStemTimeAndDistance($route);
-        $this->generateRouteShortStopsTime($route);
-        $this->generateTravelingTime($route);
-        $this->generateStopsRanges($route);
-        $this->generateAverageStopDuration($route);
-        $this->generateLongStopsDuration($route);
         $this->generateRouteIsValid($route);
+        if($route->is_valid == true)
+        {
+          $this->generateRouteStopsCount($route);
+          $this->generateRouteShortStopsDistance($route);
+          $this->generateRouteStemTimeAndDistance($route);
+          $this->generateRouteShortStopsTime($route);
+          $this->generateRouteAverageSpeed($route);
+          $this->generateTravelingTime($route);
+          $this->generateStopsRanges($route);
+          $this->generateAverageStopDuration($route);
+          $this->generateLongStopsDuration($route);
+        }
+        else//Delete all routes and samples that are not valid
+        {
+          foreach($route->samples as $sample)
+            $sample->delete();
+          $route->delete();
+        }
       }
       $limit++;
       $offset++;
@@ -660,27 +711,21 @@ class SampleController extends Controller
       $criteria->offset = $offset_string;
       $routes = Route::model()->findAll($criteria);
     }
-    
   }
   
   function generateRouteIsValid($route)
   {
-    $minimum_route_time = 1800;//seconds
+    $minimum_route_time = 1800;//30 minutes
     if($route->time < $minimum_route_time)
-    {
       $route->is_valid = false;
-    }
     else
-    {
       $route->is_valid = true;
-    }
     $route->save();
   }
   
   function generateLongStopsDuration($route)
   {
     if($route->beginning_stop != null)
-    {
       if($route->beginning_stop->duration == null)
       {
         $start_date = new DateTime($route->beginning_stop->start_time);
@@ -689,10 +734,8 @@ class SampleController extends Controller
         $route->beginning_stop->duration = $time_diff;
         $route->beginning_stop->save();
       }
-    }
     
     if($route->end_stop != null)
-    {
       if($route->end_stop->duration == null)
       {
         $start_date = new DateTime($route->end_stop->start_time);
@@ -701,9 +744,6 @@ class SampleController extends Controller
         $route->end_stop->duration = $time_diff;
         $route->end_stop->save();
       }
-    }
-    
-    
   }
   
   function generateAverageStopDuration($route)
@@ -870,13 +910,11 @@ class SampleController extends Controller
   
   function actionFindSamplings()
   {
-    $trucks = Truck::model()->findAll();
+    $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
     foreach($trucks as $truck)
     {    
-      //TODO Add the right filters here
       $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
       $criteria->addCondition('truck_id = '.$truck->id);
-      //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
       $samples = Sample::model()->findAll($criteria);
       $samples_size = count($samples);
       $sampling_name = 0;
@@ -910,23 +948,21 @@ class SampleController extends Controller
   
   function actionFindStopsAndRoutes()
   {
-    $trucks = Truck::model()->findAll();
+    $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
     foreach($trucks as $truck)
     {
       $samplings = $truck->samplings;
       foreach($samplings as $sampling)
       {    
-        //TODO Add the right filters here
         $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
         $criteria->addCondition('truck_id = '.$truck->id);
         $criteria->addCondition('sampling_id = '.$sampling->id);
-        //$criteria->addBetweenCondition('datetime', '2013-07-06', '2013-07-16');
         $samples = Sample::model()->findAll($criteria);
         
-        $distance_treshold_for_short_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->distance_radius_short_stop;//0.1; //TODO define treshold
-        $time_treshold_for_short_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->time_radius_short_stop;//14400;//Time in seconds
-        $distance_treshold_for_long_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->distance_radius_long_stop;//0.1; //TODO define treshold
-        $time_treshold_for_long_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->time_radius_long_stop;//14400;//Time in seconds
+        $distance_treshold_for_short_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->distance_radius_short_stop;
+        $time_treshold_for_short_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->time_radius_short_stop;
+        $distance_treshold_for_long_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->distance_radius_long_stop;
+        $time_treshold_for_long_stop= Company::model()->findByPk(Yii::app()->user->getState('current_company'))->time_radius_long_stop;
         
         $samples_size = count($samples);
         
@@ -959,8 +995,6 @@ class SampleController extends Controller
             $lon2 = $samples[$i]->longitude;
             $lat2 = $samples[$i]->latitude;
             
-            //Distance of just one step
-            //TODO URGENT Get this methods out of the algorithm
             $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
             $this->saveDistance($samples[$i], $distance);
             $this->calculateSpeedAndTime($samples[$i-1],$samples[$i]);
@@ -1135,7 +1169,6 @@ class SampleController extends Controller
               {
                 switch ($stop_type) {
                   case -1://It wasn't a long stop
-                    //TODO Possible code for not long stop
                     break;
                   case -2://Long stop
                     $new_stop = new LongStop;
@@ -1203,7 +1236,6 @@ class SampleController extends Controller
 	  if($company_model != null)
 	  {
       $parameter_model = $this->createNewParametersForm();
-		  //TODO ¿Whats going on with the step
 		
 		  $script = isset($_GET['script']);
 		  $data = array(
@@ -1260,12 +1292,10 @@ class SampleController extends Controller
       fgetcsv($handler, 0, ',');//Ignore headers
       //Read each row and create the corresponding sample
       //Requires columns in the next order truck_name, latitude, longitude, and datetime
-      error_log('voy a parsear');
       while($pointer = fgetcsv($handler, 0, ','))
       {
         if(array_key_exists(3, $pointer))//Validates the row has enough columns
         {
-          
           $new_sample = new Sample;
           $new_sample->truck_name = $pointer[0];
           $trucks_array[$pointer[0]] = 1;
@@ -1273,16 +1303,14 @@ class SampleController extends Controller
           $new_sample->longitude = $pointer[2];
           $new_sample->datetime = $pointer[3];
           $new_sample->status_id = -3;
-          //TODO:Define behaviour when unable to save
           $new_sample->save();
         }
       }
 	    fclose($handler);
-	    error_log('termine parseo');
 	    //Create each of the trucks mentioned in the samples if any doesn't exist.
 	    foreach($trucks_array as $truck_name => $value)
       {
-        $condition_string = "name = '" . $truck_name . "' ";
+        $condition_string = "name = '" . $truck_name . "' AND company_id = ".Yii::app()->user->getState('current_company');
         $registered_truck = Truck::model()->find($condition_string);
         if(!count($registered_truck))
         {
@@ -1292,7 +1320,6 @@ class SampleController extends Controller
           $new_truck->save();
         }
       }
-      error_log('termine de crear trucks');
       //Set all the truck_ids of the sample, even if they were already set.
       
       $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
@@ -1308,14 +1335,9 @@ class SampleController extends Controller
         }
       }
       
-      
-      
-      
       //STart process
       $identity_model = Identity::model()->findByPk(Yii::app()->user->getState('user'));
       $pending_upload = $identity_model->pendingUpload();
-      //$pending_upload = Yii::app()->user->getIdentity();//->pendingUpload();
-      
       $pending_upload->step++;
       $pending_upload->save();
       $company_id = Yii::app()->user->getState('current_company');
@@ -1336,18 +1358,99 @@ class SampleController extends Controller
     $company_model = Company::model()->findByPk($company_id);
     if($company_model->has_file_in_process == 1)//Si está en procesamiento
     {
+      error_log("paso 1");
       $parameter_model = $this->createNewParametersForm();
       if(isset($_POST['ParameterForm']))
 	    {
+	    error_log("paso 2");
 		    $parameter_model->attributes=$_POST['ParameterForm'];
 		    if($parameter_model->validate())
 		    {
+		    error_log("paso 3");
 		      $parameter_model->updateCompanyParameters();
 		      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
           $uploaded_file_model->step = 2;
           $uploaded_file_model->save();
           $action_url = Yii::app()->createAbsoluteUrl('sample/processData');
-          ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
+          //ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
+          
+          
+          //////////////
+          $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+      $filename = $uploaded_file_model->filename;
+      $handler = fopen("../files/".$filename,'r');
+      $trucks_array = array();
+      $samples = array();
+      $new_sample;
+          fgetcsv($handler, 0, ',');//Ignore headers
+      //Read each row and create the corresponding sample
+      //Requires columns in the next order truck_name, latitude, longitude, and datetime
+      while($pointer = fgetcsv($handler, 0, ','))
+      {
+        if(array_key_exists(3, $pointer))//Validates the row has enough columns
+        {
+          
+          $new_sample = new Sample;
+          $new_sample->truck_name = $pointer[0];
+          $trucks_array[$pointer[0]] = 1;
+          $new_sample->latitude = $pointer[1];
+          $new_sample->longitude = $pointer[2];
+          $new_sample->datetime = $pointer[3];
+          $new_sample->status_id = -3;
+          $new_sample->save();
+        }
+      }
+	    fclose($handler);
+	    error_log("paso 3");
+	    //Create each of the trucks mentioned in the samples if any doesn't exist.
+	    foreach($trucks_array as $truck_name => $value)
+      {
+        $condition_string = "name = '" . $truck_name . "' AND company_id = ".Yii::app()->user->getState('current_company');
+        $registered_truck = Truck::model()->find($condition_string);
+        if(!count($registered_truck))
+        {
+          $new_truck = new Truck;
+          $new_truck->company_id = Company::model()->findByPk(Yii::app()->user->getState('current_company'))->id;
+          $new_truck->name = $truck_name;
+          $new_truck->save();
+        }
+      }
+      //Set all the truck_ids of the sample, even if they were already set.
+      
+      $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+      error_log("paso 5");
+      foreach($trucks as $truck)
+      {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
+        $truck_samples = Sample::model()->findAll($criteria);
+        foreach($truck_samples as $truck_sample)
+        {
+          $truck_sample->truck_id = $truck->id;
+          $truck_sample->save();
+        }
+      }
+      error_log("paso 6");
+      //STart process
+      $identity_model = Identity::model()->findByPk(Yii::app()->user->getState('user'));
+      $pending_upload = $identity_model->pendingUpload();
+      $pending_upload->step++;
+      $pending_upload->save();
+      $company_id = Yii::app()->user->getState('current_company');
+      $company_model = Company::model()->findByPk($company_id);
+      $this->calculateAllMetrics();
+      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
+      unlink("../files/".$uploaded_file_model->filename);
+      $uploaded_file_model->delete();
+      $company_model = Company::model()->findByPk($company_id);
+      $company_model->has_file_in_process = 0;
+      $company_model->save();
+          error_log("termino");
+          /////
+          
+          
+          
+          
           echo CJSON::encode(array(
             'status'=>'success'
           ));

@@ -33,7 +33,7 @@ class Route extends CActiveRecord
 			array('name', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, beginning_stop_id, end_stop_id, truck_id, distance, average_speed, short_stops_count, time, first_stem_distance, first_stem_time, second_stem_distance, second_stem_time,short_stops_time, travelling_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_short_stop_duration, fuel_consumption, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
+			array('id, name, beginning_stop_id, end_stop_id, truck_id, distance, average_speed, short_stops_count, time, first_stem_distance, first_stem_time, second_stem_distance, second_stem_time,short_stops_time, travelling_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_short_stop_duration, fuel_consumption, is_valid, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 			
 		);
 	}
