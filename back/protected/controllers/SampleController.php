@@ -699,6 +699,8 @@ class SampleController extends Controller
         }
         else//Delete all routes and samples that are not valid
         {
+          foreach($route->shortStops as $short_stop)
+            $short_stop->delete();
           foreach($route->samples as $sample)
             $sample->delete();
           $route->delete();
