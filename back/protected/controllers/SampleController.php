@@ -1368,7 +1368,7 @@ class SampleController extends Controller
       error_log("replacing truck names");
       foreach($trucks as $truck)
       {
-        $limit = 10000;
+        $limit = 50000;
         $offset = 0;
         $limit_string = strval($limit);
         $offset_string = strval($offset);
