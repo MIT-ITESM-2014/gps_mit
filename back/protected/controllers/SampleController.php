@@ -1406,9 +1406,9 @@ class SampleController extends Controller
           $uploaded_file_model->step = 2;
           $uploaded_file_model->save();
           $action_url = Yii::app()->createAbsoluteUrl('sample/processData');
-          //ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
+          ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
           
-          
+          /*
           //////////////
           $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
       $filename = $uploaded_file_model->filename;
@@ -1481,9 +1481,7 @@ class SampleController extends Controller
       $company_model->save();
           error_log("termino");
           /////
-          
-          
-          
+          */
           
           echo CJSON::encode(array(
             'status'=>'success'
