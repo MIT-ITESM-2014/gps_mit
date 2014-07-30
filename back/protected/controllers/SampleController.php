@@ -283,9 +283,9 @@ class SampleController extends Controller
       $average_stop_count_per_trip = $short_stop_count / $route_count;
       $average_trip_distance = $distance_traveled / $route_count;
       $average_stem_distance = $total_average_stem_distance / $route_count;
-      $average_trip_duration = ( $company->traveling_time + $company->short_stop_time ) / $route_count;
+      $average_trip_duration = ( $total_traveling_time + $total_short_stop_time ) / $route_count;
       $average_trip_stop_time = $sum_average_trip_stop_time / $route_count;
-      $average_trip_traveling_time = $company->traveling_time / $route_count;
+      $average_trip_traveling_time = $total_traveling_time / $route_count;
     }
     
     $company->route_count = $route_count;
