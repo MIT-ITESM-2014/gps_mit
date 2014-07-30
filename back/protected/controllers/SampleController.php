@@ -298,9 +298,12 @@ class SampleController extends Controller
     $company->average_stem_distance = $average_stem_distance;
     $company->average_trip_duration = $average_trip_duration;
     $company->average_trip_stop_time = $average_trip_stop_time;
+    $company->average_trip_traveling_time = $average_trip_traveling_time;
     $total_traveling_time_hours = $total_traveling_time / 3600.0;
+    $company->average_speed = 0.0;
     if($total_traveling_time_hours > 0)
       $company->average_speed = $distance_traveled / $total_traveling_time_hours;
+    $company->average_short_stop_duration = 0.0;
     if($short_stop_count > 0)
       $company->average_short_stop_duration = $total_short_stop_time/$short_stop_count;
     $company->save();
