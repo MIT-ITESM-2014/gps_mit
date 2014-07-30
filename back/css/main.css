@@ -157,6 +157,7 @@ h1#contents-field
 	width: 120px;
 	overflow: hidden;
 	text-align: right;
+	height: 20px;
 }
 
 #session-fleet
@@ -166,6 +167,7 @@ h1#contents-field
 	padding-bottom: 5px;
 	width: 120px;
 	overflow: hidden;
+	height: 20px;
 }
 
 #logout-button
