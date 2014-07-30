@@ -5,7 +5,7 @@ $this->pageTitle=Yii::app()->name . ' - Login';
   <div id="login-header" style="background-color: #1C1C1C; width:100%; height:59px;"></div>
   <div id="contents-field" style="width:100%;">
 	  <div id="login-logo">
-	    <?php echo "<img src='".Yii::app()->request->baseUrl."/public/images/CompassLoginLogo.png'>"; ?>
+	    <?php echo "<img src='".Yii::app()->request->baseUrl."/public/images/CompassLogo-FrontEnd.png'>"; ?>
 	  </div>
     <div id="login-form-container" style="margin-left:auto; margin-right:auto; width:500px; height:400px;">
       <div class="form">
