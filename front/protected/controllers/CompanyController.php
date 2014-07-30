@@ -147,10 +147,10 @@ class CompanyController extends Controller
     	$truck_stops_time_hours_sd = $truck->average_trip_stop_time_sd / 60; //minutes
     	$company_stops_time_hours = $company_model->average_trip_stop_time / $secondsInAnHour;
     	$company_stops_time_hours_sd = $company_model->average_trip_stop_time_sd / 60; //minutes
-    	$truck_trip_time_hours = ($truck->average_trip_stop_time + $truck->average_trip_traveling_time ) / $secondsInAnHour;
-    	$truck_trip_time_hours_sd = ($truck->average_trip_stop_time_sd + $truck->average_trip_traveling_time_sd) / 60; //minutes
-    	$company_trip_time_hours = ($company_model->average_trip_stop_time + $company_model->average_trip_traveling_time) / $secondsInAnHour;
-    	$company_trip_time_hours_sd = ($company_model->average_trip_stop_time_sd + $company_model->average_trip_traveling_time_sd) / 60; //minutes
+    	$truck_trip_time_hours = ($truck->average_duration ) / $secondsInAnHour;
+    	$truck_trip_time_hours_sd = ($truck->average_trip_duration_sd) / 60; //minutes
+    	$company_trip_time_hours = ($company_model->average_trip_duration) / $secondsInAnHour;
+    	$company_trip_time_hours_sd = ($company_model->average_trip_duration_sd) / 60; //minutes
 
     	$chart_5_trucks_time_traveling [] = array(
     		'x' => $truck->id, 
@@ -174,17 +174,17 @@ class CompanyController extends Controller
     		'y' => (float) round($company_stops_time_hours, 1),
     		'myData' => (float) round($company_stops_time_hours_sd, 1)
     	);
-			$chart_7_trucks_trip_time [] = array(
-				'x' => $truck->id,
-				'y' => (float) round($truck_trip_time_hours, 1),
-				'name' => $truck->name,
-				'myData' => (float) round($truck_trip_time_hours_sd, 1)
-			); 
-			$chart_7_company_trip_time [] = array(
-				'x' => $truck->id,
-				'y' => (float) round($company_trip_time_hours, 1),
-				'myData' => (float) round($company_trip_time_hours_sd, 1)
-			);
+		$chart_7_trucks_trip_time [] = array(
+			'x' => $truck->id,
+			'y' => (float) round($truck_trip_time_hours, 1),
+			'name' => $truck->name,
+			'myData' => (float) round($truck_trip_time_hours_sd, 1)
+		); 
+		$chart_7_company_trip_time [] = array(
+			'x' => $truck->id,
+			'y' => (float) round($company_trip_time_hours, 1),
+			'myData' => (float) round($company_trip_time_hours_sd, 1)
+		);
 
     	foreach ($truck->routes as $route) {
     		$chart_1_routes_speeds [] = array(
