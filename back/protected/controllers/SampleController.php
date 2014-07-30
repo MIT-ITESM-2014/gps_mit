@@ -1289,6 +1289,7 @@ class SampleController extends Controller
   
   public function actionRecalculateData()
   {
+    ini_set("max_execution_time",-1);
     if(isset($_POST['cid']) && isset($_POST['uid']))
     {
       $cid = (int)$_POST['cid'];
@@ -1312,6 +1313,7 @@ class SampleController extends Controller
   
   public function actionProcessData()
   {
+    ini_set("max_execution_time",-1);
     if(isset($_POST['cid']) && isset($_POST['uid']))
     {
       $cid = (int)$_POST['cid'];
