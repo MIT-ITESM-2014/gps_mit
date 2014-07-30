@@ -774,9 +774,19 @@ body
 
 .chart_style
 {
-	height: auto;
-	width: 750px;
 	display: inline-block;
+}
+
+#container
+{
+	width: 550px;
+	height: auto;
+}
+
+#charts-container
+{
+	width: 750px;
+	height: auto;
 }
 
 .trips-stats-container
@@ -1362,6 +1372,7 @@ body
   color:#003c4b;
   cursor:pointer;
   font-weight: 700;
+  font-size: 15px;
 }
 
 #login_simulated_button:hover
