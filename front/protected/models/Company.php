@@ -38,7 +38,7 @@ class Company extends CActiveRecord
 			array('created_at, updated_at, name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, has_file_in_process, route_count, average_speed, average_stop_count_per_trip, average_trip_distance, average_stem_distance, short_stop_time, traveling_time, resting_time, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, average_trip_duration, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
+			array('id, name, has_file_in_process, route_count, average_speed, average_stop_count_per_trip, average_trip_distance, average_stem_distance, short_stop_time, traveling_time, resting_time, time_radius_short_stop, distance_radius_short_stop, time_radius_long_stop, distance_radius_long_stop, distance_traveled, average_short_stop_duration, average_trip_duration, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, average_trip_duration_sd, average_trip_stop_time_sd, average_trip_traveling_time_sd, created_at, updated_at, aux1, aux2, aux3', 'safe', 'on'=>'search'),
 		);
 	}
 

@@ -146,6 +146,9 @@ class SampleController extends Controller
     $company_average_trip_distance_sds = 0.0;
     $company_average_stem_distance_sds = 0.0;
     $company_average_speed_sds = 0.0;
+    $company_average_trip_duration_sds = 0.0;
+    $company_average_trip_stop_time_sds = 0.0;
+    $company_average_trip_traveling_time_sds = 0.0;
     
     foreach( $company->trucks as $truck )
     {
@@ -155,6 +158,10 @@ class SampleController extends Controller
       $truck_average_trip_distance_sds = 0.0;
       $truck_average_stem_distance_sds = 0.0;
       $truck_average_speed_sds = 0.0;
+      $truck_average_trip_duration_sds = 0.0;
+      $truck_average_trip_stop_time_sds = 0.0;
+      $truck_average_trip_traveling_time_sds = 0.0;
+    
       
       foreach( $truck->routes as $route )
       {
@@ -162,17 +169,26 @@ class SampleController extends Controller
         $company_average_trip_distance_sds =  $company_average_trip_distance_sds + pow($route->distance - $company->average_trip_distance, 2);
         $company_average_stem_distance_sds = $company_average_stem_distance_sds + pow(($route->first_stem_distance + $route->second_stem_distance) - $company->average_stem_distance, 2);
         $company_average_speed_sds = $company_average_speed_sds + pow($route->average_speed - $company->average_speed, 2);
+        $company_average_trip_duration_sds = $company_average_trip_duration_sds + $route->time;
+        $company_average_trip_stop_time_sds = $company_average_trip_stop_time_sds + $route->short_stops_time;
+        $company_average_trip_traveling_time_sds = $company_average_trip_traveling_time_sds + $route->traveling_time;
       
         $truck_average_stop_count_per_trip_sds = $truck_average_stop_count_per_trip_sds + pow($route->short_stops_count - $truck->average_stop_count_per_trip, 2);
         $truck_average_trip_distance_sds =  $truck_average_trip_distance_sds + pow($route->distance - $truck->average_trip_distance, 2);
         $truck_average_stem_distance_sds = $truck_average_stem_distance_sds + pow(($route->first_stem_distance + $route->second_stem_distance) - $truck->average_stem_distance, 2);
         $truck_average_speed_sds = $truck_average_speed_sds + pow($route->average_speed - $truck->average_speed, 2);
+        $truck_average_trip_duration_sds = $truck_average_trip_duration_sds + $route->time;
+        $truck_average_trip_stop_time_sds = $truck_average_trip_stop_time_sds + $route->short_stops_time;
+        $truck_average_trip_traveling_time_sds = $truck_average_trip_traveling_time_sds + $route->traveling_time;
       }
       
       $truck_average_stop_count_per_trip_sd = 0.0;
       $truck_average_trip_distance_sd = 0.0;
       $truck_average_stem_distance_sd = 0.0;
       $truck_average_speed_sd = 0.0;
+      $truck_average_trip_duration_sd = 0.0;
+      $truck_average_trip_stop_time_sd = 0.0;
+      $truck_average_trip_traveling_time_sd = 0.0;
       
       if($truck_trip_count > 0)
       {
@@ -180,12 +196,18 @@ class SampleController extends Controller
         $truck_average_trip_distance_sd = sqrt($truck_average_trip_distance_sds / $truck_trip_count);
         $truck_average_stem_distance_sd = sqrt($truck_average_stem_distance_sds / $truck_trip_count);
         $truck_average_speed_sd = sqrt($truck_average_speed_sds / $truck_trip_count);  
+        $truck_average_trip_duration_sd = sqrt($truck_average_trip_duration_sds / $truck_trip_count);
+        $truck_average_trip_stop_time_sd = sqrt($truck_average_trip_stop_time_sds / $truck_trip_count);
+        $truck_average_trip_traveling_time_sd = sqrt($truck_average_trip_traveling_time_sds / $truck_trip_count);
       }
       
       $truck->average_stop_count_per_trip_sd = $truck_average_stop_count_per_trip_sd;
       $truck->average_trip_distance_sd = $truck_average_trip_distance_sd;
       $truck->average_stem_distance_sd = $truck_average_stem_distance_sd;
       $truck->average_speed_sd = $truck_average_speed_sd;
+      $truck->average_trip_duration_sd = $truck_average_trip_duration_sd;
+      $truck->average_trip_stop_time_sd = $truck_average_trip_stop_time_sd;
+      $truck->average_trip_traveling_time_sd = $truck_average_trip_traveling_time_sd;
       $truck->save();
     }
     
@@ -193,6 +215,9 @@ class SampleController extends Controller
     $company_average_trip_distance_sd = 0.0;
     $company_average_stem_distance_sd = 0.0;
     $company_average_speed_sd = 0.0;
+    $company_average_trip_duration_sd = 0.0;
+    $company_average_trip_stop_time_sd = 0.0;
+    $company_average_trip_traveling_time_sd = 0.0;
     
     if($company_trip_count > 0)
     {
@@ -200,12 +225,18 @@ class SampleController extends Controller
       $company_average_trip_distance_sd = sqrt($company_average_trip_distance_sds / $company_trip_count);
       $company_average_stem_distance_sd = sqrt($company_average_stem_distance_sds / $company_trip_count);
       $company_average_speed_sd = sqrt($company_average_speed_sds / $company_trip_count);  
+      $company_average_trip_duration_sd = sqrt($company_average_trip_duration_sds / $company_trip_count);
+      $company_average_trip_stop_time_sd = sqrt($company_average_trip_duration_sds / $company_trip_count);
+      $company_average_trip_traveling_time_sd = sqrt($company_average_trip_duration_sds / $company_trip_count);
     }
     
     $company->average_stop_count_per_trip_sd = $company_average_stop_count_per_trip_sd;
     $company->average_trip_distance_sd = $company_average_trip_distance_sd;
     $company->average_stem_distance_sd = $company_average_stem_distance_sd;
     $company->average_speed_sd = $company_average_speed_sd;
+    $company->average_trip_duration_sd = $company_average_trip_duration_sd;
+    $company->average_trip_stop_time_sd = $company_average_trip_stop_time_sd;
+    $company->average_trip_traveling_time_sd = $company_average_trip_traveling_time_sd;
     $company->save();
   }
   
