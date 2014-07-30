@@ -283,7 +283,7 @@ class SampleController extends Controller
       $average_stop_count_per_trip = $short_stop_count / $route_count;
       $average_trip_distance = $distance_traveled / $route_count;
       $average_stem_distance = $total_average_stem_distance / $route_count;
-      $average_trip_duration = ( $total_traveling_time + $total_short_stop_time ) / $route_count;
+      $average_trip_duration = ( $total_traveling_time + $total_short_stop_route ) / $time_count;
       $average_trip_stop_time = $sum_average_trip_stop_time / $route_count;
       $average_trip_traveling_time = $total_traveling_time / $route_count;
     }
@@ -390,7 +390,7 @@ class SampleController extends Controller
         $truck->save();
       }
       $limit++;
-      $offset++;
+      $offset = $limit + $offset;
       $limit_string = strval($limit);
       $offset_string = strval($offset);
       $criteria->limit = $limit_string;
@@ -1313,7 +1313,6 @@ class SampleController extends Controller
   
   public function actionProcessData()
   {
-    ini_set("max_execution_time",-1);
     if(isset($_POST['cid']) && isset($_POST['uid']))
     {
       $cid = (int)$_POST['cid'];
@@ -1331,6 +1330,7 @@ class SampleController extends Controller
       fgetcsv($handler, 0, ',');//Ignore headers
       //Read each row and create the corresponding sample
       //Requires columns in the next order truck_name, latitude, longitude, and datetime
+      error_log("Reading samples");
       while($pointer = fgetcsv($handler, 0, ','))
       {
         if(array_key_exists(3, $pointer))//Validates the row has enough columns
@@ -1347,6 +1347,8 @@ class SampleController extends Controller
       }
 	    fclose($handler);
 	    //Create each of the trucks mentioned in the samples if any doesn't exist.
+	    
+	    error_log("creating trucks");
 	    foreach($trucks_array as $truck_name => $value)
       {
         $condition_string = "name = '" . $truck_name . "' AND company_id = ".Yii::app()->user->getState('current_company');
@@ -1360,17 +1362,35 @@ class SampleController extends Controller
         }
       }
       //Set all the truck_ids of the sample, even if they were already set.
+      error_log("Looking for all trucks");
       
       $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
+      error_log("replacing truck names");
       foreach($trucks as $truck)
       {
+        $limit = 10000;
+        $offset = 0;
+        $limit_string = strval($limit);
+        $offset_string = strval($offset);
         $criteria = new CDbCriteria();
+        //TODO Link samples with company
+        //$criteria->addCondition('company_id = '.Yii::app()->user->getState('current_company'));
         $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
+        $criteria->limit = $limit_string;
+        $criteria->offset = $offset_string;
+        $criteria->order = "t.datetime ASC";
         $truck_samples = Sample::model()->findAll($criteria);
-        foreach($truck_samples as $truck_sample)
-        {
-          $truck_sample->truck_id = $truck->id;
-          $truck_sample->save();
+        while(count($truck_samples) > 0)
+        { 
+          foreach($truck_samples as $truck_sample)
+          {
+            $truck_sample->truck_id = $truck->id;
+            $truck_sample->save();
+          }
+          $offset = $offset + $limit;
+          $offset_string = strval($offset);
+          $criteria->offset = $offset_string;
+          $truck_samples = Sample::model()->findAll($criteria);
         }
       }
       
@@ -1381,6 +1401,7 @@ class SampleController extends Controller
       $pending_upload->save();
       $company_id = Yii::app()->user->getState('current_company');
       $company_model = Company::model()->findByPk($company_id);
+      error_log("calculating all metrics");
       $this->calculateAllMetrics();
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
       unlink("../files/".$uploaded_file_model->filename);
