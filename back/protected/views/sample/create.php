@@ -45,7 +45,7 @@
       <br />
       <p>You can download a sample file with the required format.</p>
     </div>
-    <div class="download-sample-file-button"> </div>
+    <div class="download-sample-file-button" onclick="<?php echo "window.location='".Yii::app()->baseUrl."/public/template.xlsx'"; ?>"> </div>
     <div class="files-to-upload">
       <ul id="filelist"></ul>
     </div>
@@ -70,6 +70,7 @@
       'enableClientValidation'=>true,
     ));
 ?>
+//http://localhost/MIT/gps_mit/back/public/template.xlsx
   <div class="upload-guidelines-two">
     <div class="upload-guidelines-file-two">
       <div class="upload-guidelines-file-image-two"></div>
