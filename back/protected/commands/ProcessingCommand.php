@@ -681,11 +681,12 @@ class ProcessingCommand extends CConsoleCommand {
   function generateRouteDistance($route)
   {
     $total_distance = 0.0;
-    error_log("el conteo es");
+    error_log("el conteo de ".$route->id."es");
     error_log(" ".count($route->samples));
     foreach($route->samples as $sample)
       $total_distance = $total_distance + $sample->distance;
     $route->distance = $total_distance;
+    error_log(" ".count($route->samples)." la distancia: ".$total_distance);
     $route->save();
   }//generateRouteDistance
   
