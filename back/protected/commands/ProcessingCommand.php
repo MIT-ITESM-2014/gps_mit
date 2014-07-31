@@ -3,6 +3,11 @@
 class ProcessingCommand extends CConsoleCommand {
 
   public $current_company = null;//$this->current_company->id
+  public $buffer_samples = null;
+  public $buffer_size = 1000;
+  public $buffer_first = null;
+  public $buffer_last = null;
+  public $buffer_sampling = null;
 
   public function run($args) {
     Yii::getLogger()->autoDump = true;
@@ -511,18 +516,20 @@ class ProcessingCommand extends CConsoleCommand {
   
   function getSamplingSampleAt($sampling_id, $offset)
   {
-    if($offset%1000 == 0)
-      error_log("requested = ".$offset);
-    $limit = 1;
-    $limit_string = strval($limit);
-    $offset_string = strval($offset);
-    $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-    $criteria->addCondition('sampling_id = '.$sampling_id);
-    $criteria->limit = $limit_string;
-    $criteria->offset = $offset_string;
-    $samples = Sample::model()->findAll($criteria);
-    if(count($samples) > 0)
-      return $samples[0];
+    if( ($offset < $this->buffer_first) || ($offset > $this->buffer_last) || ($this->buffer_sampling != $sampling_id) || ($offset == null))//If it is not available in buffer
+    {
+      $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+      $criteria->addCondition('sampling_id = '.$sampling_id);
+      $criteria->limit = strval($this->buffer_size);
+      $criteria_offset = (int)($offset/1000)  * 1000; 
+      $criteria->offset = $criteria_offset;
+      $this->buffer_samples = Sample::model()->findAll($criteria);
+      $this->buffer_sampling = $sampling_id;
+      $this->buffer_first = $criteria_offset;
+      $this->buffer_last = $criteria_offset + $this->buffer_size - 1;
+    }
+    if(isset($this->buffer_samples[$offset - $this->buffer_first]))
+      return $this->buffer_samples[$offset - $this->buffer_first];
     else
       return null;
   }
