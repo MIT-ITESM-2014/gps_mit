@@ -516,6 +516,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function getSamplingSampleAt($sampling_id, $offset)
   {
+    error_log("requesting :". $offset);
     if( ($offset < $this->buffer_first) || ($offset > $this->buffer_last) || ($this->buffer_sampling != $sampling_id) || ($offset == null))//If it is not available in buffer
     {
       error_log("Bringing new samples");
