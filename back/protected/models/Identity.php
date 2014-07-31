@@ -112,23 +112,25 @@ class Identity extends CActiveRecord
     return $this->last_name.", ".$this->name;
   }
   	
-	public function pendingUploads()
+	/*public function pendingUploads()
   {
     $company_model = Company::model()->findByPk(Yii::app()->user->getStatependi('current_company'));
     $uploaded_files = $company_model->uploaded_files(array());
     return $uploaded_files;
     
-    /*
-    return array(
-        'with'=> array("uploaded_files" => array(
-          'condition'=> "uploaded_file.step = 1",
-        ),
-      )
-    );
-    */
-  }
+    
+    //return array(
+        //'with'=> array("uploaded_files" => array(
+          //'condition'=> "uploaded_file.step = 1",
+        //),
+      //)
+    //);
+    
+  } */
   
-  public function pendingUpload()
+  //no longer needed, using cron
+
+ /* public function pendingUpload()
   {
     $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
     $uploaded_files = $company_model->uploaded_files(array('condition'=>'step > 0 '));
@@ -137,7 +139,7 @@ class Identity extends CActiveRecord
     else
       return null;
     
-  }
+  }*/
 
 	/**
 	 * Returns the static model of the specified AR class.
