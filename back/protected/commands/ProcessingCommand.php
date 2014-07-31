@@ -692,6 +692,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteTotalTime($route)
   {
+    error_log("totaltime");
     $samples_count = count($route->samples);
     $time_diff = 0;
     if($samples_count > 2)
@@ -714,6 +715,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteIsValid($route)
   {
+    error_log("route is valid");
     $minimum_route_time = 1800;//30 minutes
     if($route->time < $minimum_route_time)
       $route->is_valid = false;
@@ -724,6 +726,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteStopsCount($route)
   {
+    error_log("route stops count");
     $short_stops_count = count($route->shortStops);
     $route->short_stops_count = $short_stops_count;
     $route->save();
@@ -731,6 +734,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteShortStopsDistance($route)
   {
+    error_log("route short stops distnace");
     $i = 0;
     $short_stops_count = count($route->shortStops);
     if($short_stops_count > 2)
@@ -753,6 +757,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteStemTimeAndDistance($route)
   {
+    error_log("route stem time and distance");
     $first_stem_distance = null;
     $second_stem_distance = null;
     $first_stem_time = null;
@@ -801,6 +806,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteShortStopsTime($route)
   {
+    error_log("route short stops time");
     $total_time = 0.0;
     for($i = 0; $i < count($route->shortStops); $i++)
     {
@@ -819,6 +825,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteAverageSpeed($route)
   {
+    error_log("route average speed");
     $average_speed = 0.0;
     $distance = 0.0;
     if(!empty($route->distance))
@@ -839,13 +846,14 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateTravelingTime($route)
   {
-    
+    error_log("travlieng_time"); 
     $route->traveling_time = $route->time - $route->short_stops_time;
     $route->save();
   }//generateTravelingTime
   
   function generateStopsRanges($route)
   {
+    error_log("stop ranges");
     $stops_between_0_5 = 0;
     $stops_between_5_15 = 0;
     $stops_between_15_30 = 0;
@@ -882,6 +890,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateAverageStopDuration($route)
   {
+    error_log("average stop duration");
     $stop_count = count($route->shortStops);
     
     if($stop_count > 0)
@@ -899,6 +908,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateLongStopsDuration($route)
   {
+    error_log("long stops duration");
     if($route->beginning_stop != null)
       if($route->beginning_stop->duration == null)
       {
