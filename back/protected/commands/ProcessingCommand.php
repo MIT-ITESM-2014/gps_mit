@@ -511,11 +511,15 @@ class ProcessingCommand extends CConsoleCommand {
   
   function getSamplingSampleAt($sampling_id, $offset)
   {
+    if($offset%1000 == 0)
+      error_log("requested = ".$offset);
     $limit = 1;
     $limit_string = strval($limit);
     $offset_string = strval($offset);
     $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
     $criteria->addCondition('sampling_id = '.$sampling_id);
+    $criteria->limit = $limit_string;
+    $criteria->offset = $offset_string;
     $samples = Sample::model()->findAll($criteria);
     if(count($samples) > 0)
       return $samples[0];
