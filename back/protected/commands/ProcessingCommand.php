@@ -11,6 +11,7 @@ class ProcessingCommand extends CConsoleCommand {
     {
       //Parse CSV file
       $this->current_company = $company;
+      /*
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company->id));
       $filename = $uploaded_file_model->filename;
       $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
@@ -87,30 +88,33 @@ class ProcessingCommand extends CConsoleCommand {
       $uploaded_file_model->step++;
       $uploaded_file_model->save();
       $company_id = $company->id;
+      */
       error_log("calculating all metrics");
       $this->calculateAllMetrics();
+      /*
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
       unlink(dirname(__FILE__)."/../../../files/".$uploaded_file_model->filename);
       $uploaded_file_model->delete();
       $company->has_file_in_process = 0;
       $company->save();
+      */
     }    
   }
   
   function calculateAllMetrics()
   {
-    error_log("actionFindSamplings");
-    $this->actionFindSamplings();
+    //error_log("actionFindSamplings");
+    //$this->actionFindSamplings();
     error_log("actionFindStopsAndRoutes");
     $this->actionFindStopsAndRoutes();
     error_log("actionGenerateRouteMetric");
-    $this->actionGenerateRouteMetrics();
-    error_log("actionGenerateTruckMetrics");
-    $this->actionGenerateTruckMetrics();
-    error_log("actionGenerateCompanyMetrics");
-    $this->actionGenerateCompanyMetrics();
-    error_log("actionGenerateStandardDeviation");
-    $this->actionGenerateStandardDeviation();
+    //$this->actionGenerateRouteMetrics();
+    //error_log("actionGenerateTruckMetrics");
+    //$this->actionGenerateTruckMetrics();
+    //error_log("actionGenerateCompanyMetrics");
+    //$this->actionGenerateCompanyMetrics();
+    //error_log("actionGenerateStandardDeviation");
+    //$this->actionGenerateStandardDeviation();
   }
   
   function actionFindSamplings()
