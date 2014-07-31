@@ -39,14 +39,17 @@ class SiteController extends Controller
 	 */
 	public function actionTrucks()
 	{
+
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));		
+	  
 	  $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery');
     $cs->registerCoreScript('highcharts');
     $cs->registerCoreScript('screen-block');  
 	  $criteria = new CDbCriteria();
 	  $criteria->select = 'id, name';
-	  //TODO  Validate company in truck list
-	  //$criteria->addCondition("company_id = ".Yii::app()->user->getCompany()->id);
+	  $criteria->addCondition("company_id = ".Yii::app()->user->getState('current_company'));
     
     $trucks = CHtml::listData(Truck::model()->findAll($criteria), 'id', 'name');
  
@@ -61,6 +64,10 @@ class SiteController extends Controller
 	 */
 	public function actionStats()
 	{
+
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
+
 	  $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery');
     $cs->registerCoreScript('highcharts');
@@ -68,23 +75,14 @@ class SiteController extends Controller
 	  $this->render('stats');
 	}
 
-  /**
-   * Render the truck_options section
-   */
-  public function actionTruck_Options()
-  {
-    $cs = Yii::app()->clientScript;
-    $cs->registerCoreScript('jquery');
-    $cs->registerCoreScript('highcharts');
-    $cs->registerCoreScript('screen-block');
-    $this->render('truck_options');
-  }  
-
 	/**
 	 * This is the action to handle external exceptions.
 	 */
 	public function actionError()
 	{
+
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 
     $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery');  
@@ -98,36 +96,12 @@ class SiteController extends Controller
 		}
 	}
 
-	/**
-	 * Displays the contact page
-	 */
-	public function actionContact()
-	{
-		$model=new ContactForm;
-		if(isset($_POST['ContactForm']))
-		{
-			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
-				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-				$subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-				$headers="From: $name <{$model->email}>\r\n".
-					"Reply-To: {$model->email}\r\n".
-					"MIME-Version: 1.0\r\n".
-					"Content-Type: text/plain; charset=UTF-8";
-
-				mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
-				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-				$this->refresh();
-			}
-		}
-		$this->render('contact',array('model'=>$model));
-	}
-
-
   public function actionErrorIsAdmin()
   {
     
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
+          
     $cs = Yii::app()->clientScript;
     $cs->registerCoreScript('jquery'); 
 
