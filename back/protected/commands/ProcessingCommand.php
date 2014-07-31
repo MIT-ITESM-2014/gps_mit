@@ -625,6 +625,7 @@ class ProcessingCommand extends CConsoleCommand {
   
   function actionGenerateRouteMetrics()
   {
+    error_log("E1");
     $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
     $trucks_ids = array();
     foreach($trucks as $truck)
@@ -639,16 +640,21 @@ class ProcessingCommand extends CConsoleCommand {
     $criteria->offset = $offset_string;
     $criteria->order = "t.id ASC";
     $criteria->addInCondition('truck_id', $trucks_ids);
+    error_log("E3");
     $routes = Route::model()->findAll($criteria);
+    error_log("E4");
     while(count($routes) > 0)
     {
+    error_log("E5");
       foreach($routes as $route)
       {
+      error_log("E6");
         $this->generateRouteDistance($route);
         $this->generateRouteTotalTime($route);
         $this->generateRouteIsValid($route);
         if($route->is_valid == true)
         {
+        error_log("E7");
           $this->generateRouteStopsCount($route);
           $this->generateRouteShortStopsDistance($route);
           $this->generateRouteStemTimeAndDistance($route);
@@ -661,13 +667,21 @@ class ProcessingCommand extends CConsoleCommand {
         }
         else//Delete all routes and samples that are not valid
         {
+        error_log("E8");
           foreach($route->shortStops as $short_stop)
+          {
             $short_stop->delete();
+            error_log("E9");
+          }  
           foreach($route->samples as $sample)
+          {
             $sample->delete();
+            error_log("E10");
+          }  
           $route->delete();
         }
       }
+      error_log("E11");
       $limit++;
       $offset++;
       $limit_string = strval($limit);
