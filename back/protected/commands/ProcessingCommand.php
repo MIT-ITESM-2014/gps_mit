@@ -518,6 +518,7 @@ class ProcessingCommand extends CConsoleCommand {
   {
     if( ($offset < $this->buffer_first) || ($offset > $this->buffer_last) || ($this->buffer_sampling != $sampling_id) || ($offset == null))//If it is not available in buffer
     {
+      error_log("Bringing new samples");
       $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
       $criteria->addCondition('sampling_id = '.$sampling_id);
       $criteria->limit = strval($this->buffer_size);
