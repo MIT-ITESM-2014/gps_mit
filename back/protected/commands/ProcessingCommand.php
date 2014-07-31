@@ -658,6 +658,7 @@ class ProcessingCommand extends CConsoleCommand {
           $this->generateStopsRanges($route);
           $this->generateAverageStopDuration($route);
           $this->generateLongStopsDuration($route);
+          error_log("finish rm");
         }
         else//Delete all routes and samples that are not valid
         {
@@ -670,6 +671,7 @@ class ProcessingCommand extends CConsoleCommand {
       }
       $limit++;
       $offset++;
+      error_log("l and off ". $limit . " " .$offset);
       $limit_string = strval($limit);
       $offset_string = strval($offset);
       $criteria->limit = $limit_string;
@@ -928,6 +930,7 @@ class ProcessingCommand extends CConsoleCommand {
         $route->end_stop->duration = $time_diff;
         $route->end_stop->save();
       }
+    error_log("last lsd");
   }//generateLongStopsDuration
   
   function actionGenerateTruckMetrics()
