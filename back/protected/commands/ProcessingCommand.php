@@ -193,9 +193,11 @@ class ProcessingCommand extends CConsoleCommand {
     $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
     foreach($trucks as $truck)
     {
+    error_log("E1");
       $samplings = $truck->samplings;
       foreach($samplings as $sampling)
       {    
+      error_log("E2");
         //$samples = $sampling->samples;
         $distance_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_short_stop;
         $time_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->time_radius_short_stop;
@@ -207,6 +209,7 @@ class ProcessingCommand extends CConsoleCommand {
         
         if($samples_size > 1)
         {
+        error_log("E3");
           $new_stop = null;
           
           $previous_sample = $this->getSamplingSampleAt($sampling_id,0);
@@ -218,6 +221,7 @@ class ProcessingCommand extends CConsoleCommand {
           
           for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
           {
+          error_log("E4");
             $this->calculateDistanceSpeedAndTime($this->getSamplingSampleAt($sampling_id,$i-1),$this->getSamplingSampleAt($sampling_id,$i));
             $stop_type = 0;
             $lon1 = $previous_sample->longitude;
@@ -238,11 +242,13 @@ class ProcessingCommand extends CConsoleCommand {
             $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
             if($distance<$distance_treshold_for_short_stop )//If it is staying in "the same" place
             {
+            error_log("E5");
               $stop_start = $i;
               $stop_type = -1;
               
               while( ($distance<$distance_treshold_for_short_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
               {
+              error_log("E6");
                 //Move one step forward
                 $i++;
                 $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -262,10 +268,12 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
                 {
+                error_log("E7");
                   $stop_type = -2;
                   //A stop becomes long stop
                   while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
                   {
+                  error_log("E8");
                     //Move one step forward
                     $i++;
                     $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -284,6 +292,7 @@ class ProcessingCommand extends CConsoleCommand {
               }
               while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
               {
+              error_log("E9");
                 //A stop begins
                 //Move one step forward
                 $i++;
@@ -304,10 +313,12 @@ class ProcessingCommand extends CConsoleCommand {
                     
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
                 {
+                error_log("E10");
                   $stop_type = -2;
                   //A stop becomes long stop
                   while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
                   {
+                  error_log("E11");
                     //Move one step forward
                     $i++;
                     $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -328,14 +339,18 @@ class ProcessingCommand extends CConsoleCommand {
               $new_stop = null;
               if($current_route != null)
               {
+              error_log("E12");
                 switch ($stop_type) {
                   case -1://Short stop
+                  error_log("E13");
                     if($date_diff_timestamp > $time_treshold_for_short_stop)//Greater than the minimun for short stop
                     {
+                    error_log("E14");
                       $new_stop = new ShortStop;
                       $new_stop->route_id = $current_route->id;
                       for($j = $stop_start; $j <= $stop_end; $j++)
                       {
+                      error_log("E15");
                         $sample_j = $this->getSamplingSampleAt($sampling_id,$j);
                         $sample_j->route_id=$current_route->id; 
                         $sample_j->update();
@@ -344,6 +359,7 @@ class ProcessingCommand extends CConsoleCommand {
                     }
                     else//Here we add just the first and last to the route
                     {
+                    error_log("E16");
                       $sample_stop_start = $this->getSamplingSampleAt($sampling_id,$stop_start);
                       $sample_stop_start->route_id=$current_route->id; 
                       $sample_stop_start->update();
@@ -355,11 +371,13 @@ class ProcessingCommand extends CConsoleCommand {
                     }
                     break;
                   case -2://Long stop
+                  error_log("E17");
                     $new_stop = new LongStop;
                     break;
                 }
                 if($new_stop != null)
                 {
+                error_log("E18");
                   $sample_stop_start = $this->getSamplingSampleAt($sampling_id,$stop_start);
                   $new_stop->latitude = $sample_stop_start->latitude;
                   $new_stop->longitude = $sample_stop_start->longitude;
@@ -373,6 +391,7 @@ class ProcessingCommand extends CConsoleCommand {
                 }
                 if($stop_type == -2)//If it was long stop
                 {
+                error_log("E19");
                   $route_count++;
                   $current_route->end_stop_id = $new_stop->id;
                   $current_route->save();
@@ -390,12 +409,14 @@ class ProcessingCommand extends CConsoleCommand {
             }
             if($distance<$distance_treshold_for_long_stop )//It can only be a long stop
             {
+            error_log("E20");
               //A stop begins
               $stop_start = $i;
               $stop_type = -1;
               
               while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
               {
+              error_log("E21");
                 //A stop begins
                 //Move one step forward
                 $i++;
@@ -416,10 +437,12 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a full Stop
                 {
+                error_log("E22");
                   $stop_type = -2;
                   //A stop becomes long stop
                   while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
                   {
+                  error_log("E23");
                     //Move one step forward
                     $i++;
                     $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -440,16 +463,20 @@ class ProcessingCommand extends CConsoleCommand {
               $new_stop = null;
               if($current_route != null)
               {
+              error_log("E24");
                 switch ($stop_type) {
                   case -1://It wasn't a long stop
+                  error_log("E25");
                     break;
                   case -2://Long stop
+                  error_log("E26");
                     $new_stop = new LongStop;
                     break;
                 }
                 
                 if($new_stop != null)
                 {
+                error_log("E27");
                   $sample_stop_start = $this->getSamplingSampleAt($sampling_id,$stop_start);
                   $new_stop->latitude = $sample_stop_start->latitude;
                   $new_stop->longitude = $sample_stop_start->longitude;
@@ -464,6 +491,7 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($stop_type == -2)//If it was long stop
                 {
+                error_log("E28");
                   $route_count++;
                   $current_route->end_stop_id = $new_stop->id;
                   $current_route->save();
@@ -481,6 +509,7 @@ class ProcessingCommand extends CConsoleCommand {
             }
             elseif($current_route == null)
             {
+            error_log("E29");
               $route_count++;
               $current_route = new Route;
               $current_route->truck_id = $truck->id;
@@ -500,6 +529,7 @@ class ProcessingCommand extends CConsoleCommand {
             //Save parts of the route
             if($current_route != null)
             {
+            error_log("E30");
               $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
               $sample_i->route_id = $current_route->id;
               $sample_i->update();
