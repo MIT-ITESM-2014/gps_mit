@@ -47,6 +47,7 @@ class Sampling extends CActiveRecord
 		return array(
 			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
 			'samples' => array(self::HAS_MANY, 'Sample', 'sampling_id', 'order'=>'datetime ASC'),
+			'samplesCount' => array(self::STAT, 'Sample', 'sampling_id'),
 		);
 	}
 
