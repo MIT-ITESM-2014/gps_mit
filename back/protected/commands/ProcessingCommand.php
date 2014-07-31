@@ -191,19 +191,19 @@ class ProcessingCommand extends CConsoleCommand {
       $samplings = $truck->samplings;
       foreach($samplings as $sampling)
       {    
-        $samples = $sampling->samples;
+        //$samples = $sampling->samples;
         $distance_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_short_stop;
         $time_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->time_radius_short_stop;
         $distance_treshold_for_long_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_long_stop;
         $time_treshold_for_long_stop= Company::model()->findByPk($this->current_company->id)->time_radius_long_stop;
         
-        $samples_size = count($samples);
+        $samples_size = count($sampling->samples);
         
         if($samples_size > 1)
         {
           $new_stop = null;
           
-          $previous_sample = $samples[0];
+          $previous_sample = $sampling->samples[0];
           $route_count = 0;
           $current_route = null;
           $stop_start;
@@ -212,26 +212,26 @@ class ProcessingCommand extends CConsoleCommand {
           
           for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
           {
-            $this->calculateDistanceSpeedAndTime($samples[$i-1],$samples[$i]);
+            $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1],$sampling->samples[$i]);
             $stop_type = 0;
             $lon1 = $previous_sample->longitude;
             $lat1 = $previous_sample->latitude;
-            $lon2 = $samples[$i]->longitude;
-            $lat2 = $samples[$i]->latitude;
+            $lon2 = $sampling->samples[$i]->longitude;
+            $lat2 = $sampling->samples[$i]->latitude;
             
             $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
             
             //$samples[$i]->distance = $distance;
             //$samples[$i]->save();
-            $aux1 = $samples[$i];
+            $aux1 = $sampling->samples[$i];
             $aux1->distance = $distance;
             $aux1->save();
             unset($aux1);
             
-            $this->calculateSpeedAndTime($samples[$i-1],$samples[$i]);
+            $this->calculateSpeedAndTime($sampling->samples[$i-1],$sampling->samples[$i]);
                     
             $previous_sample_date = new DateTime($previous_sample->datetime);
-            $sample_i_date = new DateTime($samples[$i]->datetime);
+            $sample_i_date = new DateTime($sampling->samples[$i]->datetime);
             
             $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
             if($distance<$distance_treshold_for_short_stop )//If it is staying in "the same" place
@@ -243,13 +243,13 @@ class ProcessingCommand extends CConsoleCommand {
               {
                 //Move one step forward
                 $i++;
-                $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-                $sample_i_date = new DateTime($samples[$i]->datetime);
+                $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1], $sampling->samples[$i]);
+                $sample_i_date = new DateTime($sampling->samples[$i]->datetime);
                 $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
                 
                 //Recalculate distance for new position
-                $lon2 = $samples[$i]->longitude;
-                $lat2 = $samples[$i]->latitude;
+                $lon2 = $sampling->samples[$i]->longitude;
+                $lat2 = $sampling->samples[$i]->latitude;
                 $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
@@ -260,10 +260,10 @@ class ProcessingCommand extends CConsoleCommand {
                   {
                     //Move one step forward
                     $i++;
-                    $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                    $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1], $sampling->samples[$i]);
                     //Recalculate distance for new position
-                    $lon2 = $samples[$i]->longitude;
-                    $lat2 = $samples[$i]->latitude;
+                    $lon2 = $sampling->samples[$i]->longitude;
+                    $lat2 = $sampling->samples[$i]->latitude;
                     $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
                   }
                 } 
@@ -273,13 +273,13 @@ class ProcessingCommand extends CConsoleCommand {
                 //A stop begins
                 //Move one step forward
                 $i++;
-                $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-                $sample_i_date = new DateTime($samples[$i]->datetime);
+                $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1], $sampling->samples[$i]);
+                $sample_i_date = new DateTime($sampling->samples[$i]->datetime);
                 $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
                 
                 //Recalculate distance for new position
-                $lon2 = $samples[$i]->longitude;
-                $lat2 = $samples[$i]->latitude;
+                $lon2 = $sampling->samples[$i]->longitude;
+                $lat2 = $sampling->samples[$i]->latitude;
                 $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
@@ -290,10 +290,10 @@ class ProcessingCommand extends CConsoleCommand {
                   {
                     //Move one step forward
                     $i++;
-                    $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                    $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1], $sampling->samples[$i]);
                     //Recalculate distance for new position
-                    $lon2 = $samples[$i]->longitude;
-                    $lat2 = $samples[$i]->latitude;
+                    $lon2 = $sampling->samples[$i]->longitude;
+                    $lat2 = $sampling->samples[$i]->latitude;
                     $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
                   }
                 }             
@@ -312,7 +312,7 @@ class ProcessingCommand extends CConsoleCommand {
                       {
                         //$samples[$j]->route_id=$current_route->id; 
                         //$samples[$j]->update();
-                        $aux2 = $samples[$j];
+                        $aux2 = $sampling->samples[$j];
                         $aux2->route_id=$current_route->id; 
                         $aux2->update();
                         unset($aux2);
@@ -320,16 +320,16 @@ class ProcessingCommand extends CConsoleCommand {
                     }
                     else//Here we add just the first and last to the route
                     {
-                      //samples[$stop_start]->route_id=$current_route->id; 
+                      //$samples[$stop_start]->route_id=$current_route->id; 
                       //$samples[$stop_start]->update();
-                      $aux3 = samples[$stop_start];
+                      $aux3 = $sampling->samples[$stop_start];
                       $aux3->route_id=$current_route->id; 
                       $aux3->update();
                       unset($aux3);
                      
                       //$samples[$stop_end]->route_id=$current_route->id; 
                       //$samples[$stop_end]->update();
-                      $aux4 = $samples[$stop_end];
+                      $aux4 = $sampling->samples[$stop_end];
                       $aux4->route_id=$current_route->id; 
                       $aux4->update();
                       unset($aux4);
@@ -341,10 +341,10 @@ class ProcessingCommand extends CConsoleCommand {
                 }
                 if($new_stop != null)
                 {
-                  $new_stop->latitude = $samples[$stop_start]->latitude;
-                  $new_stop->longitude = $samples[$stop_start]->longitude;
-                  $new_stop->start_time = $samples[$stop_start]->datetime;
-                  $new_stop->end_time = $samples[$stop_end]->datetime;
+                  $new_stop->latitude = $sampling->samples[$stop_start]->latitude;
+                  $new_stop->longitude = $sampling->samples[$stop_start]->longitude;
+                  $new_stop->start_time = $sampling->samples[$stop_start]->datetime;
+                  $new_stop->end_time = $sampling->samples[$stop_end]->datetime;
                   $new_stop->save();
                   $new_stop->validate();
                 
@@ -362,7 +362,7 @@ class ProcessingCommand extends CConsoleCommand {
                   $current_route->save();
                   //$samples[$i-1]->route_id = $current_route->id;
                   //$samples[$i-1]->update();
-                  $aux5 = $samples[$i-1]; 
+                  $aux5 = $sampling->samples[$i-1]; 
                   $aux5->route_id = $current_route->id;
                   $aux5->update();
                   unset($aux5);
@@ -380,13 +380,13 @@ class ProcessingCommand extends CConsoleCommand {
                 //A stop begins
                 //Move one step forward
                 $i++;
-                $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
-                $sample_i_date = new DateTime($samples[$i]->datetime);
+                $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1], $sampling->samples[$i]);
+                $sample_i_date = new DateTime($sampling->samples[$i]->datetime);
                 $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
                 
                 //Recalculate distance for new position
-                $lon2 = $samples[$i]->longitude;
-                $lat2 = $samples[$i]->latitude;
+                $lon2 = $sampling->samples[$i]->longitude;
+                $lat2 = $sampling->samples[$i]->latitude;
                 $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a full Stop
@@ -397,10 +397,10 @@ class ProcessingCommand extends CConsoleCommand {
                   {
                     //Move one step forward
                     $i++;
-                    $this->calculateDistanceSpeedAndTime($samples[$i-1], $samples[$i]);
+                    $this->calculateDistanceSpeedAndTime($sampling->samples[$i-1], $sampling->samples[$i]);
                     //Recalculate distance for new position
-                    $lon2 = $samples[$i]->longitude;
-                    $lat2 = $samples[$i]->latitude;
+                    $lon2 = $sampling->samples[$i]->longitude;
+                    $lat2 = $sampling->samples[$i]->latitude;
                     $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
                   }
                 } 
@@ -419,10 +419,10 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($new_stop != null)
                 {
-                  $new_stop->latitude = $samples[$stop_start]->latitude;
-                  $new_stop->longitude = $samples[$stop_start]->longitude;
-                  $new_stop->start_time = $samples[$stop_start]->datetime;
-                  $new_stop->end_time = $samples[$stop_end]->datetime;
+                  $new_stop->latitude = $sampling->samples[$stop_start]->latitude;
+                  $new_stop->longitude = $sampling->samples[$stop_start]->longitude;
+                  $new_stop->start_time = $sampling->samples[$stop_start]->datetime;
+                  $new_stop->end_time = $sampling->samples[$stop_end]->datetime;
                   $new_stop->save();
                   $new_stop->validate();
                   
@@ -441,7 +441,7 @@ class ProcessingCommand extends CConsoleCommand {
                   $current_route->save();
                   //$samples[$i-1]->route_id = $current_route->id;
                   //$samples[$i-1]->update();
-                  $aux6 = $samples[$i-1]; 
+                  $aux6 = $sampling->samples[$i-1]; 
                   $aux6->route_id = $current_route->id;
                   $aux6->update();
                   unset($aux6);
@@ -457,13 +457,13 @@ class ProcessingCommand extends CConsoleCommand {
               $current_route->save();
               //$samples[$i-1]->route_id = $current_route->id;
               //$samples[$i-1]->save();
-              $aux7 = $samples[$i-1];
+              $aux7 = $sampling->samples[$i-1];
               $aux7->route_id = $current_route->id;
               $aux7->save();
               unset($aux7);
               //$samples[$i]->route_id = $current_route->id;
               //$samples[$i]->save();
-              $aux8 = $samples[$i]; 
+              $aux8 = $sampling->samples[$i]; 
               $aux8->route_id = $current_route->id;
               $aux8->save();
               unset($aux8);
@@ -475,12 +475,12 @@ class ProcessingCommand extends CConsoleCommand {
             {
               //$samples[$i]->route_id = $current_route->id;
               //$samples[$i]->update();
-              $aux9 = $samples[$i];
+              $aux9 = $sampling->samples[$i];
               $aux9->route_id = $current_route->id;
               $aux9->update();
               unset($aux9);
             }
-            $previous_sample = $samples[$i];
+            $previous_sample = $sampling->samples[$i];
           }
         }
       }
