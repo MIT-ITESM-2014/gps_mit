@@ -35,6 +35,7 @@ class ProcessingCommand extends CConsoleCommand {
           $new_sample->datetime = $pointer[3];
           $new_sample->status_id = -3;
           $new_sample->save();
+          unset($new_sample);
         }
       }
       fclose($handler);
