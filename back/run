@@ -1,0 +1,8 @@
+Yii command runner (based on Yii v1.1.14)
+Usage: /var/www/MIT/gps_mit/back/cron.php <command-name> [parameters...]
+
+The following commands are available:
+ - processing
+
+To see individual command help, use the following:
+   /var/www/MIT/gps_mit/back/cron.php help <command-name>
