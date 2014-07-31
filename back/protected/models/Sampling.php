@@ -46,7 +46,7 @@ class Sampling extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
-			'samples' => array(self::HAS_MANY, 'Sample', 'sampling_id'),
+			'samples' => array(self::HAS_MANY, 'Sample', 'sampling_id', 'order'=>'datetime ASC'),
 		);
 	}
 

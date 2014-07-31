@@ -5,10 +5,7 @@ class ProcessingCommand extends CConsoleCommand {
   public $current_company = null;//$this->current_company->id
 
   public function run($args) {
-    print_r( "Current director = ".getcwd());
-    echo "Current directory = ".getcwd();
-    error_log("hola");
-    print_r("\n".dirname(__FILE__)."\n");
+    Yii::getLogger()->autoDump = true;
     $companies = Company::model()->findAllByAttributes(array('has_file_in_process'=>1));
     foreach($companies as $company)
     {
@@ -60,7 +57,7 @@ class ProcessingCommand extends CConsoleCommand {
       error_log("replacing truck names");
       foreach($trucks as $truck)
       {
-        $limit = 50000;
+        $limit = 100;
         $offset = 0;
         $limit_string = strval($limit);
         $offset_string = strval($offset);
@@ -85,6 +82,7 @@ class ProcessingCommand extends CConsoleCommand {
           $truck_samples = Sample::model()->findAll($criteria);
         }
       }
+
       //STart process
       $uploaded_file_model->step++;
       $uploaded_file_model->save();
@@ -120,8 +118,14 @@ class ProcessingCommand extends CConsoleCommand {
     $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
     foreach($trucks as $truck)
     {    
+      $limit = 100;
+      $offset = 0;
+      $limit_string = strval($limit);
+      $offset_string = strval($offset);
       $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
       $criteria->addCondition('truck_id = '.$truck->id);
+      $criteria->limit = $limit_string;
+      $criteria->offset = $offset_string;
       $samples = Sample::model()->findAll($criteria);
       $samples_size = count($samples);
       $sampling_name = 0;
@@ -133,22 +137,31 @@ class ProcessingCommand extends CConsoleCommand {
         $sampling_name++;
         $new_sampling->name = $sampling_name;
         $new_sampling->save();
-        $samples[0]->sampling_id = $new_sampling->id;
-        $samples[0]->save();
-        
-        for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
+        $last_sample = null;
+        $current_sample = null;
+        while($samples_size > 0)
         {
-          if(!$this->calculateIfContinuous($samples[$i-1],$samples[$i]))
+          for($i = 0; $i < $samples_size; $i++)//Iterate through all the samples
           {
-            $new_samping = new Sampling;
-            $new_sampling->truck_id = $truck->id;
-            $sampling_name++;
-            $new_sampling->name = $sampling_name;
-            $new_sampling->save();
-          }
-          $samples[$i]->sampling_id = $new_sampling->id;
-          $samples[$i]->save();
-        }
+            $current_sample = $sample[$i];
+            if(($last_sample != null) && (!$this->calculateIfContinuous($last_sample,$current_sample)))
+            {
+              $new_sampling = new Sampling;
+              $new_sampling->truck_id = $truck->id;
+              $sampling_name++;
+              $new_sampling->name = $sampling_name;
+              $new_sampling->save();
+            }
+            $current_sample->sampling_id = $new_sampling->id;
+            $current_sample->save();
+            $last_sample = $sample[$i];
+          } //for($i = 1; $i < $samples_size; $i++)
+          $offset = $offset + $limit;
+          $offset_string = strval($offset);
+          $criteria->offset = $offset_string;
+          $samples = Sample::model()->findAll($criteria);
+          $samples_size = count($samples);
+        } //while($samples_size > 0)
       }
     }
   }//actionFindSamplings
@@ -174,11 +187,11 @@ class ProcessingCommand extends CConsoleCommand {
       $samplings = $truck->samplings;
       foreach($samplings as $sampling)
       {    
-        $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-        $criteria->addCondition('truck_id = '.$truck->id);
-        $criteria->addCondition('sampling_id = '.$sampling->id);
-        $samples = Sample::model()->findAll($criteria);
-        
+        //$criteria = new CDbCriteria(array('order'=>'datetime ASC'));
+        //$criteria->addCondition('truck_id = '.$truck->id);
+        //$criteria->addCondition('sampling_id = '.$sampling->id);
+        //$samples = Sample::model()->findAll($criteria);
+        $samples = $sampling->samples;
         $distance_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_short_stop;
         $time_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->time_radius_short_stop;
         $distance_treshold_for_long_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_long_stop;

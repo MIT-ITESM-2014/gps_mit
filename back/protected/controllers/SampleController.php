@@ -47,16 +47,11 @@ class SampleController extends Controller
 			),
 		);
 	}
-
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
 	
 	public function createNewParametersForm()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      return " ";
 	  $parameter_form_model = new ParameterForm;
 	  $company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
 	  
@@ -85,6 +80,8 @@ class SampleController extends Controller
 	
 	public function actionCreate()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 	  if((!Yii::app()->user->isGuest) && (Yii::app()->user->hasState('current_company')))
 	  {
 	    $company_id = Yii::app()->user->getState('current_company');
@@ -124,6 +121,8 @@ class SampleController extends Controller
   
 	public function actionUploadOne()
 	{
+	  if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 	  $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
@@ -154,6 +153,8 @@ class SampleController extends Controller
   
   public function actionCreatePartial()
   {
+    if(!Yii::app()->user->hasState('user'))
+      return " ";
     $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model != null)
@@ -175,7 +176,8 @@ class SampleController extends Controller
   
   public function actionRecalculateData()
   {
-    ini_set("max_execution_time",-1);
+    if(!Yii::app()->user->hasState('user'))
+      return " ";
     if(isset($_POST['cid']) && isset($_POST['uid']))
     {
       $cid = (int)$_POST['cid'];
@@ -199,6 +201,8 @@ class SampleController extends Controller
   
   public function actionProcessData()
   {
+    if(!Yii::app()->user->hasState('user'))
+      return " ";
     if(isset($_POST['cid']) && isset($_POST['uid']))
     {
       $cid = (int)$_POST['cid'];
@@ -318,7 +322,7 @@ class SampleController extends Controller
           $uploaded_file_model->step = 2;
           $uploaded_file_model->save();
           $action_url = Yii::app()->createAbsoluteUrl('sample/processData');
-          ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
+          //ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);//$postData=null,$contentType=null)
           
           /*
           //////////////
@@ -412,6 +416,8 @@ class SampleController extends Controller
   
   public function actionSendParameters()
   {
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
     $company_id = Yii::app()->user->getState('current_company');
 	  $company_model = Company::model()->findByPk($company_id);
 	  if($company_model->has_file_in_process != 1)
@@ -441,31 +447,7 @@ class SampleController extends Controller
 	    $this->render('file_in_process',array());
 	  }
   }
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
 	
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Sample']))
-		{
-			$model->attributes=$_POST['Sample'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -473,6 +455,8 @@ class SampleController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -480,23 +464,14 @@ class SampleController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-	
-		$dataProvider=new CActiveDataProvider('Sample');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
 
 	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$model=new Sample('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Sample']))

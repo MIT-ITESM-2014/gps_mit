@@ -46,22 +46,13 @@ class IdentityController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$model=new Identity;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -86,6 +77,8 @@ class IdentityController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -110,7 +103,8 @@ class IdentityController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		
+	  if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$identity_model = $this->loadModel($id);
 		foreach($identity_model->identityCompanies as $identity_company)
 		  $identity_company->delete();
@@ -122,21 +116,12 @@ class IdentityController extends Controller
 	}
 
 	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Identity');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$model=new Identity('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Identity']))

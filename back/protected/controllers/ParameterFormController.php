@@ -55,6 +55,8 @@ class ParameterFormController extends Controller
 	 */
 	public function actionUpdate()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 	  $id = Yii::app()->user->getState('current_company');
 		$model=$this->loadModel($id);
 
@@ -88,8 +90,6 @@ class ParameterFormController extends Controller
 		  ));
 		
 	}
-
-
     
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

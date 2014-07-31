@@ -52,6 +52,8 @@ class IdentityCompanyController extends Controller
 	 */
 	public function actionCreate()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$model=new IdentityCompany;
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -98,7 +100,6 @@ class IdentityCompanyController extends Controller
 	  }
 	}
 
-	
 
 	/**
 	 * Deletes a particular model.
@@ -107,6 +108,8 @@ class IdentityCompanyController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -121,6 +124,8 @@ class IdentityCompanyController extends Controller
 	 */
 	public function actionAdmin()
 	{
+    if(!Yii::app()->user->hasState('user'))
+      $this->redirect(array('site/login'));
 	  $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
 		$model=new IdentityCompany('search');
 		$model->unsetAttributes();  // clear any default values
