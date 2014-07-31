@@ -11,6 +11,7 @@ class ProcessingCommand extends CConsoleCommand {
     {
       //Parse CSV file
       $this->current_company = $company;
+      /*
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company->id));
       $filename = $uploaded_file_model->filename;
       $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
@@ -87,30 +88,33 @@ class ProcessingCommand extends CConsoleCommand {
       $uploaded_file_model->step++;
       $uploaded_file_model->save();
       $company_id = $company->id;
+      */
       error_log("calculating all metrics");
       $this->calculateAllMetrics();
+      /*
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
       unlink(dirname(__FILE__)."/../../../files/".$uploaded_file_model->filename);
       $uploaded_file_model->delete();
       $company->has_file_in_process = 0;
       $company->save();
+      */
     }    
   }
   
   function calculateAllMetrics()
   {
-    error_log("actionFindSamplings");
-    $this->actionFindSamplings();
+    //error_log("actionFindSamplings");
+    //$this->actionFindSamplings();
     error_log("actionFindStopsAndRoutes");
     $this->actionFindStopsAndRoutes();
-    error_log("actionGenerateRouteMetric");
-    $this->actionGenerateRouteMetrics();
-    error_log("actionGenerateTruckMetrics");
-    $this->actionGenerateTruckMetrics();
-    error_log("actionGenerateCompanyMetrics");
-    $this->actionGenerateCompanyMetrics();
-    error_log("actionGenerateStandardDeviation");
-    $this->actionGenerateStandardDeviation();
+    //error_log("actionGenerateRouteMetric");
+    //$this->actionGenerateRouteMetrics();
+    //error_log("actionGenerateTruckMetrics");
+    //$this->actionGenerateTruckMetrics();
+    //error_log("actionGenerateCompanyMetrics");
+    //$this->actionGenerateCompanyMetrics();
+    //error_log("actionGenerateStandardDeviation");
+    //$this->actionGenerateStandardDeviation();
   }
   
   function actionFindSamplings()
@@ -187,10 +191,6 @@ class ProcessingCommand extends CConsoleCommand {
       $samplings = $truck->samplings;
       foreach($samplings as $sampling)
       {    
-        //$criteria = new CDbCriteria(array('order'=>'datetime ASC'));
-        //$criteria->addCondition('truck_id = '.$truck->id);
-        //$criteria->addCondition('sampling_id = '.$sampling->id);
-        //$samples = Sample::model()->findAll($criteria);
         $samples = $sampling->samples;
         $distance_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_short_stop;
         $time_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->time_radius_short_stop;
@@ -221,8 +221,13 @@ class ProcessingCommand extends CConsoleCommand {
             
             $distance = $this->calculateDistance($lon1, $lat1, $lon2, $lat2);
             
-            $samples[$i]->distance = $distance;
-            $samples[$i]->save();
+            //$samples[$i]->distance = $distance;
+            //$samples[$i]->save();
+            $aux1 = $samples[$i];
+            $aux1->distance = $distance;
+            $aux1->save();
+            unset($aux1);
+            
             $this->calculateSpeedAndTime($samples[$i-1],$samples[$i]);
                     
             $previous_sample_date = new DateTime($previous_sample->datetime);
@@ -305,16 +310,29 @@ class ProcessingCommand extends CConsoleCommand {
                       $new_stop->route_id = $current_route->id;
                       for($j = $stop_start; $j <= $stop_end; $j++)
                       {
-                        $samples[$j]->route_id=$current_route->id; 
-                        $samples[$j]->update();
+                        //$samples[$j]->route_id=$current_route->id; 
+                        //$samples[$j]->update();
+                        $aux2 = $samples[$j];
+                        $aux2->route_id=$current_route->id; 
+                        $aux2->update();
+                        unset($aux2);
                       }
                     }
                     else//Here we add just the first and last to the route
                     {
-                      $samples[$stop_start]->route_id=$current_route->id; 
-                      $samples[$stop_start]->update();
-                      $samples[$stop_end]->route_id=$current_route->id; 
-                      $samples[$stop_end]->update();
+                      //samples[$stop_start]->route_id=$current_route->id; 
+                      //$samples[$stop_start]->update();
+                      $aux3 = samples[$stop_start];
+                      $aux3->route_id=$current_route->id; 
+                      $aux3->update();
+                      unset($aux3);
+                     
+                      //$samples[$stop_end]->route_id=$current_route->id; 
+                      //$samples[$stop_end]->update();
+                      $aux4 = $samples[$stop_end];
+                      $aux4->route_id=$current_route->id; 
+                      $aux4->update();
+                      unset($aux4);
                     }
                     break;
                   case -2://Long stop
@@ -342,8 +360,12 @@ class ProcessingCommand extends CConsoleCommand {
                   $current_route->name = $route_count;
                   $current_route->beginning_stop_id = $new_stop->id;
                   $current_route->save();
-                  $samples[$i-1]->route_id = $current_route->id;
-                  $samples[$i-1]->update();
+                  //$samples[$i-1]->route_id = $current_route->id;
+                  //$samples[$i-1]->update();
+                  $aux5 = $samples[$i-1]; 
+                  $aux5->route_id = $current_route->id;
+                  $aux5->update();
+                  unset($aux5);
                 }
               }
             }
@@ -417,8 +439,12 @@ class ProcessingCommand extends CConsoleCommand {
                   $current_route->name = $route_count;
                   $current_route->beginning_stop_id = $new_stop->id;
                   $current_route->save();
-                  $samples[$i-1]->route_id = $current_route->id;
-                  $samples[$i-1]->update();
+                  //$samples[$i-1]->route_id = $current_route->id;
+                  //$samples[$i-1]->update();
+                  $aux6 = $samples[$i-1]; 
+                  $aux6->route_id = $current_route->id;
+                  $aux6->update();
+                  unset($aux6);
                 }
               }
             }
@@ -429,18 +455,30 @@ class ProcessingCommand extends CConsoleCommand {
               $current_route->truck_id = $truck->id;
               $current_route->name = $route_count;
               $current_route->save();
-              $samples[$i-1]->route_id = $current_route->id;
-              $samples[$i-1]->save();
-              $samples[$i]->route_id = $current_route->id;
-              $samples[$i]->save();
+              //$samples[$i-1]->route_id = $current_route->id;
+              //$samples[$i-1]->save();
+              $aux7 = $samples[$i-1];
+              $aux7->route_id = $current_route->id;
+              $aux7->save();
+              unset($aux7);
+              //$samples[$i]->route_id = $current_route->id;
+              //$samples[$i]->save();
+              $aux8 = $samples[$i]; 
+              $aux8->route_id = $current_route->id;
+              $aux8->save();
+              unset($aux8);
               
             }
             
             //Save parts of the route
             if($current_route != null)
             {
-              $samples[$i]->route_id = $current_route->id;
-              $samples[$i]->update();
+              //$samples[$i]->route_id = $current_route->id;
+              //$samples[$i]->update();
+              $aux9 = $samples[$i];
+              $aux9->route_id = $current_route->id;
+              $aux9->update();
+              unset($aux9);
             }
             $previous_sample = $samples[$i];
           }
