@@ -143,7 +143,7 @@ class ProcessingCommand extends CConsoleCommand {
         {
           for($i = 0; $i < $samples_size; $i++)//Iterate through all the samples
           {
-            $current_sample = $sample[$i];
+            $current_sample = $samples[$i];
             if(($last_sample != null) && (!$this->calculateIfContinuous($last_sample,$current_sample)))
             {
               $new_sampling = new Sampling;
@@ -154,7 +154,7 @@ class ProcessingCommand extends CConsoleCommand {
             }
             $current_sample->sampling_id = $new_sampling->id;
             $current_sample->save();
-            $last_sample = $sample[$i];
+            $last_sample = $current_sample;
           } //for($i = 1; $i < $samples_size; $i++)
           $offset = $offset + $limit;
           $offset_string = strval($offset);
