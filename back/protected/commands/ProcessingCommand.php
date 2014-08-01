@@ -14,6 +14,7 @@ class ProcessingCommand extends CConsoleCommand {
     $companies = Company::model()->findAllByAttributes(array('has_file_in_process'=>1));
     foreach($companies as $company)
     {
+      Yii::trace("Checking company ".$company->name, "cron.run");
       //Parse CSV file
       $this->current_company = $company;
       $this->cleanCompanyData();
