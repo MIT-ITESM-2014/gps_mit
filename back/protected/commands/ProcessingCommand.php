@@ -100,6 +100,7 @@ class ProcessingCommand extends CConsoleCommand {
       }//if(!empty($uploaded_file_model))
       
       $this->calculateAllMetrics();
+      $company=Company::model()->findByPk($company->id);
       $company->has_file_in_process = 0;
       $company->save();
     }    
@@ -460,7 +461,6 @@ class ProcessingCommand extends CConsoleCommand {
             if($distance<$distance_treshold_for_long_stop )//It can only be a long stop
             {
               //A stop begins
-              //$stop_start = $i;
               $stop_type = 0;
               
               while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place for long_stop but could not have yet enough duration
@@ -667,20 +667,20 @@ class ProcessingCommand extends CConsoleCommand {
     {
       foreach($routes as $route)
       {
-        $this->generateRouteDistance($route);
-        $this->generateRouteTotalTime($route);
-        $this->generateRouteIsValid($route);
+        $route = $this->generateRouteDistance($route);
+        $route = $this->generateRouteTotalTime($route);
+        $route = $this->generateRouteIsValid($route);
         if($route->is_valid == true)
         {
-          $this->generateRouteStopsCount($route);
-          $this->generateRouteShortStopsDistance($route);
-          $this->generateRouteStemTimeAndDistance($route);
-          $this->generateRouteShortStopsTime($route);
-          $this->generateRouteAverageSpeed($route);
-          $this->generateTravelingTime($route);
-          $this->generateStopsRanges($route);
-          $this->generateAverageStopDuration($route);
-          $this->generateLongStopsDuration($route);
+          $route = $this->generateRouteStopsCount($route);
+          $route = $this->generateRouteShortStopsDistance($route);
+          $route = $this->generateRouteStemTimeAndDistance($route);
+          $route = $this->generateRouteShortStopsTime($route);
+          $route = $this->generateRouteAverageSpeed($route);
+          $route = $this->generateTravelingTime($route);
+          $route = $this->generateStopsRanges($route);
+          $route = $this->generateAverageStopDuration($route);
+          $route = $this->generateLongStopsDuration($route);
         }
         else//Delete all routes and samples that are not valid
         {
@@ -707,6 +707,7 @@ class ProcessingCommand extends CConsoleCommand {
       $total_distance = $total_distance + $sample->distance;
     $route->distance = $total_distance;
     $route->save();
+    return $route;
   }//generateRouteDistance
   
   function generateRouteTotalTime($route)
@@ -729,6 +730,7 @@ class ProcessingCommand extends CConsoleCommand {
     }
     $route->time = $time_diff;
     $route->save();
+    return $route;
   }//generateRouteTotalTime
   
   function generateRouteIsValid($route)
@@ -739,6 +741,7 @@ class ProcessingCommand extends CConsoleCommand {
     else
       $route->is_valid = true;
     $route->save();
+    return $route;
   }//generateRouteIsValid
   
   function generateRouteStopsCount($route)
@@ -746,6 +749,7 @@ class ProcessingCommand extends CConsoleCommand {
     $short_stops_count = count($route->shortStops);
     $route->short_stops_count = $short_stops_count;
     $route->save();
+    return $route;
   }//generateRouteStopsCount
   
   function generateRouteShortStopsDistance($route)
@@ -767,15 +771,16 @@ class ProcessingCommand extends CConsoleCommand {
         $short_stop->save();
         $i++;
       }
-    }  
+    }
+    return $route;  
   }//generateRouteShortStopsDistance
   
   function generateRouteStemTimeAndDistance($route)
   {
-    $first_stem_distance = null;
-    $second_stem_distance = null;
-    $first_stem_time = null;
-    $second_stem_time = null;
+    $first_stem_distance = 0.0;
+    $second_stem_distance = 0.0;
+    $first_stem_time = 0.0;
+    $second_stem_time = 0.0;
     $first_stem_stop = $route->getFirstStemStop();
     $last_stem_stop = $route->getLastStemStop();
     
@@ -816,6 +821,7 @@ class ProcessingCommand extends CConsoleCommand {
     $route->first_stem_time = $first_stem_time;
     $route->second_stem_time = $second_stem_time;
     $route->save();
+    return $route;
   }//generateRouteStemTimeAndDistance
   
   function generateRouteShortStopsTime($route)
@@ -836,6 +842,7 @@ class ProcessingCommand extends CConsoleCommand {
     }
     $route->short_stops_time = $total_time;
     $route->save();
+    return $route;
   }//generateRouteShortStopsTime
   
   function generateRouteAverageSpeed($route)
@@ -856,12 +863,14 @@ class ProcessingCommand extends CConsoleCommand {
       $average_speed = $distance/$time;
     $route->average_speed = $average_speed;
     $route->save();
+    return $route;
   }//generateRouteAverageSpeed
   
   function generateTravelingTime($route)
   {
     $route->traveling_time = $route->time - $route->short_stops_time;
     $route->save();
+    return $route;
   }//generateTravelingTime
   
   function generateStopsRanges($route)
@@ -898,6 +907,7 @@ class ProcessingCommand extends CConsoleCommand {
     $route->stops_between_120_plus = $stops_between_120_plus;
     
     $route->save();
+    return $route;
   }//generateStopsRanges
   
   function generateAverageStopDuration($route)
@@ -914,7 +924,7 @@ class ProcessingCommand extends CConsoleCommand {
       $route->average_short_stop_duration = $stop_duration_sum/$stop_count;
       $route->save();
     }
-    
+    return $route;
   }//generateAverageStopDuration
   
   function generateLongStopsDuration($route)
@@ -938,6 +948,7 @@ class ProcessingCommand extends CConsoleCommand {
         $route->end_stop->duration = $time_diff;
         $route->end_stop->save();
       }
+    return $route;
   }//generateLongStopsDuration
   
   function actionGenerateTruckMetrics()
@@ -1311,7 +1322,11 @@ class ProcessingCommand extends CConsoleCommand {
     $company_average_trip_duration_sd = 0.0;
     $company_average_trip_stop_time_sd = 0.0;
     $company_average_trip_traveling_time_sd = 0.0;
-    
+    /*
+    $company_average_trip_distance_sd.$company_average_stem_distance_sd.
+    $company_average_speed_sd.$company_average_trip_duration_sd.
+    $company_average_trip_stop_time_sd.$company_average_trip_traveling_time_sd
+    */
     if($company_trip_count > 0)
     {
       $company_average_stop_count_per_trip_sd = sqrt($company_average_stop_count_per_trip_sds / $company_trip_count);
@@ -1319,8 +1334,8 @@ class ProcessingCommand extends CConsoleCommand {
       $company_average_stem_distance_sd = sqrt($company_average_stem_distance_sds / $company_trip_count);
       $company_average_speed_sd = sqrt($company_average_speed_sds / $company_trip_count);  
       $company_average_trip_duration_sd = sqrt($company_average_trip_duration_sds / $company_trip_count);
-      $company_average_trip_stop_time_sd = sqrt($company_average_trip_duration_sds / $company_trip_count);
-      $company_average_trip_traveling_time_sd = sqrt($company_average_trip_duration_sds / $company_trip_count);
+      $company_average_trip_stop_time_sd = sqrt($company_average_trip_stop_time_sds / $company_trip_count);
+      $company_average_trip_traveling_time_sd = sqrt($company_average_trip_traveling_time_sds / $company_trip_count);
     }
     
     $company->average_stop_count_per_trip_sd = $company_average_stop_count_per_trip_sd;
@@ -1331,6 +1346,11 @@ class ProcessingCommand extends CConsoleCommand {
     $company->average_trip_stop_time_sd = $company_average_trip_stop_time_sd;
     $company->average_trip_traveling_time_sd = $company_average_trip_traveling_time_sd;
     $company->save();
+    $company_average_trip_distance_sd."*".
+    $company_average_stem_distance_sd."*".
+    $company_average_speed_sd."*".
+    $company_average_trip_duration_sd."*".
+    $company_average_trip_stop_time_sd."*".$company_average_trip_traveling_time_sd);
   }//actionGenerateStandardDeviation
   
 }
