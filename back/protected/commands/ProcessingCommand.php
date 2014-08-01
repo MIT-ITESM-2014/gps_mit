@@ -112,11 +112,11 @@ class ProcessingCommand extends CConsoleCommand {
     //$this->actionFindSamplings();
     //error_log("actionFindStopsAndRoutes");
     //$this->actionFindStopsAndRoutes();
-    error_log("actionGenerateRouteMetric");
-    $this->actionGenerateRouteMetrics();
+    //error_log("actionGenerateRouteMetric");
+    //$this->actionGenerateRouteMetrics();
     error_log("actionGenerateTruckMetrics");
-    //$this->actionGenerateTruckMetrics();
-    //error_log("actionGenerateCompanyMetrics");
+    $this->actionGenerateTruckMetrics();
+    error_log("actionGenerateCompanyMetrics");
     //$this->actionGenerateCompanyMetrics();
     //error_log("actionGenerateStandardDeviation");
     //$this->actionGenerateStandardDeviation();
@@ -967,7 +967,7 @@ class ProcessingCommand extends CConsoleCommand {
         $this->generateTruckShortStopsRangesCount($truck);
         $truck->save();
       }
-      $limit++;
+      //$limit++;
       $offset = $limit + $offset;
       $limit_string = strval($limit);
       $offset_string = strval($offset);
