@@ -634,7 +634,7 @@ class ProcessingCommand extends CConsoleCommand {
     $limit_string = strval($limit);
     $offset_string = strval($offset);
     $criteria = new CDbCriteria();
-    $criteria->with = array('samples','shortStops','beginning_stop','end_stop');
+    //$criteria->with = array('samples','shortStops','beginning_stop','end_stop');
     $criteria->limit = $limit_string;
     $criteria->offset = $offset_string;
     $criteria->order = "t.id ASC";
@@ -669,7 +669,7 @@ class ProcessingCommand extends CConsoleCommand {
           $route->delete();
         }
       }
-      $limit++;
+      //$limit++;
       $offset++;
       error_log("l and off ". $limit . " " .$offset);
       $limit_string = strval($limit);
