@@ -1089,7 +1089,6 @@ body
 {
 	width: 50px;
 	height: 30px;
-	background-color: red;
 	margin-top: 5px;
 	margin-left: 15px;
 }
@@ -1472,4 +1471,19 @@ body
 #ui-datepicker-div
 {
   z-index:3 !important;
+}
+
+
+#warning_container
+{
+	width: 700px;
+	height: 45px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#warning_company_in_process
+{
+	color: #FF0000;
+	font-size: 16px;
 }
