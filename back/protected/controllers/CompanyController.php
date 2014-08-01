@@ -140,6 +140,9 @@ class CompanyController extends Controller
       $criteria_sample = new CDbCriteria();
       $criteria_sample->addInCondition('truck_id', $trucks_ids);
       Sample::model()->deleteAll($criteria_sample);
+      $criteria_sample = new CDbCriteria();
+      $criteria_sample->condition = 'company_id = '. Yii::app()->user->getState('current_company');
+      Sample::model()->deleteAll($criteria_sample);
       //sampling
       $criteria_sampling = new CDbCriteria();
       $criteria_sampling->addInCondition('truck_id', $trucks_ids);
@@ -190,7 +193,10 @@ class CompanyController extends Controller
       $company->average_stop_count_per_trip_sd = null;
       $company->average_trip_distance_sd = null;
       $company->average_stem_distance_sd = null;
-      $company->average_stem_distance_sd = null;
+      $company->average_speed_sd = null;
+      $company->average_trip_duration_sd = null;
+      $company->average_trip_stop_time_sd = null;
+      $company->average_trip_traveling_time_sd = null;
       $company->save();
       
       $this->render('successful_reset');

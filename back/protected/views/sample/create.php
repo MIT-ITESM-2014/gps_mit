@@ -70,7 +70,6 @@
       'enableClientValidation'=>true,
     ));
 ?>
-//http://localhost/MIT/gps_mit/back/public/template.xlsx
   <div class="upload-guidelines-two">
     <div class="upload-guidelines-file-two">
       <div class="upload-guidelines-file-image-two"></div>

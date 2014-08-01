@@ -233,6 +233,7 @@ CREATE TABLE public.sample (
                 latitude DOUBLE PRECISION NOT NULL,
                 longitude DOUBLE PRECISION NOT NULL,
                 datetime TIMESTAMP NOT NULL,
+                company_id INTEGER,
                 route_id BIGINT,
                 truck_id BIGINT,
                 truck_name VARCHAR,
@@ -267,6 +268,13 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.uploaded_file ADD CONSTRAINT company_uploaded_file_fk
+FOREIGN KEY (company_id)
+REFERENCES public.company (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.sample ADD CONSTRAINT company_sample_fk
 FOREIGN KEY (company_id)
 REFERENCES public.company (id)
 ON DELETE NO ACTION

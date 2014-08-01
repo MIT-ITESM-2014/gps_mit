@@ -277,29 +277,40 @@ class CompanyController extends Controller
     if(!Yii::app()->user->hasState('user'))
       $this->redirect(array('site/login'));
 
+    $company_in_process = 0;
 	  $identity_company_model = null;
+	  $company_in_process_name = null;
 	  if(isset($_GET['company']))
 	    $identity_company_model = IdentityCompany::model()->findByAttributes(array('company_id'=>$_GET['company'],'identity_id'=>Yii::app()->user->getState('user')));
 	  if(isset($_GET['company']) && !empty($identity_company_model))
 	  {
-      Yii::app()->user->setState('current_company', $identity_company_model->company_id);
-      Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
-      $this->redirect(array('site/index')); 
-	  }
-	  else
-	  {
-      $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
-	    $model=new IdentityCompany('search');
-	    $model->unsetAttributes();  // clear any default values
-	    $model->identity_id = $aux->id;
-	    if(isset($_GET['IdentityCompany']))
+	    if($identity_company_model->company->has_file_in_process != 1)
 	    {
-	      $model->company_name_search=$_GET['IdentityCompany']['company_name_search'];
-	    }
-	    $this->render('change',array(
-	      'model'=>$model,
-	    ));
+        Yii::app()->user->setState('current_company', $identity_company_model->company_id);
+        Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
+        $this->redirect(array('site/index'));
+      } 
+      else
+      {
+        $company_in_process = 1;
+        $company_in_process_name = $identity_company_model->company->name;
+      }
 	  }
+	  
+	  
+    $aux = Identity::model()->findByPk(Yii::app()->user->getState('user'));
+    $model=new IdentityCompany('search');
+    $model->unsetAttributes();  // clear any default values
+    $model->identity_id = $aux->id;
+    if(isset($_GET['IdentityCompany']))
+    {
+      $model->company_name_search=$_GET['IdentityCompany']['company_name_search'];
+    }
+    $this->render('change',array(
+      'model'=>$model,
+      'company_in_process' => $company_in_process,
+      'company_in_process_name' => $company_in_process_name,
+    ));
 	}
 
 

@@ -70,9 +70,10 @@ class ParameterFormController extends Controller
 			{
 				//$this->render('data_in_process',array());
 				$model->updateCompanyParameters();
-				$action_url = Yii::app()->createAbsoluteUrl('sample/recalculateData');
-        ERunActions::touchUrl($action_url,array("cid"=>Yii::app()->user->getState('current_company'), "uid"=>Yii::app()->user->getState('user')),null);
-        echo CJSON::encode(array(
+				$company_model = Company::model()->findByPk(Yii::app()->user->getState('current_company'));
+				$company_model->has_file_in_process = 1;
+				$company_model->save();
+				echo CJSON::encode(array(
           'status'=>'success'
         ));
 		  }

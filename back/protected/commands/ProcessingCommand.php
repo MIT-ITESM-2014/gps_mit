@@ -4,7 +4,7 @@ class ProcessingCommand extends CConsoleCommand {
 
   public $current_company = null;//$this->current_company->id
   public $buffer_samples = null;
-  public $buffer_size = 1000;
+  public $buffer_size = 2000;
   public $buffer_first = null;
   public $buffer_last = null;
   public $buffer_sampling = null;
@@ -16,111 +16,110 @@ class ProcessingCommand extends CConsoleCommand {
     {
       //Parse CSV file
       $this->current_company = $company;
-      /*
-      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company->id));
-      $filename = $uploaded_file_model->filename;
-      $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
-      $trucks_array = array();
-      $samples = array();
-      $new_sample;
       
-      fgetcsv($handler, 0, ',');//Ignore headers
-      error_log("Reading samples");
-      while($pointer = fgetcsv($handler, 0, ','))
+      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
+      if(!empty($uploaded_file_model))
       {
-        if(array_key_exists(3, $pointer))//Validates the row has enough columns
+        if($uploaded_file_model->step == 2)//Has uploaded parameters
         {
-          $new_sample = new Sample;
-          $new_sample->truck_name = $pointer[0];
-          $trucks_array[$pointer[0]] = 1;
-          $new_sample->latitude = $pointer[1];
-          $new_sample->longitude = $pointer[2];
-          $new_sample->datetime = $pointer[3];
-          $new_sample->status_id = -3;
-          $new_sample->save();
-          unset($new_sample);
-        }
-      }
-      fclose($handler);
-      //Create each of the trucks mentioned in the samples if any doesn't exist.
-      error_log("creating trucks");
-      foreach($trucks_array as $truck_name => $value)
-      {
-        $condition_string = "name = '" . $truck_name . "' AND company_id = ".$company->id;
-        $registered_truck = Truck::model()->find($condition_string);
-        if(!count($registered_truck))
-        {
-          $new_truck = new Truck;
-          $new_truck->company_id = $company->id;
-          $new_truck->name = $truck_name;
-          $new_truck->save();
-        }
-      }
-      //Set all the truck_ids of the sample, even if they were already set.
-      error_log("Looking for all trucks");
-      
-      $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$company->id));
-      error_log("replacing truck names");
-      foreach($trucks as $truck)
-      {
-        $limit = 100;
-        $offset = 0;
-        $limit_string = strval($limit);
-        $offset_string = strval($offset);
-        $criteria = new CDbCriteria();
-        //TODO Link samples with company
-        //$criteria->addCondition('company_id = '.Yii::app()->user->getState('current_company'));
-        $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
-        $criteria->limit = $limit_string;
-        $criteria->offset = $offset_string;
-        $criteria->order = "t.datetime ASC";
-        $truck_samples = Sample::model()->findAll($criteria);
-        while(count($truck_samples) > 0)
-        { 
-          foreach($truck_samples as $truck_sample)
+          $filename = $uploaded_file_model->filename;
+          $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
+          $trucks_array = array();
+          $samples = array();
+          $new_sample;
+          
+          fgetcsv($handler, 0, ',');//Ignore headers
+          while($pointer = fgetcsv($handler, 0, ','))
           {
-            $truck_sample->truck_id = $truck->id;
-            $truck_sample->save();
+            if(array_key_exists(3, $pointer))//Validates the row has enough columns
+            {
+              $new_sample = new Sample;
+              $new_sample->truck_name = $pointer[0];
+              $new_sample->company_id = $this->current_company->id;
+              $trucks_array[$pointer[0]] = 1;
+              $new_sample->latitude = $pointer[1];
+              $new_sample->longitude = $pointer[2];
+              $new_sample->datetime = $pointer[3];
+              $new_sample->status_id = -3;
+              $new_sample->save();
+              unset($new_sample);
+            }
           }
-          $offset = $offset + $limit;
-          $offset_string = strval($offset);
-          $criteria->offset = $offset_string;
-          $truck_samples = Sample::model()->findAll($criteria);
-        }
-      }
+          fclose($handler);
+          //Create each of the trucks mentioned in the samples if any doesn't exist.
+          foreach($trucks_array as $truck_name => $value)
+          {
+            $condition_string = "name = '" . $truck_name . "' AND company_id = ".$this->current_company->id;
+            $registered_truck = Truck::model()->find($condition_string);
+            if(!count($registered_truck))
+            {
+              $new_truck = new Truck;
+              $new_truck->company_id = $this->current_company->id;
+              $new_truck->name = $truck_name;
+              $new_truck->save();
+            }
+          }
+          //Set all the truck_ids of the sample, even if they were already set.
+          
+          $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
+          foreach($trucks as $truck)
+          {
+            $limit = 100;
+            $offset = 0;
+            $limit_string = strval($limit);
+            $offset_string = strval($offset);
+            $criteria = new CDbCriteria();
+            //TODO Link samples with company
+            $criteria->addCondition('company_id = '.$this->current_company->id);
+            $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
+            $criteria->limit = $limit_string;
+            $criteria->offset = $offset_string;
+            $criteria->order = "t.datetime ASC";
+            $truck_samples = Sample::model()->findAll($criteria);
+            while(count($truck_samples) > 0)
+            { 
+              foreach($truck_samples as $truck_sample)
+              {
+                $truck_sample->truck_id = $truck->id;
+                $truck_sample->save();
+              }
+              $offset = $offset + $limit;
+              $offset_string = strval($offset);
+              $criteria->offset = $offset_string;
+              $truck_samples = Sample::model()->findAll($criteria);
+            }
+          }
 
-      //STart process
-      $uploaded_file_model->step++;
-      $uploaded_file_model->save();
-      $company_id = $company->id;
-      */
-      error_log("calculating all metrics");
+          //STart process
+          $uploaded_file_model->step++;
+          $uploaded_file_model->save();
+          $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
+          unlink(dirname(__FILE__)."/../../../files/".$uploaded_file_model->filename);
+          $uploaded_file_model->delete();
+        }//if($uploaded_file_model->step == 2)//has parameters
+      }//if(!empty($uploaded_file_model))
+      
       $this->calculateAllMetrics();
-      /*
-      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$company_id));
-      unlink(dirname(__FILE__)."/../../../files/".$uploaded_file_model->filename);
-      $uploaded_file_model->delete();
       $company->has_file_in_process = 0;
       $company->save();
-      */
     }    
   }
   
   function calculateAllMetrics()
   {
-    //error_log("actionFindSamplings");
-    //$this->actionFindSamplings();
-    //error_log("actionFindStopsAndRoutes");
-    //$this->actionFindStopsAndRoutes();
-    //error_log("actionGenerateRouteMetric");
-    //$this->actionGenerateRouteMetrics();
-    //error_log("actionGenerateTruckMetrics");
-    //$this->actionGenerateTruckMetrics();
-    //error_log("actionGenerateCompanyMetrics");
-    //$this->actionGenerateCompanyMetrics();
+    error_log("actionFindSamplings");
+    $this->actionFindSamplings();
+    error_log("actionFindStopsAndRoutes");
+    $this->actionFindStopsAndRoutes();
+    error_log("actionGenerateRouteMetric");
+    $this->actionGenerateRouteMetrics();
+    error_log("actionGenerateTruckMetrics");
+    $this->actionGenerateTruckMetrics();
+    error_log("actionGenerateCompanyMetrics");
+    $this->actionGenerateCompanyMetrics();
     error_log("actionGenerateStandardDeviation");
     $this->actionGenerateStandardDeviation();
-    error_log("end");
+    error_log("finished calculating metrics");
   }
   
   function actionFindSamplings()
@@ -194,11 +193,9 @@ class ProcessingCommand extends CConsoleCommand {
     $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
     foreach($trucks as $truck)
     {
-    error_log("E1");
       $samplings = $truck->samplings;
       foreach($samplings as $sampling)
       {    
-      error_log("E2");
         //$samples = $sampling->samples;
         $distance_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->distance_radius_short_stop;
         $time_treshold_for_short_stop= Company::model()->findByPk($this->current_company->id)->time_radius_short_stop;
@@ -210,7 +207,6 @@ class ProcessingCommand extends CConsoleCommand {
         
         if($samples_size > 1)
         {
-        error_log("E3");
           $new_stop = null;
           
           $previous_sample = $this->getSamplingSampleAt($sampling_id,0);
@@ -222,7 +218,6 @@ class ProcessingCommand extends CConsoleCommand {
           
           for($i = 1; $i < $samples_size; $i++)//Iterate through all the samples
           {
-          error_log("E4");
             $this->calculateDistanceSpeedAndTime($this->getSamplingSampleAt($sampling_id,$i-1),$this->getSamplingSampleAt($sampling_id,$i));
             $stop_type = 0;
             $lon1 = $previous_sample->longitude;
@@ -243,13 +238,11 @@ class ProcessingCommand extends CConsoleCommand {
             $date_diff_timestamp = $sample_i_date->getTimestamp() - $previous_sample_date->getTimestamp();
             if($distance<$distance_treshold_for_short_stop )//If it is staying in "the same" place
             {
-            error_log("E5");
               $stop_start = $i;
               $stop_type = -1;
               
               while( ($distance<$distance_treshold_for_short_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
               {
-              error_log("E6");
                 //Move one step forward
                 $i++;
                 $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -269,12 +262,10 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
                 {
-                error_log("E7");
                   $stop_type = -2;
                   //A stop becomes long stop
                   while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
                   {
-                  error_log("E8");
                     //Move one step forward
                     $i++;
                     $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -293,7 +284,6 @@ class ProcessingCommand extends CConsoleCommand {
               }
               while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
               {
-              error_log("E9");
                 //A stop begins
                 //Move one step forward
                 $i++;
@@ -314,12 +304,10 @@ class ProcessingCommand extends CConsoleCommand {
                     
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a long stop
                 {
-                error_log("E10");
                   $stop_type = -2;
                   //A stop becomes long stop
                   while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
                   {
-                  error_log("E11");
                     //Move one step forward
                     $i++;
                     $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -340,18 +328,14 @@ class ProcessingCommand extends CConsoleCommand {
               $new_stop = null;
               if($current_route != null)
               {
-              error_log("E12");
                 switch ($stop_type) {
                   case -1://Short stop
-                  error_log("E13");
                     if($date_diff_timestamp > $time_treshold_for_short_stop)//Greater than the minimun for short stop
                     {
-                    error_log("E14");
                       $new_stop = new ShortStop;
                       $new_stop->route_id = $current_route->id;
                       for($j = $stop_start; $j <= $stop_end; $j++)
                       {
-                      error_log("E15");
                         $sample_j = $this->getSamplingSampleAt($sampling_id,$j);
                         $sample_j->route_id=$current_route->id; 
                         $sample_j->update();
@@ -360,7 +344,6 @@ class ProcessingCommand extends CConsoleCommand {
                     }
                     else//Here we add just the first and last to the route
                     {
-                    error_log("E16");
                       $sample_stop_start = $this->getSamplingSampleAt($sampling_id,$stop_start);
                       $sample_stop_start->route_id=$current_route->id; 
                       $sample_stop_start->update();
@@ -372,13 +355,11 @@ class ProcessingCommand extends CConsoleCommand {
                     }
                     break;
                   case -2://Long stop
-                  error_log("E17");
                     $new_stop = new LongStop;
                     break;
                 }
                 if($new_stop != null)
                 {
-                error_log("E18");
                   $sample_stop_start = $this->getSamplingSampleAt($sampling_id,$stop_start);
                   $new_stop->latitude = $sample_stop_start->latitude;
                   $new_stop->longitude = $sample_stop_start->longitude;
@@ -392,7 +373,6 @@ class ProcessingCommand extends CConsoleCommand {
                 }
                 if($stop_type == -2)//If it was long stop
                 {
-                error_log("E19");
                   $route_count++;
                   $current_route->end_stop_id = $new_stop->id;
                   $current_route->save();
@@ -410,14 +390,12 @@ class ProcessingCommand extends CConsoleCommand {
             }
             if($distance<$distance_treshold_for_long_stop )//It can only be a long stop
             {
-            error_log("E20");
               //A stop begins
               $stop_start = $i;
               $stop_type = -1;
               
               while( ($distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//While it stays in "the same" place
               {
-              error_log("E21");
                 //A stop begins
                 //Move one step forward
                 $i++;
@@ -438,12 +416,10 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($date_diff_timestamp > $time_treshold_for_long_stop)//It has enough time to be a full Stop
                 {
-                error_log("E22");
                   $stop_type = -2;
                   //A stop becomes long stop
                   while(( $distance<$distance_treshold_for_long_stop ) && ( $i<($samples_size-1) ))//Continue forward until it moves
                   {
-                  error_log("E23");
                     //Move one step forward
                     $i++;
                     $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
@@ -464,20 +440,16 @@ class ProcessingCommand extends CConsoleCommand {
               $new_stop = null;
               if($current_route != null)
               {
-              error_log("E24");
                 switch ($stop_type) {
                   case -1://It wasn't a long stop
-                  error_log("E25");
                     break;
                   case -2://Long stop
-                  error_log("E26");
                     $new_stop = new LongStop;
                     break;
                 }
                 
                 if($new_stop != null)
                 {
-                error_log("E27");
                   $sample_stop_start = $this->getSamplingSampleAt($sampling_id,$stop_start);
                   $new_stop->latitude = $sample_stop_start->latitude;
                   $new_stop->longitude = $sample_stop_start->longitude;
@@ -492,7 +464,6 @@ class ProcessingCommand extends CConsoleCommand {
                 
                 if($stop_type == -2)//If it was long stop
                 {
-                error_log("E28");
                   $route_count++;
                   $current_route->end_stop_id = $new_stop->id;
                   $current_route->save();
@@ -510,7 +481,6 @@ class ProcessingCommand extends CConsoleCommand {
             }
             elseif($current_route == null)
             {
-            error_log("E29");
               $route_count++;
               $current_route = new Route;
               $current_route->truck_id = $truck->id;
@@ -530,7 +500,6 @@ class ProcessingCommand extends CConsoleCommand {
             //Save parts of the route
             if($current_route != null)
             {
-            error_log("E30");
               $sample_i = $this->getSamplingSampleAt($sampling_id,$i);
               $sample_i->route_id = $current_route->id;
               $sample_i->update();
@@ -547,10 +516,8 @@ class ProcessingCommand extends CConsoleCommand {
   
   function getSamplingSampleAt($sampling_id, $offset)
   {
-    error_log("requesting :". $offset." of: ".$sampling_id);
     if( ($offset < $this->buffer_first) || ($offset > $this->buffer_last) || ($this->buffer_sampling != $sampling_id) || ($offset == null))//If it is not available in buffer
     {
-      error_log("Bringing new samples");
       $criteria = new CDbCriteria(array('order'=>'datetime ASC'));
       $criteria->addCondition('sampling_id = '.$sampling_id);
       $criteria->limit = strval($this->buffer_size);
@@ -659,7 +626,6 @@ class ProcessingCommand extends CConsoleCommand {
           $this->generateStopsRanges($route);
           $this->generateAverageStopDuration($route);
           $this->generateLongStopsDuration($route);
-          error_log("finish rm");
         }
         else//Delete all routes and samples that are not valid
         {
@@ -670,9 +636,7 @@ class ProcessingCommand extends CConsoleCommand {
           $route->delete();
         }
       }
-      //$limit++;
       $offset++;
-      error_log("l and off ". $limit . " " .$offset);
       $limit_string = strval($limit);
       $offset_string = strval($offset);
       $criteria->limit = $limit_string;
@@ -684,18 +648,14 @@ class ProcessingCommand extends CConsoleCommand {
   function generateRouteDistance($route)
   {
     $total_distance = 0.0;
-    error_log("el conteo de ".$route->id."es");
-    error_log(" ".count($route->samples));
     foreach($route->samples as $sample)
       $total_distance = $total_distance + $sample->distance;
     $route->distance = $total_distance;
-    error_log(" ".count($route->samples)." la distancia: ".$total_distance);
     $route->save();
   }//generateRouteDistance
   
   function generateRouteTotalTime($route)
   {
-    error_log("totaltime");
     $samples_count = count($route->samples);
     $time_diff = 0;
     if($samples_count > 2)
@@ -718,7 +678,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteIsValid($route)
   {
-    error_log("route is valid");
     $minimum_route_time = 1800;//30 minutes
     if($route->time < $minimum_route_time)
       $route->is_valid = false;
@@ -729,7 +688,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteStopsCount($route)
   {
-    error_log("route stops count");
     $short_stops_count = count($route->shortStops);
     $route->short_stops_count = $short_stops_count;
     $route->save();
@@ -737,7 +695,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteShortStopsDistance($route)
   {
-    error_log("route short stops distnace");
     $i = 0;
     $short_stops_count = count($route->shortStops);
     if($short_stops_count > 2)
@@ -760,7 +717,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteStemTimeAndDistance($route)
   {
-    error_log("route stem time and distance");
     $first_stem_distance = null;
     $second_stem_distance = null;
     $first_stem_time = null;
@@ -809,7 +765,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteShortStopsTime($route)
   {
-    error_log("route short stops time");
     $total_time = 0.0;
     for($i = 0; $i < count($route->shortStops); $i++)
     {
@@ -828,7 +783,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteAverageSpeed($route)
   {
-    error_log("route average speed");
     $average_speed = 0.0;
     $distance = 0.0;
     if(!empty($route->distance))
@@ -849,14 +803,12 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateTravelingTime($route)
   {
-    error_log("travlieng_time"); 
     $route->traveling_time = $route->time - $route->short_stops_time;
     $route->save();
   }//generateTravelingTime
   
   function generateStopsRanges($route)
   {
-    error_log("stop ranges");
     $stops_between_0_5 = 0;
     $stops_between_5_15 = 0;
     $stops_between_15_30 = 0;
@@ -893,7 +845,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateAverageStopDuration($route)
   {
-    error_log("average stop duration");
     $stop_count = count($route->shortStops);
     
     if($stop_count > 0)
@@ -911,7 +862,6 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateLongStopsDuration($route)
   {
-    error_log("long stops duration");
     if($route->beginning_stop != null)
       if($route->beginning_stop->duration == null)
       {
@@ -931,7 +881,6 @@ class ProcessingCommand extends CConsoleCommand {
         $route->end_stop->duration = $time_diff;
         $route->end_stop->save();
       }
-    error_log("last lsd");
   }//generateLongStopsDuration
   
   function actionGenerateTruckMetrics()

@@ -40,7 +40,7 @@ class Sample extends CActiveRecord
 			array('latitude, longitude, status_id', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, latitude, longitude, datetime, route_id, truck_id, truck_name, interval, distance, speed, status_id, sampling_id, created_at, updated_at, aux1, aux2, aux3, truck_name_search, short_datetime_search', 'safe', 'on'=>'search'),
+			array('id, latitude, longitude, datetime, company_id, route_id, truck_id, truck_name, interval, distance, speed, status_id, sampling_id, created_at, updated_at, aux1, aux2, aux3, truck_name_search, short_datetime_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +55,7 @@ class Sample extends CActiveRecord
 			'truck' => array(self::BELONGS_TO, 'Truck', 'truck_id'),
 			'sampling' => array(self::BELONGS_TO, 'Sampling', 'truck_id'),
 			'route' => array(self::BELONGS_TO, 'Route', 'truck_id'),
+			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
 		);
 	}
 
@@ -103,6 +104,7 @@ class Sample extends CActiveRecord
 		$criteria->compare('status_id',$this->route_id,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('company_id',$this->company_id,true);
 		$criteria->with = array('truck');
 		$criteria->compare("LOWER(truck.name)", strtolower($this->truck_name_search), true);
 		
