@@ -116,10 +116,11 @@ class ProcessingCommand extends CConsoleCommand {
     //$this->actionGenerateRouteMetrics();
     //error_log("actionGenerateTruckMetrics");
     //$this->actionGenerateTruckMetrics();
-    error_log("actionGenerateCompanyMetrics");
-    $this->actionGenerateCompanyMetrics();
+    //error_log("actionGenerateCompanyMetrics");
+    //$this->actionGenerateCompanyMetrics();
     error_log("actionGenerateStandardDeviation");
-    //$this->actionGenerateStandardDeviation();
+    $this->actionGenerateStandardDeviation();
+    error_log("end");
   }
   
   function actionFindSamplings()
