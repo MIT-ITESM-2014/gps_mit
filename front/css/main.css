@@ -223,7 +223,7 @@ body
 
 .selector-truck
 {
-	width: 140px;
+	width: 170px;
 	height: 30px;
 	float: left;
 	margin-top: 5px;
@@ -248,7 +248,7 @@ body
 	font-size: 14px;
 	float: left;
 	overflow: hidden;
-  width: 120px;
+  width: 145px;
   border: 1px solid #003c4b;
   color: rgba(0,0,0,0);
   text-shadow: 0 0 0 #FFFFFF;
@@ -292,7 +292,7 @@ body
 
 .selector-route
 {
-	width: 120px;
+	width: 150px;
 	height: 30px;
 	float: left;
 	margin-left: 10px;
@@ -316,7 +316,7 @@ body
 	color: #FFFFFF;
 	font-size: 14px;
 	float: left;
-	width: 110px;
+	width: 145px;
 	border: 1px solid #003c4b;
 	color: rgba(0,0,0,0);
   text-shadow: 0 0 0 #FFFFFF;
@@ -360,7 +360,7 @@ body
 	background-repeat: no-repeat;
 	background-position: right top;
 	float: left;
-	width: 95px;
+	width: 125px;
 	height: 40px;
 	overflow: hidden;
 }
@@ -371,7 +371,7 @@ body
 	background-repeat: no-repeat;
 	background-position: right top;
 	float: left;
-	width: 95px;
+	width: 125px;
 	height: 40px;
 	overflow: hidden;	
 }
@@ -383,7 +383,8 @@ body
 	background-color: #00a894;
 	color: #FFFFFF;
 	margin-top: 0px;
-	margin-left: 620px;
+	float: right;
+	margin-right: 425px;
 }
 
 .update-button-map:hover
