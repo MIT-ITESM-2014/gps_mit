@@ -383,8 +383,8 @@ body
 	background-color: #00a894;
 	color: #FFFFFF;
 	margin-top: 0px;
-	float: right;
-	margin-right: 430px;
+	float: left;
+	margin-left: 5px;
 }
 
 .update-button-map:hover
