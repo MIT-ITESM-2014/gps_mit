@@ -384,7 +384,7 @@ body
 	color: #FFFFFF;
 	margin-top: 0px;
 	float: right;
-	margin-right: 425px;
+	margin-right: 430px;
 }
 
 .update-button-map:hover
@@ -1464,7 +1464,7 @@ body
   height: 100px;
   position:absolute;
   z-index: 2;
-  margin-left: 45px;
+  margin-left: 55px;
   margin-top:0px;
    
 }
