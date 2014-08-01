@@ -1347,11 +1347,6 @@ class ProcessingCommand extends CConsoleCommand {
     $company->average_trip_stop_time_sd = $company_average_trip_stop_time_sd;
     $company->average_trip_traveling_time_sd = $company_average_trip_traveling_time_sd;
     $company->save();
-    $company_average_trip_distance_sd."*".
-    $company_average_stem_distance_sd."*".
-    $company_average_speed_sd."*".
-    $company_average_trip_duration_sd."*".
-    $company_average_trip_stop_time_sd."*".$company_average_trip_traveling_time_sd);
   }//actionGenerateStandardDeviation
   
 }
