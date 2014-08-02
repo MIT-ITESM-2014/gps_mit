@@ -671,7 +671,6 @@ class ProcessingCommand extends CConsoleCommand {
         $route = $this->generateRouteDistance($route);
         $route = $this->generateRouteTotalTime($route);
         $route = $this->generateRouteIsValid($route);
-        error_log("result: ".$route->is_valid);
         if($route->is_valid == true)
         {
           $route = $this->generateRouteStopsCount($route);
@@ -737,18 +736,11 @@ class ProcessingCommand extends CConsoleCommand {
   
   function generateRouteIsValid($route)
   {
-    error_log("checking valid");
     $minimum_route_time = 1800;//30 minutes
     if($route->time < $minimum_route_time)
-    {
       $route->is_valid = false;
-      error_log("is false");
-    }
     else
-    {
       $route->is_valid = true;
-      error_log("is true");
-    }
     $route->save();
     return $route;
   }//generateRouteIsValid
