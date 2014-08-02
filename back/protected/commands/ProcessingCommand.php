@@ -663,7 +663,6 @@ class ProcessingCommand extends CConsoleCommand {
     $criteria->offset = $offset_string;
     $criteria->order = "t.id ASC";
     $criteria->addInCondition('truck_id', $trucks_ids);
-    $criteria->addCondition('is_valid = 1');
     $routes = Route::model()->findAll($criteria);
     while(count($routes) > 0)
     {
