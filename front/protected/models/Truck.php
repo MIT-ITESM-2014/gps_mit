@@ -58,6 +58,7 @@ class Truck extends CActiveRecord
       'shortStopsCountSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(short_stops_count)','condition' => 't.is_valid = 1'),
       'distanceSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(distance)','condition' => 't.is_valid = 1'),
 		);
+  }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
