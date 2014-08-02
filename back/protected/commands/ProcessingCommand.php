@@ -663,6 +663,7 @@ class ProcessingCommand extends CConsoleCommand {
     $criteria->offset = $offset_string;
     $criteria->order = "t.id ASC";
     $criteria->addInCondition('truck_id', $trucks_ids);
+    $criteria->addCondition('is_valid = 1');
     $routes = Route::model()->findAll($criteria);
     while(count($routes) > 0)
     {
@@ -972,9 +973,11 @@ class ProcessingCommand extends CConsoleCommand {
         $route_count = $truck->routesCount;
         $truck->route_count = $route_count;
         $truck->total_distance = $truck->distanceSum;
-        $truck->average_duration = $truck->timeSum/$route_count;
+        if($route_count > 0)
+          $truck->average_duration = $truck->timeSum/$route_count;
         $truck->average_speed = $this->getTruckAverageSpeed($truck);
-        $truck->average_stop_count_per_trip = $truck->shortStopsCountSum/$route_count;
+        if($route_count > 0)
+          $truck->average_stop_count_per_trip = $truck->shortStopsCountSum/$route_count;
         $truck->average_distance_between_short_stops = $this->calculateAverageDistanceBetweenShortStops($truck);
         $truck->average_stem_distance = $this->calculateAverageStemDistance($truck);
         $truck->average_trip_distance = $this->calculateAverageTripDistance($truck);
@@ -1055,7 +1058,7 @@ class ProcessingCommand extends CConsoleCommand {
     }
     $average;
     if($count > 0)
-      $average = $distanceSum / $count;
+      $average = $distanceSum / (float)$count;
     else
       $average = 0;
     return $average;
@@ -1184,7 +1187,7 @@ class ProcessingCommand extends CConsoleCommand {
     $total_traveling_time  =0.0;
     $total_resting_time  =0.0;
     $short_stop_count = 0;
-    $total_average_stem_distance = 0.0;
+    $total_stem_distance = 0.0;
     $sum_average_trip_stop_time = 0.0;
     
     foreach( $company->trucks as $truck )
@@ -1194,7 +1197,7 @@ class ProcessingCommand extends CConsoleCommand {
       $total_short_stop_time = $total_short_stop_time + $truck->short_stops_time;
       $total_traveling_time = $total_traveling_time + $truck->traveling_time;
       $total_resting_time = $total_resting_time + $truck->resting_time;
-      $total_average_stem_distance = $total_average_stem_distance + $truck->average_stem_distance;
+      $total_stem_distance = $total_stem_distance + $truck->firstStemTimeSum + $truck->secondStemTimeSum;
       $sum_average_trip_stop_time = $sum_average_trip_stop_time + $truck->short_stops_time;
       $short_stop_count = $short_stop_count + $truck->stops_between_0_5;
       $short_stop_count = $short_stop_count + $truck->stops_between_5_15;
@@ -1215,7 +1218,7 @@ class ProcessingCommand extends CConsoleCommand {
     {
       $average_stop_count_per_trip = $short_stop_count / $route_count;
       $average_trip_distance = $distance_traveled / $route_count;
-      $average_stem_distance = $total_average_stem_distance / $route_count;
+      $average_stem_distance = $total_stem_distance / $route_count;
       $average_trip_duration = ( $total_traveling_time + $total_short_stop_time ) / $route_count;
       $average_trip_stop_time = $sum_average_trip_stop_time / $route_count;
       $average_trip_traveling_time = $total_traveling_time / $route_count;
@@ -1274,17 +1277,17 @@ class ProcessingCommand extends CConsoleCommand {
         $company_average_trip_distance_sds =  $company_average_trip_distance_sds + pow($route->distance - $company->average_trip_distance, 2);
         $company_average_stem_distance_sds = $company_average_stem_distance_sds + pow(($route->first_stem_distance + $route->second_stem_distance) - $company->average_stem_distance, 2);
         $company_average_speed_sds = $company_average_speed_sds + pow($route->average_speed - $company->average_speed, 2);
-        $company_average_trip_duration_sds = $company_average_trip_duration_sds + $route->time;
-        $company_average_trip_stop_time_sds = $company_average_trip_stop_time_sds + $route->short_stops_time;
-        $company_average_trip_traveling_time_sds = $company_average_trip_traveling_time_sds + $route->traveling_time;
+        $company_average_trip_duration_sds = $company_average_trip_duration_sds + pow($route->time, 2);
+        $company_average_trip_stop_time_sds = $company_average_trip_stop_time_sds + pow($route->short_stops_time, 2);
+        $company_average_trip_traveling_time_sds = $company_average_trip_traveling_time_sds + pow($route->traveling_time, 2);
       
         $truck_average_stop_count_per_trip_sds = $truck_average_stop_count_per_trip_sds + pow($route->short_stops_count - $truck->average_stop_count_per_trip, 2);
         $truck_average_trip_distance_sds =  $truck_average_trip_distance_sds + pow($route->distance - $truck->average_trip_distance, 2);
         $truck_average_stem_distance_sds = $truck_average_stem_distance_sds + pow(($route->first_stem_distance + $route->second_stem_distance) - $truck->average_stem_distance, 2);
         $truck_average_speed_sds = $truck_average_speed_sds + pow($route->average_speed - $truck->average_speed, 2);
-        $truck_average_trip_duration_sds = $truck_average_trip_duration_sds + $route->time;
-        $truck_average_trip_stop_time_sds = $truck_average_trip_stop_time_sds + $route->short_stops_time;
-        $truck_average_trip_traveling_time_sds = $truck_average_trip_traveling_time_sds + $route->traveling_time;
+        $truck_average_trip_duration_sds = $truck_average_trip_duration_sds + pow($route->time, 2);
+        $truck_average_trip_stop_time_sds = $truck_average_trip_stop_time_sds + pow($route->short_stops_time, 2);
+        $truck_average_trip_traveling_time_sds = $truck_average_trip_traveling_time_sds + pow($route->traveling_time, 2);
       }
       
       $truck_average_stop_count_per_trip_sd = 0.0;

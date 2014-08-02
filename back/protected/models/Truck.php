@@ -48,12 +48,14 @@ class Truck extends CActiveRecord
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'truck_id'),
 			'samplings' => array(self::HAS_MANY, 'Sampling', 'truck_id'),
-			'routes' => array(self::HAS_MANY, 'Route', 'truck_id'),
-      'routesCount'=>array(self::STAT, 'Route', 'truck_id'),
-			'timeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(time)'),
-      'averageSpeedSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(average_speed)'),
-      'shortStopsCountSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(short_stops_count)'),
-      'distanceSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(distance)'),
+			'routes' => array(self::HAS_MANY, 'Route', 'truck_id', 'condition' => 'routes.is_valid = 1'),
+      'routesCount'=>array(self::STAT, 'Route', 'truck_id','condition' => 't.is_valid = 1'),
+			'timeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(time)','condition' => 't.is_valid = 1'),
+      'firstStemTimeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(first_stem_time)','condition' => 't.is_valid = 1'),
+      'secondStemTimeSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(second_stem_time)','condition' => 't.is_valid = 1'),
+      'averageSpeedSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(average_speed)','condition' => 't.is_valid = 1'),
+      'shortStopsCountSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(short_stops_count)','condition' => 't.is_valid = 1'),
+      'distanceSum'=>array(self::STAT,  'Route', 'truck_id', 'select' => 'SUM(distance)','condition' => 't.is_valid = 1'),
 		);
 	}
 
