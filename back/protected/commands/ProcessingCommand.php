@@ -1325,11 +1325,7 @@ class ProcessingCommand extends CConsoleCommand {
     $company_average_trip_duration_sd = 0.0;
     $company_average_trip_stop_time_sd = 0.0;
     $company_average_trip_traveling_time_sd = 0.0;
-    /*
-    $company_average_trip_distance_sd.$company_average_stem_distance_sd.
-    $company_average_speed_sd.$company_average_trip_duration_sd.
-    $company_average_trip_stop_time_sd.$company_average_trip_traveling_time_sd
-    */
+    
     if($company_trip_count > 0)
     {
       $company_average_stop_count_per_trip_sd = sqrt($company_average_stop_count_per_trip_sds / $company_trip_count);

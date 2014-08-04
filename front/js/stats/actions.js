@@ -40,26 +40,31 @@ $.ajax({
   success: function(data){
     if(data != null)
     {
-
-      chart_1_params_categories = data.charts_params_x_axis;
+      chart_1_params_x_axis = data.chart_1_params_x_axis;
       chart_1_spline_data = data.chart_1_spline_data;
       chart_1_scatter_data = data.chart_1_scatter_data;
       chart_1_line_data = data.chart_1_line_data;
+      chart_2_params_x_axis = data.chart_1_params_x_axis;
       chart_2_spline_data = data.chart_2_spline_data;
       chart_2_scatter_data = data.chart_2_scatter_data;
       chart_2_line_data = data.chart_2_line_data;
+      chart_3_params_x_axis = data.chart_1_params_x_axis;
       chart_3_spline_data = data.chart_3_spline_data;
       chart_3_scatter_data = data.chart_3_scatter_data;
       chart_3_line_data = data.chart_3_line_data;
+      chart_4_params_x_axis = data.chart_1_params_x_axis;
       chart_4_spline_data = data.chart_4_spline_data;
       chart_4_scatter_data = data.chart_4_scatter_data;
       chart_4_line_data = data.chart_4_line_data;
+      chart_5_params_x_axis = data.chart_1_params_x_axis;
       chart_5_spline_data = data.chart_5_spline_data;
       chart_5_scatter_data = data.chart_5_scatter_data;
       chart_5_line_data = data.chart_5_line_data;
+      chart_6_params_x_axis = data.chart_1_params_x_axis;
       chart_6_spline_data = data.chart_6_spline_data;
       chart_6_scatter_data = data.chart_6_scatter_data;
       chart_6_line_data = data.chart_6_line_data;
+      chart_7_params_x_axis = data.chart_1_params_x_axis;
       chart_7_spline_data = data.chart_7_spline_data;
       chart_7_scatter_data = data.chart_7_scatter_data;
       chart_7_line_data = data.chart_7_line_data;      
@@ -75,6 +80,7 @@ $.ajax({
           text: 'Fleet Average Speed'
         },
         xAxis: {
+          categories: chart_1_params_x_axis,
           labels: {
             enabled: false
           },
@@ -164,6 +170,7 @@ $.ajax({
           text: 'Fleet STEM Distance'
         },
         xAxis: {
+          categories: chart_2_params_x_axis,
           labels: {
             enabled: false
           },          
@@ -252,6 +259,7 @@ $.ajax({
           text: 'Fleet Avg. Distance'
         },
         xAxis: {
+          categories: chart_3_params_x_axis,
           labels: {
             enabled: false
           },
@@ -339,6 +347,7 @@ $.ajax({
           text: 'Stops'
         },
         xAxis: {
+          categories: chart_4_params_x_axis,
           labels: {
             enabled: false
           },
@@ -426,6 +435,7 @@ $.ajax({
           text: 'Time Traveling'
         },
         xAxis: {
+          categories: chart_5_params_x_axis,
           labels: {
             enabled: false
           },
@@ -513,6 +523,7 @@ $.ajax({
           text: 'Time in Stops'
         },
         xAxis: {
+          categories: chart_6_params_x_axis,
           labels: {
             enabled: false
           },
@@ -600,6 +611,7 @@ $.ajax({
           text: 'Time in Trip'
         },
         xAxis: {
+          categories: chart_7_params_x_axis,
           labels: {
             enabled: false
           },

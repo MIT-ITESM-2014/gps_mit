@@ -4,8 +4,8 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="gpstracks_new" />
    <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="PlayPen Database" />
    <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
@@ -15,7 +15,7 @@
    <property key="UID" value="compass" />
    <property key="PWD" value="dh28HszAn89sRg9iwsxy" />
   </data-source>
-  <data-source id="DS2">
+  <data-source id="DS0">
    <property key="Connection Type" value="PostgreSQL" />
    <property key="Logical" value="PlayPen Database" />
    <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
@@ -29,7 +29,7 @@
   </data-source>
  </project-data-sources>
  <source-databases>
-  <database id="DB0" populated="true" UUID="3b80b8e8-531e-4f85-8d38-82995150d8b3" dbcs-ref="DS2" name="PlayPen Database" physicalName="gpstracks_new" >
+  <database id="DB0" populated="true" UUID="3b80b8e8-531e-4f85-8d38-82995150d8b3" dbcs-ref="DS0" name="PlayPen Database" physicalName="gpstracks_new" >
    <catalog id="CAT1" populated="true" UUID="6d0bf086-4e74-4849-9486-d9f796e5036f" name="compass" nativeTerm="database" physicalName="compass" >
     <schema id="SCH2" populated="true" UUID="e47831ee-c9a0-4fdc-9aef-aad36b4cfe24" name="information_schema" nativeTerm="schema" physicalName="information_schema" >
     </schema>
@@ -719,10 +719,10 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537148" viewportX="0" viewportY="283" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537148" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB7" x="654" y="106" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB44" x="590" y="901" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB65" x="235" y="927" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>

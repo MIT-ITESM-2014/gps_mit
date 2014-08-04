@@ -52,6 +52,7 @@ class Company extends CActiveRecord
 		return array(
 			'identities' => array(self::HAS_MANY, 'Identity', 'company_id'),
 			'trucks' => array(self::HAS_MANY, 'Truck', 'company_id'),
+			'trucks_by_average_speed' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_speed.average_speed DESC',),
 			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'company_id'),
 		);
 	}
