@@ -68,9 +68,7 @@ class RouteController extends Controller
     if(!empty($min_date_sample))
     {
           $date = new DateTime($min_date_sample[0]->min_date);
-          $min_date = $date->format('m/d/Y');
-          error_log(print_r("Min date: ". $min_date, true));  
-    }
+          $min_date = $date->format('m/d/Y');}
 
     $criteria_max_date = new CDbCriteria();
     $criteria_max_date->select='max(datetime) as max_date';    
@@ -82,7 +80,6 @@ class RouteController extends Controller
     {
           $date = new DateTime($max_date_sample[0]->max_date);
           $max_date = $date->format('m/d/Y');
-          error_log(print_r("Max date: ". $max_date, true));  
     }
 
     //Get the list of unavailable dates
@@ -90,6 +87,7 @@ class RouteController extends Controller
         $criteria_active_days->select='distinct DATE(datetime) as active_day';
         $criteria_active_days->condition= 'truck_id = '. $truck_id;
         $active_days_sample = Sample::model()->findAll($criteria_active_days);
+
         $old_date = null;
         if(!empty($active_days_sample))
           $old_date = new DateTime($active_days_sample[0]->active_day);
@@ -303,7 +301,6 @@ class RouteController extends Controller
       {
         $cs = Yii::app()->clientScript;
         $cs->registerCoreScript('jquery');    
-        $cs->registerCoreScript('screen-block'); 
 
 	      $trucks = Truck::model()->findAllByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
 	      $trucks_ids = array();

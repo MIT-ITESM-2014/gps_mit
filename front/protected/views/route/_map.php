@@ -82,12 +82,12 @@ foreach ($trucks as $t)
     
     Yii::app()->clientScript->registerScript('routeDropdown', "
       
-      $('#Sample_start_date').change(function(){
+      $('#choose_date_dp').change(function(){
         
         $.ajax({ 
           type: \"GET\",
           dataType: \"json\",
-          url: \"index.php?r=route/getRouteList&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"Sample_start_date\").value,
+          url: \"index.php?r=route/getRouteList&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"choose_date_dp\").value,
           success: function(data){        
             $('#select-route').find('option').remove();
             var parsed_data = $.parseJSON(data);

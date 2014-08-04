@@ -46,6 +46,7 @@ class Route extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'samples' => array(self::HAS_MANY, 'Sample', 'route_id','order'=>'datetime ASC'),
+			'firstSample' => array(self::HAS_MANY, 'Sample', 'route_id', 'order'=>'datetime ASC', 'limit'=>'1'),
 			'shortStops' => array(self::HAS_MANY, 'ShortStop', 'route_id'),
 			'firstShortStop' => array(self::HAS_MANY, 'ShortStop', 'route_id', 'order'=>'start_time ASC', 'limit'=>'1'),
 			'lastShortStop' => array(self::HAS_MANY, 'ShortStop', 'route_id', 'order'=>'start_time DESC', 'limit'=>'1'),
