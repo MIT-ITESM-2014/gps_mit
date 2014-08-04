@@ -24,20 +24,20 @@ function updateAvailableDate()
 			choose_date_dp.datepicker("option", "maxDate", max_date);
 			choose_date_dp.datepicker("option", "minDate", min_date);
 			
-			var disabledDates = [inactive_days];
-			console.log(disabledDates);
-			//console.log(inactive_days);
-			choose_date_dp.datepicker("option", "beforeShowDay", prueba);
+			choose_date_dp.datepicker("option", "beforeShowDay", disableDates);
+			
 
-			choose_date_dp.datepicker({beforeShowDay: function(d){
-				alert("Before Show!!");
-    		var disabledDates = [inactive_days];
+			function disableDates(date)
+			{
+				var disabledDates = inactive_days;
         for (var i = 0; i < disabledDates.length; i++) {
-          if (new Date(disabledDates[i]).toString() == d.toString()) {
-            return [false,''];
+          if (new Date(disabledDates[i]).toString() == date.toString())
+          {
+            return [false, "", ""];
           }
         }
-			}});
+        return [true, "", ""];
+			}
 
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
