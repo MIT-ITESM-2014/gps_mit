@@ -56,25 +56,31 @@ class CompanyController extends Controller
     $company_model = Company::model()->findByPk($current_company);
     $secondsInAnHour = 3600;
     
-    $charts_params_x_axis = array();
+    $chart_1_params_x_axis = array();
     $chart_1_trucks_speeds = array();
     $chart_1_routes_speeds = array();
     $chart_1_company_speeds = array();
+    $chart_2_params_x_axis = array();
     $chart_2_trucks_stem = array();
     $chart_2_routes_stem = array();
     $chart_2_company_stem = array();
+    $chart_3_params_x_axis = array();
     $chart_3_trucks_trip_distance = array();
     $chart_3_routes_trip_distance = array();
     $chart_3_company_trip_distance = array();
+    $chart_4_params_x_axis = array();
     $chart_4_trucks_stops = array();
     $chart_4_routes_stops = array();
     $chart_4_company_stops = array();
+    $chart_5_params_x_axis = array();
     $chart_5_trucks_time_traveling = array();
     $chart_5_company_time_traveling = array();
     $chart_5_route_time_traveling = array();
+    $chart_6_params_x_axis = array();
     $chart_6_trucks_stops_time = array();
     $chart_6_company_stops_time = array();
     $chart_6_routes_stops_time = array();
+    $chart_7_params_x_axis = array();
     $chart_7_trucks_trip_time = array();
     $chart_7_company_trip_time = array();
     $chart_7_routes_trip_time = array();
@@ -94,10 +100,9 @@ class CompanyController extends Controller
     }
 
     //truck stats
-    foreach ($company_model->trucks as $truck) {
-    	$charts_params_x_axis [] = $truck->id;
-    }
+
     foreach ($company_model->trucks_by_average_speed as $truck) {//TODO order
+      $chart_1_params_x_axis [] = $truck->id;
     	$chart_1_trucks_speeds [] = array(
     		'x' => $truck->id, //TODO change id for number assigned for ordering
     		'y' => (float)round($truck->average_speed, 1),
@@ -109,8 +114,16 @@ class CompanyController extends Controller
     		'y' => (float)round($company_model->average_speed, 1),
     		'myData' => (float)round($company_model->average_speed_sd, 1)
     	);
+    	foreach ($truck->routes as $route) {
+    		$chart_1_routes_speeds [] = array(
+    			'x' => $truck->id, 			
+    			'y' => (float) round($route->average_speed, 1),
+    			'name' => $truck->name    			
+    		);
+    	}
     }
     foreach ($company_model->trucks as $truck) {//TODO order
+      $chart_2_params_x_axis [] = $truck->id;
     	$chart_2_trucks_stem [] = array(
     		'x' => $truck->id,
     		'y' => (float)round($truck->average_stem_distance, 1),
@@ -122,8 +135,16 @@ class CompanyController extends Controller
     		'y' => (float) round($company_model->average_stem_distance, 1),
     		'myData' => (float) round($company_model->average_stem_distance_sd, 1)
     	);
+    	foreach ($truck->routes as $route) {
+    		$chart_2_routes_stem [] = array(
+    			'x' => $truck->id,
+    			'y' => (float) round($route->first_stem_distance + $route->second_stem_distance, 1),
+    			'name' => $truck->name
+    		);
+      }
     }
     foreach ($company_model->trucks as $truck) {//TODO order
+      $chart_3_params_x_axis [] = $truck->id;
     	$chart_3_trucks_trip_distance [] = array(
     		'x'=> $truck->id,
     		'y' => (float) round($truck->average_trip_distance, 1),
@@ -135,8 +156,16 @@ class CompanyController extends Controller
 				'y' => (float) round($company_model->average_trip_distance, 1),
 				'myData' => (float) round($company_model->average_trip_distance_sd, 1)
 			);
+			foreach ($truck->routes as $route) {
+    		$chart_3_routes_trip_distance [] = array(
+    			'x' => $truck->id,
+    			'y' => (float) round($route->distance, 1),
+    			'name' => $truck->name
+    		);
+      }
 	  }
 	  foreach ($company_model->trucks as $truck) {//TODO order
+	    $chart_4_params_x_axis [] = $truck->id;
     	$chart_4_trucks_stops [] = array(
     		'x'=> $truck->id,
     		'y' => (float) round($truck->average_stop_count_per_trip, 1),
@@ -148,9 +177,16 @@ class CompanyController extends Controller
     		'y' => (float) round($company_model->average_stop_count_per_trip, 1),
     		'myData' => (float) round($company_model->average_stop_count_per_trip_sd, 1)
     	);
+    	foreach ($truck->routes as $route) {
+    		$chart_4_routes_stops [] = array(
+    			'x' => $truck->id, 
+    			'y' => (float) round($route->short_stops_count, 1),
+    			'name' => $truck->name
+    		);
+      }
     }
     foreach ($company_model->trucks as $truck) {//TODO order
-
+      $chart_5_params_x_axis [] = $truck->id;
     	$truck_traveling_time_hours = $truck->average_trip_traveling_time / $secondsInAnHour;
     	$truck_traveling_time_hours_sd = $truck->average_trip_traveling_time_sd / 60; //minutes
     	$company_traveling_time_hours = $company_model->average_trip_traveling_time / $secondsInAnHour;
@@ -175,8 +211,17 @@ class CompanyController extends Controller
     		'y' => (float) round($company_traveling_time_hours, 1),
     		'myData' => (float) round($company_traveling_time_hours_sd, 1)
     	);
+    	foreach ($truck->routes as $route) {
+        $route_traveling_time_hours = $route->traveling_time / $secondsInAnHour;
+    		$chart_5_route_time_traveling [] = array(
+    			'x' => $truck->id,
+    			'y' => (float) round($route_traveling_time_hours, 1),
+    			'name' => $truck->name
+    		);
+    	}
     }
     foreach ($company_model->trucks as $truck) {//TODO order
+      $chart_6_params_x_axis [] = $truck->id;
     	$chart_6_trucks_stops_time [] = array(
     		'x' => $truck->id,
     		'y' => (float) round($truck_stops_time_hours, 1),
@@ -188,8 +233,17 @@ class CompanyController extends Controller
     		'y' => (float) round($company_stops_time_hours, 1),
     		'myData' => (float) round($company_stops_time_hours_sd, 1)
     	);
+    	foreach ($truck->routes as $route) {
+    	  $route_stops_time_hours = $route->short_stops_time / $secondsInAnHour;
+    		$chart_6_routes_stops_time [] = array(
+    			'x' => $truck->id,
+    			'y' => (float) round($route_stops_time_hours, 1),
+    			'name' => $truck->name
+    		);
+    	}
     }
     foreach ($company_model->trucks as $truck) {//TODO order
+      $chart_7_params_x_axis [] = $truck->id;
 		  $chart_7_trucks_trip_time [] = array(
 			  'x' => $truck->id,
 			  'y' => (float) round($truck_trip_time_hours, 1),
@@ -201,75 +255,45 @@ class CompanyController extends Controller
 			  'y' => (float) round($company_trip_time_hours, 1),
 			  'myData' => (float) round($company_trip_time_hours_sd, 1)
 		  );
-		}
-    foreach ($company_model->trucks as $truck) {//TODO order
-    	foreach ($truck->routes as $route) {
-    		$chart_1_routes_speeds [] = array(
-    			'x' => $truck->id, 			
-    			'y' => (float) round($route->average_speed, 1),
-    			'name' => $truck->name    			
-    		);
-    		$chart_2_routes_stem [] = array(
-    			'x' => $truck->id,
-    			'y' => (float) round($route->first_stem_distance + $route->second_stem_distance, 1),
-    			'name' => $truck->name
-    		);
-    		$chart_3_routes_trip_distance [] = array(
-    			'x' => $truck->id,
-    			'y' => (float) round($route->distance, 1),
-    			'name' => $truck->name
-    		);
-    		$chart_4_routes_stops [] = array(
-    			'x' => $truck->id, 
-    			'y' => (float) round($route->short_stops_count, 1),
-    			'name' => $truck->name
-    		);
-    		//conversion from seconds to hours
-    		$route_traveling_time_hours = $route->traveling_time / $secondsInAnHour;
-    		$route_stops_time_hours = $route->short_stops_time / $secondsInAnHour;
+		  foreach ($truck->routes as $route) {
     		$route_trip_time_hours = ($route->short_stops_time + $route->traveling_time) / $secondsInAnHour;
-
-    		$chart_5_route_time_traveling [] = array(
-    			'x' => $truck->id,
-    			'y' => (float) round($route_traveling_time_hours, 1),
-    			'name' => $truck->name
-    		);
-    		$chart_6_routes_stops_time [] = array(
-    			'x' => $truck->id,
-    			'y' => (float) round($route_stops_time_hours, 1),
-    			'name' => $truck->name
-    		);
     		$chart_7_routes_trip_time [] = array(
     			'x' => $truck->id,
     			'y' => (float) round($route_trip_time_hours, 1),
     			'name' => $truck->name
     		);
-    	}//foreach ($truck->routes as $route)
-    }
-    
+    	}
+		}
+		
     $data = array(
       'total_trips' => $company_model->route_count,
       'average_short_stop_duration' => $average_short_stop_duration,
       'distance_traveled' => number_format($company_model->distance_traveled, 1).' km',
-      'charts_params_x_axis' => $charts_params_x_axis,
+      'chart_1_params_x_axis' => $chart_1_params_x_axis,
       'chart_1_spline_data' => $chart_1_trucks_speeds,
       'chart_1_scatter_data' => $chart_1_routes_speeds,
       'chart_1_line_data' => $chart_1_company_speeds,
+      'chart_2_params_x_axis' => $chart_1_params_x_axis,
       'chart_2_spline_data' => $chart_2_trucks_stem,
       'chart_2_scatter_data' => $chart_2_routes_stem,
       'chart_2_line_data' => $chart_2_company_stem,
+      'chart_3_params_x_axis' => $chart_1_params_x_axis,
       'chart_3_spline_data' => $chart_3_trucks_trip_distance,
       'chart_3_scatter_data' => $chart_3_routes_trip_distance,
       'chart_3_line_data' => $chart_3_company_trip_distance,
+      'chart_4_params_x_axis' => $chart_1_params_x_axis,
       'chart_4_spline_data' => $chart_4_trucks_stops,
       'chart_4_scatter_data' => $chart_4_routes_stops,
       'chart_4_line_data' => $chart_4_company_stops,
+      'chart_5_params_x_axis' => $chart_1_params_x_axis,
       'chart_5_spline_data' => $chart_5_trucks_time_traveling,
       'chart_5_scatter_data' => $chart_5_route_time_traveling,
       'chart_5_line_data' => $chart_5_company_time_traveling,
+      'chart_6_params_x_axis' => $chart_1_params_x_axis,
       'chart_6_spline_data' => $chart_6_trucks_stops_time,
       'chart_6_scatter_data' => $chart_6_routes_stops_time,
       'chart_6_line_data' => $chart_6_company_stops_time,
+      'chart_7_params_x_axis' => $chart_1_params_x_axis,
       'chart_7_spline_data' => $chart_7_trucks_trip_time,
       'chart_7_scatter_data' => $chart_7_routes_trip_time,
       'chart_7_line_data' => $chart_7_company_trip_time
