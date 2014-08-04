@@ -98,7 +98,7 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
           x: 100,
           y: 70,

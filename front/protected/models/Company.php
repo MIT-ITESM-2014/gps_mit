@@ -53,6 +53,12 @@ class Company extends CActiveRecord
 			'identities' => array(self::HAS_MANY, 'Identity', 'company_id'),
 			'trucks' => array(self::HAS_MANY, 'Truck', 'company_id'),
 			'trucks_by_average_speed' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_speed.average_speed DESC',),
+			'trucks_by_average_stem_distance' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_stem_distance.average_stem_distance DESC',),
+			'trucks_by_average_trip_distance' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_trip_distance.average_trip_distance DESC',),
+			'trucks_by_average_stop_count_per_trip' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_stop_count_per_trip.average_stop_count_per_trip DESC',),
+			'trucks_by_average_trip_traveling_time' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_trip_traveling_time.average_trip_traveling_time DESC',),
+			'trucks_by_average_trip_stop_time' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_trip_stop_time.average_trip_stop_time DESC',),
+			'trucks_by_average_duration' => array(self::HAS_MANY, 'Truck', 'company_id', 'order'=>'trucks_by_average_duration.average_duration DESC',),
 			'uploaded_files' => array(self::HAS_MANY, 'UploadedFile', 'company_id'),
 		);
 	}
