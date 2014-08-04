@@ -36,7 +36,7 @@ class RouteController extends Controller
 			//	'users'=>array('@'),
 			//),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'getRoute', 'getRouteList', 'getRouteStats'),
+				'actions'=>array('index', 'getRoute', 'getRouteList', 'getRouteStats', 'getAvailableDates'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 0)",
 			),
 			//array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -49,7 +49,77 @@ class RouteController extends Controller
 		);
 	}
 	
-	
+  public function actionGetAvailableDates()
+  {
+   
+   if(!Yii::app()->user->hasState('user'))
+      return " ";  
+
+    header('Content-type: application/json');
+    $truck_id = $_GET["truck_id"];
+    error_log("Truck id: ". $truck_id);
+
+    $criteria_min_date = new CDbCriteria();
+    $criteria_min_date->select='min(datetime) as min_date';    
+    $criteria_min_date->condition = "truck_id=".$truck_id;
+
+    $min_date_sample = Sample::model()->findAll($criteria_min_date);
+    $min_date = null;
+    if(!empty($min_date_sample))
+    {
+          $date = new DateTime($min_date_sample[0]->min_date);
+          $min_date = $date->format('m/d/Y');
+          error_log(print_r("Min date: ". $min_date, true));  
+    }
+
+    $criteria_max_date = new CDbCriteria();
+    $criteria_max_date->select='max(datetime) as max_date';    
+    $criteria_max_date->condition = "truck_id=".$truck_id;
+
+    $max_date_sample = Sample::model()->findAll($criteria_max_date);
+    $max_date = null;
+    if(!empty($max_date_sample))
+    {
+          $date = new DateTime($max_date_sample[0]->max_date);
+          $max_date = $date->format('m/d/Y');
+          error_log(print_r("Max date: ". $max_date, true));  
+    }
+
+    //Get the list of unavailable dates
+        $criteria_active_days = new CDbCriteria(array('order'=>'active_day ASC'));
+        //TODO add  truck cond
+        $criteria_active_days->select='distinct DATE(datetime) as active_day';
+        $active_days_sample = Sample::model()->findAll($criteria_active_days);
+        $old_date = null;
+        if(!empty($active_days_sample))
+          $old_date = new DateTime($active_days_sample[0]->active_day);
+        $inactive_days = array();
+        foreach($active_days_sample as $ads)
+        {
+          $new_day = new DateTime($ads->active_day);
+          $diff = (int)($old_date->diff($new_day)->format('%R%a'));
+          while( $diff > 2  )//More than one day distance
+          { 
+            $old_date->modify('+1 day');
+            $inactive_days[] = $old_date->format('m/d/Y');
+            $diff = (int)($old_date->diff($new_day)->format('%R%a'));
+          }
+          $old_date = $new_day;
+        }
+        $inactive_days_string = "";
+        foreach($inactive_days as $id)
+          $inactive_days_string = $inactive_days_string . "'" . $id ."',"; 
+
+      if($min_date != null && $max_date != null && $inactive_days_string != null)
+        {
+          echo CJSON::encode(array("min_date"=>$min_date, "max_date" => $max_date, "inactive_days" => $inactive_days_string));
+        }
+        else
+          echo CJSON::encode("");   
+
+      Yii::app()->end(); 
+  }
+
 	public function actionGetRouteList()
   {
 
@@ -249,6 +319,7 @@ class RouteController extends Controller
         //Get the min_date
         $criteria_min_date = new CDbCriteria();
         $criteria_min_date->select='min(datetime) as min_date';
+        //change truck reference here
         $criteria_min_date->addInCondition('truck_id', $trucks_ids);
         $min_date_sample = Sample::model()->findAll($criteria_min_date);
         $min_date = null;
@@ -261,6 +332,7 @@ class RouteController extends Controller
         //Get the max_date
         $criteria_max_date = new CDbCriteria();
         $criteria_max_date->select='max(datetime) as max_date';
+        //change truck reference here
         $criteria_max_date->addInCondition('truck_id', $trucks_ids);
         $max_date_sample = Sample::model()->findAll($criteria_max_date);
         $max_date = null;

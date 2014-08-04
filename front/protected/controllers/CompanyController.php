@@ -108,7 +108,7 @@ class CompanyController extends Controller
     	);
     	$chart_2_trucks_stem [] = array(
     		'x' => $truck->id,
-    		'y' => (float)round($truck->average_stem_distance),
+    		'y' => (float)round($truck->average_stem_distance, 1),
     		'name' => $truck->name,    		
     		'myData' => (float)round($truck->average_stem_distance_sd, 1)
     	);
