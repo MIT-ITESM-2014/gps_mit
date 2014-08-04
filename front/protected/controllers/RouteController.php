@@ -87,8 +87,8 @@ class RouteController extends Controller
 
     //Get the list of unavailable dates
         $criteria_active_days = new CDbCriteria(array('order'=>'active_day ASC'));
-        //TODO add  truck cond
         $criteria_active_days->select='distinct DATE(datetime) as active_day';
+        $criteria_active_days->condition= 'truck_id = '. $truck_id;
         $active_days_sample = Sample::model()->findAll($criteria_active_days);
         $old_date = null;
         if(!empty($active_days_sample))
@@ -106,13 +106,16 @@ class RouteController extends Controller
           }
           $old_date = $new_day;
         }
+
+        $inactive_days_array = array();
         $inactive_days_string = "";
         foreach($inactive_days as $id)
-          $inactive_days_string = $inactive_days_string . "'" . $id ."',"; 
-
-      if($min_date != null && $max_date != null && $inactive_days_string != null)
         {
-          echo CJSON::encode(array("min_date"=>$min_date, "max_date" => $max_date, "inactive_days" => $inactive_days_string));
+          $inactive_days_array [] = $id;
+        }
+      if($min_date != null && $max_date != null && $inactive_days_array != null)
+        {
+          echo CJSON::encode(array("min_date"=>$min_date, "max_date" => $max_date, "inactive_days" => $inactive_days_array));
         }
         else
           echo CJSON::encode("");   
