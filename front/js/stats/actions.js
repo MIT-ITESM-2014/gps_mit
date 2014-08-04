@@ -40,7 +40,6 @@ $.ajax({
   success: function(data){
     if(data != null)
     {
-chart_1_params_x_axis
       chart_1_params_x_axis = data.chart_1_params_x_axis;
       chart_1_spline_data = data.chart_1_spline_data;
       chart_1_scatter_data = data.chart_1_scatter_data;
