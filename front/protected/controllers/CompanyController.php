@@ -54,6 +54,7 @@ class CompanyController extends Controller
     
     $current_company = Yii::app()->user->getState('current_company');
     $company_model = Company::model()->findByPk($current_company);
+    $secondsInAnHour = 3600;
     
     $charts_params_x_axis = array();
     $chart_1_trucks_speeds = array();
@@ -95,6 +96,8 @@ class CompanyController extends Controller
     //truck stats
     foreach ($company_model->trucks as $truck) {
     	$charts_params_x_axis [] = $truck->id;
+    }
+    foreach ($company_model->trucks_by_average_speed as $truck) {//TODO order
     	$chart_1_trucks_speeds [] = array(
     		'x' => $truck->id, //TODO change id for number assigned for ordering
     		'y' => (float)round($truck->average_speed, 1),
@@ -106,6 +109,8 @@ class CompanyController extends Controller
     		'y' => (float)round($company_model->average_speed, 1),
     		'myData' => (float)round($company_model->average_speed_sd, 1)
     	);
+    }
+    foreach ($company_model->trucks as $truck) {//TODO order
     	$chart_2_trucks_stem [] = array(
     		'x' => $truck->id,
     		'y' => (float)round($truck->average_stem_distance, 1),
@@ -117,6 +122,8 @@ class CompanyController extends Controller
     		'y' => (float) round($company_model->average_stem_distance, 1),
     		'myData' => (float) round($company_model->average_stem_distance_sd, 1)
     	);
+    }
+    foreach ($company_model->trucks as $truck) {//TODO order
     	$chart_3_trucks_trip_distance [] = array(
     		'x'=> $truck->id,
     		'y' => (float) round($truck->average_trip_distance, 1),
@@ -128,6 +135,8 @@ class CompanyController extends Controller
 				'y' => (float) round($company_model->average_trip_distance, 1),
 				'myData' => (float) round($company_model->average_trip_distance_sd, 1)
 			);
+	  }
+	  foreach ($company_model->trucks as $truck) {//TODO order
     	$chart_4_trucks_stops [] = array(
     		'x'=> $truck->id,
     		'y' => (float) round($truck->average_stop_count_per_trip, 1),
@@ -139,9 +148,8 @@ class CompanyController extends Controller
     		'y' => (float) round($company_model->average_stop_count_per_trip, 1),
     		'myData' => (float) round($company_model->average_stop_count_per_trip_sd, 1)
     	);
-
-    	//time conversion from seconds to hours
-    	$secondsInAnHour = 3600;
+    }
+    foreach ($company_model->trucks as $truck) {//TODO order
 
     	$truck_traveling_time_hours = $truck->average_trip_traveling_time / $secondsInAnHour;
     	$truck_traveling_time_hours_sd = $truck->average_trip_traveling_time_sd / 60; //minutes
@@ -167,6 +175,8 @@ class CompanyController extends Controller
     		'y' => (float) round($company_traveling_time_hours, 1),
     		'myData' => (float) round($company_traveling_time_hours_sd, 1)
     	);
+    }
+    foreach ($company_model->trucks as $truck) {//TODO order
     	$chart_6_trucks_stops_time [] = array(
     		'x' => $truck->id,
     		'y' => (float) round($truck_stops_time_hours, 1),
@@ -178,18 +188,21 @@ class CompanyController extends Controller
     		'y' => (float) round($company_stops_time_hours, 1),
     		'myData' => (float) round($company_stops_time_hours_sd, 1)
     	);
-		$chart_7_trucks_trip_time [] = array(
-			'x' => $truck->id,
-			'y' => (float) round($truck_trip_time_hours, 1),
-			'name' => $truck->name,
-			'myData' => (float) round($truck_trip_time_hours_sd, 1)
-		); 
-		$chart_7_company_trip_time [] = array(
-			'x' => $truck->id,
-			'y' => (float) round($company_trip_time_hours, 1),
-			'myData' => (float) round($company_trip_time_hours_sd, 1)
-		);
-
+    }
+    foreach ($company_model->trucks as $truck) {//TODO order
+		  $chart_7_trucks_trip_time [] = array(
+			  'x' => $truck->id,
+			  'y' => (float) round($truck_trip_time_hours, 1),
+			  'name' => $truck->name,
+			  'myData' => (float) round($truck_trip_time_hours_sd, 1)
+		  ); 
+		  $chart_7_company_trip_time [] = array(
+			  'x' => $truck->id,
+			  'y' => (float) round($company_trip_time_hours, 1),
+			  'myData' => (float) round($company_trip_time_hours_sd, 1)
+		  );
+		}
+    foreach ($company_model->trucks as $truck) {//TODO order
     	foreach ($truck->routes as $route) {
     		$chart_1_routes_speeds [] = array(
     			'x' => $truck->id, 			
@@ -231,7 +244,7 @@ class CompanyController extends Controller
     			'y' => (float) round($route_trip_time_hours, 1),
     			'name' => $truck->name
     		);
-    	}
+    	}//foreach ($truck->routes as $route)
     }
     
     $data = array(
