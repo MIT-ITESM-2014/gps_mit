@@ -107,6 +107,7 @@ $.ajax({
           borderWidth: 1
         },
         plotOptions: {
+        
           scatter: {
             marker: {
               radius: 5,
@@ -124,6 +125,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
@@ -213,6 +217,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
@@ -301,6 +308,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
@@ -389,6 +399,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
@@ -477,6 +490,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
@@ -565,6 +581,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
@@ -653,6 +672,9 @@ $.ajax({
                 }
               }
             },
+          },
+          series: {
+            turboThreshold: 0
           }
         },
         series: [
