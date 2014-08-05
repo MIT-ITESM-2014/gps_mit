@@ -60,11 +60,27 @@ class RouteController extends Controller
 
     //Get the list of available dates
     $available_dates = array();
-    foreach(Truck::model()->findByPk($truck_id)->routes as $route)
-    {
-      $new_date = new DateTime($route->firstSample[0]->datetime);
-      $available_dates[(string)$new_date->format('m/d/Y')] = 1;
+    //foreach(Truck::model()->findByPk($truck_id)->routes as $route)
+    //{
+    //  $new_date = new DateTime($route->firstSample[0]->datetime);
+    //  $available_dates[(string)$new_date->format('m/d/Y')] = 1;
+    //}
+    
+    
+    
+    
+    $list= Yii::app()->db->createCommand('SELECT DISTINCT(DATE(datetime)) as d FROM sample WHERE route_id IN ( SELECT id FROM route WHERE truck_id = :truck_id AND is_valid = 1 ) ORDER BY d ASC;')->bindValue('truck_id',$truck_id)->queryAll();
+
+    $rs=array();
+    foreach($list as $item){
+        //process each item here
+        $available_dates[$item['d']] = 1;
+
     }
+
+
+    
+    
 
     //Search for min and max date
     reset($available_dates);
