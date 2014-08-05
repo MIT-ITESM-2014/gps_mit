@@ -6,6 +6,16 @@ $('#select-route').prepend('<option>Choose a trip</option>');
 
 $('#truck_selector').change(updateAvailableDate);
 
+//does not display any dates unless a truck is picked.
+$('#choose_date_dp').datepicker({
+       beforeShowDay: function (date) {
+       if (date.getDate() == 0) {
+           return [true, ''];
+       }
+       return [false, ''];
+    }
+});
+
 
 function updateAvailableDate()
 {
