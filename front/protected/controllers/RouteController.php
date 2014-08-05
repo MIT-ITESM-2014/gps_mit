@@ -57,68 +57,52 @@ class RouteController extends Controller
 
     header('Content-type: application/json');
     $truck_id = $_GET["truck_id"];
-    error_log("Truck id: ". $truck_id);
 
-    $criteria_min_date = new CDbCriteria();
-    $criteria_min_date->select='min(datetime) as min_date';    
-    $criteria_min_date->condition = "truck_id=".$truck_id;
-
-    $min_date_sample = Sample::model()->findAll($criteria_min_date);
-    $min_date = null;
-    if(!empty($min_date_sample))
+    //Get the list of available dates
+    $available_dates = array();
+    foreach(Truck::model()->findByPk($truck_id)->routes as $route)
     {
-          $date = new DateTime($min_date_sample[0]->min_date);
-          $min_date = $date->format('m/d/Y');}
-
-    $criteria_max_date = new CDbCriteria();
-    $criteria_max_date->select='max(datetime) as max_date';    
-    $criteria_max_date->condition = "truck_id=".$truck_id;
-
-    $max_date_sample = Sample::model()->findAll($criteria_max_date);
-    $max_date = null;
-    if(!empty($max_date_sample))
-    {
-          $date = new DateTime($max_date_sample[0]->max_date);
-          $max_date = $date->format('m/d/Y');
+      $new_date = new DateTime($route->firstSample[0]->datetime);
+      $available_dates[(string)$new_date->format('m/d/Y')] = 1;
     }
 
-    //Get the list of unavailable dates
-        $criteria_active_days = new CDbCriteria(array('order'=>'active_day ASC'));
-        $criteria_active_days->select='distinct DATE(datetime) as active_day';
-        $criteria_active_days->condition= 'truck_id = '. $truck_id;
-        $active_days_sample = Sample::model()->findAll($criteria_active_days);
+    //Search for min and max date
+    reset($available_dates);
+    $min_date = new DateTime(key($available_dates));
+    $max_date = new DateTime(key($available_dates));
+    foreach($available_dates as $available_date_string=>$active)
+    {
+      $new_date_model = new DateTime($available_date_string);
 
-        $old_date = null;
-        if(!empty($active_days_sample))
-          $old_date = new DateTime($active_days_sample[0]->active_day);
-        $inactive_days = array();
-        foreach($active_days_sample as $ads)
-        {
-          $new_day = new DateTime($ads->active_day);
-          $diff = (int)($old_date->diff($new_day)->format('%R%a'));
-          while( $diff > 2  )//More than one day distance
-          { 
-            $old_date->modify('+1 day');
-            $inactive_days[] = $old_date->format('m/d/Y');
-            $diff = (int)($old_date->diff($new_day)->format('%R%a'));
-          }
-          $old_date = $new_day;
-        }
+      if($new_date_model< $min_date)
+        $min_date = $new_date_model;
+      if($new_date_model> $max_date)
+        $max_date = $new_date_model;
+    }
+    //Generate list of unavailable dates
+    $current_date = new DateTime($min_date->format('m/d/Y'));
+    $loop_diff =  (int)($current_date->diff($max_date)->format('%R%a'));
+    $unavailable_dates = array();
 
-        $inactive_days_array = array();
-        $inactive_days_string = "";
-        foreach($inactive_days as $id)
-        {
-          $inactive_days_array [] = $id;
-        }
-      if($min_date != null && $max_date != null && $inactive_days_array != null)
-        {
-          echo CJSON::encode(array("min_date"=>$min_date, "max_date" => $max_date, "inactive_days" => $inactive_days_array));
-        }
-        else
-          echo CJSON::encode("");   
+    while($loop_diff > 0)
+    {
+      $current_date->modify('+1 day');
+      $current_date_string = (string)$current_date->format('m/d/Y');
+      if(!isset($available_dates[$current_date_string]))
+      {
+        $unavailable_dates[] = $current_date_string;
+      }
+      
+      $loop_diff = (int)($current_date->diff($max_date)->format('%R%a'));
+    }
+    if(!empty($min_date) && !empty($max_date) && !empty($unavailable_dates))
+    {
+      echo CJSON::encode(array("min_date"=>$min_date->format('m/d/Y'), "max_date" => $max_date->format('m/d/Y'), "inactive_days" => $unavailable_dates));
+    }
+    else
+      echo CJSON::encode("");   
 
-      Yii::app()->end(); 
+    Yii::app()->end(); 
   }
 
 	public function actionGetRouteList()
@@ -312,61 +296,6 @@ class RouteController extends Controller
           $criteria->addCondition('truck_id = '.$truck_id);
           $samples = Sample::model()->findAll($criteria);
         }
-        //Get the min_date
-        $criteria_min_date = new CDbCriteria();
-        $criteria_min_date->select='min(datetime) as min_date';
-        //change truck reference here
-        $criteria_min_date->addInCondition('truck_id', $trucks_ids);
-        $min_date_sample = Sample::model()->findAll($criteria_min_date);
-        $min_date = null;
-        if(!empty($min_date_sample))
-        {
-          $date = new DateTime($min_date_sample[0]->min_date);
-          $min_date = $date->format('m/d/Y');  
-        }
-        
-        //Get the max_date
-        $criteria_max_date = new CDbCriteria();
-        $criteria_max_date->select='max(datetime) as max_date';
-        //change truck reference here
-        $criteria_max_date->addInCondition('truck_id', $trucks_ids);
-        $max_date_sample = Sample::model()->findAll($criteria_max_date);
-        $max_date = null;
-        if(!empty($max_date_sample))
-        {
-          $date = new DateTime($max_date_sample[0]->max_date);
-          $max_date = $date->format('m/d/Y');
-        }
-        
-        //TODO Disable the calendar when no dates available
-        if($max_date == null)
-          $max_date = date('m/d/Y');
-        if($min_date == null)
-          $min_date = date('m/d/Y');
-        
-        //Get the list of unavailable dates
-        $criteria_active_days = new CDbCriteria(array('order'=>'active_day ASC'));
-        $criteria_active_days->select='distinct DATE(datetime) as active_day';
-        $active_days_sample = Sample::model()->findAll($criteria_active_days);
-        $old_date = null;
-        if(!empty($active_days_sample))
-          $old_date = new DateTime($active_days_sample[0]->active_day);
-        $inactive_days = array();
-        foreach($active_days_sample as $ads)
-        {
-          $new_day = new DateTime($ads->active_day);
-          $diff = (int)($old_date->diff($new_day)->format('%R%a'));
-          while( $diff > 2  )//More than one day distance
-          { 
-            $old_date->modify('+1 day');
-            $inactive_days[] = $old_date->format('m/d/Y');
-            $diff = (int)($old_date->diff($new_day)->format('%R%a'));
-          }
-          $old_date = $new_day;
-        }
-        $inactive_days_string = "";
-        foreach($inactive_days as $id)
-          $inactive_days_string = $inactive_days_string . "'" . $id ."',"; 
         
         //Script variables
         $map_center = "";
@@ -377,7 +306,12 @@ class RouteController extends Controller
           foreach($samples as $sample)
             $route_coordinates = " new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
           
-        
+        $options = "";
+        foreach ($trucks as $t)
+        {
+          $options = $options . " newOption = $('<option value=\"".$t->id."\">".$t->name."</option>');  $('#truck_selector').append(newOption);";
+        }
+
         //DEfine center
 	      $script = "
 	        var temporal_script = null;
@@ -467,7 +401,23 @@ class RouteController extends Controller
               ]
         }
   ]);
+
+//Remove polyline
+      function button_update_map_action()
+      {
+        if(temporal_script !== null)
+        {
+          temporal_script.remove();
+        }
         
+        var script = document.createElement(\"script\");
+        script.type = \"text/javascript\";
+        script.src = \"index.php?r=route/getRoute&route_id=\"+document.getElementById(\"select-route\").value;
+        temporal_script = document.body.appendChild(script);
+        update_stats();
+        $('#truck-selection-help').hide('fast');
+      }
+      
         document.getElementById(\"button_update_map\").onclick = function() {
           button_update_map_action(); 
         };
@@ -500,8 +450,6 @@ class RouteController extends Controller
         script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'callback=initialize';
         document.body.appendChild(script);
       }
-
-
 
       function update_stats()
       {
@@ -536,31 +484,121 @@ class RouteController extends Controller
         });
       }
       
-      //Remove polyline
-      function button_update_map_action()
-      {
-        if(temporal_script !== null)
-        {
-          temporal_script.remove();
-        }
-        
-        var script = document.createElement(\"script\");
-        script.type = \"text/javascript\";
-        script.src = \"index.php?r=route/getRoute&route_id=\"+document.getElementById(\"select-route\").value;
-        temporal_script = document.body.appendChild(script);
-        update_stats();
-        $('#truck-selection-help').hide('fast');
+
+      
+      window.onload = loadScript;
+
+
+  var newOption;
+  ".$options."
+  $('#truck_selector').append(newOption);
+  
+$('#routes-section').removeClass('routes-section').addClass('active_routes');
+
+$('#truck_selector').prepend('<option>Chooose a truck</option>');
+
+$('#select-route').prepend('<option>Choose a trip</option>');
+
+$('#truck_selector').change(updateAvailableDate);
+
+$('#choose_date_dp').change(updateRouteList);
+
+var opt = $('#truck_selector option:eq(1)').val();
+$('#truck_selector').val(opt); 
+$('#truck_selector').change();
+
+
+//does not display any dates unless a truck is picked.
+/*$('#choose_date_dp').datepicker({
+       beforeShowDay: function (date) {
+       if (date.getDate() == 0) {
+           return [true, ''];
+       }
+       return [false, ''];
+    }
+});*/
+
+var inactive_days;
+
+function disableDates(date)
+{
+  var disabledDates = inactive_days;
+  for (var i = 0; i < disabledDates.length; i++) {
+    if (new Date(disabledDates[i]).toString() == date.toString())
+    {
+      return [false, '', ''];
+    }
+  }
+  return [true, '', ''];
+}
+
+function updateAvailableDate()
+{
+  $.ajax({
+    type: 'GET',
+    dataType: 'JSON',
+    url: 'index.php?r=route/getAvailableDates&truck_id=' + document.getElementById('truck_selector').value, 
+    success: function(data)
+    {
+      var min_date = data.min_date;
+      var max_date = data.max_date;
+      inactive_days = data.inactive_days;
+
+      var choose_date_dp = $('#choose_date_dp');
+      var selectedDate = $('#choose_date_dp').val();
+
+      choose_date_dp.datepicker('option', 'maxDate', max_date);
+      choose_date_dp.datepicker('option', 'minDate', min_date);
+      
+      choose_date_dp.datepicker('option', 'beforeShowDay', disableDates);
+      
+      if(!selectedDate)
+      { 
+        selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
       }
-      
-      
-      window.onload = loadScript;";
+
+      choose_date_dp.datepicker('setDate', selectedDate);
+
+      updateRouteList();
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      alert(xhr.statusText);
+      alert(thrownError);
+    }   
+
+  });
+}
+
+function updateRouteList()
+{
+  $.ajax({ 
+          type: 'GET',
+          dataType: 'JSON',
+          url: 'index.php?r=route/getRouteList&truck_id='+document.getElementById('truck_selector').value+'&start_date='+document.getElementById('choose_date_dp').value,
+          success: function(data){        
+            $('#select-route').find('option').remove();
+            var parsed_data = $.parseJSON(data);
+            $.each(parsed_data['routes'], function( index, value ) {
+              $('#select-route').append('<option value=\"'+value['value']+'\">'+value['name']+'</option>');
+            });
+            $('#button_update_map').click();
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.statusText);
+            alert(thrownError);
+          }   
+      });
+
+}
+
+      ";
 		  $this->render('index',array(
 			  //'dataProvider'=>$dataProvider,
 			  'script'=>$script,
 			  'model'=>new Sample(),
-			  'min_date'=>$min_date,
-			  'max_date'=>$max_date,
-			  'inactive_days_string'=>$inactive_days_string,
+			  //'min_date'=>$min_date,
+			  //'max_date'=>$max_date,
+			  //'inactive_days_string'=>$inactive_days_string,
 			  'trucks'=>$trucks,
 		  ));  
 		  }

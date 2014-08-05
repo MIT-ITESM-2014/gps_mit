@@ -10,7 +10,7 @@
     </div>
     <div id="selector-day" class="day-selector-container">
       <div id="day-icon"> </div>
-      <div id="date-route" class="date-route" name="date-route">
+      <div id="date-route" class="date-route" name="date-route"> 
       </div>
  
  <?php      
@@ -99,7 +99,10 @@
 
 </div>
 
-<?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_HEAD); ?>
 
+<?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_END); ?>
+<?php
+  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/routes/actions.js',CClientScript::POS_END);
+?>
 
 
