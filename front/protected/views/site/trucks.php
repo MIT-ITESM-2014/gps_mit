@@ -116,7 +116,7 @@
   
   <div id="truck-stats-right">
     <div id="truck-analysis-right"> 
-      <div id="truck-analysis-icon"></div><div id="truck-analysis-label"> Use Analysis </div>
+      <div id="truck-analysis-icon"></div><div id="truck-analysis-label"> Usage Analysis </div>
       <div id="change_chart_button_truck">Stops Analysis</div>
     </div>
     <div id="container" class="chart_style"></div>

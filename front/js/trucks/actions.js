@@ -175,7 +175,9 @@ function updateTruckStats()
             text: 'Stops Duration'
           },
           xAxis: {
-            //categories: ['BDPD-24'],
+            labels:{
+              enabled: false
+            }
           },
           yAxis: {
             min: 0,
@@ -184,7 +186,7 @@ function updateTruckStats()
             }
           },
           tooltip: {
-            headerFormat: '<span style="font-size:28px"><b>{point.key}</span><table><br/    > ',
+            headerFormat: '',
             shared: false,
           },
           plotOptions: {
@@ -198,7 +200,7 @@ function updateTruckStats()
               color: '#684bb2',
               data: short_stops_ranges_data_stops_0_5,
               tooltip: {
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
+                pointFormat: '{series.name}: {point.y}<b>({point.percentage:.1f}%)</b><br/>',
                 valueSuffix: ' stops ' 
               }
             },
@@ -380,7 +382,10 @@ $.ajax({
             text: 'Time in stops'
           },
           xAxis: {
-            categories: chart_2_params_categories
+            categories: chart_2_params_categories,
+            labels:{
+              enabled: false,
+            }
           },
           yAxis: {
             min: 0,
@@ -534,12 +539,12 @@ $.ajax({
           },
           legend: {
             layout: 'vertical',
-            align: 'center',
+            align: 'left',
             verticalAlign: 'top',
-            x: 100,
-            y: 70,
+            x: 20,
+            y: 20,
             floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            backgroundColor:'#FFFFFF',
             borderWidth: 1
           },
           xAxis: {
@@ -614,12 +619,12 @@ $.ajax({
           },
           legend: {
             layout: 'vertical',
-            align: 'center',
+            align: 'left',
             verticalAlign: 'top',
-            x: 100,
-            y: 70,
+            x: 20,
+            y: 20,
             floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            backgroundColor:'#FFFFFF',
             borderWidth: 1
           },
           xAxis: {
