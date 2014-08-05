@@ -12,6 +12,21 @@
       <div id="day-icon"> </div>
       <div id="date-route" class="date-route" name="date-route">
       </div>
+ 
+ <?php       $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+              'model'=>$model,
+              'attribute'=>'start_date',
+              'options'   => array(
+                      'changeYear' => true,
+                      'dateFormat' => 'mm/dd/yy',
+              ),
+              'htmlOptions'=>array(
+                    'placeholder'=> 'Choose a date',
+                    'class'=>'datePicker',
+                    'id'=>'choose_date_dp', 
+        ),
+      ));
+?>
     </div>
     <div id="selector-route" class="selector-route">
       <div id="route-icon"> </div>
@@ -28,83 +43,11 @@
     <img id="truck-selection-help-image" src="<?php echo Yii::app()->request->baseUrl.'/public/images/truck_help.png';?>"/>
   </div>
 
-<?php
-
-$options = "";
-foreach ($trucks as $t)
-{
-  $options = $options . " newOption = $('<option value=\"".$t->id."\">".$t->name."</option>');  $('#truck_selector').append(newOption);";
-}
-
-?>
 
 <div id="map-canvas" >
 </div>
 
 <div id="map-legend">
-  
-
-    <?php
-      $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-              'model'=>$model,
-              'attribute'=>'start_date',
-              'options'   => array(
-                      'changeYear' => true,
-                      'dateFormat' => 'mm/dd/yy',
-                      //'beforeShowDay'=>'js:editDays',
-                      //'minDate'=>$min_date,
-                      //'maxDate'=>$max_date,
-              ),
-              'htmlOptions'=>array(
-                    'placeholder'=> 'Choose a date',
-                    'class'=>'datePicker',
-                    'id'=>'choose_date_dp', 
-        ),
-      ));
-                    
-    Yii::app()->clientScript->registerScript('editDays', "
-      var date_picker = $('#choose_date_dp').detach();
-      date_picker.appendTo('#selector-day');
-    ");
-    
-   /* Yii::app()->clientScript->registerScript('moveDatePicker', "
-      
-      function editDays(date) {
-        var disabledDates = [".$inactive_days_string."];
-        for (var i = 0; i < disabledDates.length; i++) {
-          if (new Date(disabledDates[i]).toString() == date.toString()) {
-            return [false,''];
-          }
-        }
-        return [true,''];
-      }
-    ");*/
-    
-    Yii::app()->clientScript->registerScript('routeDropdown', "
-      
-      $('#choose_date_dp').change(function(){
-        
-        $.ajax({ 
-          type: \"GET\",
-          dataType: \"json\",
-          url: \"index.php?r=route/getRouteList&truck_id=\"+document.getElementById(\"truck_selector\").value+\"&start_date=\"+document.getElementById(\"choose_date_dp\").value,
-          success: function(data){        
-            $('#select-route').find('option').remove();
-            var parsed_data = $.parseJSON(data);
-            $.each(parsed_data['routes'], function( index, value ) {
-              $('#select-route').append('<option value=\"'+value['value']+'\">'+value['name']+'</option>');
-            });
-          },
-          error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.statusText);
-            alert(thrownError);
-          }   
-      });
-});
-      
-    ");
-    
-    ?>
 
   <div id="route-information-container">
     <div id="route-information-truck-name">
@@ -157,14 +100,5 @@ foreach ($trucks as $t)
 
 <?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_HEAD); ?>
 
-<?php
-  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/routes/actions.js',CClientScript::POS_END);
-?>
 
-<?php
-Yii::app()->clientScript->registerScript('addOptions', "
-  var newOption;
-  ".$options."
-  $('#truck_selector').append(newOption);  
-");
-?>
+
