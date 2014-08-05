@@ -1253,10 +1253,12 @@ body
 .charts-slider-container
 {
 	overflow:hidden; 
-	height:900px; 
+	height:600px; 
 	display:block; 
-	width:100%; 
+	width:900px; 
 	text-align:center;
+	float:left;
+	
 }
 
 .stats-charts-slider-container
