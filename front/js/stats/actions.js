@@ -71,6 +71,13 @@ $.ajax({
 
       chart_1_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -100,8 +107,8 @@ $.ajax({
           layout: 'vertical',
           align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          /*x: 100,*/
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
@@ -165,6 +172,13 @@ $.ajax({
 
       chart_2_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -191,10 +205,9 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
@@ -257,6 +270,13 @@ $.ajax({
 
       chart_3_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -282,10 +302,9 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
@@ -348,6 +367,13 @@ $.ajax({
 
       chart_4_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -373,10 +399,9 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
@@ -439,6 +464,13 @@ $.ajax({
 
       chart_5_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -464,10 +496,9 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
@@ -530,6 +561,13 @@ $.ajax({
       
       chart_6_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -555,10 +593,9 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
@@ -621,6 +658,13 @@ $.ajax({
 
       chart_7_params = {
         chart: {
+          resetZoomButton:{
+            position:{
+              align: 'right',
+              verticalAlign: 'top',
+              y: 80
+            }
+          },
           backgroundColor: '#efefef',
           font: '"Ubuntu", Arial, Helvetica, sans-serif',
           type: 'scatter', 
@@ -646,10 +690,9 @@ $.ajax({
         },
         legend: {
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
-          x: 100,
-          y: 70,
+          y: 40,
           floating: true,
           backgroundColor: '#EFEFEF',
           borderWidth: 1
