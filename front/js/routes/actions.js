@@ -6,7 +6,10 @@ $('#select-route').prepend('<option>Choose a trip</option>');
 
 $('#truck_selector').change(updateAvailableDate);
 
+
 $("#truck_selector option:first").attr('selected','selected');
+
+$('#choose_date_dp').change(updateRouteList);
 
 //does not display any dates unless a truck is picked.
 /*$('#choose_date_dp').datepicker({
@@ -42,7 +45,7 @@ function updateAvailableDate()
 			if(!selectedDate)
 			{	
 				selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
-				
+
   		}
   		choose_date_dp.datepicker('setDate', selectedDate);
 
@@ -59,6 +62,7 @@ function updateAvailableDate()
         return [true, "", ""];
 			}
 
+			updateRouteList();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
       alert(xhr.statusText);
@@ -66,4 +70,26 @@ function updateAvailableDate()
     }   
 
 	});
+}
+
+function updateRouteList()
+{
+	$.ajax({ 
+          type: 'GET',
+          dataType: 'JSON',
+          url: 'index.php?r=route/getRouteList&truck_id='+document.getElementById('truck_selector').value+'&start_date='+document.getElementById('choose_date_dp').value,
+          success: function(data){        
+            $('#select-route').find('option').remove();
+            var parsed_data = $.parseJSON(data);
+            $.each(parsed_data['routes'], function( index, value ) {
+              $('#select-route').append('<option value=\"'+value['value']+'\">'+value['name']+'</option>');
+            });
+            $('#button_update_map').click();
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.statusText);
+            alert(thrownError);
+          }   
+      });
+
 }
