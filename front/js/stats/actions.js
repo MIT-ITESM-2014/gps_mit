@@ -70,6 +70,9 @@ $.ajax({
       chart_7_line_data = data.chart_7_line_data;      
 
       chart_1_params = {
+        credits: {
+          enabled: false
+        },
         chart: {
           resetZoomButton:{
             position:{
@@ -171,6 +174,9 @@ $.ajax({
       }; //chart 1
 
       chart_2_params = {
+        credits: {
+          enabled: false,
+        },
         chart: {
           resetZoomButton:{
             position:{
@@ -269,6 +275,9 @@ $.ajax({
       }; //chart 2
 
       chart_3_params = {
+        credits: {
+          enabled: false,
+        },
         chart: {
           resetZoomButton:{
             position:{
@@ -366,6 +375,9 @@ $.ajax({
       }; //chart 3 
 
       chart_4_params = {
+        credits: {
+          enabled: false,
+        },
         chart: {
           resetZoomButton:{
             position:{
@@ -463,6 +475,9 @@ $.ajax({
       }; //chart 4  
 
       chart_5_params = {
+        credits: {
+          enabled: false,
+        },
         chart: {
           resetZoomButton:{
             position:{
@@ -560,6 +575,9 @@ $.ajax({
       }; //chart 5  
       
       chart_6_params = {
+        credits: {
+          enabled: false,
+        },
         chart: {
           resetZoomButton:{
             position:{
@@ -657,6 +675,9 @@ $.ajax({
       }; //chart 6   
 
       chart_7_params = {
+        credits: {
+          enabled: false,
+        },
         chart: {
           resetZoomButton:{
             position:{
