@@ -69,14 +69,14 @@ class RouteController extends Controller
     
     
     
-    $list= Yii::app()->db->createCommand('SELECT DISTINCT(DATE(datetime)) as d FROM sample WHERE route_id IN ( SELECT id FROM route WHERE truck_id = :truck_id AND is_valid = 1 ) ORDER BY d ASC;')->bindValue('truck_id',$truck_id)->queryAll();
+    $list= Yii::app()->db->createCommand('SELECT DISTINCT(to_char(datetime,\'Mon/DD/YYYY\')) as d FROM sample WHERE route_id IN ( SELECT id FROM route WHERE truck_id = :truck_id AND is_valid = 1 ) ORDER BY d ASC;')->bindValue('truck_id',$truck_id)->queryAll();
 
-    $rs=array();
     foreach($list as $item){
         //process each item here
         $available_dates[$item['d']] = 1;
 
     }
+    error_log(print_r($list, true));
 
 
     
