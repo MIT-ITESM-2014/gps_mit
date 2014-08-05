@@ -139,7 +139,7 @@ $.ajax({
         },
         series: [
          {
-            name: 'Truck Trips',
+            name: 'Trip speed',
             data: chart_1_scatter_data,
             tooltip: {
               headerFormat: '<b>{point.key}</b><br>',
@@ -334,7 +334,7 @@ $.ajax({
         },
         series: [
          {
-            name: 'Truck 1',
+            name: 'Trip distance',
             data: chart_3_scatter_data,
             tooltip: {
               headerFormat: '<b>{point.key}</b><br>',
@@ -342,7 +342,7 @@ $.ajax({
             }
           },
           {
-            name: 'Trip Distance',
+            name: 'Avg Trip Distance p/Truck',
             type: 'spline',
             data: chart_3_spline_data,
             tooltip: {
@@ -352,7 +352,7 @@ $.ajax({
           },     
           {
             type: 'line',
-            name: 'Global Trip Distance',
+            name: 'Global Avg Trip Distance',
             data: chart_3_line_data,
             marker: {
               enabled: false
