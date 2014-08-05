@@ -1,7 +1,6 @@
 
 <div id="compare-all-trucks-background">
   <div id="compare-all-trucks-container">
-    <div id="close-compare-all-trucks" class="close-compare-all-trucks"> </div>
     <div id="charts-slider-container" class="charts-slider-container">
       <div id="trucks-slider-left-arrow" class="trucks-charts-slider-arrow-left"> </div>
       <div id="trucks-slider-chart-container" class="trucks-slider-chart-container">
@@ -9,6 +8,8 @@
       </div>
       <div id="trucks-slider-right-arrow" class="trucks-charts-slider-arrow-right"> </div>
     </div>
+    <div id="close-compare-all-trucks" class="close-compare-all-trucks"> </div>
+    
   </div>
 </div>
 
