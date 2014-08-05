@@ -6,15 +6,17 @@ $('#select-route').prepend('<option>Choose a trip</option>');
 
 $('#truck_selector').change(updateAvailableDate);
 
+$("#truck_selector option:first").attr('selected','selected');
+
 //does not display any dates unless a truck is picked.
-$('#choose_date_dp').datepicker({
+/*$('#choose_date_dp').datepicker({
        beforeShowDay: function (date) {
        if (date.getDate() == 0) {
            return [true, ''];
        }
        return [false, ''];
     }
-});
+});*/
 
 
 function updateAvailableDate()
@@ -30,15 +32,23 @@ function updateAvailableDate()
 			var inactive_days = data.inactive_days;
 
 			var choose_date_dp = $('#choose_date_dp');
+			var selectedDate = $('#choose_date_dp').val();
 
 			choose_date_dp.datepicker("option", "maxDate", max_date);
 			choose_date_dp.datepicker("option", "minDate", min_date);
 			
 			choose_date_dp.datepicker("option", "beforeShowDay", disableDates);
 			
+			if(!selectedDate)
+			{	
+				selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
+				
+  		}
+  		choose_date_dp.datepicker('setDate', selectedDate);
 
 			function disableDates(date)
 			{
+				
 				var disabledDates = inactive_days;
         for (var i = 0; i < disabledDates.length; i++) {
           if (new Date(disabledDates[i]).toString() == date.toString())
