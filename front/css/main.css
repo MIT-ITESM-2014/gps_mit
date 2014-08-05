@@ -1239,18 +1239,16 @@ body
 	height: 30px;
 	background-image: url("../public/images/CancelXButton.png");
 	background-position: 0px 0px;
-	position:absolute;
-	left:1103px;
-	
+	position: relative;
+	left: 860px;
+	z-index:1;
 }
 
 .close-compare-all-trucks:hover
 {
 	cursor: pointer;
 	background-position: 0px 30px;
-	position: relative;
-	left: 860px;
-	z-index:1;
+	
 }
 
 .charts-slider-container
