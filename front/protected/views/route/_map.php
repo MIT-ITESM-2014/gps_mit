@@ -13,7 +13,8 @@
       <div id="date-route" class="date-route" name="date-route">
       </div>
  
- <?php       $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+ <?php      
+  $this->widget('zii.widgets.jui.CJuiDatePicker', array(
               'model'=>$model,
               'attribute'=>'start_date',
               'options'   => array(

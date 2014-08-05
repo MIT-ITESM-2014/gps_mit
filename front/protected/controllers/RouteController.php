@@ -141,12 +141,10 @@ class RouteController extends Controller
     );
     $route_ids = Sample::model()->findAll($criteria);
     $routes = array();
-    //print_r($route_ids);
-    //error_log();
+
     foreach($route_ids as $route_id)
     {
-      //print_r("La ruta es : ".$route_id->route_id);
-      //error_log(print_r($route_id));
+
       if($route_id->route_id != null)
         $routes[] = Route::model()->findByPk($route_id->route_id);
     }
@@ -176,8 +174,6 @@ class RouteController extends Controller
   /*Second function with new parameters*/
   public function actionGetRoute()
   {
-    //header('Content-type: application/json');
-	  //$trucks = Truck::model()->findAll();
 	 
     if(!Yii::app()->user->hasState('user'))
       return " ";    
