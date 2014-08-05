@@ -81,8 +81,9 @@ body
 {
 	color: #FFFFFF;
 	float: right;
-	margin-right: 15px;
+	margin-right: 0px;
 	margin-top: 2px;
+	width:200px;
 }
 
 #session-username
