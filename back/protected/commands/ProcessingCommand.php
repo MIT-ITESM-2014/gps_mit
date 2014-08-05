@@ -103,7 +103,21 @@ class ProcessingCommand extends CConsoleCommand {
       $company=Company::model()->findByPk($company->id);
       $company->has_file_in_process = 0;
       $company->save();
+    }
+    $companies = Company::model()->findAllByAttributes(array('has_file_in_process'=>2));//Requested to delete all fleet information
+    foreach($companies as $company)
+    {
+      $this->current_company = $company;
+      $this->freeCompany();
+      $this->cleanCompanyData();
     }    
+  }
+  
+  function freeCompany()
+  {
+    $company = Company::model()->findByPk($this->current_company->id);
+    $company->has_file_in_process = 0;
+    $company->save();  
   }
   
   function cleanCompanyData()
@@ -154,7 +168,6 @@ class ProcessingCommand extends CConsoleCommand {
       
       
       $company = Company::model()->findByPk($this->current_company->id);
-      $company->has_file_in_process = 0;
       $company->route_count = null;
       $company->average_speed = null;
       $company->average_stop_count_per_trip = null;
@@ -1195,7 +1208,7 @@ class ProcessingCommand extends CConsoleCommand {
       $total_short_stop_time = $total_short_stop_time + $truck->short_stops_time;
       $total_traveling_time = $total_traveling_time + $truck->traveling_time;
       $total_resting_time = $total_resting_time + $truck->resting_time;
-      $total_stem_distance = $total_stem_distance + $truck->firstStemTimeSum + $truck->secondStemTimeSum;
+      $total_stem_distance = $total_stem_distance + $truck->firstStemDistanceSum + $truck->secondStemDistanceSum;
       $sum_average_trip_stop_time = $sum_average_trip_stop_time + $truck->short_stops_time;
       $short_stop_count = $short_stop_count + $truck->stops_between_0_5;
       $short_stop_count = $short_stop_count + $truck->stops_between_5_15;
