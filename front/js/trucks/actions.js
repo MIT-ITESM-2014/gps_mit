@@ -324,7 +324,7 @@ change_chart_button_truck.click(function(){
   if(chart_status==0)
   {
     displayShortStopsAnalysis();
-    change_chart_button_truck.html('Use Analysis');
+    change_chart_button_truck.html('Usage Analysis');
     $('#container').highcharts(chart_1_1_params);
     chart_status = 1;
   }
