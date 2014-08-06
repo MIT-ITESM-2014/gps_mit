@@ -152,7 +152,7 @@ class RouteController extends Controller
 	public function actionGetRouteList()
   {
 
-    if(!Yii::app()->user->hasState('user'))
+    if(!Yii::app()->user->hasState('user') || !isset( $_GET["truck_id"]))
       return " ";
 
     header('Content-type: application/json');
@@ -314,7 +314,7 @@ class RouteController extends Controller
   /*
    * Returns as JSON the list of all the samples that correspond to a route.
    */
-  public function getRouteSamples()
+  public function actionGetRouteSamples()
   {
     if(!Yii::app()->user->hasState('user') || !Yii::app()->user->hasState('current_company'))
       return " ";
@@ -340,7 +340,6 @@ class RouteController extends Controller
     else
       echo CJSON::encode("");
     Yii::app()->end(); 
-    
   }
 
 	/**
