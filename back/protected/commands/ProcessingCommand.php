@@ -21,8 +21,10 @@ class ProcessingCommand extends CConsoleCommand {
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
       if(!empty($uploaded_file_model))
       {
+        error_log("Stop 1");
         if($uploaded_file_model->step == 2)//Has uploaded parameters
         {
+        error_log("Stop 2");
           $filename = $uploaded_file_model->filename;
           $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
           $trucks_array = array();
@@ -32,8 +34,10 @@ class ProcessingCommand extends CConsoleCommand {
           fgetcsv($handler, 0, ',');//Ignore headers
           while($pointer = fgetcsv($handler, 0, ','))
           {
+            error_log("Stop 3");
             if(array_key_exists(3, $pointer))//Validates the row has enough columns
             {
+            error_log("Stop 4");
               $new_sample = new Sample;
               $new_sample->truck_name = $pointer[0];
               $new_sample->company_id = $this->current_company->id;
@@ -50,10 +54,12 @@ class ProcessingCommand extends CConsoleCommand {
           //Create each of the trucks mentioned in the samples if any doesn't exist.
           foreach($trucks_array as $truck_name => $value)
           {
+            error_log("Stop 5");
             $condition_string = "name = '" . $truck_name . "' AND company_id = ".$this->current_company->id;
             $registered_truck = Truck::model()->find($condition_string);
             if(!count($registered_truck))
             {
+              error_log("Stop 6");
               $new_truck = new Truck;
               $new_truck->company_id = $this->current_company->id;
               $new_truck->name = $truck_name;
@@ -65,6 +71,7 @@ class ProcessingCommand extends CConsoleCommand {
           $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
           foreach($trucks as $truck)
           {
+            error_log("Stop 7");
             $limit = 100;
             $offset = 0;
             $limit_string = strval($limit);
@@ -78,8 +85,10 @@ class ProcessingCommand extends CConsoleCommand {
             $truck_samples = Sample::model()->findAll($criteria);
             while(count($truck_samples) > 0)
             { 
+              error_log("Stop 8");
               foreach($truck_samples as $truck_sample)
               {
+                error_log("Stop 9");
                 $truck_sample->truck_id = $truck->id;
                 $truck_sample->save();
               }
@@ -89,7 +98,7 @@ class ProcessingCommand extends CConsoleCommand {
               $truck_samples = Sample::model()->findAll($criteria);
             }
           }
-
+error_log("Stop 10");
           //STart process
           $uploaded_file_model->step++;
           $uploaded_file_model->save();
