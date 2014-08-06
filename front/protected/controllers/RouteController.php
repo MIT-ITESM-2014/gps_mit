@@ -323,7 +323,7 @@ class RouteController extends Controller
     $route_id = $_GET['route_id'];
     $route = null;
     if(!empty($route_id))
-      $route = Truck::model()->findByPk($route_id);
+      $route = Route::model()->findByPk($route_id);
     if($route != null)
     {
       $coordinate_list = array();
