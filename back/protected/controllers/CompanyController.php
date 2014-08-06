@@ -30,7 +30,7 @@ class CompanyController extends Controller
 			
 			
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'create'),
+				'actions'=>array('admin','delete', 'create', 'update'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 1)"
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
