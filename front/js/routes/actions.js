@@ -24,7 +24,21 @@ function update_map()
     url: "index.php?r=route/getRouteSamples&route_id="+route_id,
     success: function(data){
       console.log(data);
-    },
+      var routeCoordinates;
+      for(var i in data.coordinate_list)
+      {
+        routeCoordinates.push(new google.maps.LatLng(data.coordinate_list.i.lat, data.coordinate_list.i.long));;
+        
+      }
+      route.setMap(null);
+      route = new google.maps.Polyline({
+        path: routeCoordinates,
+        geodesic: true,
+        strokeColor: '#49CEAE',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+    }
     error: function (xhr, ajaxOptions, thrownError) {
       alert(xhr.statusText);
       alert(thrownError);

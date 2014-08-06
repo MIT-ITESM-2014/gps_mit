@@ -36,7 +36,7 @@ class RouteController extends Controller
 			//	'users'=>array('@'),
 			//),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'getRoute', 'getTruckList', 'getRouteSamples','getRouteList', 'getRouteStats', 'getAvailableDates'),
+				'actions'=>array('index', 'getTruckList', 'getRouteSamples','getRouteList', 'getRouteStats', 'getAvailableDates'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 0)",
 			),
 			//array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -202,41 +202,6 @@ class RouteController extends Controller
     else
       echo CJSON::encode("");
     Yii::app()->end(); 
-  }
-  
-  /*Second function with new parameters*/
-  public function actionGetRoute()
-  {
-	 
-    if(!Yii::app()->user->hasState('user'))
-      return " ";    
-
-    $script="";
-
-	  if(isset($_GET['route_id']))
-	  {
-	    if(!empty($_GET['route_id']))
-	    {
-	      $route_id = $_GET['route_id'];
-	      $criteria = new CDbCriteria();
-        $criteria->addCondition('t.id = '.$route_id);
-        $criteria->with = array('samples');
-        $routes = Route::model()->findAll($criteria);
-        $samples = $routes[0]->samples;
-        $script = "";
-        $script = $script . "
-        routeCoordinates = [";
-        foreach($samples as $sample)
-        {
-          $script = $script." new google.maps.LatLng( ".$sample->latitude.", ".$sample->longitude." ),\n";
-        }  
-        $script = $script."];
-        route.setPath(routeCoordinates);
-        ";
-      }
-    }
-    echo $script;
-    Yii::app()->end();
   }
   
   public function actionGetRouteStats()
