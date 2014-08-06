@@ -107,7 +107,7 @@ function updateAvailableDate()
     }   
   });
 }
-
+console.log("func: "+updateAvailableDate);
 /*
  * This function gets and sets the routes that are available for the
  * truck and date selected.
@@ -162,6 +162,7 @@ $.ajax({
     }
     var opt = $('#truck_selector option:eq(1)').val();
     $('#truck_selector').val(opt);
+    $('#truck_selector').change(updateAvailableDate);
     updateAvailableDate();
   },
   error: function (xhr, ajaxOptions, thrownError) {
@@ -170,7 +171,9 @@ $.ajax({
   }   
 });
 
-alert("pongo el hanler");
-$('#truck-selector').change(updateAvailableDate);
+/*document.getElementById("truck_selector").onclick = function() {
+  updateAvailableDate(); 
+};*/
+
 $('#choose_date_dp').change(updateRouteList);
 
