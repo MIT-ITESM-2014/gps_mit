@@ -48,31 +48,9 @@ function update_stats()
   });
 }
 
-//set on change handler for choose_date
-$('#choose_date_dp').change(updateRouteList);
 
 //TODO
 $('#select-route').prepend('<option>Choose a trip</option>');
-
-
-//General variables
-var inactive_days = new Array();
-console.log(inactive_days);
-/*
- * This functions is used by the datepicker to verify for each day between
- * min_date and max_date if it should be enabled or not.
- */
-function disableDates(date)
-{
-  var disabledDates = inactive_days;
-  for (var i = 0; i < disabledDates.length; i++) {
-    if (new Date(disabledDates[i]).toString() == date.toString())
-    {
-      return [false, '', ''];
-    }
-  }
-  return [true, '', ''];
-}
 
 /*
  * This function gets and sets the available dates for the selected truck
@@ -86,19 +64,42 @@ function updateAvailableDate()
     url: 'index.php?r=route/getAvailableDates&truck_id=' + document.getElementById('truck_selector').value, 
     success: function(data)
     {
-      var min_date = data.min_date;
-      var max_date = data.max_date;
-      inactive_days = data.inactive_days;
-      console.log("los nuevos inactivos son"+data);
-      var choose_date_dp = $('#choose_date_dp');
-      //var selectedDate = $('#choose_date_dp').val();
-      choose_date_dp.datepicker('option', 'maxDate', max_date);
-      choose_date_dp.datepicker('option', 'minDate', min_date);
-      choose_date_dp.datepicker('option', 'beforeShowDay', disableDates);
-      //if(!selectedDate)
-      var selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
-      choose_date_dp.datepicker('setDate', selectedDate);
-      updateRouteList();
+      console.log(data);
+      if(data != "")
+      {
+        var inactive_days = new Array();
+        console.log("id"+inactive_days);
+        var min_date = data.min_date;
+        var max_date = data.max_date;
+        inactive_days = data.inactive_days;
+        console.log("los nuevos inactivos son"+data);
+        var choose_date_dp = $('#choose_date_dp');
+        //var selectedDate = $('#choose_date_dp').val();
+        choose_date_dp.datepicker('option', 'maxDate', max_date);
+        choose_date_dp.datepicker('option', 'minDate', min_date);
+        /*
+         * This functions is used by the datepicker to verify for each day between
+         * min_date and max_date if it should be enabled or not.
+         */
+         
+        function disableDates(date)
+        {
+          console.log("id"+inactive_days);
+          var disabled_dates = inactive_days;
+          for (var i = 0; i < inactive_days.length; i++) {
+            if (new Date(inactive_days[i]).toString() == date.toString())
+            {
+              return [false, '', ''];
+            }
+          }
+          return [true, '', ''];
+        }
+        choose_date_dp.datepicker('option', 'beforeShowDay', disableDates);
+        //if(!selectedDate)
+        var selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
+        choose_date_dp.datepicker('setDate', selectedDate);
+        updateRouteList();
+      }
     },
     error: function (xhr, ajaxOptions, thrownError) {
       alert(xhr.statusText);
@@ -143,6 +144,7 @@ function updateRouteList()
 }
 
 
+
 //Truck options TODO
 $('#truck_selector').prepend('<option>Chooose a truck</option>');
 $.ajax({
@@ -160,7 +162,6 @@ $.ajax({
     }
     var opt = $('#truck_selector option:eq(1)').val();
     $('#truck_selector').val(opt);
-    $('#truck-selector').change(updateAvailableDate);
     updateAvailableDate();
   },
   error: function (xhr, ajaxOptions, thrownError) {
@@ -168,3 +169,8 @@ $.ajax({
     alert(thrownError);
   }   
 });
+
+alert("pongo el hanler");
+$('#truck-selector').change(updateAvailableDate);
+$('#choose_date_dp').change(updateRouteList);
+
