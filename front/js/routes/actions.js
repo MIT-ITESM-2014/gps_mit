@@ -6,6 +6,30 @@ $('#routes-section').removeClass('routes-section').addClass('active_routes');
 function button_update_map_action()
 {
   update_stats();
+  update_map();
+}
+
+/*
+ * Gets the selected route id
+ * Gets the corresponding route samples with ajax
+ * Displays the samples as thew new route
+ */
+function update_map()
+{
+  var route_id = document.getElementById("select-route").value;
+  
+  $.ajax({ 
+    type: "GET",
+    dataType: "jsonp",
+    url: "index.php?r=route/getRouteSamples&route_id="+route_id,
+    success: function(data){
+      console.log(data);
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      alert(xhr.statusText);
+      alert(thrownError);
+    }   
+  });
 }
       
 //Set onclick handler for "Go" button
@@ -57,22 +81,18 @@ $('#select-route').prepend('<option>Choose a trip</option>');
  */
 function updateAvailableDate()
 {
-  console.log("Ill update available dates");
   $.ajax({
     type: 'GET',
     dataType: 'JSON',
     url: 'index.php?r=route/getAvailableDates&truck_id=' + document.getElementById('truck_selector').value, 
     success: function(data)
     {
-      console.log(data);
       if(data != "")
       {
         var inactive_days = new Array();
-        console.log("id"+inactive_days);
         var min_date = data.min_date;
         var max_date = data.max_date;
         inactive_days = data.inactive_days;
-        console.log("los nuevos inactivos son"+data);
         var choose_date_dp = $('#choose_date_dp');
         //var selectedDate = $('#choose_date_dp').val();
         choose_date_dp.datepicker('option', 'maxDate', max_date);
@@ -84,7 +104,6 @@ function updateAvailableDate()
          
         function disableDates(date)
         {
-          console.log("id"+inactive_days);
           var disabled_dates = inactive_days;
           for (var i = 0; i < inactive_days.length; i++) {
             if (new Date(inactive_days[i]).toString() == date.toString())
@@ -107,7 +126,7 @@ function updateAvailableDate()
     }   
   });
 }
-console.log("func: "+updateAvailableDate);
+
 /*
  * This function gets and sets the routes that are available for the
  * truck and date selected.

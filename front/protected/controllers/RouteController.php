@@ -36,7 +36,7 @@ class RouteController extends Controller
 			//	'users'=>array('@'),
 			//),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'getRoute', 'getTruckList', 'getRouteList', 'getRouteStats', 'getAvailableDates'),
+				'actions'=>array('index', 'getRoute', 'getTruckList', 'getRouteSamples','getRouteList', 'getRouteStats', 'getAvailableDates'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 0)",
 			),
 			//array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -309,6 +309,38 @@ class RouteController extends Controller
     }
     echo CJSON::encode($json_data);
     Yii::app()->end();
+  }
+
+  /*
+   * Returns as JSON the list of all the samples that correspond to a route.
+   */
+  public function getRouteSamples()
+  {
+    if(!Yii::app()->user->hasState('user') || !Yii::app()->user->hasState('current_company'))
+      return " ";
+
+    header('Content-type: application/json');
+    $route_id = $_GET['route_id'];
+    if(!empty($route_id))
+    {
+      $route = Truck::model()->findByPk($route_id);
+      $coordinate_list = array();
+      
+      foreach($route->samples as $sample)
+      {
+        $coordinate = array();
+        $coordinate['lat'] = $sample->latitude;
+        $coordinate['long'] = $sample->longitude;
+        $coordinate_list[] = $coordinate;
+      }
+      $data = array();
+      $data['coordinate_list']=$truck_list;
+      echo CJSON::encode($data);
+    }
+    else
+      echo CJSON::encode("");
+    Yii::app()->end(); 
+    
   }
 
 	/**
