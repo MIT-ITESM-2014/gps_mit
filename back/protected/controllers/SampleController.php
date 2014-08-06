@@ -61,7 +61,7 @@ class SampleController extends Controller
 	    $parameter_form_model->time_radius_short_stop = $company_model->time_radius_short_stop;
 	  
 	  if($company_model->distance_radius_short_stop == null)
-	    $parameter_form_model->distance_radius_short_stop = 0.05;
+	    $parameter_form_model->distance_radius_short_stop = 0.01;
 	  else
 	    $parameter_form_model->distance_radius_short_stop = $company_model->distance_radius_short_stop;
 	  
