@@ -5,7 +5,7 @@ $('#routes-section').removeClass('routes-section').addClass('active_routes');
 //Replacing polyline//TODO
 function button_update_map_action()
 {
-
+  update_stats();
 }
       
 //Set onclick handler for "Go" button

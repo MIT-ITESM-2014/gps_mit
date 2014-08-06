@@ -24,7 +24,8 @@
               'htmlOptions'=>array(
                     'placeholder'=> 'Choose a date',
                     'class'=>'datePicker',
-                    'id'=>'choose_date_dp', 
+                    'id'=>'choose_date_dp',
+                    'readonly'=>'readonly',
         ),
       ));
 ?>
