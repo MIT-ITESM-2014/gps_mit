@@ -99,10 +99,3 @@
 
 </div>
 
-
-<?php Yii::app()->clientScript->registerScript('start_map.js',$script, CClientScript::POS_END); ?>
-<?php
-  Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/routes/actions.js',CClientScript::POS_END);
-?>
-
-
