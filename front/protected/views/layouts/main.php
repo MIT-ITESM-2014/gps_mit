@@ -5,6 +5,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="en" />
 
+  <?php
+  $baseUrl = Yii::app()->request->baseUrl;
+  $clientScript = Yii::app()->getClientScript();
+  //Registering favicon
+  $clientScript->registerLinkTag('shortcut icon', null, $baseUrl . '/public/images/favicon.ico');
+  ?>
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
