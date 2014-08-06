@@ -178,16 +178,20 @@ class SampleController extends Controller
     
   public function actionSubmitParameters()
   { 
+    error_log("paso 11");
     $company_id = Yii::app()->user->getState('current_company');
     $company_model = Company::model()->findByPk($company_id);
     if($company_model->has_file_in_process == 1)//Si está en procesamiento
     {
+    error_log("paso 12");
       $parameter_model = $this->createNewParametersForm();
       if(isset($_POST['ParameterForm']))
 	    {
+	    error_log("paso 13");
 		    $parameter_model->attributes=$_POST['ParameterForm'];
 		    if($parameter_model->validate())
 		    {
+		    error_log("paso 14");
 		      $parameter_model->updateCompanyParameters();
 		      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>Yii::app()->user->getState('current_company')));
           $uploaded_file_model->step = 2;
@@ -198,6 +202,7 @@ class SampleController extends Controller
 		    }
 		    else
 		    {
+		    error_log("paso 15");
 		      $error = CActiveForm::validate($parameter_model);
           if($error!='[]')
             echo $error;
