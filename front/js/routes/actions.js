@@ -23,11 +23,12 @@ function update_map()
     dataType: "json",
     url: "index.php?r=route/getRouteSamples&route_id="+route_id,
     success: function(data){
-      console.log(data);
+      var parsed_data = $.parseJSON(data);
+      console.log(parsed_data);
       var routeCoordinates = [];
-      for(var i in data.coordinate_list)
+      for(var i in parsed_data.coordinate_list)
       {
-        routeCoordinates.push(new google.maps.LatLng(data.coordinate_list.i.lat, data.coordinate_list.i.long));
+        routeCoordinates.push(new google.maps.LatLng(parsed_data.coordinate_list.i.lat, parsed_data.coordinate_list.i.long));
         
       }
       route.setMap(null);
