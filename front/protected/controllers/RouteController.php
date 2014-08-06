@@ -336,7 +336,7 @@ class RouteController extends Controller
         $coordinate_list[] = $coordinate;
       }
       $data = array();
-      $data['coordinate_list']=$truck_list;
+      $data['coordinate_list']=$coordinate_list;
       echo CJSON::encode($data);
     }
     else
