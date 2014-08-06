@@ -130,44 +130,49 @@ class RouteController extends Controller
     header('Content-type: application/json');
     $truck_id = $_GET["truck_id"];
     $date=$_GET["start_date"];
-    str_replace ( "/" , "-" , $date );
-    
-    $criteria = new CDbCriteria();
-    $criteria->condition = "truck_id=".$truck_id;
-    $criteria->addBetweenCondition('datetime', $date." 00:00:00.0", $date." 23:59:59.999");
-    $criteria->distinct = true;
-    $criteria->select = array(
-      't.route_id',
-    );
-    $route_ids = Sample::model()->findAll($criteria);
-    $routes = array();
-
-    foreach($route_ids as $route_id)
+    if(!empty($truck_id) && !empty($date))
     {
+      str_replace ( "/" , "-" , $date );
+      
+      $criteria = new CDbCriteria();
+      $criteria->condition = "truck_id=".$truck_id;
+      $criteria->addBetweenCondition('datetime', $date." 00:00:00.0", $date." 23:59:59.999");
+      $criteria->distinct = true;
+      $criteria->select = array(
+        't.route_id',
+      );
+      $route_ids = Sample::model()->findAll($criteria);
+      $routes = array();
 
-      if($route_id->route_id != null)
-        $routes[] = Route::model()->findByPk($route_id->route_id);
-    }
-    if(count($routes)>0)
-    {
-      if($routes[0] != null)
+      foreach($route_ids as $route_id)
       {
-        $json_data = '{"routes":[';
-        $comma_counter = 0;
-        
-        foreach($routes as $route)
+
+        if($route_id->route_id != null)
+          $routes[] = Route::model()->findByPk($route_id->route_id);
+      }
+      if(count($routes)>0)
+      {
+        if($routes[0] != null)
         {
-          if($comma_counter != 0)
-            $json_data = $json_data . ",";
+          $json_data = '{"routes":[';
+          $comma_counter = 0;
+          
+          foreach($routes as $route)
+          {
+            if($comma_counter != 0)
+              $json_data = $json_data . ",";
 
-          $json_data = $json_data . '{"name":"'.$route->name.'", "value":"'.$route->id.'"}';
-          $comma_counter++;
+            $json_data = $json_data . '{"name":"'.$route->name.'", "value":"'.$route->id.'"}';
+            $comma_counter++;
+          }
+
+          $json_data = $json_data . ']}';
+          echo CJSON::encode($json_data);
         }
-
-        $json_data = $json_data . ']}';
-        echo CJSON::encode($json_data);
       }
     }
+    else
+      echo CJSON::encode("");
     Yii::app()->end(); 
   }
   

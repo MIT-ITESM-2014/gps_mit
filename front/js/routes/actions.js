@@ -97,6 +97,7 @@ function disableDates(date)
  */
 function updateAvailableDate()
 {
+  console.log("Ill update available dates");
   $.ajax({
     type: 'GET',
     dataType: 'JSON',
@@ -112,8 +113,8 @@ function updateAvailableDate()
       choose_date_dp.datepicker('option', 'minDate', min_date);
       choose_date_dp.datepicker('option', 'beforeShowDay', disableDates);
       //if(!selectedDate)
-      //  selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
-      //choose_date_dp.datepicker('setDate', selectedDate);
+      var selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
+      choose_date_dp.datepicker('setDate', selectedDate);
       updateRouteList();
     },
     error: function (xhr, ajaxOptions, thrownError) {
