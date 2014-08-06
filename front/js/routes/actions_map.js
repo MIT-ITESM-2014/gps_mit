@@ -5,7 +5,7 @@ var map;
 function initialize() {
   var mapOptions = {
     zoom: 12,
-    center: new google.maps.LatLng(-33.50742, -70.58493)
+    //center: new google.maps.LatLng(-33.50742, -70.58493)
   };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   map.set('styles', 
@@ -100,11 +100,7 @@ function initialize() {
   map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('map-legend'));
                   
   //Load a polyline
-  var routeCoordinates = 
-    [ 
-      new google.maps.LatLng( -33.50742, -70.58493 ),
-      new google.maps.LatLng( -33.47018, -70.5412 ),
-    ];
+  var routeCoordinates = [];
   route = new google.maps.Polyline({
     path: routeCoordinates,
     geodesic: true,
