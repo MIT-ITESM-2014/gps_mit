@@ -24,7 +24,7 @@ function update_map()
     url: "index.php?r=route/getRouteSamples&route_id="+route_id,
     success: function(data){
       console.log(data);
-      var routeCoordinates;
+      var routeCoordinates =array();
       for(var i in data.coordinate_list)
       {
         routeCoordinates.push(new google.maps.LatLng(data.coordinate_list.i.lat, data.coordinate_list.i.long));
