@@ -83,8 +83,6 @@ console.log(inactive_days);
 function disableDates(date)
 {
   var disabledDates = inactive_days;
-  console.log(inactive_days);
-  console.log(disabledDates);
   for (var i = 0; i < disabledDates.length; i++) {
     if (new Date(disabledDates[i]).toString() == date.toString())
     {
@@ -108,7 +106,6 @@ function updateAvailableDate()
       var min_date = data.min_date;
       var max_date = data.max_date;
       inactive_days = data.inactive_days;
-      console.log(inactive_days);
       var choose_date_dp = $('#choose_date_dp');
       //var selectedDate = $('#choose_date_dp').val();
       choose_date_dp.datepicker('option', 'maxDate', max_date);
@@ -116,7 +113,7 @@ function updateAvailableDate()
       choose_date_dp.datepicker('option', 'beforeShowDay', disableDates);
       //if(!selectedDate)
       //  selectedDate = choose_date_dp.datepicker('option', 'all').minDate;
-      choose_date_dp.datepicker('setDate', selectedDate);
+      //choose_date_dp.datepicker('setDate', selectedDate);
       updateRouteList();
     },
     error: function (xhr, ajaxOptions, thrownError) {
