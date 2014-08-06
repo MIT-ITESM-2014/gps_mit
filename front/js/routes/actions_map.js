@@ -6,7 +6,7 @@ var routeCoordinates2;
 function initialize() {
   var mapOptions = {
     zoom: 12,
-    center: new google.maps.LatLng(".$map_center.")
+    center: new google.maps.LatLng(-33.50742, -70.58493)
   };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   map.set('styles', 
