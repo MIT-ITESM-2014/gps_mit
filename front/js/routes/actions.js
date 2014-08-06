@@ -20,7 +20,7 @@ function update_map()
   
   $.ajax({ 
     type: "GET",
-    dataType: "jsonp",
+    dataType: "json",
     url: "index.php?r=route/getRouteSamples&route_id="+route_id,
     success: function(data){
       console.log(data);
