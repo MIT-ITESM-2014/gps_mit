@@ -160,6 +160,7 @@ $.ajax({
     }
     var opt = $('#truck_selector option:eq(1)').val();
     $('#truck_selector').val(opt);
+    $('#truck-selector').change(updateAvailableDate);
     updateAvailableDate();
   },
   error: function (xhr, ajaxOptions, thrownError) {
