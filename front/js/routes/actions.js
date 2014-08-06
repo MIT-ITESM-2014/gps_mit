@@ -27,7 +27,7 @@ function update_map()
       var routeCoordinates = [];
       for(var i in data.coordinate_list)
       {
-        routeCoordinates.push(new google.maps.LatLng(data['coordinate_list'][i]['lat'], data.['coordinate_list'][i]['long']));
+        routeCoordinates.push(new google.maps.LatLng(data['coordinate_list'][i]['lat'], data['coordinate_list'][i]['long']));
         
       }
       route.setMap(null);
