@@ -27,7 +27,7 @@ class ProcessingCommand extends CConsoleCommand {
         Yii::trace("Stop 2", "compass.cron");
           $filename = $uploaded_file_model->filename;
           $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
-          Yii::trace(print_r($handler, true));
+          Yii::trace(print_r($handler, true), "compass.cron");
           $trucks_array = array();
           $samples = array();
           $new_sample;
