@@ -36,7 +36,7 @@ class RouteController extends Controller
 			//	'users'=>array('@'),
 			//),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'getRoute', 'getRouteList', 'getRouteStats', 'getAvailableDates'),
+				'actions'=>array('index', 'getRoute', 'getTruckList', 'getRouteList', 'getRouteStats', 'getAvailableDates'),
 				'expression'=> "(Yii::app()->user->getState('isAdmin') == 0)",
 			),
 			//array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -120,6 +120,34 @@ class RouteController extends Controller
 
     Yii::app()->end(); 
   }
+
+  public function actionGetTruckList()
+  {
+
+    if(!Yii::app()->user->hasState('user') || !Yii::app()->user->hasState('current_company'))
+      return " ";
+
+    header('Content-type: application/json');
+    $company_id = Yii::app()->user->getState('current_company');
+    if(!empty($company_id))
+    {
+      $criteria = new CDbCriteria();
+      $criteria->condition = "company_id=".$company_id;
+      $trucks = Truck::model()->findAll($criteria);
+      $truck_list = array();
+
+      foreach($trucks as $truck)
+        $truck_list[$truck->id] = $truck->name;
+      
+      $data = array();
+      $data['truck_list']=$truck_list;
+      echo CJSON::encode($data);
+    }
+    else
+      echo CJSON::encode("");
+    Yii::app()->end(); 
+  }
+
 
 	public function actionGetRouteList()
   {

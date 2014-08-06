@@ -48,24 +48,6 @@ function update_stats()
   });
 }
 
-//Truck options TODO
-$('#truck_selector').prepend('<option>Chooose a truck</option>');
-var newOption;
-newOption = $('<option value="76">SG-5117</option>');  
-$('#truck_selector').append(newOption); 
-newOption = $('<option value="78">TV-5081</option>');  
-$('#truck_selector').append(newOption); 
-newOption = $('<option value="59">CRHT-63</option>');  
-$('#truck_selector').append(newOption); 
-newOption = $('<option value="54">BFHK-10</option>');  
-$('#truck_selector').append(newOption); 
-//set on change handler for truck_selector
-$('#truck_selector').change(updateAvailableDate);
-//Set first option as selected
-var opt = $('#truck_selector option:eq(1)').val();
-$('#truck_selector').val(opt);
-//$('#truck_selector').change();//TODO
-
 //set on change handler for choose_date
 $('#choose_date_dp').change(updateRouteList);
 
@@ -107,6 +89,7 @@ function updateAvailableDate()
       var min_date = data.min_date;
       var max_date = data.max_date;
       inactive_days = data.inactive_days;
+      console.log("los nuevos inactivos son"+data);
       var choose_date_dp = $('#choose_date_dp');
       //var selectedDate = $('#choose_date_dp').val();
       choose_date_dp.datepicker('option', 'maxDate', max_date);
@@ -158,3 +141,29 @@ function updateRouteList()
     );
   }
 }
+
+
+//Truck options TODO
+$('#truck_selector').prepend('<option>Chooose a truck</option>');
+$.ajax({
+  type: 'GET',
+  dataType: 'JSON',
+  url: 'index.php?r=route/getTruckList', 
+  success: function(data)
+  {
+    var truck_list = data.truck_list;
+    for(var key in truck_list)
+    {
+      var newOption;
+      newOption = $('<option value="'+key+'">'+truck_list[key]+'</option>'); 
+      $('#truck_selector').append(newOption);  
+    }
+    var opt = $('#truck_selector option:eq(1)').val();
+    $('#truck_selector').val(opt);
+    updateAvailableDate();
+  },
+  error: function (xhr, ajaxOptions, thrownError) {
+    alert(xhr.statusText);
+    alert(thrownError);
+  }   
+});
