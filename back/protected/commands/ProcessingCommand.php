@@ -21,10 +21,10 @@ class ProcessingCommand extends CConsoleCommand {
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
       if(!empty($uploaded_file_model))
       {
-        error_log("Stop 1");
+        Yii::trace("Stop 1", "compass.cron");
         if($uploaded_file_model->step == 2)//Has uploaded parameters
         {
-        error_log("Stop 2");
+        Yii::trace("Stop 2", "compass.cron");
           $filename = $uploaded_file_model->filename;
           $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
           $trucks_array = array();
@@ -34,10 +34,10 @@ class ProcessingCommand extends CConsoleCommand {
           fgetcsv($handler, 0, ',');//Ignore headers
           while($pointer = fgetcsv($handler, 0, ','))
           {
-            error_log("Stop 3");
+            Yii::trace("Stop 3", "compass.cron");
             if(array_key_exists(3, $pointer))//Validates the row has enough columns
             {
-            error_log("Stop 4");
+            Yii::trace("Stop 4", "compass.cron");
               $new_sample = new Sample;
               $new_sample->truck_name = $pointer[0];
               $new_sample->company_id = $this->current_company->id;
@@ -54,12 +54,12 @@ class ProcessingCommand extends CConsoleCommand {
           //Create each of the trucks mentioned in the samples if any doesn't exist.
           foreach($trucks_array as $truck_name => $value)
           {
-            error_log("Stop 5");
+            Yii::trace("Stop 5", "compass.cron");
             $condition_string = "name = '" . $truck_name . "' AND company_id = ".$this->current_company->id;
             $registered_truck = Truck::model()->find($condition_string);
             if(!count($registered_truck))
             {
-              error_log("Stop 6");
+              Yii::trace("Stop 6", "compass.cron");
               $new_truck = new Truck;
               $new_truck->company_id = $this->current_company->id;
               $new_truck->name = $truck_name;
@@ -71,7 +71,7 @@ class ProcessingCommand extends CConsoleCommand {
           $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
           foreach($trucks as $truck)
           {
-            error_log("Stop 7");
+            Yii::trace("Stop 7", "compass.cron");
             $limit = 100;
             $offset = 0;
             $limit_string = strval($limit);
@@ -85,10 +85,10 @@ class ProcessingCommand extends CConsoleCommand {
             $truck_samples = Sample::model()->findAll($criteria);
             while(count($truck_samples) > 0)
             { 
-              error_log("Stop 8");
+              Yii::trace("Stop 8", "compass.cron");
               foreach($truck_samples as $truck_sample)
               {
-                error_log("Stop 9");
+                Yii::trace("Stop 9", "compass.cron");
                 $truck_sample->truck_id = $truck->id;
                 $truck_sample->save();
               }
@@ -98,7 +98,7 @@ class ProcessingCommand extends CConsoleCommand {
               $truck_samples = Sample::model()->findAll($criteria);
             }
           }
-error_log("Stop 10");
+Yii::trace("Stop 10", "compass.cron");
           //STart process
           $uploaded_file_model->step++;
           $uploaded_file_model->save();
@@ -202,19 +202,19 @@ error_log("Stop 10");
   
   function calculateAllMetrics()
   {
-    error_log("actionFindSamplings");
+    Yii::trace("actionFindSamplings");
     $this->actionFindSamplings();
-    error_log("actionFindStopsAndRoutes");
+    Yii::trace("actionFindStopsAndRoutes");
     $this->actionFindStopsAndRoutes();
-    error_log("actionGenerateRouteMetric");
+    Yii::trace("actionGenerateRouteMetric");
     $this->actionGenerateRouteMetrics();
-    error_log("actionGenerateTruckMetrics");
+    Yii::trace("actionGenerateTruckMetrics");
     $this->actionGenerateTruckMetrics();
-    error_log("actionGenerateCompanyMetrics");
+    Yii::trace("actionGenerateCompanyMetrics");
     $this->actionGenerateCompanyMetrics();
-    error_log("actionGenerateStandardDeviation");
+    Yii::trace("actionGenerateStandardDeviation");
     $this->actionGenerateStandardDeviation();
-    error_log("finished calculating metrics");
+    Yii::trace("finished calculating metrics");
   }
   
   function actionFindSamplings()
