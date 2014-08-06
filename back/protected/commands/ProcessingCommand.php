@@ -32,7 +32,7 @@ class ProcessingCommand extends CConsoleCommand {
           $samples = array();
           $new_sample;
           
-           Yii::trace(print_r(fgetcsv($handler, true), "compass.cron"));//Ignore headers
+          fgetcsv($handler, 0, ',');//Ignore headers
           while($pointer = fgetcsv($handler, 0, ','))
           {
             Yii::trace("Stop 3", "compass.cron");
