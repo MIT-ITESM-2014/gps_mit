@@ -21,13 +21,10 @@ class ProcessingCommand extends CConsoleCommand {
       $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
       if(!empty($uploaded_file_model))
       {
-        Yii::trace("Stop 1", "compass.cron");
         if($uploaded_file_model->step == 2)//Has uploaded parameters
         {
-        Yii::trace("Stop 2", "compass.cron");
           $filename = $uploaded_file_model->filename;
           $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
-          Yii::trace(print_r($handler, true), "compass.cron");
           $trucks_array = array();
           $samples = array();
           $new_sample;
@@ -35,10 +32,8 @@ class ProcessingCommand extends CConsoleCommand {
           fgetcsv($handler, 0, ',');//Ignore headers
           while($pointer = fgetcsv($handler, 0, ','))
           {
-            Yii::trace("Stop 3", "compass.cron");
             if(array_key_exists(3, $pointer))//Validates the row has enough columns
             {
-            Yii::trace("Stop 4", "compass.cron");
               $new_sample = new Sample;
               $new_sample->truck_name = $pointer[0];
               $new_sample->company_id = $this->current_company->id;
@@ -55,12 +50,10 @@ class ProcessingCommand extends CConsoleCommand {
           //Create each of the trucks mentioned in the samples if any doesn't exist.
           foreach($trucks_array as $truck_name => $value)
           {
-            Yii::trace("Stop 5", "compass.cron");
             $condition_string = "name = '" . $truck_name . "' AND company_id = ".$this->current_company->id;
             $registered_truck = Truck::model()->find($condition_string);
             if(!count($registered_truck))
             {
-              Yii::trace("Stop 6", "compass.cron");
               $new_truck = new Truck;
               $new_truck->company_id = $this->current_company->id;
               $new_truck->name = $truck_name;
@@ -72,7 +65,6 @@ class ProcessingCommand extends CConsoleCommand {
           $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
           foreach($trucks as $truck)
           {
-            Yii::trace("Stop 7", "compass.cron");
             $limit = 100;
             $offset = 0;
             $limit_string = strval($limit);
@@ -86,10 +78,8 @@ class ProcessingCommand extends CConsoleCommand {
             $truck_samples = Sample::model()->findAll($criteria);
             while(count($truck_samples) > 0)
             { 
-              Yii::trace("Stop 8", "compass.cron");
               foreach($truck_samples as $truck_sample)
               {
-                Yii::trace("Stop 9", "compass.cron");
                 $truck_sample->truck_id = $truck->id;
                 $truck_sample->save();
               }
@@ -99,7 +89,6 @@ class ProcessingCommand extends CConsoleCommand {
               $truck_samples = Sample::model()->findAll($criteria);
             }
           }
-Yii::trace("Stop 10", "compass.cron");
           //STart process
           $uploaded_file_model->step++;
           $uploaded_file_model->save();

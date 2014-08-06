@@ -15,9 +15,9 @@ function fillWindow(){
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
     
-    if (windowWidth < 712)
+    if (windowWidth < 962)
     {
-      body_div.css({"width":"712px"});
+      body_div.css({"width":"962px"});
     }
     else
     { 
@@ -33,9 +33,9 @@ function fillWindow(){
     });
     
     var mainmenu_container_height = windowHeight - 60;
-    if(mainmenu_container_height < 550)
+    if(mainmenu_container_height < 610)
     {
-      mainmenu_container_height = 550;
+      mainmenu_container_height = 610;
     }
     mainmenu_container_div.css({
       "height": mainmenu_container_height+"px"
