@@ -38,6 +38,7 @@ function update_map()
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
+      route.setMap(map);
     },
     error: function (xhr, ajaxOptions, thrownError) {
       alert(xhr.statusText);
