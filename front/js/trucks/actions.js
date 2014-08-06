@@ -167,6 +167,9 @@ function updateTruckStats()
         truck_usage = data.time_data;
 
         chart_1_1_params ={
+          credits: {
+            enabled: false,
+          },
           chart: {
             backgroundColor: '#efefef',
             type: 'column'
@@ -253,6 +256,9 @@ function updateTruckStats()
         };
   
         chart_1_params = {
+          credits: {
+            enabled: false,
+          },
           chart: {
             backgroundColor: '#efefef',
             font: '"Ubuntu", Arial, Helvetica, sans-serif',
@@ -375,6 +381,9 @@ $.ajax({
         var colors = ['#e51c23', '#f06292', '#ba68c8', '#3f51b4', '#72d572', '#ffff00', '#ffaf4c', '#a1887f', '#9e9e9e', '#b0120a', '#e91e63', '#9c27b0', '#1a237e', '#259b24', '#ffe04c', '#ff9800', '#795548', '#424242', '#f36c60', '#880e4f', '#4a148c', '#91a7ff', '#0d4502', '#ffc107', '#e65100', '#3e2723', '#b0bec5', '#9575cd', '#5677fc', '#88ee7b', '#ff6f00', '#ffab91', '#607d8b'];
 
         chart_2_params = {
+          credits: {
+            enabled: false,
+          },
           chart: {
             type: 'area'
           },
@@ -454,6 +463,9 @@ $.ajax({
         };
         
         chart_3_params = {
+          credits: {
+            enabled: false,
+          },
           chart: {
               type: 'area'
           },
@@ -510,6 +522,9 @@ $.ajax({
         };
         
         chart_4_params = {
+          credits: {
+            enabled: false,
+          },
           chart: {
             type: 'scatter',
             zoom: 'xy'
@@ -590,6 +605,9 @@ $.ajax({
         };//end chart_4
 
         chart_5_params = {
+          credits: {
+            enabled: false,
+          },
           chart: {
             type: 'scatter',
             zoom: 'xy'
