@@ -316,14 +316,16 @@ class RouteController extends Controller
    */
   public function actionGetRouteSamples()
   {
-    if(!Yii::app()->user->hasState('user') || !Yii::app()->user->hasState('current_company'))
+    if(!Yii::app()->user->hasState('user') || !Yii::app()->user->hasState('current_company') || !isset($_GET['route_id']))
       return " ";
 
     header('Content-type: application/json');
     $route_id = $_GET['route_id'];
+    $route = null;
     if(!empty($route_id))
-    {
       $route = Truck::model()->findByPk($route_id);
+    if($route != null)
+    {
       $coordinate_list = array();
       
       foreach($route->samples as $sample)
