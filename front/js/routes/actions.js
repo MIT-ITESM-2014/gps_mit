@@ -25,6 +25,8 @@ function update_map()
     success: function(data){
       console.log(data);
       var routeCoordinates = [];
+      if(typeof data.coordinate_list[0] != 'undefined')
+        map.setCenter(new google.maps.LatLng(data.coordinate_list[0]['lat'], data.coordinate_list[0]['long']));
       for(var i in data.coordinate_list)
       {
         routeCoordinates.push(new google.maps.LatLng(data['coordinate_list'][i]['lat'], data['coordinate_list'][i]['long']));
