@@ -48,9 +48,9 @@ function update_map()
 }
       
 //Set onclick handler for "Go" button
-document.getElementById("button_update_map").onclick = function() {
+/*document.getElementById("button_update_map").onclick = function() {
   button_update_map_action(); 
-};
+};*/
 
 
 //Update stats of map legend
@@ -166,7 +166,7 @@ function updateRouteList()
           });
           var first_route = $('#select-route option:eq(1)').val();
           $('#select-route').val(first_route);
-          $('#button_update_map').click();
+          button_update_map_action();
         },
         error: function (xhr, ajaxOptions, thrownError) {
           alert(xhr.statusText);
@@ -197,6 +197,7 @@ $.ajax({
     var opt = $('#truck_selector option:eq(1)').val();
     $('#truck_selector').val(opt);
     $('#truck_selector').change(updateAvailableDate);
+    $('#select-route').change(button_update_map_action);//working
     updateAvailableDate();
   },
   error: function (xhr, ajaxOptions, thrownError) {
