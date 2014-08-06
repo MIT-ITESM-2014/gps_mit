@@ -814,6 +814,11 @@ function ChartSlider (container_id, left_arrow_id, right_arrow_id) {
     return this;
 }
 
+var opt = $('#trucks_truck_select option:eq(1)').val();
+$('#trucks_truck_select').val(opt);
+updateTruckStats();
+    
+
 
 
 

@@ -1,7 +1,6 @@
 var temporal_script = null;
 var route;
 var map;
-var routeCoordinates2;
   
 function initialize() {
   var mapOptions = {
@@ -101,7 +100,7 @@ function initialize() {
   map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('map-legend'));
                   
   //Load a polyline
-  routeCoordinates = 
+  var routeCoordinates = 
     [ 
       new google.maps.LatLng( -33.50742, -70.58493 ),
       new google.maps.LatLng( -33.47018, -70.5412 ),
