@@ -242,6 +242,24 @@ body
 	float: left;
 }
 
+/*#content-container #content #truck-selection #truck-selector-container #truck_selector option
+{
+	background-color: #003a4b;
+	color: #FFFFFF;
+}
+
+#content-container #content #selector-route #select-route option
+{
+	background-color: #003a4b;
+	color: #FFFFFF;
+}*/
+
+option
+{
+	background-color: #003a4b;
+	color: #FFFFFF;
+}
+
 .truck_selector
 {
 	background: transparent;
