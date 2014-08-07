@@ -42,6 +42,9 @@
 	<?php 
 	if($company_in_process == 1)
 	  echo '<div id="warning_company_in_process"> The fleet '.$company_in_process_name.' information is being processed at the moment. Please try again later.</div>';
+	if($company_in_process == 2)
+	  echo '<div id="warning_company_in_process"> The fleet '.$company_in_process_name.' information is being deleted at the moment. Please try again later.</div>';
+	
 	?>
 </div>
 <?php

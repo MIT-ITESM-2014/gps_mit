@@ -324,7 +324,7 @@ class CompanyController extends Controller
 	    $identity_company_model = IdentityCompany::model()->findByAttributes(array('company_id'=>$_GET['company'],'identity_id'=>Yii::app()->user->getState('user')));
 	  if(isset($_GET['company']) && !empty($identity_company_model))
 	  {
-	    if($identity_company_model->company->has_file_in_process != 1)
+	    if(($identity_company_model->company->has_file_in_process == 0) || ($identity_company_model->company->has_file_in_process == null))
 	    {
         Yii::app()->user->setState('current_company', $identity_company_model->company_id);
         Yii::app()->user->setState('current_company_name', $identity_company_model->company->name);
@@ -332,7 +332,7 @@ class CompanyController extends Controller
       } 
       else
       {
-        $company_in_process = 1;
+        $company_in_process = $identity_company_model->company->has_file_in_process;
         $company_in_process_name = $identity_company_model->company->name;
       }
 	  }
