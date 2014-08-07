@@ -89,6 +89,10 @@ class SampleController extends Controller
 	    
 		  $step = 0;
 
+      //If delete has been requested      
+      if($company_model->has_file_in_process == 2)
+		    $this->render('delete_in_process',array());
+
 		  if($company_model->has_file_in_process == 1)
 		  {
 		    $pending_files = $company_model->uploaded_files;

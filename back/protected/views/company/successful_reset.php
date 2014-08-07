@@ -5,5 +5,5 @@
 <div class="clear"></div>
 
 <div class="reset-form-container">
-	All the information of the fleet <?php echo Yii::app()->user->getState('current_company_name'); ?> has been deleted.
+	All the information of the fleet <?php echo Yii::app()->user->getState('current_company_name'); ?> is being deleted.
 </div>

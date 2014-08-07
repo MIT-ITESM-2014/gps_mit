@@ -58,6 +58,15 @@ class ParameterFormController extends Controller
     if(!Yii::app()->user->hasState('user'))
       $this->redirect(array('site/login'));
 	  $id = Yii::app()->user->getState('current_company');
+	  
+	  //If delete has been requested      
+    $company_model = Company::model()->findByPk($id);
+    if($company_model->has_file_in_process == 2)
+	    $this->render('delete_in_process',array());
+	  if($company_model->has_file_in_process == 1)
+	    $this->render('data_in_process',array());
+
+	  
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -89,7 +98,6 @@ class ParameterFormController extends Controller
 		  $this->render('update',array(
 			  'model'=>$model,
 		  ));
-		
 	}
     
 	/**
