@@ -1,4 +1,6 @@
-@font-face
+@import url('http://fonts.googleapis.com/css?family=Ubuntu:400,700,500,300');
+
+/*@font-face
 {
 	font-family: 'Ubuntu-Compass'; 
 	src: url('../public/fonts/Ubuntu-Regular.ttf');
@@ -8,11 +10,11 @@
 	text-transform: none;
 	-webkit-font-smoothing: antialiased;
 	font-smooth: always;
-}
+}*/
 
 body
 {
-	font-family: 'Ubuntu-Compass', Arial, Helvetica, sans-serif;
+	font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
 	color: #555;
@@ -496,14 +498,14 @@ option
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: 200;
+	font-weight: 300;
 }
 
 #distance_data_container
 {
 	font-size: 24px;
 	color: #003d4c;
-	font-weight: 200;
+	font-weight: 300;
 	float: left;
 }
 
@@ -528,14 +530,14 @@ option
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: 200;
+	font-weight: 300;
 }
 
 #time_data_container
 {
 	color: #003d4c;
 	font-size: 24px;
-	font-weight: 200;
+	font-weight: 300;
 	float: left;
 }
 
@@ -560,14 +562,14 @@ option
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: 200;
+	font-weight: 300;
 }
 
 #average_speed_data_container
 {
 	color: #003d4c;
 	font-size: 24px;
-	font-weight: 200;
+	font-weight: 300;
 	float: left;
 }
 
@@ -592,14 +594,14 @@ option
 {
 	color: #003d4c;
 	font-size: 20px;
-	font-weight: 200;
+	font-weight: 300;
 }
 
 #short_stops_count_data_container
 {
 	color: #003d4c;
 	font-size: 24px;
-	font-weight: 200;
+	font-weight: 300;
 	float: left;
 }
 
@@ -994,7 +996,7 @@ option
 	color: #003c4b;
 	font-size: 22px;
 	text-align: center;
-	font-weight: 200;
+	font-weight: 300;
 	line-height: 30px;
 	margin-top: 25px;
 }
