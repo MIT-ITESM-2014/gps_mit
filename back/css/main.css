@@ -101,17 +101,15 @@ ul.symbolList {
 	display: block;
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 }
 
 #content
 {
-	display: inline-block;
+	display: table;
 	font-size: 15px;
 	text-align: left;
 	padding-bottom: 2px;
 	width: 700px;
-	background-color: #FFFFFF;
 }
 
 h1#contents-field
@@ -125,7 +123,6 @@ h1#contents-field
 	width: 100%;
 	height: 100%;
 	color: #1b1b1b;
-	background-color: #FFFFFF;
 }
 
 #sidebar
@@ -161,8 +158,6 @@ h1#contents-field
 	float: right;
 	margin-right: 40px;
 	line-height: 15px;
-	height:60px;
-	overflow:hidden;
 }
 
 #session-username
