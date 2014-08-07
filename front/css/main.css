@@ -714,6 +714,7 @@ option
 	padding-left: 30px;
 	padding-top: 5px;
 	font-size: 40px;
+	font-weight: 700;
 }
 
 #truck-stats-left
@@ -803,6 +804,7 @@ option
 {
 	color: #FFFFFF;
 	font-size: 20px;
+	font-weight: 400;
 	padding-top: 10px;
 }
 
@@ -1152,6 +1154,7 @@ option
 	padding-top: 15px;
 	padding-left: 30px;
 	font-size: 36px;
+	font-weight: 700;
 }	
 
 #stats-data-left
