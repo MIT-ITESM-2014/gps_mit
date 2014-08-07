@@ -11,6 +11,8 @@
   //Registering favicon
   $clientScript->registerLinkTag('shortcut icon', null, $baseUrl . '/public/images/favicon.ico');
   ?>
+  <!--Adding font to back-->
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,500,300' rel='stylesheet' type='text/css'>
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
