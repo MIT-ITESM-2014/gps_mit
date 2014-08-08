@@ -43,8 +43,8 @@ function update_map()
       route.setMap(map);
     },
     error: function (xhr, ajaxOptions, thrownError) {
-      alert(xhr.statusText);
-      alert(thrownError);
+      //alert(xhr.statusText);
+      //alert(thrownError);
     }   
   });
 }
@@ -83,8 +83,8 @@ function update_stats()
         }
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.statusText);
-        alert(thrownError);
+        //alert(xhr.statusText);
+        //alert(thrownError);
       }   
   });
 }
@@ -138,8 +138,8 @@ function updateAvailableDate()
       }
     },
     error: function (xhr, ajaxOptions, thrownError) {
-      alert(xhr.statusText);
-      alert(thrownError);
+      //alert(xhr.statusText);
+      //alert(thrownError);
     }   
   });
 }
@@ -171,8 +171,8 @@ function updateRouteList()
           button_update_map_action();
         },
         error: function (xhr, ajaxOptions, thrownError) {
-          alert(xhr.statusText);
-          alert(thrownError);
+          //alert(xhr.statusText);
+          //alert(thrownError);
         }   
       }
     );
@@ -203,8 +203,8 @@ $.ajax({
     updateAvailableDate();
   },
   error: function (xhr, ajaxOptions, thrownError) {
-    alert(xhr.statusText);
-    alert(thrownError);
+    //alert(xhr.statusText);
+    //alert(thrownError);
   }   
 });
 

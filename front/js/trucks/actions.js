@@ -144,8 +144,8 @@ function updateTruckStats()
       }
     },
     error: function (xhr, ajaxOptions, thrownError) {
-      alert(xhr.statusText);
-      alert(thrownError);
+      //alert(xhr.statusText);
+      //alert(thrownError);
     }   
   });
       
@@ -314,8 +314,8 @@ function updateTruckStats()
       }
     },
     error: function (xhr, ajaxOptions, thrownError) {
-      alert(xhr.statusText);
-      alert(thrownError);
+      //alert(xhr.statusText);
+      //alert(thrownError);
     }   
   });
 }
@@ -719,8 +719,8 @@ $.ajax({
       }
     },
     error: function (xhr, ajaxOptions, thrownError) {
-      alert(xhr.statusText);
-      alert(thrownError);
+      //alert(xhr.statusText);
+      //alert(thrownError);
     }   
   });
 

@@ -18,8 +18,8 @@ $.ajax({
     }
   },
   error: function (xhr, ajaxOptions, thrownError) {
-    alert(xhr.statusText);
-    alert(thrownError);
+    //alert(xhr.statusText);
+    //alert(thrownError);
   }   
 });
 
@@ -787,8 +787,8 @@ $.ajax({
 
   }, //function
   error: function(xhr, ajaxOptions, thrownError) {
-    alert(xhr.statusText);
-    alert(thrownError);
+    //alert(xhr.statusText);
+    //alert(thrownError);
   }   
 
 });
