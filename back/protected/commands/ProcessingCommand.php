@@ -18,90 +18,100 @@ class ProcessingCommand extends CConsoleCommand {
       $this->current_company = $company;
       $this->cleanCompanyData();
       
-      $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
-      if(!empty($uploaded_file_model))
-      {
-        if($uploaded_file_model->step == 2)//Has uploaded parameters
+      try {
+        $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
+        if(!empty($uploaded_file_model))
         {
-          $filename = $uploaded_file_model->filename;
-          $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
-          $trucks_array = array();
-          $samples = array();
-          $new_sample;
-          
-          fgetcsv($handler, 0, ',');//Ignore headers
-          while($pointer = fgetcsv($handler, 0, ','))
+          if($uploaded_file_model->step == 2)//Has uploaded parameters
           {
-            if(array_key_exists(3, $pointer))//Validates the row has enough columns
+            $filename = $uploaded_file_model->filename;
+            $handler = fopen(dirname(__FILE__)."/../../../files/".$filename,'r');
+            $trucks_array = array();
+            $samples = array();
+            $new_sample;
+            
+            fgetcsv($handler, 0, ',');//Ignore headers
+            while($pointer = fgetcsv($handler, 0, ','))
             {
-              $new_sample = new Sample;
-              $new_sample->truck_name = $pointer[0];
-              $new_sample->company_id = $this->current_company->id;
-              $trucks_array[$pointer[0]] = 1;
-              $new_sample->latitude = $pointer[1];
-              $new_sample->longitude = $pointer[2];
-              $new_sample->datetime = $pointer[3];
-              $new_sample->status_id = -3;
-              $new_sample->save();
-              unset($new_sample);
-            }
-          }
-          fclose($handler);
-          //Create each of the trucks mentioned in the samples if any doesn't exist.
-          foreach($trucks_array as $truck_name => $value)
-          {
-            $condition_string = "name = '" . $truck_name . "' AND company_id = ".$this->current_company->id;
-            $registered_truck = Truck::model()->find($condition_string);
-            if(!count($registered_truck))
-            {
-              $new_truck = new Truck;
-              $new_truck->company_id = $this->current_company->id;
-              $new_truck->name = $truck_name;
-              $new_truck->save();
-            }
-          }
-          //Set all the truck_ids of the sample, even if they were already set.
-          
-          $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
-          foreach($trucks as $truck)
-          {
-            $limit = 100;
-            $offset = 0;
-            $limit_string = strval($limit);
-            $offset_string = strval($offset);
-            $criteria = new CDbCriteria();
-            $criteria->addCondition('company_id = '.$this->current_company->id);
-            $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
-            $criteria->limit = $limit_string;
-            $criteria->offset = $offset_string;
-            $criteria->order = "t.datetime ASC";
-            $truck_samples = Sample::model()->findAll($criteria);
-            while(count($truck_samples) > 0)
-            { 
-              foreach($truck_samples as $truck_sample)
+              if(array_key_exists(3, $pointer))//Validates the row has enough columns
               {
-                $truck_sample->truck_id = $truck->id;
-                $truck_sample->save();
+                $new_sample = new Sample;
+                $new_sample->truck_name = $pointer[0];
+                $new_sample->company_id = $this->current_company->id;
+                $trucks_array[$pointer[0]] = 1;
+                $new_sample->latitude = $pointer[1];
+                $new_sample->longitude = $pointer[2];
+                $new_sample->datetime = $pointer[3];
+                $new_sample->status_id = -3;
+                $new_sample->save();
+                unset($new_sample);
               }
-              $offset = $offset + $limit;
-              $offset_string = strval($offset);
-              $criteria->offset = $offset_string;
-              $truck_samples = Sample::model()->findAll($criteria);
             }
-          }
-          //STart process
-          $uploaded_file_model->step++;
-          $uploaded_file_model->save();
-          $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
-          unlink(dirname(__FILE__)."/../../../files/".$uploaded_file_model->filename);
-          $uploaded_file_model->delete();
-        }//if($uploaded_file_model->step == 2)//has parameters
-      }//if(!empty($uploaded_file_model))
-      
-      $this->calculateAllMetrics();
+            fclose($handler);
+            //Create each of the trucks mentioned in the samples if any doesn't exist.
+            foreach($trucks_array as $truck_name => $value)
+            {
+              $condition_string = "name = '" . $truck_name . "' AND company_id = ".$this->current_company->id;
+              $registered_truck = Truck::model()->find($condition_string);
+              if(!count($registered_truck))
+              {
+                $new_truck = new Truck;
+                $new_truck->company_id = $this->current_company->id;
+                $new_truck->name = $truck_name;
+                $new_truck->save();
+              }
+            }
+            //Set all the truck_ids of the sample, even if they were already set.
+            
+            $trucks = Truck::model()->findAllByAttributes(array('company_id'=>$this->current_company->id));
+            foreach($trucks as $truck)
+            {
+              $limit = 100;
+              $offset = 0;
+              $limit_string = strval($limit);
+              $offset_string = strval($offset);
+              $criteria = new CDbCriteria();
+              $criteria->addCondition('company_id = '.$this->current_company->id);
+              $criteria->addCondition('t.truck_name=\''.$truck->name.'\'');
+              $criteria->limit = $limit_string;
+              $criteria->offset = $offset_string;
+              $criteria->order = "t.datetime ASC";
+              $truck_samples = Sample::model()->findAll($criteria);
+              while(count($truck_samples) > 0)
+              { 
+                foreach($truck_samples as $truck_sample)
+                {
+                  $truck_sample->truck_id = $truck->id;
+                  $truck_sample->save();
+                }
+                $offset = $offset + $limit;
+                $offset_string = strval($offset);
+                $criteria->offset = $offset_string;
+                $truck_samples = Sample::model()->findAll($criteria);
+              }
+            }
+            //STart process
+            $uploaded_file_model->step++;
+            $uploaded_file_model->save();
+            $uploaded_file_model = UploadedFile::model()->findByAttributes(array('company_id'=>$this->current_company->id));
+            unlink(dirname(__FILE__)."/../../../files/".$uploaded_file_model->filename);
+            $uploaded_file_model->delete();
+          }//if($uploaded_file_model->step == 2)//has parameters
+        }//if(!empty($uploaded_file_model))
+        
+        $this->calculateAllMetrics();
+        $company=Company::model()->findByPk($company->id);
+        $company->has_file_in_process = 0;
+        $company->save();
+    }// try end 
+    catch(Exception $e){
+      //FATAL ERROR: deleteing everything from company
+      $this->current_company = $company;
+      $this->cleanCompanyData();
       $company=Company::model()->findByPk($company->id);
       $company->has_file_in_process = 0;
       $company->save();
+    }
     }
     $companies = Company::model()->findAllByAttributes(array('has_file_in_process'=>2));//Requested to delete all fleet information
     foreach($companies as $company)
